@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
@@ -41,6 +42,12 @@
     <Compile Include="Collection\IKeyedObject`.cs" />
     <Compile Include="Collection\KeyedObjectCollectionBase`.cs" />
     <Compile Include="Collection\ThreadSafeKeyedObjectCollection`.cs" />
+    <Compile Include="Configuration\AbstractConfigurationManager.cs" />
+    <Compile Include="Configuration\FileConfigurationManagerBase.cs" />
+    <Compile Include="Configuration\IConfigurationManager.cs" />
+    <Compile Include="Configuration\IFileConfigurationManager.cs" />
+    <Compile Include="Configuration\IRuntimeConfigurationManager.cs" />
+    <Compile Include="Configuration\RuntimeConfigurationManagerBase.cs" />
     <Compile Include="Data\Configuration\DatabaseInstanceCluster.cs" />
     <Compile Include="Data\Configuration\DatabaseInstance.cs" />
     <Compile Include="Data\Configuration\DatabaseInstanceCollection.cs" />

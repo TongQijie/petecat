@@ -52,6 +52,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Configuration\AppSettings.cs" />
+    <Compile Include="Configuration\FileConfigurationManagerTest.cs" />
+    <Compile Include="Configuration\RuntimeConfigurationManagerTest.cs" />
     <Compile Include="Data\Configuration\DatabaseInstanceClusterTest.cs" />
     <Compile Include="Data\Configuration\DataOperationClusterTest.cs" />
     <Compile Include="Data\Repository\DatabaseConfigManagerTest.cs" />
