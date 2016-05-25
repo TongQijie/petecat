@@ -9,5 +9,8 @@ namespace Petecat.Data.Configuration
 
         [XmlAttribute("connectionString")]
         public string ConnectionString { get; set; }
+
+        [XmlAttribute("provider")]
+        public string Provider { get; set; }
     }
 }

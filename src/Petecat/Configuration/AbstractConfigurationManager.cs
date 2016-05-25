@@ -5,7 +5,7 @@ namespace Petecat.Configuration
 {
     public abstract class AbstractConfigurationManager : IConfigurationManager
     {
-        protected ObjectCache _MemoryCache = null;
+        protected ObjectCache _ObjectCache = null;
 
         protected Dictionary<string, object> _ConfigurationItems = null;
 
@@ -14,7 +14,7 @@ namespace Petecat.Configuration
             EnableCache = enableCache;
             if (EnableCache)
             {
-                _MemoryCache = MemoryCache.Default;
+                _ObjectCache = MemoryCache.Default;
             }
             else
             {
@@ -22,18 +22,18 @@ namespace Petecat.Configuration
             }
         }
 
-        public bool EnableCache { get; set; }
+        public bool EnableCache { get; private set; }
 
         public virtual void Set(string key, object value)
         {
             if (EnableCache)
             {
-                if (_MemoryCache.Contains(key))
+                if (_ObjectCache.Contains(key))
                 {
-                    _MemoryCache.Remove(key);
+                    _ObjectCache.Remove(key);
                 }
 
-                _MemoryCache.Add(key, value, new CacheItemPolicy());
+                _ObjectCache.Add(key, value, new CacheItemPolicy());
             }
             else
             {
@@ -50,9 +50,9 @@ namespace Petecat.Configuration
         {
             if (EnableCache)
             {
-                if (_MemoryCache.Contains(key))
+                if (_ObjectCache.Contains(key))
                 {
-                    return (T)_MemoryCache.Get(key);
+                    return (T)_ObjectCache.Get(key);
                 }
                 else
                 {
@@ -76,9 +76,9 @@ namespace Petecat.Configuration
         {
             if (EnableCache)
             {
-                if (_MemoryCache.Contains(key))
+                if (_ObjectCache.Contains(key))
                 {
-                    return (T)_MemoryCache.Get(key);
+                    return (T)_ObjectCache.Get(key);
                 }
                 else
                 {

@@ -48,14 +48,11 @@
     <Compile Include="Configuration\IFileConfigurationManager.cs" />
     <Compile Include="Configuration\IRuntimeConfigurationManager.cs" />
     <Compile Include="Configuration\RuntimeConfigurationManagerBase.cs" />
-    <Compile Include="Data\Configuration\DatabaseInstanceCluster.cs" />
     <Compile Include="Data\Configuration\DatabaseInstance.cs" />
     <Compile Include="Data\Configuration\DatabaseInstanceCollection.cs" />
-    <Compile Include="Data\Configuration\DataOperationCluster.cs" />
-    <Compile Include="Data\Configuration\DataOperation.cs" />
-    <Compile Include="Data\Configuration\DataOperationCollection.cs" />
+    <Compile Include="Data\Configuration\DataCommand.cs" />
+    <Compile Include="Data\Configuration\DataCommandCollection.cs" />
     <Compile Include="Data\Configuration\DataOperationParameter.cs" />
-    <Compile Include="Data\Repository\DatabaseConfigManager.cs" />
     <Compile Include="Data\Repository\DatabaseObject.cs" />
     <Compile Include="Data\Entity\CompositeDataMappingAttribute.cs" />
     <Compile Include="Data\Entity\CompositeDataMappingPropertyInfo.cs" />
@@ -69,6 +66,7 @@
     <Compile Include="Data\Entity\IEntityDataSource.cs" />
     <Compile Include="Data\Entity\PlainDataMappingAttribute.cs" />
     <Compile Include="Data\Entity\PlainDataMappingPropertyInfo.cs" />
+    <Compile Include="Data\Repository\DataCommandHelper.cs" />
     <Compile Include="Data\Repository\DataCommandObject.cs" />
     <Compile Include="Data\Repository\IDatabase.cs" />
     <Compile Include="Data\Repository\IDataCommand.cs" />

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Xml.Serialization;
 
 namespace Petecat.Data.Configuration
 {
-    public class DataOperation : Collection.IKeyedObject<string>
+    public class DataCommand : Collection.IKeyedObject<string>
     {
-        public DataOperation()
+        public DataCommand()
         {
             CommandType = CommandType.Text;
             TimeOut = 300;
@@ -30,7 +29,5 @@ namespace Petecat.Data.Configuration
         
         [XmlAttribute("timeOut")]
         public int TimeOut { get; set; }
-
-        
     }
 }

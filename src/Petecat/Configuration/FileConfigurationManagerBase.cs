@@ -35,9 +35,9 @@ namespace Petecat.Configuration
 
             if (EnableCache)
             {
-                if (_MemoryCache.Contains(key))
+                if (_ObjectCache.Contains(key))
                 {
-                    _MemoryCache.Remove(key);
+                    _ObjectCache.Remove(key);
                 }
 
                 var policy = new CacheItemPolicy();
@@ -53,7 +53,7 @@ namespace Petecat.Configuration
                     }
                 });
                 policy.ChangeMonitors.Add(new HostFileChangeMonitor(new string[] { fileInfo.FullName }));
-                _MemoryCache.Add(key, value, policy);
+                _ObjectCache.Add(key, value, policy);
             }
             else
             {
