@@ -78,6 +78,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threading\Storage\IThreadStorage.cs" />
     <Compile Include="Threading\Storage\ThreadStaticStorage.cs" />
+    <Compile Include="Threading\Tasks\AbstractBackgroundTask.cs" />
+    <Compile Include="Threading\Tasks\AlwaysRunBackgroundTask.cs" />
+    <Compile Include="Threading\Tasks\BackgroundTaskStatus.cs" />
+    <Compile Include="Threading\Tasks\IBackgroundTask.cs" />
+    <Compile Include="Threading\Tasks\PeriodicBackgroundTask.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

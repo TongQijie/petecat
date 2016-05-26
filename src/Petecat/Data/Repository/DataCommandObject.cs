@@ -94,7 +94,7 @@ namespace Petecat.Data.Repository
 
             using (var db = _DatabaseObject)
             {
-                return _DatabaseObject.QueryScalar<T>(this);
+                return db.QueryScalar<T>(this);
             }
         }
 
@@ -107,7 +107,7 @@ namespace Petecat.Data.Repository
 
             using (var db = _DatabaseObject)
             {
-                return _DatabaseObject.QueryEntities<T>(this);
+                return db.QueryEntities<T>(this);
             }
         }
 
@@ -120,7 +120,7 @@ namespace Petecat.Data.Repository
 
             using (var db = _DatabaseObject)
             {
-                return _DatabaseObject.ExecuteNonQuery(this);
+                return db.ExecuteNonQuery(this);
             }
         }
     }
