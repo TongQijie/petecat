@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Linq;
 using System.Reflection;
 
 namespace Petecat.Data.Entity
@@ -22,7 +23,7 @@ namespace Petecat.Data.Entity
             var propertyInfos = entityType.GetProperties(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
             foreach (var propertyInfo in propertyInfos)
             {
-                var dataMappingAttribute = propertyInfo.GetCustomAttribute<DataMappingAttributeBase>();
+                var dataMappingAttribute = propertyInfo.GetCustomAttributes(typeof(DataMappingAttributeBase), false).FirstOrDefault();
                 if (dataMappingAttribute == null)
                 {
                     continue;
@@ -85,12 +86,12 @@ namespace Petecat.Data.Entity
                     }
 
                     var plainDataMappingPropertyInfo = dataMappingPropertyInfo as PlainDataMappingPropertyInfo;
-                    plainDataMappingPropertyInfo.PropertyInfo.SetValue(filledEntity, entityDataSource.GetColumnValue(dataMappingPropertyInfo.Key, plainDataMappingPropertyInfo.PropertyInfo.PropertyType));
+                    plainDataMappingPropertyInfo.PropertyInfo.SetValue(filledEntity, entityDataSource.GetColumnValue(dataMappingPropertyInfo.Key, plainDataMappingPropertyInfo.PropertyInfo.PropertyType), null);
                 }
                 else if (dataMappingPropertyInfo is CompositeDataMappingPropertyInfo)
                 {
                     var compositeDataMappingPropertyInfo = dataMappingPropertyInfo as CompositeDataMappingPropertyInfo;
-                    compositeDataMappingPropertyInfo.PropertyInfo.SetValue(filledEntity, FillEntityProperties(entityDataSource, compositeDataMappingPropertyInfo.CompositeDataMappingAttribute.Type));
+                    compositeDataMappingPropertyInfo.PropertyInfo.SetValue(filledEntity, FillEntityProperties(entityDataSource, compositeDataMappingPropertyInfo.CompositeDataMappingAttribute.Type), null);
                 }
                 else
                 {

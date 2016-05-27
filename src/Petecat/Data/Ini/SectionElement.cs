@@ -42,11 +42,11 @@ namespace Petecat.Data.Ini
 
                 if (KeyElements.ContainsKey(elementName))
                 {
-                    propertyInfo.SetValue(instance, Convert.ChangeType(KeyElements[elementName].Value, propertyInfo.PropertyType));
+                    propertyInfo.SetValue(instance, Convert.ChangeType(KeyElements[elementName].Value, propertyInfo.PropertyType), null);
                 }
                 else if (iniElementAttribute.DefaultValue != null)
                 {
-                    propertyInfo.SetValue(instance, iniElementAttribute.DefaultValue);
+                    propertyInfo.SetValue(instance, iniElementAttribute.DefaultValue, null);
                 }
             }
 
@@ -71,7 +71,7 @@ namespace Petecat.Data.Ini
                 }
 
                 var keyElement = new KeyElement(elementName);
-                keyElement.WriteObject(propertyInfo.GetValue(instance));
+                keyElement.WriteObject(propertyInfo.GetValue(instance, null));
 
                 KeyElements.Add(keyElement);
             }
