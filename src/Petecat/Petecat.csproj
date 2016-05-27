@@ -53,6 +53,12 @@
     <Compile Include="Data\Configuration\DataCommand.cs" />
     <Compile Include="Data\Configuration\DataCommandCollection.cs" />
     <Compile Include="Data\Configuration\DataCommandParameter.cs" />
+    <Compile Include="Data\Ini\IElement.cs" />
+    <Compile Include="Data\Ini\IniKeyAttribute.cs" />
+    <Compile Include="Data\Ini\KeyElement.cs" />
+    <Compile Include="Data\Ini\SectionElement.cs" />
+    <Compile Include="Data\Ini\Serializer.cs" />
+    <Compile Include="Data\Ini\StringFormatter.cs" />
     <Compile Include="Data\Repository\DatabaseObject.cs" />
     <Compile Include="Data\Entity\CompositeDataMappingAttribute.cs" />
     <Compile Include="Data\Entity\CompositeDataMappingPropertyInfo.cs" />
