@@ -55,6 +55,7 @@
     <Compile Include="Configuration\AppSettings.cs" />
     <Compile Include="Configuration\FileConfigurationManagerTest.cs" />
     <Compile Include="Configuration\RuntimeConfigurationManagerTest.cs" />
+    <Compile Include="Data\Ini\StringFormatterTest.cs" />
     <Compile Include="Data\Repository\DataCommandHelperTest.cs" />
     <Compile Include="Data\Repository\DataCommandObjectTest.cs" />
     <Compile Include="Logging\Loggers\FileLoggerTest.cs" />

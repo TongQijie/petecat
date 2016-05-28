@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Petecat.Data.Ini
 {
-    public class KeyElement : IElement, Collection.IKeyedObject<string>
+    public class KeyElement : IElement
     {
         public KeyElement(string key)
         {

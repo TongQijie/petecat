@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Petecat.Data.Ini
 {
-    public class SectionElement : IElement, Collection.IKeyedObject<string>
+    public class SectionElement : IElement
     {
         public SectionElement(string key)
         {

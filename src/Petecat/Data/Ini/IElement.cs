@@ -1,6 +1,6 @@
 ﻿namespace Petecat.Data.Ini
 {
-    public interface IElement
+    public interface IElement : Collection.IKeyedObject<string>
     {
         T ReadObject<T>();
 

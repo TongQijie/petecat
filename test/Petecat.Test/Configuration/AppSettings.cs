@@ -1,10 +1,12 @@
-﻿using System.Xml.Serialization;
+﻿using Petecat.Data.Ini;
+using System.Xml.Serialization;
 
 namespace Petecat.Test.Configuration
 {
     [XmlRoot("appSettings")]
     public class AppSettings
     {
+        [IniKey("enableHttps")]
         [XmlElement("enableHttps")]
         public bool EnableHttps { get; set; }
 
@@ -14,9 +16,11 @@ namespace Petecat.Test.Configuration
 
     public class HttpsConfig
     {
+        [IniKey("url")]
         [XmlAttribute("url")]
         public string Url { get; set; }
 
+        [IniKey("port")]
         [XmlAttribute("port")]
         public int Port { get; set; }
     }
