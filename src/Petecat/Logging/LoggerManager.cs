@@ -8,12 +8,12 @@ namespace Petecat.Logging
 
         public static ILogger Get(string name)
         {
-            return _Loggers.Get(name, new EmptyLogger());
+            return _Loggers.Get(name, new Loggers.EmptyLogger());
         }
 
         public static ILogger Get()
         {
-            return _Loggers.Get("AppDomainLogger", new EmptyLogger());
+            return _Loggers.Get("AppDomainLogger", new Loggers.EmptyLogger());
         }
 
         public static void Set(ILogger logger)

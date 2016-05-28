@@ -43,13 +43,16 @@ namespace Petecat.Configuration
                 var policy = new CacheItemPolicy();
                 policy.RemovedCallback = new CacheEntryRemovedCallback((args) =>
                 {
-                    try
+                    if (args.RemovedReason == CacheEntryRemovedReason.ChangeMonitorChanged)
                     {
-                        this.LoadFromXml<T>(fileInfo.FullName, key);
-                    }
-                    catch (Exception e)
-                    {
-                        Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("failed to load config file. path={0}", fileInfo.FullName), e);
+                        try
+                        {
+                            this.LoadFromXml<T>(fileInfo.FullName, key);
+                        }
+                        catch (Exception e)
+                        {
+                            Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("failed to load config file. path={0}", fileInfo.FullName), e);
+                        }
                     }
                 });
                 policy.ChangeMonitors.Add(new HostFileChangeMonitor(new string[] { fileInfo.FullName }));

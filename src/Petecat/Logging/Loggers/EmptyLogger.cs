@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Petecat.Logging
+namespace Petecat.Logging.Loggers
 {
     public class EmptyLogger : ILogger
     {

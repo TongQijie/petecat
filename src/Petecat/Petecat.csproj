@@ -80,10 +80,13 @@
     <Compile Include="Data\Repository\IDatabase.cs" />
     <Compile Include="Data\Repository\IDataCommand.cs" />
     <Compile Include="Data\Xml\Serializer.cs" />
-    <Compile Include="Logging\EmptyLogger.cs" />
+    <Compile Include="Logging\Loggers\ConsoleLogger.cs" />
+    <Compile Include="Logging\Loggers\EmptyLogger.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\LoggerLevel.cs" />
     <Compile Include="Logging\LoggerManager.cs" />
+    <Compile Include="Logging\Loggers\ExceptionWrapper.cs" />
+    <Compile Include="Logging\Loggers\FileLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threading\Storage\IThreadStorage.cs" />
     <Compile Include="Threading\Storage\ThreadStaticStorage.cs" />
