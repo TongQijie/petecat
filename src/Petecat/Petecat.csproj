@@ -60,7 +60,6 @@
     <Compile Include="Data\Ini\IniKeyAttribute.cs" />
     <Compile Include="Data\Ini\KeyElement.cs" />
     <Compile Include="Data\Ini\SectionElement.cs" />
-    <Compile Include="Data\Ini\Serializer.cs" />
     <Compile Include="Data\Ini\StringFormatter.cs" />
     <Compile Include="Data\Repository\DatabaseObject.cs" />
     <Compile Include="Data\Entity\CompositeDataMappingAttribute.cs" />

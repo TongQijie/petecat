@@ -26,7 +26,17 @@ namespace Petecat.Threading.Tasks
 
                     if (_Task != null)
                     {
-                        var success = _Task.Invoke(this);
+                        var success = false;
+                        try
+                        {
+                            success = _Task.Invoke(this);
+                           
+                        }
+                        catch (Exception e)
+                        {
+                            Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("task {0} is terminated exceptionally.", Key), new Logging.Loggers.ExceptionWrapper(e));
+                        }
+
                         if (!success)
                         {
                             if (Status != BackgroundTaskStatus.Executing)
