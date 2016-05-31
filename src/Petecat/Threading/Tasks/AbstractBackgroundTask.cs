@@ -18,12 +18,12 @@
 
         public abstract void Execute();
 
-        protected virtual void Suspend()
+        public virtual void Suspend()
         {
             // do nothing
         }
 
-        protected virtual void Resume()
+        public virtual void Resume()
         {
             // do nothing
         }

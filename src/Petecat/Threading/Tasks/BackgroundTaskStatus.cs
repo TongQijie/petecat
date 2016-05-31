@@ -21,5 +21,10 @@
         /// 挂起状态
         /// </summary>
         Suspended,
+
+        /// <summary>
+        /// 正在终止状态
+        /// </summary>
+        Terminating,
     }
 }

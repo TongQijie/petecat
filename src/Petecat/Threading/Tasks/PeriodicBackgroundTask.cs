@@ -53,6 +53,11 @@ namespace Petecat.Threading.Tasks
                         {
                             Thread.Sleep(Interval);
                         }
+                        else if (Status == BackgroundTaskStatus.Terminating)
+                        {
+                            StatusChangeTo(BackgroundTaskStatus.Sleep);
+                            break;
+                        }
                         else
                         {
                             Thread.Sleep(1000);
@@ -69,7 +74,7 @@ namespace Petecat.Threading.Tasks
             }
         }
 
-        protected override void Suspend()
+        public override void Suspend()
         {
             if (Status != BackgroundTaskStatus.Executing && Status == BackgroundTaskStatus.Sleep)
             {
@@ -94,7 +99,7 @@ namespace Petecat.Threading.Tasks
             }
         }
 
-        protected override void Resume()
+        public override void Resume()
         {
             if (Status == BackgroundTaskStatus.Suspended)
             {
@@ -108,11 +113,22 @@ namespace Petecat.Threading.Tasks
 
         public override void Dispose()
         {
+            StatusChangeTo(BackgroundTaskStatus.Terminating);
+
             if (_InnerThread != null)
             {
+                var sleepTimes = 10;
+
+                while (Status != BackgroundTaskStatus.Sleep && sleepTimes > 0)
+                {
+                    sleepTimes--;
+                    Thread.Sleep(500);
+                }
+
                 if (Status == BackgroundTaskStatus.Executing)
                 {
                     _InnerThread.Abort();
+                    StatusChangeTo(BackgroundTaskStatus.Sleep);
                     Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("Task {0} was force absorted.", Key));
                 }
 
