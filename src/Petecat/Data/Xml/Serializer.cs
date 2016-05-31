@@ -14,36 +14,36 @@ namespace Petecat.Data.Xml
             DefaultXmlSerializerNamespaces.Add("", "");
         }
 
-        public static T ReadObject<T>(string xml)
+        public static T ReadObject<T>(string xmlString)
         {
-            using (var sr = new StringReader(xml))
+            using (var streamReader = new StringReader(xmlString))
             {
-                return (T)(new XmlSerializer(typeof(T)).Deserialize(sr));
+                return (T)(new XmlSerializer(typeof(T)).Deserialize(streamReader));
             }
         }
 
         public static T ReadObject<T>(string path, Encoding encoding)
         {
-            using (var sr = new StreamReader(path, encoding))
+            using (var streamReader = new StreamReader(path, encoding))
             {
-                return (T)(new XmlSerializer(typeof(T)).Deserialize(sr));
+                return (T)(new XmlSerializer(typeof(T)).Deserialize(streamReader));
             }
         }
 
         public static string WriteObject(object instance)
         {
-            using (var sw = new StringWriter())
+            using (var streamWriter = new StringWriter())
             {
-                new XmlSerializer(instance.GetType()).Serialize(sw, instance, DefaultXmlSerializerNamespaces);
-                return sw.ToString();
+                new XmlSerializer(instance.GetType()).Serialize(streamWriter, instance, DefaultXmlSerializerNamespaces);
+                return streamWriter.ToString();
             }
         }
 
         public static void WriteObject(object instance, string path, Encoding encoding)
         {
-            using (var sw = new StreamWriter(path, false, encoding))
+            using (var streamWriter = new StreamWriter(path, false, encoding))
             {
-                new XmlSerializer(instance.GetType()).Serialize(sw, instance, DefaultXmlSerializerNamespaces);
+                new XmlSerializer(instance.GetType()).Serialize(streamWriter, instance, DefaultXmlSerializerNamespaces);
             }
         }
     }

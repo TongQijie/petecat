@@ -36,6 +36,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Web" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +58,8 @@
     <Compile Include="Data\Configuration\DataCommand.cs" />
     <Compile Include="Data\Configuration\DataCommandCollection.cs" />
     <Compile Include="Data\Configuration\DataCommandParameter.cs" />
+    <Compile Include="Data\DataContractJson\Serializer.cs" />
+    <Compile Include="Data\DataContractXml\Serializer.cs" />
     <Compile Include="Data\Ini\IElement.cs" />
     <Compile Include="Data\Ini\IniKeyAttribute.cs" />
     <Compile Include="Data\Ini\KeyElement.cs" />
@@ -86,6 +90,9 @@
     <Compile Include="Logging\LoggerManager.cs" />
     <Compile Include="Logging\Loggers\ExceptionWrapper.cs" />
     <Compile Include="Logging\Loggers\FileLogger.cs" />
+    <Compile Include="Network\Http\HttpClientBase.cs" />
+    <Compile Include="Network\Http\HttpVerb.cs" />
+    <Compile Include="Network\Http\IHttpClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threading\Storage\IThreadStorage.cs" />
     <Compile Include="Threading\Storage\ThreadStaticStorage.cs" />
