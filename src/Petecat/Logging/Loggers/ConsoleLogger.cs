@@ -26,7 +26,7 @@ namespace Petecat.Logging.Loggers
                 }
             }
 
-            Console.WriteLine(stringBuilder.ToString().TrimEnd('|'));
+            System.Console.WriteLine(stringBuilder.ToString().TrimEnd('|'));
         }
     }
 }

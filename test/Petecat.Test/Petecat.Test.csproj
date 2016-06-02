@@ -61,6 +61,7 @@
     <Compile Include="Data\Repository\DataCommandHelperTest.cs" />
     <Compile Include="Data\Repository\DataCommandObjectTest.cs" />
     <Compile Include="Logging\Loggers\FileLoggerTest.cs" />
+    <Compile Include="Network\Http\HttpClientBaseTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

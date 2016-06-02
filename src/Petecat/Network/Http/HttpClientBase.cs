@@ -5,6 +5,7 @@ using System.Text;
 using System.Web;
 using System.Linq;
 using System.Reflection;
+using System.IO;
 
 namespace Petecat.Network.Http
 {
@@ -23,13 +24,13 @@ namespace Petecat.Network.Http
 
         public Dictionary<string, string> RequestQueryString { get; private set; }
 
+        public WebProxy Proxy { get; set; }
+
+        public int Timeout { get; set; }
+
         public TResponse Get<TResponse>()
         {
-            BuildRequestQueryString();
-
-            var request = WebRequest.Create(RequestUri) as HttpWebRequest;
-
-            BuildRequestHeaders(request, HttpVerb.GET);
+            var request = GetHttpWebRequest(HttpVerb.GET);
 
             try
             {
@@ -45,13 +46,41 @@ namespace Petecat.Network.Http
             }
         }
 
+        public byte[] Get()
+        {
+            var request = GetHttpWebRequest(HttpVerb.GET);
+
+            try
+            {
+                using (var response = request.GetResponse() as HttpWebResponse)
+                {
+                    using (var stream = response.GetResponseStream())
+                    {
+                        return ReadStream(stream);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "failed to get response.", new Logging.Loggers.ExceptionWrapper(e));
+                return null;
+            }
+        }
+
+        public string Get(Encoding encoding)
+        {
+            var data = Get();
+            if (data != null)
+            {
+                return encoding.GetString(data);
+            }
+
+            return null;
+        }
+
         public TResponse Post<TResponse>(object requestBody)
         {
-            BuildRequestQueryString();
-
-            var request = WebRequest.Create(RequestUri) as HttpWebRequest;
-
-            BuildRequestHeaders(request, HttpVerb.POST);
+            var request = GetHttpWebRequest(HttpVerb.POST);
 
             try
             {
@@ -150,6 +179,34 @@ namespace Petecat.Network.Http
                     return Data.DataContractJson.Serializer.ReadObject<TResponse>(requestStream);
                 }
             }
+        }
+
+        private byte[] ReadStream(Stream stream)
+        {
+            var data = new byte[0];
+            var count = 0;
+            var buffer = new byte[1024 * 4];
+            while ((count = stream.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                var b = new byte[count];
+                Array.Copy(buffer, b, count);
+                data = data.Concat(b).ToArray();
+            }
+            return data;
+        }
+
+        private HttpWebRequest GetHttpWebRequest(HttpVerb httpVerb)
+        {
+            BuildRequestQueryString();
+
+            var request = WebRequest.Create(RequestUri) as HttpWebRequest;
+            request.Proxy = Proxy;
+            request.Credentials = Proxy != null ? Proxy.Credentials : null;
+            request.Timeout = Timeout > 0 ? Timeout : 100000;
+
+            BuildRequestHeaders(request, httpVerb);
+
+            return request;
         }
     }
 }

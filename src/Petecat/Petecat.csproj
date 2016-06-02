@@ -53,6 +53,14 @@
     <Compile Include="Configuration\IFileConfigurationManager.cs" />
     <Compile Include="Configuration\IRuntimeConfigurationManager.cs" />
     <Compile Include="Configuration\RuntimeConfigurationManagerBase.cs" />
+    <Compile Include="Console\Command\ITerminalCommand.cs" />
+    <Compile Include="Console\Command\ITerminalCommandChannel.cs" />
+    <Compile Include="Console\Command\TerminalCommandAttribute.cs" />
+    <Compile Include="Console\Command\TerminalCommandBase.cs" />
+    <Compile Include="Console\Command\TerminalCommandChannelBase.cs" />
+    <Compile Include="Console\Command\TerminalCommandUtility.cs" />
+    <Compile Include="Console\Command\TerminalCommandLine.cs" />
+    <Compile Include="Console\Command\TerminalCommandLineUtility.cs" />
     <Compile Include="Data\Configuration\DatabaseInstance.cs" />
     <Compile Include="Data\Configuration\DatabaseInstanceCollection.cs" />
     <Compile Include="Data\Configuration\DataCommand.cs" />
