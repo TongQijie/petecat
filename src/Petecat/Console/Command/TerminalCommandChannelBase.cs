@@ -2,7 +2,7 @@
 {
     public class TerminalCommandChannelBase : ITerminalCommandChannel
     {
-        public void Consume(ITerminalCommand terminalCommand)
+        public virtual void Consume(ITerminalCommand terminalCommand)
         {
             terminalCommand.Execute(this, (text) =>
             {
