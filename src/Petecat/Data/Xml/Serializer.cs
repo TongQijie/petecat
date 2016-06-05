@@ -4,6 +4,9 @@ using System.Xml.Serialization;
 
 namespace Petecat.Data.Xml
 {
+    /// <summary>
+    /// [Obsolete] replaced by Formatters.XmlFormatter
+    /// </summary>
     public class Serializer
     {
         public static XmlSerializerNamespaces DefaultXmlSerializerNamespaces { get; private set; }

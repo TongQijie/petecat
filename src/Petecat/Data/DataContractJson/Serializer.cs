@@ -5,6 +5,9 @@ using System.Xml;
 
 namespace Petecat.Data.DataContractJson
 {
+    /// <summary>
+    /// [Obsolete] replaced by Formatters.DataContractJsonFormatter
+    /// </summary>
     public class Serializer
     {
         public static T ReadObject<T>(string path, Encoding encoding)

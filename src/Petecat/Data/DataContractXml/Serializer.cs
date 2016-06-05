@@ -5,6 +5,9 @@ using System.Xml;
 
 namespace Petecat.Data.DataContractXml
 {
+    /// <summary>
+    /// [Obsolete] replaced by Formatters.DataContractXmlFormatter
+    /// </summary>
     public class Serializer
     {
         public static T ReadObject<T>(string path, Encoding encoding)
