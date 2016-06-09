@@ -48,12 +48,24 @@
                 else if (terminalCommandText[i] == '"')
                 {
                     var end = terminalCommandText.IndexOf('"', i + 1);
+                    while (end != -1)
+                    {
+                        if (terminalCommandText[end - 1] == '\\')
+                        {
+                            end = terminalCommandText.IndexOf('"', end + 1);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+
                     if (end == -1)
                     {
                         return null;
                     }
 
-                    value = terminalCommandText.Substring(i + 1, end - i - 1).Trim();
+                    value = terminalCommandText.Substring(i + 1, end - i - 1).Trim().Replace("\\\"", "\"");
                     i = end + 1;
 
                     if (key == null)
