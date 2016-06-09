@@ -104,9 +104,11 @@
     <Compile Include="Logging\LoggerManager.cs" />
     <Compile Include="Logging\Loggers\ExceptionWrapper.cs" />
     <Compile Include="Logging\Loggers\FileLogger.cs" />
-    <Compile Include="Network\Http\HttpClientBase.cs" />
+    <Compile Include="Network\Http\HttpClientRequest.cs" />
+    <Compile Include="Network\Http\HttpClientResponse.cs" />
+    <Compile Include="Network\Http\HttpConstants.cs" />
+    <Compile Include="Network\Http\HttpContentType.cs" />
     <Compile Include="Network\Http\HttpVerb.cs" />
-    <Compile Include="Network\Http\IHttpClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threading\Storage\IThreadStorage.cs" />
     <Compile Include="Threading\Storage\ThreadStaticStorage.cs" />

@@ -1,8 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Petecat.Network.Http;
-using System.Net;
-using System.Text;
+using System.Collections.Generic;
 
 namespace Petecat.Test.Network.Http
 {
@@ -10,12 +9,27 @@ namespace Petecat.Test.Network.Http
     public class HttpClientBaseTest
     {
         [TestMethod]
-        public void Get()
+        public void GetObject()
         {
-            var httpClient = new HttpClientBase("https://hephap.com");
-            httpClient.Proxy = new WebProxy("s1firewall", 8080);
-            httpClient.Proxy.Credentials = new NetworkCredential("jt69", "newegg@1234", "buyabs.corp");
-            var html = httpClient.Get(Encoding.UTF8);
+            var queryStringKeyValues = new Dictionary<string, string>();
+            queryStringKeyValues.Add("u", "hey, <world>.");
+            queryStringKeyValues.Add("p", "world");
+
+            var httpClientRequest = new HttpClientRequest(HttpVerb.GET, "http://localhost:60932/service.svc/getva0", queryStringKeyValues);
+            using (var httpClientResponse = httpClientRequest.GetResponse())
+            {
+                var globalSession = httpClientResponse.GetObject<GlobalSession>();
+            }
+        }
+
+        [TestMethod]
+        public void PostObject()
+        {
+            var httpClientRequest = new HttpClientRequest(HttpVerb.POST, "http://localhost:60932/service.svc/getva1");
+            using (var httpClientResponse = httpClientRequest.GetResponse(HttpContentType.Json, new Identification() { Username = "hey", Password = "world!" }))
+            {
+                var globalSession = httpClientResponse.GetObject<GlobalSession>();
+            }
         }
     }
 }

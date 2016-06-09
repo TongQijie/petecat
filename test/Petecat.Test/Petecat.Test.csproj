@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <Choose>
@@ -63,7 +64,9 @@
     <Compile Include="Data\Repository\DataCommandHelperTest.cs" />
     <Compile Include="Data\Repository\DataCommandObjectTest.cs" />
     <Compile Include="Logging\Loggers\FileLoggerTest.cs" />
+    <Compile Include="Network\Http\GlobalSession.cs" />
     <Compile Include="Network\Http\HttpClientBaseTest.cs" />
+    <Compile Include="Network\Http\Identification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
