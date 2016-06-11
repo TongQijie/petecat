@@ -113,7 +113,7 @@ namespace Petecat.Network.Http
         public HttpClientResponse GetResponse(HttpContentType contentType, object requestBody)
         {
             SetRequestBody(contentType, requestBody);
-            return new HttpClientResponse(Request.GetResponse() as HttpWebResponse);
+            return GetResponse();
         }
 
         private string UrlEncodedString(Dictionary<string, string> keyValues)

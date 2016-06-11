@@ -85,7 +85,7 @@ namespace Petecat.Network.Http
 
         public void Dispose()
         {
-            Response.Dispose();
+            Response.Close();
         }
 
         private byte[] ReadStream(Stream inputStream)

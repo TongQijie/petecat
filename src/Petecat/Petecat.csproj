@@ -58,6 +58,7 @@
     <Compile Include="Console\Command\TerminalCommandAttribute.cs" />
     <Compile Include="Console\Command\TerminalCommandBase.cs" />
     <Compile Include="Console\Command\TerminalCommandChannelBase.cs" />
+    <Compile Include="Console\Command\TerminalCommandInfo.cs" />
     <Compile Include="Console\Command\TerminalCommandUtility.cs" />
     <Compile Include="Console\Command\TerminalCommandLine.cs" />
     <Compile Include="Console\Command\TerminalCommandLineUtility.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Threading\Tasks\BackgroundTaskStatus.cs" />
     <Compile Include="Threading\Tasks\IBackgroundTask.cs" />
     <Compile Include="Threading\Tasks\PeriodicBackgroundTask.cs" />
+    <Compile Include="Utility\AttributeUtility.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
