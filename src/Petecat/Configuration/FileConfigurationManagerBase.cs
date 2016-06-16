@@ -13,7 +13,7 @@ namespace Petecat.Configuration
         {
         }
 
-        public override void Set(string key, object value)
+        public override void Set(string key, object value, CacheItemPolicy policy)
         {
             throw new NotSupportedException();
         }
@@ -35,11 +35,6 @@ namespace Petecat.Configuration
 
             if (EnableCache)
             {
-                if (_ObjectCache.Contains(key))
-                {
-                    _ObjectCache.Remove(key);
-                }
-
                 var policy = new CacheItemPolicy();
                 policy.RemovedCallback = new CacheEntryRemovedCallback((args) =>
                 {
@@ -56,16 +51,11 @@ namespace Petecat.Configuration
                     }
                 });
                 policy.ChangeMonitors.Add(new HostFileChangeMonitor(new string[] { fileInfo.FullName }));
-                _ObjectCache.Add(key, value, policy);
+                base.Set(key, value, policy);
             }
             else
             {
-                if (_ConfigurationItems.ContainsKey(key))
-                {
-                    _ConfigurationItems.Remove(key);
-                }
-
-                _ConfigurationItems.Add(key, value);
+                base.Set(key, value, null);
             }
         }
 

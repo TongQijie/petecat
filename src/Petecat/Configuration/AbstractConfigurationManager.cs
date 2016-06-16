@@ -24,7 +24,7 @@ namespace Petecat.Configuration
 
         public bool EnableCache { get; private set; }
 
-        public virtual void Set(string key, object value)
+        public virtual void Set(string key, object value, CacheItemPolicy policy)
         {
             if (EnableCache)
             {
@@ -33,7 +33,12 @@ namespace Petecat.Configuration
                     _ObjectCache.Remove(key);
                 }
 
-                _ObjectCache.Add(key, value, new CacheItemPolicy());
+                _ObjectCache.Add(key, value, policy ?? new CacheItemPolicy());
+
+                if (ConfigurationItemChanged != null)
+                {
+                    ConfigurationItemChanged.Invoke(this, key);
+                }
             }
             else
             {
@@ -43,6 +48,11 @@ namespace Petecat.Configuration
                 }
 
                 _ConfigurationItems.Add(key, value);
+
+                if (ConfigurationItemChanged != null)
+                {
+                    ConfigurationItemChanged.Invoke(this, key);
+                }
             }
         }
 
@@ -97,5 +107,7 @@ namespace Petecat.Configuration
                 }
             }
         }
+
+        public event ConfigurationItemChangedDelegate ConfigurationItemChanged;
     }
 }
