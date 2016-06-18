@@ -123,6 +123,7 @@
     <Compile Include="Threading\Tasks\IBackgroundTask.cs" />
     <Compile Include="Threading\Tasks\PeriodicBackgroundTask.cs" />
     <Compile Include="Utility\AttributeUtility.cs" />
+    <Compile Include="Utility\CompressUtility.cs" />
     <Compile Include="Utility\ReflectionUtility.cs" />
   </ItemGroup>
   <ItemGroup />
