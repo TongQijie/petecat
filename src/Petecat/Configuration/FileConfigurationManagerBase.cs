@@ -27,7 +27,7 @@ namespace Petecat.Configuration
 
             var fileInfo = new FileInfo(filename);
 
-            var value = Data.Xml.Serializer.ReadObject<T>(fileInfo.FullName, Encoding.UTF8);
+            var value = new Data.Formatters.XmlFormatter().ReadObject<T>(fileInfo.FullName, Encoding.UTF8);
             if (value == null)
             {
                 throw new FileLoadException();
