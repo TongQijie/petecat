@@ -41,6 +41,12 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Archiving\Internal\ArchiveEntityHeader.cs" />
+    <Compile Include="Archiving\ArchiveFile.cs" />
+    <Compile Include="Archiving\ArchiveFolder.cs" />
+    <Compile Include="Archiving\AbstractArchiveItem.cs" />
+    <Compile Include="Archiving\Archiver.cs" />
+    <Compile Include="Archiving\IArchiveItem.cs" />
     <Compile Include="Collection\CaseInsensitiveStringEqualityComparer.cs" />
     <Compile Include="Collection\DefaultKeyedObjectEqualityComparer.cs" />
     <Compile Include="Collection\IKeyedObjectCollection`.cs" />
@@ -124,7 +130,10 @@
     <Compile Include="Threading\Tasks\PeriodicBackgroundTask.cs" />
     <Compile Include="Utility\AttributeUtility.cs" />
     <Compile Include="Utility\CompressUtility.cs" />
+    <Compile Include="Utility\HashAlgorithmName.cs" />
+    <Compile Include="Utility\HashUtility.cs" />
     <Compile Include="Utility\ReflectionUtility.cs" />
+    <Compile Include="Utility\ValueConvertUtility.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

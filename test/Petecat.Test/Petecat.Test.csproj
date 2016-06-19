@@ -54,6 +54,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Archiving\ArchiverTest.cs" />
     <Compile Include="Configuration\AppSettings.cs" />
     <Compile Include="Configuration\FileConfigurationManagerTest.cs" />
     <Compile Include="Configuration\RuntimeConfigurationManagerTest.cs" />
