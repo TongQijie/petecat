@@ -3,6 +3,8 @@ using System.IO;
 using System;
 using System.Linq;
 
+using Petecat.Utility;
+
 namespace Petecat.Archiving
 {
     public class Archiver
@@ -101,7 +103,7 @@ namespace Petecat.Archiving
 
         public void Archive()
         {
-            using (var outputStream = new FileStream(TargetPath, FileMode.Create, FileAccess.Write))
+            using (var tempStream = new FileStream(TargetPath + ".tmp", FileMode.Create, FileAccess.ReadWrite))
             {
                 var fileHeader = new ArchiveEntityHeader()
                 {
@@ -109,30 +111,48 @@ namespace Petecat.Archiving
                     Length = ArchiveItems.Sum(x => x.GetFiles()),
                     HashValue = "",
                 };
-                fileHeader.WriteStream(outputStream);
+                fileHeader.WriteStream(tempStream);
 
-                ArchiveItems.ForEach(x => x.WriteHeader(outputStream));
-                ArchiveItems.ForEach(x => x.WriteContent(outputStream));
+                ArchiveItems.ForEach(x => x.WriteHeader(tempStream));
+                ArchiveItems.ForEach(x => x.WriteContent(tempStream));
+
+                tempStream.Seek(0, SeekOrigin.Begin);
+
+                using (var outputStream = new FileStream(TargetPath, FileMode.Create, FileAccess.Write))
+                {
+                    CompressUtility.GzipCompress(tempStream, outputStream);
+                }
             }
+
+            File.Delete(TargetPath + ".tmp");
         }
 
         public void Unarchive()
         {
             using (var inputStream = new FileStream(SourcePath, FileMode.Open, FileAccess.Read))
             {
-                var header = new ArchiveEntityHeader();
-                header.ReadStream(inputStream);
-
-                for (int i = 0; i < header.Length; i++)
+                using (var tempStream = new FileStream(SourcePath + ".tmp", FileMode.Create, FileAccess.ReadWrite))
                 {
-                    var archiveFile = new ArchiveFile();
-                    archiveFile.ReadHeader(inputStream);
-                    archiveFile.AbsolutePath = Path.Combine(TargetPath, archiveFile.RelativePath);
+                    CompressUtility.GzipDecompress(inputStream, tempStream);
 
-                    ArchiveItems.Add(archiveFile);
+                    tempStream.Seek(0, SeekOrigin.Begin);
+
+                    var header = new ArchiveEntityHeader();
+                    header.ReadStream(tempStream);
+
+                    for (int i = 0; i < header.Length; i++)
+                    {
+                        var archiveFile = new ArchiveFile();
+                        archiveFile.ReadHeader(tempStream);
+                        archiveFile.AbsolutePath = Path.Combine(TargetPath, archiveFile.RelativePath);
+
+                        ArchiveItems.Add(archiveFile);
+                    }
+
+                    ArchiveItems.ForEach(x => x.ReadContent(tempStream));
                 }
 
-                ArchiveItems.ForEach(x => x.ReadContent(inputStream));
+                File.Delete(SourcePath + ".tmp");
             }
         }
 

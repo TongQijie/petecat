@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Petecat.Archiving;
+
 using System.IO;
+using System.Linq;
 
 namespace Petecat.Test.Archiving
 {
@@ -11,7 +13,9 @@ namespace Petecat.Test.Archiving
         [TestMethod]
         public void Archive()
         {
-            var archiver = new Archiver("hey.arch", new string[] { "Petecat.ConsoleApp.exe", "Petecat.ConsoleApp.exe.config", "configuration" });
+            var directoryInfo = new DirectoryInfo(@"D:\Installer\Adobe Acrobat 9.0 Pro");
+
+            var archiver = new Archiver(@"D:\Installer\Adobe_Acrobat_9.0_Pro.arch", directoryInfo.GetFiles().Select(x => x.FullName).ToArray());
 
             archiver.Archive();
         }
@@ -19,7 +23,7 @@ namespace Petecat.Test.Archiving
         [TestMethod]
         public void Unarchive()
         {
-            var archiver = new Archiver("hey", "hey.arch");
+            var archiver = new Archiver(@"D:\Installer\Adobe_Acrobat_9.0_Pro", @"D:\Installer\Adobe_Acrobat_9.0_Pro.arch");
             archiver.Unarchive();
         }
     }
