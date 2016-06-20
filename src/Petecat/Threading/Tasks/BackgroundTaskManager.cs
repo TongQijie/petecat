@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 using Petecat.Configuration;
 using Petecat.Utility;
@@ -49,7 +50,20 @@ namespace Petecat.Threading.Tasks
 
             foreach (var backgroundTaskConfig in backgroundTaskConfigs.BackgroundTasks.Where(x => x.Active))
             {
-                var backgroundTask = ReflectionUtility.GetInstance<AbstractBackgroundTask>(backgroundTaskConfig.Provider);
+                Type backgroundTaskType;
+                if (!ReflectionUtility.TryGetType(backgroundTaskConfig.Provider, out backgroundTaskType))
+                {
+                    continue;
+                }
+
+                object[] constructorParameters;
+                if (!ReflectionUtility.TryGetConstructorParameters(backgroundTaskType, backgroundTaskConfig.GetArguments(), out constructorParameters))
+                {
+                    Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("constructor not found. task name = {0}", backgroundTaskConfig.Name));
+                    continue;
+                }
+
+                var backgroundTask = ReflectionUtility.GetInstance<AbstractBackgroundTask>(backgroundTaskConfig.Provider, constructorParameters);
                 if (backgroundTask != null)
                 {
                     if (!BackgroundTasks.Exists(x => x.Key.Equals(backgroundTask.Key, StringComparison.OrdinalIgnoreCase)))

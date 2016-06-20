@@ -1,4 +1,5 @@
 ﻿using System.Xml.Serialization;
+using System.Collections.Generic;
 
 namespace Petecat.Threading.Configuration
 {
@@ -16,5 +17,21 @@ namespace Petecat.Threading.Configuration
         [XmlArray("arguments")]
         [XmlArrayItem("arg")]
         public BackgroundTaskArgument[] Arguments { get; set; }
+
+        public Dictionary<string, object> GetArguments()
+        {
+            if (Arguments == null || Arguments.Length == 0)
+            {
+                return null;
+            }
+
+            var arguments = new Dictionary<string, object>();
+            foreach (var argument in Arguments)
+            {
+                arguments.Add(argument.Name, argument.Value);
+            }
+
+            return arguments;
+        }
     }
 }

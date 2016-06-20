@@ -37,18 +37,19 @@ namespace Petecat.Console.Command
 
             if (terminalCommandType == null)
             {
-                terminalCommandType = assembly.GetTypes().FirstOrDefault(x => AttributeUtility.TryGetCustomAttribute<TerminalCommandAttribute>(x, (y) =>
+                terminalCommandType = assembly.GetTypes().FirstOrDefault(x =>
                 {
-                    if (y.SupportedCommandCodes.Contains(terminalCommandLine.CommandCode))
+                    TerminalCommandAttribute terminalCommandAttribute;
+                    if (ReflectionUtility.TryGetCustomAttribute(x, y => y.SupportedCommandCodes.Contains(terminalCommandLine.CommandCode), out terminalCommandAttribute))
                     {
-                        TerminalCommandInfos.Add(new TerminalCommandInfo(x, y.SupportedCommandCodes));
+                        TerminalCommandInfos.Add(new TerminalCommandInfo(x, terminalCommandAttribute.SupportedCommandCodes));
                         return true;
                     }
                     else
                     {
                         return false;
                     }
-                }));
+                });
             }
 
             if (terminalCommandType == null)

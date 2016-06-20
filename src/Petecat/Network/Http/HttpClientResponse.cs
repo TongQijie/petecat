@@ -29,7 +29,7 @@ namespace Petecat.Network.Http
         {
             using (var inputStream = Response.GetResponseStream())
             {
-                ReadStream(inputStream, outputStream);
+                inputStream.CopyTo(outputStream);
             }
         }
 
@@ -100,16 +100,6 @@ namespace Petecat.Network.Http
                 data = data.Concat(b).ToArray();
             }
             return data;
-        }
-
-        private void ReadStream(Stream inputStream, Stream outputStream)
-        {
-            var count = 0;
-            var buffer = new byte[1024 * 4];
-            while ((count = inputStream.Read(buffer, 0, buffer.Length)) > 0)
-            {
-                outputStream.Write(buffer, 0, count);
-            }
         }
     }
 }

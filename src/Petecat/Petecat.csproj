@@ -128,7 +128,6 @@
     <Compile Include="Threading\Tasks\BackgroundTaskStatus.cs" />
     <Compile Include="Threading\Tasks\IBackgroundTask.cs" />
     <Compile Include="Threading\Tasks\PeriodicBackgroundTask.cs" />
-    <Compile Include="Utility\AttributeUtility.cs" />
     <Compile Include="Utility\CompressUtility.cs" />
     <Compile Include="Utility\HashAlgorithmName.cs" />
     <Compile Include="Utility\HashUtility.cs" />
