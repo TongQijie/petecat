@@ -6,15 +6,21 @@ namespace Petecat.Threading.Tasks
 {
     public class PeriodicBackgroundTask : AbstractBackgroundTask
     {
-        public PeriodicBackgroundTask(string name, TimeSpan interval, Func<PeriodicBackgroundTask, bool> task)
+        public PeriodicBackgroundTask(string name, TimeSpan interval)
             : base(name)
         {
             Interval = interval;
         }
 
+        public PeriodicBackgroundTask(string name, TimeSpan interval, Func<PeriodicBackgroundTask, bool> task)
+            : this(name, interval)
+        {
+            Task = task;
+        }
+
         public TimeSpan Interval { get; private set; }
 
-        private Func<PeriodicBackgroundTask, bool> _Task = null;
+        protected Func<PeriodicBackgroundTask, bool> Task { get; set; }
 
         private Thread _InnerThread = null;
 
@@ -30,11 +36,11 @@ namespace Petecat.Threading.Tasks
                         {
                             StatusChangeTo(BackgroundTaskStatus.Executing);
 
-                            if (_Task != null)
+                            if (Task != null)
                             {
                                 try
                                 {
-                                    _Task.Invoke(this);
+                                    Task.Invoke(this);
                                 }
                                 catch (Exception e)
                                 {

@@ -6,13 +6,18 @@ namespace Petecat.Threading.Tasks
 {
     public class AlwaysRunBackgroundTask : AbstractBackgroundTask
     {
-        public AlwaysRunBackgroundTask(string name, Func<AlwaysRunBackgroundTask, bool> task)
+        public AlwaysRunBackgroundTask(string name) 
             : base(name)
         {
-            _Task = task;
         }
 
-        private Func<AlwaysRunBackgroundTask, bool> _Task = null;
+        public AlwaysRunBackgroundTask(string name, Func<AlwaysRunBackgroundTask, bool> task)
+            : this(name)
+        {
+            Task = task;
+        }
+
+        protected Func<AlwaysRunBackgroundTask, bool> Task { get; set; }
 
         private Thread _InnerThread = null;
 
@@ -24,12 +29,12 @@ namespace Petecat.Threading.Tasks
                 {
                     StatusChangeTo(BackgroundTaskStatus.Executing);
 
-                    if (_Task != null)
+                    if (Task != null)
                     {
                         var success = false;
                         try
                         {
-                            success = _Task.Invoke(this);
+                            success = Task.Invoke(this);
                         }
                         catch (Exception e)
                         {

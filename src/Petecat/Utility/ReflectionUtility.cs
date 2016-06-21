@@ -70,7 +70,7 @@ namespace Petecat.Utility
 
         public static bool TryGetConstructorParameters(Type targetType, Dictionary<string, object> parameters, out object[] matchedParameters)
         {
-            var constructors = targetType.GetConstructors(BindingFlags.Public);
+            var constructors = targetType.GetConstructors();
             foreach (var constructor in constructors)
             {
                 var constructorParameters = constructor.GetParameters();

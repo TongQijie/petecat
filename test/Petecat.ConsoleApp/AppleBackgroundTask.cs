@@ -41,5 +41,11 @@ namespace Petecat.ConsoleApp
             })
         {
         }
+
+        public AppleBackgroundTask(string taskName)
+            : this()
+        {
+            System.Console.WriteLine("{0} loaded.", taskName);
+        }
     }
 }
