@@ -21,7 +21,7 @@ namespace Petecat.Console.Command
             var terminalCommandLine = TerminalCommandLineUtility.Parse(terminalCommandText);
             if (terminalCommandLine == null)
             {
-                return null;
+                throw new Errors.TerminalCommandParseException(terminalCommandText);
             }
 
             Type terminalCommandType = null;
@@ -54,7 +54,7 @@ namespace Petecat.Console.Command
 
             if (terminalCommandType == null)
             {
-                return null;
+                throw new Errors.TerminalCommandNotFoundException(terminalCommandLine.CommandCode);
             }
 
             return Activator.CreateInstance(terminalCommandType, terminalCommandLine) as ITerminalCommand;
