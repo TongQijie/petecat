@@ -24,7 +24,7 @@ namespace Petecat.Data.Repository
 
             _DbProviderFactory = dbProviderFactory;
             _DbCommand = dbProviderFactory.CreateCommand();
-            _DbCommand.CommandText = commandText;
+            _DbCommand.CommandText = commandText.Replace('．', '.').Replace('　', ' ');
             _DbCommand.CommandType = commandType;
         }
 
@@ -39,7 +39,7 @@ namespace Petecat.Data.Repository
             _DatabaseObject = databaseObject;
             _DbProviderFactory = databaseObject.DbProviderFactory;
             _DbCommand = _DbProviderFactory.CreateCommand();
-            _DbCommand.CommandText = commandText;
+            _DbCommand.CommandText = commandText.Replace('．', '.').Replace('　', ' ');
             _DbCommand.CommandType = commandType;
         }
 
