@@ -26,7 +26,15 @@ namespace Petecat.Logging
             return _Loggers.Get(name, Get());
         }
 
+        /// <summary>
+        /// Obsolete: replaced by SetLogger(ILogger logger)
+        /// </summary>
         public static void Set(ILogger logger)
+        {
+            _Loggers.Add(logger);
+        }
+
+        public static void SetLogger(ILogger logger)
         {
             _Loggers.Add(logger);
         }

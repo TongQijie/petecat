@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Reflection;
+using System.Text;
 
 namespace Petecat.Data.Repository
 {
@@ -83,6 +84,26 @@ namespace Petecat.Data.Repository
             {
                 _DbCommand.Parameters[parameterName].Value = parameterValue;
             }
+        }
+
+        public void SetParameterValues(string parameterName, object[] parameterValues)
+        {
+            if (!_DbCommand.Parameters.Contains(parameterName))
+            {
+                throw new ArgumentException("parameter does not exists.");
+            }
+
+            var stringBuilder = new StringBuilder();
+            for (int i = 0; i < parameterValues.Length; i++)
+            {
+                var name = parameterName + i;
+                stringBuilder.AppendFormat("{0},", name);
+                AddParameter(name, _DbCommand.Parameters[parameterName].DbType, ParameterDirection.Input, _DbCommand.Parameters[parameterName].Size);
+                SetParameterValue(name, parameterValues[i]);
+            }
+            stringBuilder.ToString().Trim(',');
+
+            _DbCommand.CommandText = _DbCommand.CommandText.Replace(parameterName, stringBuilder.ToString().Trim(','));
         }
 
         public T QueryScalar<T>()
