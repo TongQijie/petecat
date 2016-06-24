@@ -6,12 +6,9 @@ using System.Reflection;
 
 using Petecat.Utility;
 
-namespace Petecat.Data.Repository
+namespace Petecat.Data.Access
 {
-    /// <summary>
-    /// [Obsolete] - replaced by Petecat.Data.Access.DataCommandUtility
-    /// </summary>
-    public static class DataCommandHelper
+    public static class DataCommandUtility
     {
         /// <summary>
         /// 从缓冲中获取DataCommand

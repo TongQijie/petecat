@@ -3,11 +3,8 @@
 using System;
 using System.Linq;
 
-namespace Petecat.Data.Repository
+namespace Petecat.Data.Access
 {
-    /// <summary>
-    /// [Obsolete] - replaced by Petecat.Data.Access.DatabaseInstanceCache
-    /// </summary>
     public class DatabaseInstanceCache
     {
         private static DatabaseInstanceCache _Manager = null;

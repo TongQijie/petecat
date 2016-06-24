@@ -3,11 +3,8 @@
 using System;
 using System.Linq;
 
-namespace Petecat.Data.Repository
+namespace Petecat.Data.Access
 {
-    /// <summary>
-    /// [Obsolete] - replaced by Petecat.Data.Access.DataCommandCache
-    /// </summary>
     public class DataCommandCache
     {
         private static DataCommandCache _Manager = null;

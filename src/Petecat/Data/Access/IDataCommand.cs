@@ -2,11 +2,8 @@
 using System.Data;
 using System.Data.Common;
 
-namespace Petecat.Data.Repository
+namespace Petecat.Data.Access
 {
-    /// <summary>
-    /// [Obsolete] - replaced by Petecat.Data.Access.IDataCommand
-    /// </summary>
     public interface IDataCommand
     {
         DbCommand GetDbCommand();

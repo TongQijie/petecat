@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Petecat.Data.Repository
+namespace Petecat.Data.Access
 {
-    /// <summary>
-    /// [Obsolete] - replaced by Petecat.Data.Access.IDatabase
-    /// </summary>
     public interface IDatabase
     {
         T QueryScalar<T>(IDataCommand dataCommand);

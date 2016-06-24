@@ -59,13 +59,14 @@
     <Compile Include="Configuration\FileConfigurationManagerTest.cs" />
     <Compile Include="Configuration\RuntimeConfigurationManagerTest.cs" />
     <Compile Include="Console\Command\TerminalCommandLineUtilityTest.cs" />
+    <Compile Include="Data\Access\DataCommandHelperTest.cs" />
+    <Compile Include="Data\Access\DataModel.cs" />
     <Compile Include="Data\DataContractJson\SerializerTest.cs" />
     <Compile Include="Data\DataContractXml\SerializerTest.cs" />
     <Compile Include="Data\Formatters\DataFormatterTest.cs" />
     <Compile Include="Data\Formatters\TestEntities.cs" />
     <Compile Include="Data\Ini\StringFormatterTest.cs" />
     <Compile Include="Data\Repository\DataCommandHelperTest.cs" />
-    <Compile Include="Data\Repository\DataCommandObjectTest.cs" />
     <Compile Include="Data\Repository\DataModel.cs" />
     <Compile Include="Logging\Loggers\FileLoggerTest.cs" />
     <Compile Include="Network\Http\GlobalSession.cs" />

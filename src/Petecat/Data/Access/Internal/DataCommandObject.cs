@@ -5,9 +5,9 @@ using System.Data.Common;
 using System.Reflection;
 using System.Text;
 
-namespace Petecat.Data.Repository
+namespace Petecat.Data.Access
 {
-    public class DataCommandObject : IDataCommand
+    internal class DataCommandObject : IDataCommand
     {
         private DbProviderFactory _DbProviderFactory = null;
 

@@ -4,9 +4,9 @@ using System.Data.Common;
 using System.Reflection;
 using System.Data;
 
-namespace Petecat.Data.Repository
+namespace Petecat.Data.Access
 {
-    public class DatabaseObject : IDatabase, IDisposable
+    internal class DatabaseObject : IDatabase, IDisposable
     {
         public DbProviderFactory DbProviderFactory { get; private set; }
 
