@@ -14,18 +14,13 @@ namespace Petecat.Test.Data.Repository
         [TestMethod]
         public void GetDataCommand()
         {
-            var configurationManager = new FileConfigurationManagerBase(true);
-            configurationManager.LoadFromXml<DatabaseInstanceCollection>("databases.config", "Databases");
-            configurationManager.LoadFromXml<DataCommandCollection>("dataCommands.config", "DataCommands");
+            DataCommandCache.Manager.Load("configuration/datacommands.config");
+            DatabaseInstanceCache.Manager.Load("configuration/databases.config");
 
-            var databaseInstances = configurationManager.Get<DatabaseInstanceCollection>("Databases");
-            var databaseInstance = databaseInstances.DatabaseInstances.FirstOrDefault(x => x.Key == "sql server");
-
-            var dataCommands = configurationManager.Get<DataCommandCollection>("DataCommands");
-            var dataCommand = dataCommands.DataCommands.FirstOrDefault(x => x.Key == "SQL-01");
-
-            var dataCommandObject = DataCommandHelper.GetDataCommand(databaseInstance, dataCommand);
-            var count = dataCommandObject.QueryScalar<int>();
+            var dataCommand = DataCommandHelper.GetDataCommand("eggsaver");
+            //dataCommand.SetParameterValue("@CountryCode", "USA");
+            dataCommand.SetParameterValues("@CountryCode", new string[] { "USA", "CAN" });
+            var entities = dataCommand.QueryEntities<EggsaverModel>();
         }
     }
 }

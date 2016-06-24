@@ -12,6 +12,8 @@ namespace Petecat.Data.Repository
 
         void SetParameterValue(string parameterName, object parameterValue);
 
+        void SetParameterValues(string parameterName, object[] parameterValues);
+
         object GetParameterValue(string parameterName);
 
         T QueryScalar<T>();

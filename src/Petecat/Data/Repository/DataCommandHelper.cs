@@ -8,6 +8,23 @@ namespace Petecat.Data.Repository
 {
     public static class DataCommandHelper
     {
+        public static IDataCommand GetDataCommand(string dataCommandName)
+        {
+            var dataCommand = DataCommandCache.Manager.Get(dataCommandName);
+            if (dataCommand == null)
+            {
+                return null;
+            }
+
+            var dataCommandInstance = DatabaseInstanceCache.Manager.Get(dataCommand.Database);
+            if (dataCommandInstance == null)
+            {
+                return null;
+            }
+
+            return GetDataCommand(dataCommandInstance, dataCommand);
+        }
+
         public static IDataCommand GetDataCommand(Configuration.DatabaseInstance databaseInstance, Configuration.DataCommand dataCommand)
         {
             DatabaseObject databaseObject = null;

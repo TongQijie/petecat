@@ -100,6 +100,8 @@
     <Compile Include="Data\Entity\IEntityDataSource.cs" />
     <Compile Include="Data\Entity\PlainDataMappingAttribute.cs" />
     <Compile Include="Data\Entity\PlainDataMappingPropertyInfo.cs" />
+    <Compile Include="Data\Repository\DatabaseInstanceCache.cs" />
+    <Compile Include="Data\Repository\DataCommandCache.cs" />
     <Compile Include="Data\Repository\DataCommandHelper.cs" />
     <Compile Include="Data\Repository\DataCommandObject.cs" />
     <Compile Include="Data\Repository\IDatabase.cs" />
@@ -138,7 +140,9 @@
     <Compile Include="Utility\ReflectionUtility.cs" />
     <Compile Include="Utility\ValueConvertUtility.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Data\Errors\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

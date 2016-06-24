@@ -103,6 +103,7 @@ namespace Petecat.Data.Repository
             }
             stringBuilder.ToString().Trim(',');
 
+            _DbCommand.Parameters.Remove(_DbCommand.Parameters[parameterName]);
             _DbCommand.CommandText = _DbCommand.CommandText.Replace(parameterName, stringBuilder.ToString().Trim(','));
         }
 
