@@ -21,7 +21,14 @@ namespace Petecat.Logging.Loggers
             {
                 foreach (var parameter in parameters.Where(x => x != null))
                 {
-                    stringBuilder.Append(parameter.ToString());
+                    if (parameter is Exception)
+                    {
+                        stringBuilder.Append(new ExceptionWrapper(parameter as Exception).ToString());
+                    }
+                    else
+                    {
+                        stringBuilder.Append(parameter.ToString());
+                    }
                     stringBuilder.Append("|");
                 }
             }

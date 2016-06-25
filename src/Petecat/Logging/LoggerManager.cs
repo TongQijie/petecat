@@ -11,15 +11,15 @@ namespace Petecat.Logging
         private static ThreadSafeKeyedObjectCollection<string, ILogger> _Loggers = new ThreadSafeKeyedObjectCollection<string, ILogger>();
 
         /// <summary>
-        /// Obsolete: replaced by GetLogger()
+        /// [Obsolete] replaced by GetLogger()
         /// </summary>
         public static ILogger Get()
         {
-            return _Loggers.Get(AppDomainLoggerName, new Loggers.EmptyLogger());
+            return _Loggers.Get(AppDomainLoggerName, new EmptyLogger());
         }
 
         /// <summary>
-        /// Obsolete: replaced by GetLogger(string name)
+        /// [Obsolete] replaced by GetLogger(string name)
         /// </summary>
         public static ILogger Get(string name)
         {
@@ -27,7 +27,7 @@ namespace Petecat.Logging
         }
 
         /// <summary>
-        /// Obsolete: replaced by SetLogger(ILogger logger)
+        /// [Obsolete] replaced by SetLogger(ILogger logger)
         /// </summary>
         public static void Set(ILogger logger)
         {
@@ -41,7 +41,7 @@ namespace Petecat.Logging
 
         public static ILogger GetLogger()
         {
-            return _Loggers.Get(AppDomainLoggerName, new Loggers.EmptyLogger());
+            return _Loggers.Get(AppDomainLoggerName, new EmptyLogger());
         }
 
         public static ILogger GetLogger(string name)

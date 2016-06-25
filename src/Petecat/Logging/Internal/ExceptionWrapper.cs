@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text;
 
-namespace Petecat.Logging.Loggers
+namespace Petecat.Logging
 {
-    public class ExceptionWrapper
+    internal class ExceptionWrapper
     {
         public ExceptionWrapper(Exception exception)
         {

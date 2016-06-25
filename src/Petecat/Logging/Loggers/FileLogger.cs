@@ -7,15 +7,15 @@ namespace Petecat.Logging.Loggers
 {
     public class FileLogger : ILogger
     {
-        public FileLogger(string key, string path)
+        public FileLogger(string key, string logDirectory)
         {
             Key = key;
-            Path = path;
+            LogDirectory = logDirectory;
         }
 
         public string Key { get; private set; }
 
-        public string Path { get; private set; }
+        public string LogDirectory { get; private set; }
 
         public void LogEvent(string category, LoggerLevel loggerLevel, params object[] parameters)
         {
@@ -25,7 +25,14 @@ namespace Petecat.Logging.Loggers
             {
                 foreach (var parameter in parameters.Where(x => x != null))
                 {
-                    stringBuilder.Append(parameter.ToString());
+                    if (parameter is Exception)
+                    {
+                        stringBuilder.Append(new ExceptionWrapper(parameter as Exception).ToString());
+                    }
+                    else
+                    {
+                        stringBuilder.Append(parameter.ToString());
+                    }
                     stringBuilder.Append("|");
                 }
             }
@@ -39,9 +46,15 @@ namespace Petecat.Logging.Loggers
         {
             lock (_FlushLocker)
             {
+                if (!Directory.Exists(LogDirectory))
+                {
+                    Directory.CreateDirectory(LogDirectory);
+                }
+
+                var fileName = string.Format("{0}.log", DateTime.Now.ToString("yyyy-MM-dd"));
                 try
                 {
-                    using (var sw = new StreamWriter(Path, true, Encoding.UTF8))
+                    using (var sw = new StreamWriter(Path.Combine(LogDirectory, fileName), true, Encoding.UTF8))
                     {
                         sw.WriteLine(text);
                     }

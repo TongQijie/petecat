@@ -6,6 +6,9 @@ using System.Data;
 
 namespace Petecat.Data.Repository
 {
+    /// <summary>
+    /// [Obsolete] - replaced by Petecat.Data.Access.DatabaseObject
+    /// </summary>
     internal class DatabaseObject : IDatabase, IDisposable
     {
         public DbProviderFactory DbProviderFactory { get; private set; }

@@ -17,13 +17,13 @@ namespace Petecat.Test.Logging.Loggers
             Setup();
 
             LoggerManager.GetLoggers("test01", "test02").LogEvent(Assembly.GetExecutingAssembly().FullName, LoggerLevel.Error, "this is a error.");
-            LoggerManager.GetLoggers("test01", "test02").LogEvent(Assembly.GetExecutingAssembly().FullName, LoggerLevel.Info, "this is a info.", new ExceptionWrapper(new Exception("ffffffff", new FormatException("ddfdgadg"))));
+            LoggerManager.GetLoggers("test01", "test02").LogEvent(Assembly.GetExecutingAssembly().FullName, LoggerLevel.Info, "this is a info.", new Exception("ffffffff", new FormatException("ddfdgadg")));
         }
 
         private void Setup()
         {
-            LoggerManager.Set(new FileLogger("test01", "test01.log"));
-            LoggerManager.Set(new FileLogger("test02", "test02.log"));
+            LoggerManager.Set(new FileLogger("test01", "test01"));
+            LoggerManager.Set(new FileLogger("test02", "test02"));
         }
     }
 }

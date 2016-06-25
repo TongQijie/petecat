@@ -11,7 +11,7 @@ namespace Petecat.Data.Access
     public static class DataCommandUtility
     {
         /// <summary>
-        /// 从缓冲中获取DataCommand
+        /// 从数据命令缓存中获取
         /// </summary>
         public static IDataCommand GetDataCommand(string dataCommandName)
         {
@@ -30,6 +30,9 @@ namespace Petecat.Data.Access
             return GetDataCommand(dataCommandInstance, dataCommand);
         }
 
+        /// <summary>
+        /// 根据配置信息获取
+        /// </summary>
         public static IDataCommand GetDataCommand(Configuration.DatabaseInstance databaseInstance, Configuration.DataCommand dataCommand)
         {
             DatabaseObject databaseObject = null;

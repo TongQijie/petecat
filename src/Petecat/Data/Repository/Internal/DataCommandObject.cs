@@ -7,6 +7,9 @@ using System.Text;
 
 namespace Petecat.Data.Repository
 {
+    /// <summary>
+    /// [Obsolete] - replaced by Petecat.Data.Access.DataCommandObject
+    /// </summary>
     internal class DataCommandObject : IDataCommand
     {
         private DbProviderFactory _DbProviderFactory = null;

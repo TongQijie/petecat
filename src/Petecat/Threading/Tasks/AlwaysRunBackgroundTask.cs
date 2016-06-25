@@ -38,7 +38,7 @@ namespace Petecat.Threading.Tasks
                         }
                         catch (Exception e)
                         {
-                            Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("task {0} is terminated exceptionally.", Key), new Logging.Loggers.ExceptionWrapper(e));
+                            Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("task {0} is terminated exceptionally.", Key), e);
                         }
 
                         if (!success)
