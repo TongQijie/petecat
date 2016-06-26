@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Petecat.Data.Entity
 {
-    public static class EntityBuilder
+    internal static class EntityBuilder
     {
         #region 实体对象映射缓存管理
 
