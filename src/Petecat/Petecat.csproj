@@ -68,8 +68,11 @@
     <Compile Include="Console\Command\TerminalCommandUtility.cs" />
     <Compile Include="Console\Command\TerminalCommandLine.cs" />
     <Compile Include="Console\Command\TerminalCommandLineUtility.cs" />
+    <Compile Include="Console\CommonUtility.cs" />
     <Compile Include="Console\Errors\TerminalCommandNotFoundException.cs" />
     <Compile Include="Console\Errors\TerminalCommandParseException.cs" />
+    <Compile Include="Console\Outputs\RegularOutput.cs" />
+    <Compile Include="Console\Outputs\RegularColumn.cs" />
     <Compile Include="Data\Access\DatabaseInstanceCache.cs" />
     <Compile Include="Data\Access\DataCommandCache.cs" />
     <Compile Include="Data\Access\DataCommandUtility.cs" />
@@ -87,6 +90,7 @@
     <Compile Include="Data\Errors\DatabaseInstanceNotFoundException.cs" />
     <Compile Include="Data\Errors\DataCommandNotFoundException.cs" />
     <Compile Include="Data\Errors\DbProviderNotFoundException.cs" />
+    <Compile Include="Data\Errors\FormatterNotFoundException.cs" />
     <Compile Include="Data\Formatters\DataContractJsonFormatter.cs" />
     <Compile Include="Data\Formatters\DataFormatterUtility.cs" />
     <Compile Include="Data\Formatters\DataFormatterContent.cs" />

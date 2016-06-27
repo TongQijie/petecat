@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Text;
 
+using Petecat.Data.Errors;
 using Petecat.Data.Formatters;
 
 namespace Petecat.Network.Http
@@ -21,7 +21,11 @@ namespace Petecat.Network.Http
         {
             using (var inputStream = Response.GetResponseStream())
             {
-                return ReadStream(inputStream);
+                using (var outputStream = new MemoryStream())
+                {
+                    inputStream.CopyTo(outputStream);
+                    return outputStream.ToArray();
+                }
             }
         }
 
@@ -35,13 +39,7 @@ namespace Petecat.Network.Http
 
         public string GetString(Encoding encoding)
         {
-            var data = GetBytes();
-            if (data != null)
-            {
-                return encoding.GetString(data);
-            }
-
-            return null;
+            return encoding.GetString(GetBytes());
         }
 
         public TResponse GetObject<TResponse>()
@@ -59,7 +57,7 @@ namespace Petecat.Network.Http
 
             if (dataFormatter == null)
             {
-                throw new NotSupportedException("formatter not found.");
+                throw new FormatterNotFoundException();
             }
 
             using (var responseStream = Response.GetResponseStream())
@@ -74,7 +72,7 @@ namespace Petecat.Network.Http
 
             if (dataFormatter == null)
             {
-                throw new NotSupportedException("formatter not found.");
+                throw new FormatterNotFoundException();
             }
 
             using (var responseStream = Response.GetResponseStream())
@@ -86,20 +84,6 @@ namespace Petecat.Network.Http
         public void Dispose()
         {
             Response.Close();
-        }
-
-        private byte[] ReadStream(Stream inputStream)
-        {
-            var data = new byte[0];
-            var count = 0;
-            var buffer = new byte[1024 * 4];
-            while ((count = inputStream.Read(buffer, 0, buffer.Length)) > 0)
-            {
-                var b = new byte[count];
-                Array.Copy(buffer, b, count);
-                data = data.Concat(b).ToArray();
-            }
-            return data;
         }
     }
 }

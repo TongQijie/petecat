@@ -19,7 +19,7 @@ namespace Petecat.Data.Formatters
         {
             if (!_FormatterMappings.ContainsKey(formatterContentType))
             {
-                throw new NotSupportedException();
+                throw new Errors.FormatterNotFoundException(formatterContentType.ToString());
             }
 
             return _FormatterMappings[formatterContentType];
