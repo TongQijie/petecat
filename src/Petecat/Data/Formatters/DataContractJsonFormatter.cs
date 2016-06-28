@@ -29,6 +29,11 @@ namespace Petecat.Data.Formatters
             }
         }
 
+        public object ReadObject(Type targetType, byte[] byteValues, int offset, int count)
+        {
+            return ReadObject(targetType, Encoding.UTF8.GetString(byteValues, offset, count));
+        }
+
         public T ReadObject<T>(Stream stream)
         {
             return (T)ReadObject(typeof(T), stream);
@@ -42,6 +47,11 @@ namespace Petecat.Data.Formatters
         public T ReadObject<T>(string path, Encoding encoding)
         {
             return (T)ReadObject(typeof(T), path, encoding);
+        }
+
+        public T ReadObject<T>(byte[] byteValues, int offset, int count)
+        {
+            return (T)ReadObject<T>(Encoding.UTF8.GetString(byteValues, offset, count));
         }
 
         public string WriteObject(object instance)
@@ -68,6 +78,20 @@ namespace Petecat.Data.Formatters
             {
                 streamWriter.Write(WriteObject(instance));
             }
+        }
+
+        public byte[] WriteBytes(object instance)
+        {
+            using (var memoryStream = new MemoryStream())
+            {
+                WriteObject(instance, memoryStream);
+                return memoryStream.ToArray();
+            }
+        }
+
+        public string WriteString(object instance)
+        {
+            return Encoding.UTF8.GetString(WriteBytes(instance));
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Achiver
             var terminalCommandLine = TerminalCommandLineUtility.Parse(string.Format("{0} {1}", "arch", string.Join(" ", args)));
             if (terminalCommandLine.ContainKeys("m", "mode", "i", "input", "o", "output"))
             {
-                CommonUtility.WriteLine("mode/input/ouput argument is missing.");
+                CommonUtility.Write("mode/input/ouput argument is missing.");
                 return;
             }
 
@@ -27,13 +27,13 @@ namespace Achiver
                     {
                         terminalCommandLine["i"] ?? terminalCommandLine["input"],
                     });
-                    CommonUtility.WriteLine("start archiving...");
+                    CommonUtility.Write("start archiving...");
                     archiver.Archive();
-                    CommonUtility.WriteLine("done.");
+                    CommonUtility.Write("done.");
                 }
                 catch (Exception e)
                 {
-                    CommonUtility.WriteLine(e.Message);
+                    CommonUtility.Write(e.Message);
                     return;
                 }
             }
@@ -44,19 +44,19 @@ namespace Achiver
                 try
                 {
                     var archiver = new Archiver(terminalCommandLine["o"] ?? terminalCommandLine["ouput"], terminalCommandLine["i"] ?? terminalCommandLine["input"]);
-                    CommonUtility.WriteLine("start unarchiving...");
+                    CommonUtility.Write("start unarchiving...");
                     archiver.Unarchive();
-                    CommonUtility.WriteLine("done.");
+                    CommonUtility.Write("done.");
                 }
                 catch (Exception e)
                 {
-                    CommonUtility.WriteLine(e.Message);
+                    CommonUtility.Write(e.Message);
                     return;
                 }
             }
             else
             {
-                CommonUtility.WriteLine("invalid mode.");
+                CommonUtility.Write("invalid mode.");
             }
         }
     }

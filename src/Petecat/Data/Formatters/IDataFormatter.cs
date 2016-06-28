@@ -12,16 +12,29 @@ namespace Petecat.Data.Formatters
 
         T ReadObject<T>(Stream stream);
 
+        T ReadObject<T>(byte[] byteValues, int offset, int count);
+
         object ReadObject(Type targetType, string path, Encoding encoding);
 
         object ReadObject(Type targetType, string stringValue);
 
         object ReadObject(Type targetType, Stream stream);
 
+        object ReadObject(Type targetType, byte[] byteValues, int offset, int count);
+
         void WriteObject(object instance, string path, Encoding encoding);
 
+        /// <summary>
+        /// [Obsolete] replaced by WriteString(object instance);
+        /// </summary>
+        /// <param name="instance"></param>
+        /// <returns></returns>
         string WriteObject(object instance);
 
         void WriteObject(object instance, Stream stream);
+
+        string WriteString(object instance);
+
+        byte[] WriteBytes(object instance);
     }
 }
