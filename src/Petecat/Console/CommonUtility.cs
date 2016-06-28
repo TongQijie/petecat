@@ -14,6 +14,16 @@
             Console.Write(Environment.NewLine);
         }
 
+        public static void WriteLine(string text)
+        {
+            Console.WriteLine(text);
+        }
+
+        public static void Write(string text)
+        {
+            Console.Write(text);
+        }
+
         public static Command.TerminalCommandLine ReadCommand()
         {
             return Command.TerminalCommandLineUtility.Parse(Console.ReadLine());

@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petecat.Test", "test\Peteca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petecat.ConsoleApp", "test\Petecat.ConsoleApp\Petecat.ConsoleApp.csproj", "{70276C47-A34C-4702-8B54-26AE5B5FBEA4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{43DC8785-CBF8-454B-858A-03C0D590375B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Achiver", "app\Achiver\Achiver.csproj", "{F5E4A3D5-835C-4AE6-9765-C3BEC4A672F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +35,10 @@ Global
 		{70276C47-A34C-4702-8B54-26AE5B5FBEA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{70276C47-A34C-4702-8B54-26AE5B5FBEA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{70276C47-A34C-4702-8B54-26AE5B5FBEA4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5E4A3D5-835C-4AE6-9765-C3BEC4A672F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5E4A3D5-835C-4AE6-9765-C3BEC4A672F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5E4A3D5-835C-4AE6-9765-C3BEC4A672F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5E4A3D5-835C-4AE6-9765-C3BEC4A672F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,5 +47,6 @@ Global
 		{E6CFD007-47F5-4E4D-9185-6D4147F104CE} = {C206A12E-95D1-4654-A3EE-1D2FCDB99002}
 		{D76409CF-214D-4986-A4DC-840AB852897E} = {1DBC27B7-F377-4A7C-982A-A9F9DBE571B2}
 		{70276C47-A34C-4702-8B54-26AE5B5FBEA4} = {1DBC27B7-F377-4A7C-982A-A9F9DBE571B2}
+		{F5E4A3D5-835C-4AE6-9765-C3BEC4A672F1} = {43DC8785-CBF8-454B-858A-03C0D590375B}
 	EndGlobalSection
 EndGlobal
