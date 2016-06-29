@@ -43,32 +43,40 @@ namespace Petecat.Data.Formatters
 
         public object ReadObject(Type targetType, byte[] byteValues, int offset, int count)
         {
-            throw new System.NotImplementedException();
+            var buffer = new byte[count];
+            Buffer.BlockCopy(byteValues, offset, buffer, 0, count);
+            return BinarySerializer.Decode(buffer, targetType);
         }
 
         public void WriteObject(object instance, string path, Encoding encoding)
         {
-            throw new System.NotImplementedException();
+            using (var outputStream = new FileStream(path, FileMode.Create, FileAccess.Write))
+            {
+                WriteObject(instance, outputStream);
+            }
         }
 
+        /// <summary>
+        /// [Obsolete] replaced by WriteString(object instance);
+        /// </summary>
         public string WriteObject(object instance)
         {
-            throw new System.NotImplementedException();
+            return Convert.ToBase64String(BinarySerializer.Encode(instance));
         }
 
         public void WriteObject(object instance, Stream stream)
         {
-            throw new System.NotImplementedException();
+            BinarySerializer.Encode(instance, stream);
         }
 
         public string WriteString(object instance)
         {
-            throw new System.NotImplementedException();
+            return Convert.ToBase64String(BinarySerializer.Encode(instance));
         }
 
         public byte[] WriteBytes(object instance)
         {
-            throw new System.NotImplementedException();
+            return BinarySerializer.Encode(instance);
         }
     }
 }

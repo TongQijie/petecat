@@ -79,6 +79,9 @@ namespace Petecat.Data.Formatters
             return (T)ReadObject(typeof(T), Encoding.UTF8.GetString(byteValues, offset, count));
         }
 
+        /// <summary>
+        /// [Obsolete] replaced by WriteString(object instance);
+        /// </summary>
         public string WriteObject(object instance)
         {
             using (var memoryStream = new MemoryStream())

@@ -3,6 +3,7 @@ using System;
 
 using Petecat.Data.Formatters;
 using System.Text;
+using System.Linq;
 using System.IO;
 
 namespace Petecat.Test.Data.Formatters
@@ -72,7 +73,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 new Price() { Value = 100.0M, Region = "CHN" },
                 new Price() { Value = 99.7M, Region = "USA" },
-            };
+            }.ToList();
 
             return product;
         }

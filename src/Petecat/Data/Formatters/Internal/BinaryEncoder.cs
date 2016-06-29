@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace Petecat.Data.Formatters.Internal
+namespace Petecat.Data.Formatters
 {
     internal static class BinaryEncoder
     {
@@ -55,6 +55,14 @@ namespace Petecat.Data.Formatters.Internal
             else if (valueType == typeof(string))
             {
                 return Encoding.UTF8.GetBytes(valueObject as string);
+            }
+            else if (valueType == typeof(decimal))
+            {
+                return Encoding.UTF8.GetBytes(valueObject.ToString());
+            }
+            else if (valueType == typeof(DateTime))
+            {
+                return BitConverter.GetBytes(((DateTime)valueObject).ToBinary());
             }
             else
             {
@@ -115,6 +123,14 @@ namespace Petecat.Data.Formatters.Internal
                 var data = new byte[length];
                 Buffer.BlockCopy(byteValues, startIndex, data, 0, length);
                 return Encoding.UTF8.GetString(data);
+            }
+            else if (targetType == typeof(decimal))
+            {
+                return decimal.Parse(Encoding.UTF8.GetString(byteValues, startIndex, length));
+            }
+            else if (targetType == typeof(DateTime))
+            {
+                return DateTime.FromBinary(BitConverter.ToInt64(byteValues, startIndex));
             }
             else
             {

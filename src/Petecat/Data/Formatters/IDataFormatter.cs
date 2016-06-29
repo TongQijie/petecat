@@ -27,8 +27,6 @@ namespace Petecat.Data.Formatters
         /// <summary>
         /// [Obsolete] replaced by WriteString(object instance);
         /// </summary>
-        /// <param name="instance"></param>
-        /// <returns></returns>
         string WriteObject(object instance);
 
         void WriteObject(object instance, Stream stream);

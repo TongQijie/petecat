@@ -3,8 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
-namespace Petecat.Data.Formatters.Internal
+using Petecat.Utility;
+
+namespace Petecat.Data.Formatters
 {
     internal class BinarySerializer
     {
@@ -16,194 +19,264 @@ namespace Petecat.Data.Formatters.Internal
 
         public const int PropertyNameMaxLength = 0xFF;
 
-        public const int PropertyValueMaxLength = 0xFFFF; 
+        public const int PropertyValueMaxLength = 0xFFFF;
 
-        //public static byte[] Encode(object instance)
-        //{
-        //    var byteArray = new List<byte>();
+        public static byte[] Encode(object instance)
+        {
+            var byteArray = new List<byte>();
 
-        //    byteArray.Add(ObjectMarker);
+            byteArray.Add(ObjectMarker);
 
-        //    var type = instance.GetType();
+            var type = instance.GetType();
 
-        //    if (typeof(ICollection).IsAssignableFrom(type))
-        //    {
-        //        var index = 0;
-        //        foreach (var element in (instance as ICollection))
-        //        {
-        //            if (element == null) { continue; }
+            if (typeof(ICollection).IsAssignableFrom(type))
+            {
+                var index = 0;
+                foreach (var element in (instance as ICollection))
+                {
+                    if (element == null) { continue; }
 
-        //            InsertProperty(byteArray, index.ToString(), element);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        foreach (var propertyInfo in type.GetProperties().Where(x => x.CanRead && x.CanWrite && x.GetCustomAttributes(typeof(Attributes.BinarySerializableAttribute), false).Length > 0))
-        //        {
-        //            var attr = propertyInfo.GetCustomAttributes(typeof(Attributes.BinarySerializableAttribute), false)[0] as Attributes.BinarySerializableAttribute;
-        //            if (attr.NonSerialized)
-        //            {
-        //                continue;
-        //            }
+                    InsertProperty(byteArray, index.ToString(), element);
+                }
+            }
+            else
+            {
+                foreach (var propertyInfo in type.GetProperties())
+                {
+                    Attributes.BinarySerializableAttribute attribute = null;
+                    if (!ReflectionUtility.TryGetCustomAttribute<Attributes.BinarySerializableAttribute>(propertyInfo, null, out attribute) || attribute.NonSerialized)
+                    {
+                        continue;
+                    }
 
-        //            var propertyName = string.IsNullOrEmpty(attr.Name) ? propertyInfo.Name : attr.Name;
-        //            var propertyValue = propertyInfo.GetValue(instance, null);
+                    var propertyName = string.IsNullOrEmpty(attribute.Name) ? propertyInfo.Name : attribute.Name;
+                    var propertyValue = propertyInfo.GetValue(instance, null);
 
-        //            InsertProperty(byteArray, propertyName, propertyValue);
-        //        }
-        //    }
+                    InsertProperty(byteArray, propertyName, propertyValue);
+                }
+            }
 
-        //    byteArray.Add(ObjectMarker);
+            byteArray.Add(ObjectMarker);
 
-        //    return byteArray.ToArray();
-        //}
+            return byteArray.ToArray();
+        }
 
-        //private static void InsertProperty(List<byte> byteArray, string propertyName, object propertyValue)
-        //{
-        //    byteArray.Add(PropertyNameMarker);
-        //    byteArray.Add((byte)(propertyName.Length));
-        //    byteArray.AddRange(Encoding.UTF8.GetBytes(propertyName.ToString()));
+        public static void Encode(object instance, Stream outputStream)
+        {
+            outputStream.WriteByte(ObjectMarker);
 
-        //    var valueByteArray = BinEncoderConverter.ConvertTo(propertyValue);
-        //    if (valueByteArray != null)
-        //    {
-        //        if (valueByteArray.Length < PropertyValueMarker)
-        //        {
-        //            byteArray.Add((byte)valueByteArray.Length);
-        //            byteArray.AddRange(valueByteArray);
-        //        }
-        //        else if (valueByteArray.Length < PropertyValueMaxLength)
-        //        {
-        //            byteArray.Add(PropertyValueMarker);
-        //            byteArray.AddRange(new byte[] { (byte)(valueByteArray.Length >> 8), (byte)valueByteArray.Length });
-        //            byteArray.AddRange(valueByteArray);
-        //        }
-        //        else
-        //        {
-        //            throw new Exception();
-        //        }
-        //    }
-        //    else
-        //    {
-        //        byteArray.AddRange(Encode(propertyValue));
-        //    }
-        //}
+            var type = instance.GetType();
 
-        //public static object Decode(byte[] byteArray, Type targetType)
-        //{
-        //    var offset = 0;
-        //    return Decode(byteArray, ref offset, targetType);
-        //}
+            if (typeof(ICollection).IsAssignableFrom(type))
+            {
+                var index = 0;
+                foreach (var element in (instance as ICollection))
+                {
+                    if (element == null) { continue; }
+                    InsertProperty(outputStream, index.ToString(), element);
+                    index++;
+                }
+            }
+            else
+            {
+                foreach (var propertyInfo in type.GetProperties())
+                {
+                    Attributes.BinarySerializableAttribute attribute = null;
+                    if (!ReflectionUtility.TryGetCustomAttribute<Attributes.BinarySerializableAttribute>(propertyInfo, null, out attribute) || attribute.NonSerialized)
+                    {
+                        continue;
+                    }
 
-        //public static T Decode<T>(byte[] byteArray)
-        //{
-        //    var offset = 0;
-        //    return (T)Decode(byteArray, ref offset, typeof(T));
-        //}
+                    var propertyName = string.IsNullOrEmpty(attribute.Name) ? propertyInfo.Name : attribute.Name;
+                    var propertyValue = propertyInfo.GetValue(instance, null);
 
-        //private static object Decode(byte[] byteArray, ref int offset, Type targetType)
-        //{
-        //    var instance = Activator.CreateInstance(targetType);
+                    InsertProperty(outputStream, propertyName, propertyValue);
+                }
+            }
 
-        //    while (offset < byteArray.Length)
-        //    {
-        //        if (byteArray[offset] == ObjectMarker)
-        //        {
-        //            break;
-        //        }
-        //    }
+            outputStream.WriteByte(ObjectMarker);
+        }
 
-        //    if (byteArray[offset++] != ObjectMarker)
-        //    {
-        //        throw new Exception();
-        //    }
+        private static void InsertProperty(List<byte> byteArray, string propertyName, object propertyValue)
+        {
+            byteArray.Add(PropertyNameMarker);
+            byteArray.Add((byte)(propertyName.Length));
+            byteArray.AddRange(Encoding.UTF8.GetBytes(propertyName.ToString()));
 
-        //    while (offset < byteArray.Length)
-        //    {
-        //        if (byteArray[offset] == PropertyNameMarker)
-        //        {
-        //            offset++;
-        //            var propertyNameLength = byteArray[offset++];
-        //            var propertyName = Encoding.UTF8.GetString(byteArray, offset, propertyNameLength);
-        //            offset += propertyNameLength;
+            var valueByteArray = BinaryEncoder.Encode(propertyValue);
+            if (valueByteArray != null)
+            {
+                if (valueByteArray.Length < PropertyValueMarker)
+                {
+                    byteArray.Add((byte)valueByteArray.Length);
+                    byteArray.AddRange(valueByteArray);
+                }
+                else if (valueByteArray.Length < PropertyValueMaxLength)
+                {
+                    byteArray.Add(PropertyValueMarker);
+                    byteArray.AddRange(new byte[] { (byte)(valueByteArray.Length >> 8), (byte)valueByteArray.Length });
+                    byteArray.AddRange(valueByteArray);
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            else
+            {
+                byteArray.AddRange(Encode(propertyValue));
+            }
+        }
 
-        //            if (typeof(ICollection).IsAssignableFrom(targetType))
-        //            {
-        //                var propertyType = targetType.GetGenericArguments().FirstOrDefault() ?? targetType.GetElementType();
+        private static void InsertProperty(Stream outputStream, string propertyName, object propertyValue)
+        {
+            outputStream.WriteByte(PropertyNameMarker);
+            outputStream.WriteByte((byte)(propertyName.Length));
+            var propertyNameBytes = Encoding.UTF8.GetBytes(propertyName.ToString());
+            outputStream.Write(propertyNameBytes, 0, propertyNameBytes.Length);
 
-        //                if (byteArray[offset] == ObjectMarker)
-        //                {
-        //                    (instance as IList).Add(Decode(byteArray, ref offset, propertyType));
-        //                }
-        //                else if (byteArray[offset] == PropertyValueMarker)
-        //                {
-        //                    offset++;
-        //                    var propertyValueLength = (byteArray[offset] << 8) + byteArray[offset + 1];
-        //                    offset += 2;
+            var valueByteArray = BinaryEncoder.Encode(propertyValue);
+            if (valueByteArray != null)
+            {
+                if (valueByteArray.Length < PropertyValueMarker)
+                {
+                    outputStream.WriteByte((byte)valueByteArray.Length);
+                    outputStream.Write(valueByteArray, 0, valueByteArray.Length);
+                }
+                else if (valueByteArray.Length < PropertyValueMaxLength)
+                {
+                    outputStream.WriteByte(PropertyValueMarker);
+                    outputStream.WriteByte((byte)(valueByteArray.Length >> 8));
+                    outputStream.WriteByte((byte)valueByteArray.Length);
+                    outputStream.Write(valueByteArray, 0, valueByteArray.Length);
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            else
+            {
+                var propertyValueBytes = Encode(propertyValue);
+                outputStream.Write(propertyValueBytes, 0, propertyValueBytes.Length);
+            }
+        }
 
-        //                    (instance as IList).Add(BinEncoderConverter.ConvertFrom(byteArray, offset, propertyValueLength, propertyType));
+        public static object Decode(byte[] byteArray, Type targetType)
+        {
+            var offset = 0;
+            return Decode(byteArray, ref offset, targetType);
+        }
 
-        //                    offset += propertyValueLength;
-        //                }
-        //                else if (byteArray[offset] < PropertyValueMarker)
-        //                {
-        //                    var propertyValueLength = byteArray[offset++];
+        public static T Decode<T>(byte[] byteArray)
+        {
+            var offset = 0;
+            return (T)Decode(byteArray, ref offset, typeof(T));
+        }
 
-        //                    (instance as IList).Add(BinEncoderConverter.ConvertFrom(byteArray, offset, propertyValueLength, propertyType));
+        private static object Decode(byte[] byteArray, ref int offset, Type targetType)
+        {
+            var instance = Activator.CreateInstance(targetType);
 
-        //                    offset += propertyValueLength;
-        //                }
-        //                else
-        //                {
-        //                    throw new Exception();
-        //                }
-        //            }
-        //            else
-        //            {
-        //                var propertyInfo = targetType.GetProperties().SingleOrDefault(x => x.CanRead && x.CanWrite
-        //                    && ((x.GetCustomAttributes(typeof(Attributes.BinarySerializableAttribute), false).Length > 0 && (x.GetCustomAttributes(typeof(Attributes.BinarySerializableAttribute), false)[0] as Attributes.BinarySerializableAttribute).Name.Equals(propertyName))
-        //                    || (x.Name.Equals(propertyName))));
+            while (offset < byteArray.Length)
+            {
+                if (byteArray[offset] == ObjectMarker)
+                {
+                    break;
+                }
+            }
 
-        //                if (byteArray[offset] == ObjectMarker)
-        //                {
-        //                    propertyInfo.SetValue(instance, Decode(byteArray, ref offset, propertyInfo.PropertyType), null);
-        //                }
-        //                else if (byteArray[offset] == PropertyValueMarker)
-        //                {
-        //                    offset++;
-        //                    var propertyValueLength = (byteArray[offset] << 8) + byteArray[offset + 1];
-        //                    offset += 2;
+            if (byteArray[offset++] != ObjectMarker)
+            {
+                throw new Exception();
+            }
 
-        //                    propertyInfo.SetValue(instance, BinEncoderConverter.ConvertFrom(byteArray, offset, propertyValueLength, propertyInfo.PropertyType), null);
+            while (offset < byteArray.Length)
+            {
+                if (byteArray[offset] == PropertyNameMarker)
+                {
+                    offset++;
+                    var propertyNameLength = byteArray[offset++];
+                    var propertyName = Encoding.UTF8.GetString(byteArray, offset, propertyNameLength);
+                    offset += propertyNameLength;
 
-        //                    offset += propertyValueLength;
-        //                }
-        //                else if (byteArray[offset] < PropertyValueMarker)
-        //                {
-        //                    var propertyValueLength = byteArray[offset++];
+                    if (typeof(ICollection).IsAssignableFrom(targetType))
+                    {
+                        var propertyType = targetType.GetGenericArguments().FirstOrDefault() ?? targetType.GetElementType();
 
-        //                    propertyInfo.SetValue(instance, BinEncoderConverter.ConvertFrom(byteArray, offset, propertyValueLength, propertyInfo.PropertyType), null);
+                        if (byteArray[offset] == ObjectMarker)
+                        {
+                            (instance as IList).Add(Decode(byteArray, ref offset, propertyType));
+                        }
+                        else if (byteArray[offset] == PropertyValueMarker)
+                        {
+                            offset++;
+                            var propertyValueLength = (byteArray[offset] << 8) + byteArray[offset + 1];
+                            offset += 2;
 
-        //                    offset += propertyValueLength;
-        //                }
-        //                else
-        //                {
-        //                    throw new Exception();
-        //                }
-        //            }
-        //        }
-        //        else if (byteArray[offset] == ObjectMarker)
-        //        {
-        //            offset++;
-        //            return instance;
-        //        }
-        //        else
-        //        {
-        //            throw new Exception();
-        //        }
-        //    }
+                            (instance as IList).Add(BinaryEncoder.Decode(propertyType, byteArray, offset, propertyValueLength));
 
-        //    return instance;
-        //}
+                            offset += propertyValueLength;
+                        }
+                        else if (byteArray[offset] < PropertyValueMarker)
+                        {
+                            var propertyValueLength = byteArray[offset++];
+
+                            (instance as IList).Add(BinaryEncoder.Decode(propertyType, byteArray, offset, propertyValueLength));
+
+                            offset += propertyValueLength;
+                        }
+                        else
+                        {
+                            throw new Exception();
+                        }
+                    }
+                    else
+                    {
+                        var propertyInfo = targetType.GetProperties().SingleOrDefault(x => x.CanRead && x.CanWrite
+                            && ((x.GetCustomAttributes(typeof(Attributes.BinarySerializableAttribute), false).Length > 0 && (x.GetCustomAttributes(typeof(Attributes.BinarySerializableAttribute), false)[0] as Attributes.BinarySerializableAttribute).Name.Equals(propertyName))
+                            || (x.Name.Equals(propertyName))));
+
+                        if (byteArray[offset] == ObjectMarker)
+                        {
+                            propertyInfo.SetValue(instance, Decode(byteArray, ref offset, propertyInfo.PropertyType), null);
+                        }
+                        else if (byteArray[offset] == PropertyValueMarker)
+                        {
+                            offset++;
+                            var propertyValueLength = (byteArray[offset] << 8) + byteArray[offset + 1];
+                            offset += 2;
+
+                            propertyInfo.SetValue(instance, BinaryEncoder.Decode(propertyInfo.PropertyType, byteArray, offset, propertyValueLength), null);
+
+                            offset += propertyValueLength;
+                        }
+                        else if (byteArray[offset] < PropertyValueMarker)
+                        {
+                            var propertyValueLength = byteArray[offset++];
+
+                            propertyInfo.SetValue(instance, BinaryEncoder.Decode(propertyInfo.PropertyType, byteArray, offset, propertyValueLength), null);
+
+                            offset += propertyValueLength;
+                        }
+                        else
+                        {
+                            throw new Exception();
+                        }
+                    }
+                }
+                else if (byteArray[offset] == ObjectMarker)
+                {
+                    offset++;
+                    return instance;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+
+            return instance;
+        }
     }
 }
