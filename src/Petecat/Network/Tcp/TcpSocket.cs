@@ -41,15 +41,6 @@ namespace Petecat.Network.Tcp
             _Socket.Blocking = false;
         }
 
-        public void Connect(IPAddress[] ips, int port)
-        {
-            this.CreateSocket();
-
-            _Socket.Blocking = true;
-            _Socket.Connect(ips, port);
-            _Socket.Blocking = false;
-        }
-
         public void Disconnect(bool reuse)
         {
             if (_Socket != null)

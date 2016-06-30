@@ -4,6 +4,7 @@ using System;
 using Petecat.Data.Formatters;
 
 using System.Linq;
+using System.IO;
 
 
 namespace Petecat.Test.Data.Formatters
@@ -12,7 +13,47 @@ namespace Petecat.Test.Data.Formatters
     public class BinarySerializerTest
     {
         [TestMethod]
-        public void Serialize()
+        public void Serialize_ToBytes()
+        {
+            var product = GetEntity();
+
+            var byteValues = new BinaryFormatter().WriteBytes(product);
+
+            var anotherProduct = new BinaryFormatter().ReadObject(typeof(Product), byteValues, 0, byteValues.Length) as Product;
+
+            Assert.IsTrue(product.Equals(anotherProduct));
+        }
+
+        [TestMethod]
+        public void Serialize_ToStream()
+        {
+            var product = GetEntity();
+
+            using (var memoryStream = new MemoryStream())
+            {
+                new BinaryFormatter().WriteObject(product, memoryStream);
+
+                memoryStream.Seek(0, SeekOrigin.Begin);
+
+                var anotherProduct = new BinaryFormatter().ReadObject<Product>(memoryStream);
+
+                Assert.IsTrue(product.Equals(anotherProduct));
+            }
+        }
+
+        [TestMethod]
+        public void Serialize_ToFile()
+        {
+            var product = GetEntity();
+
+            new BinaryFormatter().WriteObject(product, "product.dat", null);
+
+            var anotherProduct = new BinaryFormatter().ReadObject<Product>("product.dat", null);
+
+            Assert.IsTrue(product.Equals(anotherProduct));
+        }
+
+        private Product GetEntity()
         {
             var product = new Product()
             {
@@ -26,9 +67,7 @@ namespace Petecat.Test.Data.Formatters
                 }.ToList(),
             };
 
-            var byteValues = new BinaryFormatter().WriteBytes(product);
-
-            var p = new BinaryFormatter().ReadObject(typeof(Product), byteValues, 0, byteValues.Length);
+            return product;
         }
     }
 }

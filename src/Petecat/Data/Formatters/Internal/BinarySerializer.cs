@@ -11,6 +11,8 @@ namespace Petecat.Data.Formatters
 {
     internal class BinarySerializer
     {
+        #region 常数定义
+
         public const byte ObjectMarker = 0xFF;
 
         public const byte PropertyNameMarker = 0xF1;
@@ -21,7 +23,11 @@ namespace Petecat.Data.Formatters
 
         public const int PropertyValueMaxLength = 0xFFFF;
 
-        public static byte[] Encode(object instance)
+        #endregion
+
+        #region 序列化方法
+
+        public static byte[] Serialize(object instance)
         {
             var byteArray = new List<byte>();
 
@@ -61,7 +67,7 @@ namespace Petecat.Data.Formatters
             return byteArray.ToArray();
         }
 
-        public static void Encode(object instance, Stream outputStream)
+        public static void Serialize(object instance, Stream outputStream)
         {
             outputStream.WriteByte(ObjectMarker);
 
@@ -124,7 +130,7 @@ namespace Petecat.Data.Formatters
             }
             else
             {
-                byteArray.AddRange(Encode(propertyValue));
+                byteArray.AddRange(Serialize(propertyValue));
             }
         }
 
@@ -157,24 +163,28 @@ namespace Petecat.Data.Formatters
             }
             else
             {
-                var propertyValueBytes = Encode(propertyValue);
+                var propertyValueBytes = Serialize(propertyValue);
                 outputStream.Write(propertyValueBytes, 0, propertyValueBytes.Length);
             }
         }
 
-        public static object Decode(byte[] byteArray, Type targetType)
+        #endregion
+
+        #region 反序列化方法
+
+        public static object Deserialize(byte[] byteArray, Type targetType)
         {
             var offset = 0;
-            return Decode(byteArray, ref offset, targetType);
+            return Deserialize(byteArray, ref offset, targetType);
         }
 
-        public static T Decode<T>(byte[] byteArray)
+        public static T Deserialize<T>(byte[] byteArray)
         {
             var offset = 0;
-            return (T)Decode(byteArray, ref offset, typeof(T));
+            return (T)Deserialize(byteArray, ref offset, typeof(T));
         }
 
-        private static object Decode(byte[] byteArray, ref int offset, Type targetType)
+        private static object Deserialize(byte[] byteArray, ref int offset, Type targetType)
         {
             var instance = Activator.CreateInstance(targetType);
 
@@ -206,7 +216,7 @@ namespace Petecat.Data.Formatters
 
                         if (byteArray[offset] == ObjectMarker)
                         {
-                            (instance as IList).Add(Decode(byteArray, ref offset, propertyType));
+                            (instance as IList).Add(Deserialize(byteArray, ref offset, propertyType));
                         }
                         else if (byteArray[offset] == PropertyValueMarker)
                         {
@@ -239,7 +249,7 @@ namespace Petecat.Data.Formatters
 
                         if (byteArray[offset] == ObjectMarker)
                         {
-                            propertyInfo.SetValue(instance, Decode(byteArray, ref offset, propertyInfo.PropertyType), null);
+                            propertyInfo.SetValue(instance, Deserialize(byteArray, ref offset, propertyInfo.PropertyType), null);
                         }
                         else if (byteArray[offset] == PropertyValueMarker)
                         {
@@ -279,7 +289,7 @@ namespace Petecat.Data.Formatters
             return instance;
         }
 
-        public static object Decode(Type targetType, Stream stream)
+        public static object Deserialize(Type targetType, Stream stream)
         {
             var instance = Activator.CreateInstance(targetType);
 
@@ -309,7 +319,7 @@ namespace Petecat.Data.Formatters
                         if (marker == ObjectMarker)
                         {
                             stream.Seek(-1, SeekOrigin.Current);
-                            (instance as IList).Add(Decode(propertyType, stream));
+                            (instance as IList).Add(Deserialize(propertyType, stream));
                         }
                         else if (marker == PropertyValueMarker)
                         {
@@ -344,7 +354,8 @@ namespace Petecat.Data.Formatters
                             var marker = stream.ReadByte();
                             if (marker == ObjectMarker)
                             {
-                                propertyInfo.SetValue(instance, Decode(propertyInfo.PropertyType, stream), null);
+                                stream.Seek(-1, SeekOrigin.Current);
+                                propertyInfo.SetValue(instance, Deserialize(propertyInfo.PropertyType, stream), null);
                             }
                             else if (marker == PropertyValueMarker)
                             {
@@ -365,6 +376,8 @@ namespace Petecat.Data.Formatters
                             {
                                 throw new Exception();
                             }
+
+                            break;
                         }
                     }
                 }
@@ -376,16 +389,24 @@ namespace Petecat.Data.Formatters
                 {
                     throw new Exception();
                 }
+
+                readByte = stream.ReadByte();
             }
 
             return instance;
         }
+
+        #endregion
+
+        #region 公共方法
 
         private static byte[] ReadStream(Stream stream, int count)
         {
             var buffer = new byte[count];
             stream.Read(buffer, 0, buffer.Length);
             return buffer;
-        } 
+        }
+
+        #endregion
     }
 }

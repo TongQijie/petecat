@@ -18,6 +18,45 @@ namespace Petecat.Test.Data.Formatters
 
         [BinarySerializable("prices")]
         public List<Price> Prices { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Product)
+            {
+                var anotherProduct = obj as Product;
+                if (Id != anotherProduct.Id || Name != anotherProduct.Name || CheckInTime != anotherProduct.CheckInTime)
+                {
+                    return false;
+                }
+
+                if ((Prices == null && anotherProduct.Prices != null) || (Prices != null && anotherProduct.Prices == null))
+                {
+                    return false;
+                }
+
+                if (Prices != null && anotherProduct.Prices != null)
+                {
+                    if (Prices.Count != anotherProduct.Prices.Count)
+                    {
+                        return false;
+                    }
+
+                    for (int i = 0; i < Prices.Count; i++)
+                    {
+                        if (Prices[i].Value != anotherProduct.Prices[i].Value || Prices[i].Region != anotherProduct.Prices[i].Region)
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                return true;
+            }
+            else
+            {
+                return base.Equals(obj);
+            }
+        }
     }
 
     public class Price

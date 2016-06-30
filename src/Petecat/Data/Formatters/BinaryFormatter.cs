@@ -22,14 +22,14 @@ namespace Petecat.Data.Formatters
 
         public T ReadObject<T>(Stream stream)
         {
-            return (T)BinarySerializer.Decode(typeof(T), stream);
+            return (T)BinarySerializer.Deserialize(typeof(T), stream);
         }
 
         public T ReadObject<T>(byte[] byteValues, int offset, int count)
         {
             var buffer = new byte[count];
             Buffer.BlockCopy(byteValues, offset, buffer, 0, count);
-            return (T)BinarySerializer.Decode(buffer, typeof(T));
+            return (T)BinarySerializer.Deserialize(buffer, typeof(T));
         }
 
         public object ReadObject(Type targetType, string path, Encoding encoding)
@@ -48,14 +48,14 @@ namespace Petecat.Data.Formatters
 
         public object ReadObject(Type targetType, Stream stream)
         {
-            return BinarySerializer.Decode(targetType, stream);
+            return BinarySerializer.Deserialize(targetType, stream);
         }
 
         public object ReadObject(Type targetType, byte[] byteValues, int offset, int count)
         {
             var buffer = new byte[count];
             Buffer.BlockCopy(byteValues, offset, buffer, 0, count);
-            return BinarySerializer.Decode(buffer, targetType);
+            return BinarySerializer.Deserialize(buffer, targetType);
         }
 
         public void WriteObject(object instance, string path, Encoding encoding)
@@ -71,22 +71,22 @@ namespace Petecat.Data.Formatters
         /// </summary>
         public string WriteObject(object instance)
         {
-            return Convert.ToBase64String(BinarySerializer.Encode(instance));
+            return Convert.ToBase64String(BinarySerializer.Serialize(instance));
         }
 
         public void WriteObject(object instance, Stream stream)
         {
-            BinarySerializer.Encode(instance, stream);
+            BinarySerializer.Serialize(instance, stream);
         }
 
         public string WriteString(object instance)
         {
-            return Convert.ToBase64String(BinarySerializer.Encode(instance));
+            return Convert.ToBase64String(BinarySerializer.Serialize(instance));
         }
 
         public byte[] WriteBytes(object instance)
         {
-            return BinarySerializer.Encode(instance);
+            return BinarySerializer.Serialize(instance);
         }
     }
 }

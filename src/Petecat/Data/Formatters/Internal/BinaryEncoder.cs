@@ -60,6 +60,10 @@ namespace Petecat.Data.Formatters
             {
                 return Encoding.UTF8.GetBytes(valueObject.ToString());
             }
+            else if (valueType == typeof(Guid))
+            {
+                return ((Guid)valueObject).ToByteArray();
+            }
             else if (valueType == typeof(DateTime))
             {
                 return BitConverter.GetBytes(((DateTime)valueObject).ToBinary());
@@ -127,6 +131,12 @@ namespace Petecat.Data.Formatters
             else if (targetType == typeof(decimal))
             {
                 return decimal.Parse(Encoding.UTF8.GetString(byteValues, startIndex, length));
+            }
+            else if (targetType == typeof(Guid))
+            {
+                var data = new byte[length];
+                Buffer.BlockCopy(byteValues, startIndex, data, 0, length);
+                return new Guid(data);
             }
             else if (targetType == typeof(DateTime))
             {
