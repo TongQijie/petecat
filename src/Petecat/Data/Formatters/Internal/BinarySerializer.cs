@@ -278,5 +278,114 @@ namespace Petecat.Data.Formatters
 
             return instance;
         }
+
+        public static object Decode(Type targetType, Stream stream)
+        {
+            var instance = Activator.CreateInstance(targetType);
+
+            var readByte = -1;
+            while ((readByte = stream.ReadByte()) != -1)
+            {
+                if (readByte == ObjectMarker)
+                {
+                    break;
+                }
+            }
+
+            readByte = stream.ReadByte();
+            while (readByte != -1)
+            {
+                if (readByte == PropertyNameMarker)
+                {
+                    readByte = stream.ReadByte();
+                    var propertyNameLength = readByte;
+                    var propertyName = Encoding.UTF8.GetString(ReadStream(stream, propertyNameLength));
+
+                    if (typeof(ICollection).IsAssignableFrom(targetType))
+                    {
+                        var propertyType = targetType.GetGenericArguments().FirstOrDefault() ?? targetType.GetElementType();
+
+                        var marker = stream.ReadByte();
+                        if (marker == ObjectMarker)
+                        {
+                            stream.Seek(-1, SeekOrigin.Current);
+                            (instance as IList).Add(Decode(propertyType, stream));
+                        }
+                        else if (marker == PropertyValueMarker)
+                        {
+                            var propertyValueLength = (stream.ReadByte() << 8);
+                            propertyValueLength += stream.ReadByte();
+
+                            var byteValues = ReadStream(stream, propertyValueLength);
+                            (instance as IList).Add(BinaryEncoder.Decode(propertyType, byteValues, 0, byteValues.Length));
+                        }
+                        else if (marker < PropertyValueMarker)
+                        {
+                            var propertyValueLength = marker;
+
+                            var byteValues = ReadStream(stream, propertyValueLength);
+                            (instance as IList).Add(BinaryEncoder.Decode(propertyType, byteValues, 0, byteValues.Length));
+                        }
+                        else
+                        {
+                            throw new Exception();
+                        }
+                    }
+                    else
+                    {
+                        foreach (var propertyInfo in targetType.GetProperties())
+                        {
+                            Attributes.BinarySerializableAttribute attribute = null;
+                            if (!ReflectionUtility.TryGetCustomAttribute<Attributes.BinarySerializableAttribute>(propertyInfo, x => x.Name == propertyName, out attribute))
+                            {
+                                continue;
+                            }
+
+                            var marker = stream.ReadByte();
+                            if (marker == ObjectMarker)
+                            {
+                                propertyInfo.SetValue(instance, Decode(propertyInfo.PropertyType, stream), null);
+                            }
+                            else if (marker == PropertyValueMarker)
+                            {
+                                var propertyValueLength = (stream.ReadByte() << 8);
+                                propertyValueLength += stream.ReadByte();
+
+                                var byteValues = ReadStream(stream, propertyValueLength);
+                                propertyInfo.SetValue(instance, BinaryEncoder.Decode(propertyInfo.PropertyType, byteValues, 0, byteValues.Length), null);
+                            }
+                            else if (marker < PropertyValueMarker)
+                            {
+                                var propertyValueLength = marker;
+
+                                var byteValues = ReadStream(stream, propertyValueLength);
+                                propertyInfo.SetValue(instance, BinaryEncoder.Decode(propertyInfo.PropertyType, byteValues, 0, byteValues.Length), null);
+                            }
+                            else
+                            {
+                                throw new Exception();
+                            }
+                        }
+                    }
+                }
+                else if (readByte == ObjectMarker)
+                {
+                    return instance;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+
+            return instance;
+        }
+
+        private static byte[] ReadStream(Stream stream, int count)
+        {
+            var buffer = new byte[count];
+            stream.Read(buffer, 0, buffer.Length);
+            return buffer;
+        } 
     }
 }

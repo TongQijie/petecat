@@ -8,37 +8,47 @@ namespace Petecat.Data.Formatters
     {
         public T ReadObject<T>(string path, Encoding encoding)
         {
-            throw new System.NotImplementedException();
+            using (var inputStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                return (T)ReadObject(typeof(T), inputStream);
+            }
         }
 
         public T ReadObject<T>(string stringValue)
         {
-            throw new System.NotImplementedException();
+            var byteValues = Convert.FromBase64String(stringValue);
+            return (T)ReadObject(typeof(T), byteValues, 0, byteValues.Length);
         }
 
         public T ReadObject<T>(Stream stream)
         {
-            throw new System.NotImplementedException();
+            return (T)BinarySerializer.Decode(typeof(T), stream);
         }
 
         public T ReadObject<T>(byte[] byteValues, int offset, int count)
         {
-            throw new System.NotImplementedException();
+            var buffer = new byte[count];
+            Buffer.BlockCopy(byteValues, offset, buffer, 0, count);
+            return (T)BinarySerializer.Decode(buffer, typeof(T));
         }
 
         public object ReadObject(Type targetType, string path, Encoding encoding)
         {
-            throw new System.NotImplementedException();
+            using (var inputStream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            {
+                return ReadObject(targetType, inputStream);
+            }
         }
 
         public object ReadObject(Type targetType, string stringValue)
         {
-            throw new System.NotImplementedException();
+            var byteValues = Convert.FromBase64String(stringValue);
+            return ReadObject(targetType, byteValues, 0, byteValues.Length);
         }
 
         public object ReadObject(Type targetType, Stream stream)
         {
-            throw new System.NotImplementedException();
+            return BinarySerializer.Decode(targetType, stream);
         }
 
         public object ReadObject(Type targetType, byte[] byteValues, int offset, int count)
