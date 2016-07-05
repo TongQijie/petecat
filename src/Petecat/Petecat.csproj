@@ -140,16 +140,6 @@
     <Compile Include="Network\Http\HttpConstants.cs" />
     <Compile Include="Network\Http\HttpContentType.cs" />
     <Compile Include="Network\Http\HttpVerb.cs" />
-    <Compile Include="Network\Shared\ByteArray.cs" />
-    <Compile Include="Network\Shared\DataTypeHandler.cs" />
-    <Compile Include="Network\Shared\FieldItemAttribute.cs" />
-    <Compile Include="Network\Shared\DatagramBase.cs" />
-    <Compile Include="Network\Shared\IDatagram.cs" />
-    <Compile Include="Network\Shared\IDatagramFinder.cs" />
-    <Compile Include="Network\Shared\ISocketClient.cs" />
-    <Compile Include="Network\Shared\PropertyItem.cs" />
-    <Compile Include="Network\Shared\ProtocolItemBase.cs" />
-    <Compile Include="Network\Tcp\TcpSocket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threading\Configuration\BackgroundTask.cs" />
     <Compile Include="Threading\Configuration\BackgroundTaskArgument.cs" />
