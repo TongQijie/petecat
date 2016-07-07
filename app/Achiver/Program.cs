@@ -3,6 +3,7 @@ using Petecat.Console.Command;
 using Petecat.Archiving;
 
 using System;
+using System.Linq;
 
 namespace Achiver
 {
@@ -10,7 +11,7 @@ namespace Achiver
     {
         static void Main(string[] args)
         {
-            var terminalCommandLine = TerminalCommandLineUtility.Parse(string.Format("{0} {1}", "arch", string.Join(" ", args)));
+            var terminalCommandLine = TerminalCommandLineUtility.Parse(string.Format("{0} {1}", "arch", string.Join(" ", args.Select(x => x.Contains(' ') ? ('\"' + x + '\"') : x))));
             if (terminalCommandLine.ContainKeys("m", "mode", "i", "input", "o", "output"))
             {
                 CommonUtility.Write("mode/input/ouput argument is missing.");
