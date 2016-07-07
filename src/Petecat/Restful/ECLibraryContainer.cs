@@ -182,27 +182,25 @@ namespace Petecat.Restful
             IEnumerable<Assembly> assemblies = ECLibraryContainer.Get<ICurrentAppDomain>().GetDomainAssemblies();
             IAssemblyTypeLoader typeloader = ECLibraryContainer.Get<IAssemblyTypeLoader>();
             IActivator activator = ECLibraryContainer.Get<IActivator>();
-            StringBuilder messageBuilder = new StringBuilder();
             IEnumerable<Type> filtedtypes = assemblies.SelectMany(delegate(Assembly assembly)
             {
                 string message;
                 IEnumerable<Type> types = typeloader.GetTypes(assembly, new Func<Type, bool>(ECLibraryContainer.FilterFrameworkServiceLocator), out message);
-                if (!string.IsNullOrWhiteSpace(message))
-                {
-                    messageBuilder.AppendLine(message);
-                }
                 return types;
             }).ToArray<Type>();
-            if (messageBuilder.Length > 0)
+
+            var container = filtedtypes.Select(x => activator.CreateInstanceWithConstructorInjection(x) as IAutoSetupServicesContainer).Where(x => x != null).OrderByDescending(x => x.Priority).FirstOrDefault<IAutoSetupServicesContainer>();
+            if (container != null)
             {
-                ECLibraryContainer.LogException(messageBuilder.ToString());
+                ECLibraryContainer.singletonServicesContainer = container.Resolve<IServicesContainer>();
             }
-            ECLibraryContainer.singletonServicesContainer = (from framewordServiceContainerType in filtedtypes
-                                                             select activator.CreateInstanceWithConstructorInjection(framewordServiceContainerType) as IAutoSetupServicesContainer into locator
-                                                             where locator != null
-                                                             select locator into container
-                                                             orderby container.Priority descending
-                                                             select container).FirstOrDefault<IAutoSetupServicesContainer>().Resolve<IServicesContainer>();
+
+            //ECLibraryContainer.singletonServicesContainer = (from framewordServiceContainerType in filtedtypes
+            //                                                 select activator.CreateInstanceWithConstructorInjection(framewordServiceContainerType) as IAutoSetupServicesContainer into locator
+            //                                                 where locator != null
+            //                                                 select locator into container
+            //                                                 orderby container.Priority descending
+            //                                                 select container).FirstOrDefault<IAutoSetupServicesContainer>().Resolve<IServicesContainer>();
         }
 
         /// <summary>
@@ -213,26 +211,6 @@ namespace Petecat.Restful
         private static bool FilterFrameworkServiceLocator(Type type)
         {
             return type.GetTypeInfo().ImplementedInterfaces.Any((Type itfc) => itfc == typeof(IAutoSetupServicesContainer));
-        }
-
-        /// <summary>
-        /// Log message.
-        /// </summary>
-        /// <param name="content">Message content.</param>
-        private static void LogException(string content)
-        {
-            if (!string.IsNullOrWhiteSpace(content))
-            {
-                try
-                {
-                    string fileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "FrameworkLoadException", DateTime.Now.ToString("yyyyMMdd-HHmmss-fffffff") + "-FrameworkLocator" + ".log");
-                    //fileName.EnsureFolderExist();
-                    File.WriteAllText(fileName, content);
-                }
-                catch
-                {
-                }
-            }
         }
     }
 }

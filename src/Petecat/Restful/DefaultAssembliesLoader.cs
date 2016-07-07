@@ -175,7 +175,7 @@ namespace Petecat.Restful
             }
             else
             {
-                string currentFolder = this.staticPath.GetFileName(path);
+                string currentFolder = this.staticPath.GetDirectoryName(path);
                 result = (!string.Equals("obj", currentFolder, StringComparison.OrdinalIgnoreCase) && !this.staticConfigurationManager.GetAppSetting("AssemblyLoaderFilter").Split(new char[]
 				{
 					';'

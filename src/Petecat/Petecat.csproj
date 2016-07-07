@@ -150,7 +150,9 @@
     <Compile Include="Restful\DefaultAssembliesLoader.cs" />
     <Compile Include="Restful\DefaultAssemblyTypeLoader.cs" />
     <Compile Include="Restful\DefaultDictionaryUtility.cs" />
+    <Compile Include="Restful\DefaultServicesContainerWithBizUnit.cs" />
     <Compile Include="Restful\DefaultServicesDefinitionContainer.cs" />
+    <Compile Include="Restful\DefaultServicesScopeWithBizUnit.cs" />
     <Compile Include="Restful\ECLibraryContainer.cs" />
     <Compile Include="Restful\EnumerableExtensions.cs" />
     <Compile Include="Restful\HttpApplicationBase.cs" />
@@ -161,12 +163,14 @@
     <Compile Include="Restful\IAssemblyUtility.cs" />
     <Compile Include="Restful\IAutoRegisterFiltersRegister.cs" />
     <Compile Include="Restful\IAutoSetupServicesContainer.cs" />
+    <Compile Include="Restful\IBizUnit.cs" />
     <Compile Include="Restful\IContainerAdapter.cs" />
     <Compile Include="Restful\ICurrentAppDomain.cs" />
     <Compile Include="Restful\IDictionaryUtility.cs" />
     <Compile Include="Restful\IServiceDefinition.cs" />
     <Compile Include="Restful\IServiceLocator.cs" />
     <Compile Include="Restful\IServicesContainer.cs" />
+    <Compile Include="Restful\IServicesContainerWithBizUnit.cs" />
     <Compile Include="Restful\IServiceScope.cs" />
     <Compile Include="Restful\IServicesDefinitionContainer.cs" />
     <Compile Include="Restful\IServicesRegister.cs" />

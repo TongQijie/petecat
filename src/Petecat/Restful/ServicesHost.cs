@@ -17,7 +17,7 @@
         /// <summary>
         /// Initializes services host.
         /// </summary>
-        protected virtual void InitializeServicesHost()
+        public virtual void InitializeServicesHost()
         {
             IAppHostBase hostbase = this.servicesLocator.Resolve<IAppHostBase>();
             hostbase.InitApp();
