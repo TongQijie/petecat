@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Linq;
 
 using Petecat.Data.Errors;
 using Petecat.Data.Formatters;
@@ -29,12 +30,56 @@ namespace Petecat.Network.Http
             }
         }
 
+        public byte[] GetBytes(Action<int, bool> progress, int bufferSize = 4 * 1024)
+        {
+            var data = new byte[0];
+
+            using (var inputStream = Response.GetResponseStream())
+            {
+                var buffer = new byte[bufferSize];
+                int count = 0;
+
+                while ((count = inputStream.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    data = data.Concat(new byte[count]).ToArray();
+                    Buffer.BlockCopy(buffer, 0, data, data.Length - count, count);
+
+                    progress(data.Length, false);
+                }
+            }
+
+            progress(data.Length, true);
+
+            return data;
+        }
+
         public void GetStream(Stream outputStream)
         {
             using (var inputStream = Response.GetResponseStream())
             {
                 inputStream.CopyTo(outputStream);
             }
+        }
+
+        public void GetStream(Stream outputStream, Action<int, bool> progress, int bufferSize = 4 * 1024)
+        {
+            var totalReadCount = 0;
+
+            using (var inputStream = Response.GetResponseStream())
+            {
+                var buffer = new byte[bufferSize];
+                int count = 0;
+
+                while ((count = inputStream.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    outputStream.Write(buffer, 0, count);
+                    totalReadCount += count;
+
+                    progress(totalReadCount, false);
+                }
+            }
+
+            progress(totalReadCount, true);
         }
 
         public string GetString(Encoding encoding)
