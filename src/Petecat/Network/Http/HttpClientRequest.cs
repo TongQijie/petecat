@@ -107,7 +107,14 @@ namespace Petecat.Network.Http
 
         public HttpClientResponse GetResponse()
         {
-            return new HttpClientResponse(Request.GetResponse() as HttpWebResponse);
+            try
+            {
+                return new HttpClientResponse(Request.GetResponse() as HttpWebResponse);
+            }
+            catch (WebException e)
+            {
+                return new HttpClientResponse(e.Response as HttpWebResponse);
+            }
         }
 
         public HttpClientResponse GetResponse(HttpContentType contentType, object requestBody)

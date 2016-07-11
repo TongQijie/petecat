@@ -14,7 +14,11 @@ namespace Petecat.Network.Http
         public HttpClientResponse(HttpWebResponse response)
         {
             Response = response;
+
+            StatusCode = response.StatusCode;
         }
+
+        public HttpStatusCode StatusCode { get; private set; }
 
         public HttpWebResponse Response { get; private set; }
 
