@@ -6,6 +6,8 @@
 
         Xml,
 
+        DataContractXml,
+
         Json,
 
         FormUrlEncoded,

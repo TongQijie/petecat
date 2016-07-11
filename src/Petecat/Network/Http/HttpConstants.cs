@@ -18,7 +18,8 @@ namespace Petecat.Network.Http
             HttpContentTypeStringMapping.Add(HttpContentType.FormUrlEncoded, "application/x-www-form-urlencoded");
 
             HttpContentTypeFormatterMapping = new Dictionary<HttpContentType, DataFormatterContent>();
-            HttpContentTypeFormatterMapping.Add(HttpContentType.Xml, DataFormatterContent.DataContractXml);
+            HttpContentTypeFormatterMapping.Add(HttpContentType.Xml, DataFormatterContent.Xml);
+            HttpContentTypeFormatterMapping.Add(HttpContentType.DataContractXml, DataFormatterContent.DataContractXml);
             HttpContentTypeFormatterMapping.Add(HttpContentType.Json, DataFormatterContent.DataContractJson);
         }
     }
