@@ -68,6 +68,12 @@ namespace Petecat.Utility
             return false;
         }
 
+        public static bool ContainsCustomAttribute<TAttribute>(MemberInfo memberInfo) where TAttribute : class
+        {
+            var attributes = memberInfo.GetCustomAttributes(typeof(TAttribute), false);
+            return attributes != null && attributes.Length > 0;
+        }
+
         public static TAttribute GetCustomAttribute<TAttribute>(MemberInfo memberInfo) where TAttribute : class
         {
             var attributes = memberInfo.GetCustomAttributes(typeof(TAttribute), false);
@@ -139,6 +145,11 @@ namespace Petecat.Utility
 
             matchedParameters = null;
             return false;
+        }
+
+        internal static bool TryGetCustomAttribute<T1>(Type type, Predicate<IOC.Attributes.AutoResolvableAttribute> predicate, out IOC.Attributes.AutoResolvableAttribute attribute)
+        {
+            throw new NotImplementedException();
         }
     }
 }

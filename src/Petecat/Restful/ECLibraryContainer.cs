@@ -189,18 +189,24 @@ namespace Petecat.Restful
                 return types;
             }).ToArray<Type>();
 
-            var container = filtedtypes.Select(x => activator.CreateInstanceWithConstructorInjection(x) as IAutoSetupServicesContainer).Where(x => x != null).OrderByDescending(x => x.Priority).FirstOrDefault<IAutoSetupServicesContainer>();
-            if (container != null)
-            {
-                ECLibraryContainer.singletonServicesContainer = container.Resolve<IServicesContainer>();
-            }
+            //var container = filtedtypes.Select(x => activator.CreateInstanceWithConstructorInjection(x) as IAutoSetupServicesContainer).Where(x => x != null).OrderByDescending(x => x.Priority).FirstOrDefault<IAutoSetupServicesContainer>();
+            //if (container != null)
+            //{
+            //    ECLibraryContainer.singletonServicesContainer = container.Resolve<IServicesContainer>();
+            //}
 
-            //ECLibraryContainer.singletonServicesContainer = (from framewordServiceContainerType in filtedtypes
-            //                                                 select activator.CreateInstanceWithConstructorInjection(framewordServiceContainerType) as IAutoSetupServicesContainer into locator
-            //                                                 where locator != null
-            //                                                 select locator into container
-            //                                                 orderby container.Priority descending
-            //                                                 select container).FirstOrDefault<IAutoSetupServicesContainer>().Resolve<IServicesContainer>();
+            var type = filtedtypes.First();
+
+            var instance = activator.CreateInstanceWithConstructorInjection(type) as IAutoSetupServicesContainer;
+
+            instance.Resolve<IServicesContainer>();
+
+            ECLibraryContainer.singletonServicesContainer = (from framewordServiceContainerType in filtedtypes
+                                                             select activator.CreateInstanceWithConstructorInjection(framewordServiceContainerType) as IAutoSetupServicesContainer into locator
+                                                             where locator != null
+                                                             select locator into container
+                                                             orderby container.Priority descending
+                                                             select container).FirstOrDefault<IAutoSetupServicesContainer>().Resolve<IServicesContainer>();
         }
 
         /// <summary>
