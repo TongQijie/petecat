@@ -3,7 +3,6 @@ using System.Linq;
 
 using Petecat.Collection;
 using Petecat.Utility;
-using System.Reflection;
 
 namespace Petecat.IOC
 {

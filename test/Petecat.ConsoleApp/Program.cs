@@ -8,9 +8,6 @@ namespace Petecat.ConsoleApp
     {
         static void Main(string[] args)
         {
-            var app = new Petecat.Restful.ServicesHost();
-            app.InitializeServicesHost();
-
             CommonUtility.ReadAnyKey();
         }
     }

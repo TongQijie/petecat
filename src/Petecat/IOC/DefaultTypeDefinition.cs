@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-using Petecat.Collection;
-
 namespace Petecat.IOC
 {
     public class DefaultTypeDefinition : ITypeDefinition

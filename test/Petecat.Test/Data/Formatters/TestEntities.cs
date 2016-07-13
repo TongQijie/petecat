@@ -57,6 +57,11 @@ namespace Petecat.Test.Data.Formatters
                 return base.Equals(obj);
             }
         }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 
     public class Price

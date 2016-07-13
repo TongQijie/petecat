@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Petecat.IOC
+﻿namespace Petecat.IOC
 {
     public class MethodArguments
     {

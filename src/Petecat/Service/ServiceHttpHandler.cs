@@ -1,6 +1,6 @@
 ﻿using System.Web;
 
-namespace Petecat.Restful
+namespace Petecat.Service
 {
     public class ServiceHttpHandler : IHttpHandler
     {

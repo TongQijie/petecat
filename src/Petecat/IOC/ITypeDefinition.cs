@@ -1,5 +1,6 @@
-﻿using Petecat.Collection;
-using System;
+﻿using System;
+
+using Petecat.Collection;
 
 namespace Petecat.IOC
 {
