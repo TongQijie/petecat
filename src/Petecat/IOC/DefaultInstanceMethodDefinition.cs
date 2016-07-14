@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using System.Linq;
+using System;
+
 namespace Petecat.IOC
 {
     public class DefaultInstanceMethodDefinition : IInstanceMethodDefinition
@@ -22,6 +24,15 @@ namespace Petecat.IOC
                 {
                     return false;
                 }
+
+                try
+                {
+                    Convert.ChangeType(argument.ArgumentValue, parameterInfo.ParameterType);
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
             }
 
             return true;
@@ -39,7 +50,15 @@ namespace Petecat.IOC
                     return false;
                 }
 
-                matchedArguments = matchedArguments.Concat(new object[] { argument.ArgumentValue }).ToArray();
+                try
+                {
+                    var argumentValue = Convert.ChangeType(argument.ArgumentValue, parameterInfo.ParameterType);
+                    matchedArguments = matchedArguments.Concat(new object[] { argumentValue }).ToArray();
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
             }
 
             return true;

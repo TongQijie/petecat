@@ -1,9 +1,6 @@
 ﻿using System.Web;
 using System.Linq;
 using System;
-using System.Collections.Generic;
-
-using Petecat.Data.Formatters;
 
 namespace Petecat.Service
 {
@@ -13,45 +10,45 @@ namespace Petecat.Service
 
         public void ProcessRequest(HttpContext context)
         {
-            var parts = ServiceHttpPathHelper.Get(context.Request.RawUrl).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
+            var request = new ServiceHttpRequest(context.Request);
+            var response = new ServiceHttpResponse(context.Response, context.Request.AcceptTypes);
+
+            try
+            {
+                InternalProcessRequest(request, response);
+                response.SetStatusCode(200);
+            }
+            catch (Exception e)
+            {
+                response.SetStatusCode(400);
+                response.WriteObject(e.Message);
+            }
+        }
+
+        private void InternalProcessRequest(ServiceHttpRequest request, ServiceHttpResponse response)
+        {
+            var parts = ServiceHttpPathHelper.Get(request.Request.RawUrl).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
             if (parts.Length == 0 || parts.Length > 2)
             {
-                context.Response.Write("Welcome to Service Host. Please specify service name and method name to access specified service.");
-                return;
+                throw new Exception("Welcome to Service Host. Please specify service name and method name to access specified service.");
             }
 
             if (ServiceManager.Instance == null)
             {
-                context.Response.Write("Service Manager has not initialized.");
-                return;
+                throw new Exception("Service Manager has not initialized.");
             }
 
-            if (context.Request.HttpMethod == "GET")
+            if (request.Request.HttpMethod.Equals("GET", StringComparison.OrdinalIgnoreCase))
             {
-                var parameters = new Dictionary<string, object>();
-                foreach (var key in context.Request.QueryString.Keys)
-                {
-                    parameters.Add(key.ToString(), context.Request.QueryString[key.ToString()]);
-                }
-
-                try
-                {
-                    var response = ServiceManager.Instance.Invoke(parts[0], parts.Length > 1 ? parts[1] : "", parameters, context.Response.ContentType);
-                    context.Response.Write(response);
-                }
-                catch (Exception e)
-                {
-                    context.Response.Write("Error: " + e.Message);
-                }
+                ServiceManager.Instance.InvokeGet(request, response);
             }
-            else if (context.Request.HttpMethod == "POST")
+            else if (request.Request.HttpMethod.Equals("POST", StringComparison.OrdinalIgnoreCase))
             {
-                var response = ServiceManager.Instance.Invoke(parts[0], parts.Length > 1 ? parts[1] : "", context.Request.ContentType, context.Request.InputStream, context.Response.ContentType);
-                context.Response.Write(response);
+                ServiceManager.Instance.InvokePost(request, response);
             }
             else
             {
-                context.Response.Write(string.Format("Http Method '{0}' not support now.", context.Request.HttpMethod));
+                throw new Exception(string.Format("Http Method '{0}' not support now.", request.Request.HttpMethod));
             }
         }
     }

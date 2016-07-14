@@ -165,6 +165,8 @@
     <Compile Include="Service\ServiceHttpHandler.cs" />
     <Compile Include="Service\ServiceHttpHandlerFactory.cs" />
     <Compile Include="Service\ServiceHttpPathHelper.cs" />
+    <Compile Include="Service\ServiceHttpRequest.cs" />
+    <Compile Include="Service\ServiceHttpResponse.cs" />
     <Compile Include="Service\ServiceManager.cs" />
     <Compile Include="Service\ServiceMethodDefinition.cs" />
     <Compile Include="Threading\Configuration\BackgroundTask.cs" />

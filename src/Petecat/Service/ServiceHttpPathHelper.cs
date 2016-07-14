@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 
 namespace Petecat.Service
 {
@@ -12,7 +12,7 @@ namespace Petecat.Service
                 uri = uri.Remove(uri.IndexOf('?'));
             }
 
-            return uri.Split('/');
+            return uri.Split('/').Where(x => !string.IsNullOrWhiteSpace(x.Trim())).ToArray();
         }
     }
 }

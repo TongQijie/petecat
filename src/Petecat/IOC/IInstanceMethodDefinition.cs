@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-namespace Petecat.IOC
+﻿namespace Petecat.IOC
 {
     public interface IInstanceMethodDefinition : IMemberDefinition
     {

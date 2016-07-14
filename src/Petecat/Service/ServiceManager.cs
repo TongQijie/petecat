@@ -38,51 +38,28 @@ namespace Petecat.Service
             });
         }
 
-        public object Invoke(string serviceName, string methodName, params object[] arguments)
+        public void InvokeGet(ServiceHttpRequest request, ServiceHttpResponse response)
         {
-            var parameters = new MethodArgument[arguments.Length];
-            for (int i = 0; i < arguments.Length; i++)
-            {
-                parameters[i] = new MethodArgument()
-                {
-                    ArgumentType = arguments[i].GetType(),
-                    ArgumentValue = arguments[i],
-                    Index = i,
-                };
-            }
-
-            var serviceDefinition = _LoadedServiceDefinitions.Get(serviceName, null);
+            var serviceDefinition = _LoadedServiceDefinitions.Get(request.ServiceName, null);
             if (serviceDefinition == null)
             {
-                throw new Exception(string.Format("service named '{0}' does not exist.", serviceName));
+                throw new Exception(string.Format("service named '{0}' does not exist.", request.ServiceName));
             }
 
-            var methods = serviceDefinition.Methods.Where(x => x.MethodName.Equals(methodName, StringComparison.OrdinalIgnoreCase)).ToArray();
-            if (methods.Length == 0)
+            var methodArguments = request.ReadQueryString().Select(x => new MethodArgument() { Name = x.Key, ArgumentValue = x.Value }).ToArray();
+            ServiceMethodDefinition method = null;
+            if (string.IsNullOrEmpty(request.MethodName))
             {
-                var defaultMethod = serviceDefinition.Methods.FirstOrDefault(x => x.IsDefaultMethod);
-                if (defaultMethod == null || !defaultMethod.ServiceMethod.IsMatch(parameters))
-                {
-                    throw new Exception(string.Format("method named '{0}' does not exist.", methodName));
-                }
-                else
-                {
-                    methods = new ServiceMethodDefinition[] { defaultMethod };
-                }
+                method = serviceDefinition.Methods.FirstOrDefault(x => x.IsDefaultMethod && x.ServiceMethod.IsMatch(methodArguments));
             }
             else
             {
-                methods = methods.Where(x => x.ServiceMethod.IsMatch(parameters)).ToArray();
+                method = serviceDefinition.Methods.FirstOrDefault(x => x.MethodName.Equals(request.MethodName, StringComparison.OrdinalIgnoreCase) && x.ServiceMethod.IsMatch(methodArguments));
             }
 
-            if (methods.Length == 0)
+            if (method == null)
             {
-                throw new Exception(string.Format("method named '{0}' does not exist.", methodName));
-            }
-            
-            if (methods.Length > 1)
-            {
-                throw new Exception(string.Format("more than one method named '{0}' exists.", methodName));
+                throw new Exception("method does not exist or matchs.");
             }
 
             if (serviceDefinition.Singleton == null)
@@ -90,45 +67,34 @@ namespace Petecat.Service
                 serviceDefinition.Singleton = _Container.AutoResolve(serviceDefinition.ServiceType.Info as Type);
             }
 
-            return methods[0].ServiceMethod.Invoke(serviceDefinition.Singleton, arguments);
+            object[] matchedArgumentValues;
+            method.ServiceMethod.TryGetMatchedArguments(methodArguments, out matchedArgumentValues);
+            response.WriteObject(method.ServiceMethod.Invoke(serviceDefinition.Singleton, matchedArgumentValues));
         }
 
-        public object Invoke(string serviceName, string methodName, Dictionary<string, object> arguments, string responseContentType)
+        public void InvokePost(ServiceHttpRequest request, ServiceHttpResponse response)
         {
-            var parameters = arguments.Select(x => new MethodArgument() { ArgumentType = x.Value.GetType(), ArgumentValue = x.Value, Name = x.Key }).ToArray();
-
-            var serviceDefinition = _LoadedServiceDefinitions.Get(serviceName, null);
+            var serviceDefinition = _LoadedServiceDefinitions.Get(request.ServiceName, null);
             if (serviceDefinition == null)
             {
-                throw new Exception(string.Format("service named '{0}' does not exist.", serviceName));
+                throw new Exception(string.Format("service named '{0}' does not exist.", request.ServiceName));
             }
 
-            var methods = serviceDefinition.Methods.Where(x => x.MethodName.Equals(methodName, StringComparison.OrdinalIgnoreCase)).ToArray();
-            if (methods.Length == 0)
+            ServiceMethodDefinition method = null;
+            if (string.IsNullOrEmpty(request.MethodName))
             {
-                var defaultMethod = serviceDefinition.Methods.FirstOrDefault(x => x.IsDefaultMethod);
-                if (defaultMethod == null || !defaultMethod.ServiceMethod.IsMatch(parameters))
-                {
-                    throw new Exception(string.Format("method named '{0}' does not exist.", methodName));
-                }
-                else
-                {
-                    methods = new ServiceMethodDefinition[] { defaultMethod };
-                }
+                method = serviceDefinition.Methods.FirstOrDefault(x => x.IsDefaultMethod
+                    && (x.ServiceMethod.Info as MethodInfo).GetParameters().Length == 1);
             }
             else
             {
-                methods = methods.Where(x => x.ServiceMethod.IsMatch(parameters)).ToArray();
+                method = serviceDefinition.Methods.FirstOrDefault(x => x.MethodName.Equals(request.MethodName, StringComparison.OrdinalIgnoreCase)
+                    && (x.ServiceMethod.Info as MethodInfo).GetParameters().Length == 1);
             }
 
-            if (methods.Length == 0)
+            if (method == null)
             {
-                throw new Exception(string.Format("method named '{0}' does not exist.", methodName));
-            }
-
-            if (methods.Length > 1)
-            {
-                throw new Exception(string.Format("more than one method named '{0}' exists.", methodName));
+                throw new Exception("method does not exist or matchs.");
             }
 
             if (serviceDefinition.Singleton == null)
@@ -136,96 +102,8 @@ namespace Petecat.Service
                 serviceDefinition.Singleton = _Container.AutoResolve(serviceDefinition.ServiceType.Info as Type);
             }
 
-            object[] matchedArguments;
-            if (methods[0].ServiceMethod.TryGetMatchedArguments(parameters, out matchedArguments))
-            {
-                var response = methods[0].ServiceMethod.Invoke(serviceDefinition.Singleton, matchedArguments);
-
-                if (responseContentType.Contains("application/xml"))
-                {
-                    return new XmlFormatter().WriteString(response);
-                }
-                else if (responseContentType.Contains("application/json"))
-                {
-                    return new DataContractJsonFormatter().WriteString(response);
-                }
-                else
-                {
-                    return response;
-                }
-            }
-            else
-            {
-                throw new Exception("method parameter is not matched.");
-            }
-        }
-
-        public object Invoke(string serviceName, string methodName, string contentType, Stream inputStream, string responseContentType)
-        {
-            var serviceDefinition = _LoadedServiceDefinitions.Get(serviceName, null);
-            if (serviceDefinition == null)
-            {
-                throw new Exception(string.Format("service named '{0}' does not exist.", serviceName));
-            }
-
-            var methods = serviceDefinition.Methods.Where(x => x.MethodName.Equals(methodName, StringComparison.OrdinalIgnoreCase) 
-                && (x.ServiceMethod.Info as MethodInfo).GetParameters().Length == 1).ToArray();
-            if (methods.Length == 0)
-            {
-                var defaultMethod = serviceDefinition.Methods.FirstOrDefault(x => x.IsDefaultMethod);
-                if (defaultMethod == null)
-                {
-                    throw new Exception(string.Format("method named '{0}' does not exist.", methodName));
-                }
-                else
-                {
-                    methods = new ServiceMethodDefinition[] { defaultMethod };
-                }
-            }
-
-            if (methods.Length == 0)
-            {
-                throw new Exception(string.Format("method named '{0}' does not exist.", methodName));
-            }
-
-            if (methods.Length > 1)
-            {
-                throw new Exception(string.Format("more than one method named '{0}' exists.", methodName));
-            }
-
-            if (serviceDefinition.Singleton == null)
-            {
-                serviceDefinition.Singleton = _Container.AutoResolve(serviceDefinition.ServiceType.Info as Type);
-            }
-
-            var requestBodyType = (methods[0].ServiceMethod.Info as MethodInfo).GetParameters()[0].GetType();
-
-            object response = null;
-            if (contentType.Contains("application/xml"))
-            {
-                response = methods[0].ServiceMethod.Invoke(serviceDefinition.Singleton, new XmlFormatter().ReadObject(requestBodyType, inputStream));
-            }
-            else if (contentType.Contains("application/json"))
-            {
-                response = methods[0].ServiceMethod.Invoke(serviceDefinition.Singleton, new DataContractJsonFormatter().ReadObject(requestBodyType, inputStream));
-            }
-            else
-            {
-                throw new Exception(string.Format("Request content type '{0}' not support now.", contentType));
-            }
-
-            if (responseContentType.Contains("application/xml"))
-            {
-                return new XmlFormatter().WriteString(response);
-            }
-            else if (responseContentType.Contains("application/json"))
-            {
-                return new DataContractJsonFormatter().WriteString(response);
-            }
-            else
-            {
-                return response;
-            }
+            var requestBodyType = (method.ServiceMethod.Info as MethodInfo).GetParameters()[0].GetType();
+            response.WriteObject(method.ServiceMethod.Invoke(serviceDefinition.Singleton, request.ReadObject(requestBodyType)));
         }
     }
 }
