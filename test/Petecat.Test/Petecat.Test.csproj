@@ -69,6 +69,11 @@
     <Compile Include="Data\Ini\StringFormatterTest.cs" />
     <Compile Include="Data\Repository\DataCommandHelperTest.cs" />
     <Compile Include="Data\Repository\DataModel.cs" />
+    <Compile Include="IOC\AppleClass.cs" />
+    <Compile Include="IOC\BananaClass.cs" />
+    <Compile Include="IOC\DefaultContainerTest.cs" />
+    <Compile Include="IOC\IPearClass.cs" />
+    <Compile Include="IOC\PearClass.cs" />
     <Compile Include="Logging\Loggers\FileLoggerTest.cs" />
     <Compile Include="Network\Http\GlobalSession.cs" />
     <Compile Include="Network\Http\HttpClientBaseTest.cs" />
@@ -82,7 +87,9 @@
       <Name>Petecat</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Service\" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

@@ -2,8 +2,8 @@
 
 namespace Petecat.IOC.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
-    public class AutoResolvableAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+    public class AutoResolvableAttribute : ResolvableAttribute
     {
         public AutoResolvableAttribute(Type specifiedType)
         {

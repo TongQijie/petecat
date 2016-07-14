@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Collections.Generic;
 
 using Petecat.Collection;
 using Petecat.Utility;
@@ -8,7 +9,9 @@ namespace Petecat.IOC
 {
     public class DefaultContainer : IContainer
     {
-        private ThreadSafeKeyedObjectCollection<string, ITypeDefinition> LoadedTypeDefinitions = new ThreadSafeKeyedObjectCollection<string, ITypeDefinition>();
+        private ThreadSafeKeyedObjectCollection<string, ITypeDefinition> _LoadedTypeDefinitions = new ThreadSafeKeyedObjectCollection<string, ITypeDefinition>();
+
+        public IEnumerable<ITypeDefinition> LoadedTypeDefinitions { get { return _LoadedTypeDefinitions.Values; } }
 
         public object Resolve(Type targetType, params object[] arguments)
         {
@@ -22,57 +25,22 @@ namespace Petecat.IOC
 
         public object AutoResolve(Type targetType)
         {
-            ITypeDefinition typeDefinition;
-            if (TryGetTypeDefinition(targetType, out typeDefinition))
-            {
-                var defaultConstructor = typeDefinition.GetConstructors().FirstOrDefault();
-
-                foreach (var argument in defaultConstructor.Arguments)
-                {
-                    if (argument.ArgumentType.IsClass)
-                    {
-                        argument.ArgumentValue = AutoResolve(argument.ArgumentType);
-                    }
-                    else if (argument.ArgumentType.IsInterface)
-                    {
-                        var argumentTypeDefinition = LoadedTypeDefinitions.Values.Where(x => x.IsImplementInterface(argument.ArgumentType)).FirstOrDefault(x =>
-                        {
-                            Attributes.AutoResolvableAttribute attribute;
-                            return ReflectionUtility.TryGetCustomAttribute<Attributes.AutoResolvableAttribute>(x.Type, y => y.SpecifiedType.Equals(argument.ArgumentType), out attribute);
-                        });
-
-                        if (argumentTypeDefinition == null)
-                        {
-                            return null;
-                        }
-
-                        argument.ArgumentValue = AutoResolve(argumentTypeDefinition.Type);
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                }
-
-                return typeDefinition.GetInstance(defaultConstructor.Arguments.Select(x => x.ArgumentValue));
-            }
-
-            return null;
+            return InternalAutoResolve(targetType);
         }
 
         public T AutoResolve<T>()
         {
-            return (T)AutoResolve(typeof(T));
+            return (T)InternalAutoResolve(typeof(T));
         }
 
-        public bool ContainType(Type targetType)
+        public bool ContainTypeDefinition(Type targetType)
         {
-            return LoadedTypeDefinitions.Values.ToList().Exists(x => targetType.FullName == x.Key);
+            return _LoadedTypeDefinitions.Values.ToList().Exists(x => targetType.FullName == x.Key);
         }
 
         public bool TryGetTypeDefinition(Type targetType, out ITypeDefinition typeDefinition)
         {
-            typeDefinition = LoadedTypeDefinitions.Values.FirstOrDefault(x => x.Key == targetType.FullName);
+            typeDefinition = _LoadedTypeDefinitions.Values.FirstOrDefault(x => x.Key == targetType.FullName);
             return typeDefinition != null;
         }
 
@@ -83,7 +51,47 @@ namespace Petecat.IOC
                 return;
             }
 
-            typeDefinitions.Where(x => ReflectionUtility.ContainsCustomAttribute<Attributes.ResolvableAttribute>(x.Type)).ToList().ForEach(x => LoadedTypeDefinitions.Add(x));
+            typeDefinitions.Where(x => ReflectionUtility.ContainsCustomAttribute<Attributes.ResolvableAttribute>(x.Info)).ToList().ForEach(x => _LoadedTypeDefinitions.Add(x));
+        }
+
+        private object InternalAutoResolve(Type targetType)
+        {
+            if (targetType.IsClass)
+            {
+                ITypeDefinition typeDefinition;
+                if (TryGetTypeDefinition(targetType, out typeDefinition))
+                {
+                    var defaultConstructor = typeDefinition.Constructors.FirstOrDefault();
+
+                    foreach (var argument in defaultConstructor.MethodArguments)
+                    {
+                        argument.ArgumentValue = InternalAutoResolve(argument.ArgumentType);
+                    }
+
+                    return typeDefinition.GetInstance(defaultConstructor.MethodArguments.Select(x => x.ArgumentValue).ToArray());
+                }
+
+                return null;
+            }
+            else if (targetType.IsInterface)
+            {
+                var typeDefinition = _LoadedTypeDefinitions.Values.Where(x => x.IsImplementInterface(targetType)).FirstOrDefault(x =>
+                {
+                    Attributes.AutoResolvableAttribute attribute;
+                    return ReflectionUtility.TryGetCustomAttribute<Attributes.AutoResolvableAttribute>(x.Info, y => y.SpecifiedType.Equals(targetType), out attribute);
+                });
+
+                if (typeDefinition == null)
+                {
+                    return null;
+                }
+
+                return InternalAutoResolve(typeDefinition.Info as Type);
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

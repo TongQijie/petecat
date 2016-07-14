@@ -2,7 +2,7 @@
 
 namespace Petecat.IOC.Attributes
 {
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class ResolvableAttribute : Attribute
     {
     }

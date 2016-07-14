@@ -4,14 +4,14 @@ using Petecat.Collection;
 
 namespace Petecat.IOC
 {
-    public interface ITypeDefinition : IKeyedObject<string>
+    public interface ITypeDefinition : IKeyedObject<string>, IMemberDefinition
     {
         object GetInstance(params object[] arguments);
 
-        MethodArguments[] GetConstructors();
-
         bool IsImplementInterface(Type interfaceType);
 
-        Type Type { get; }
+        IConstructorDefinition[] Constructors { get; }
+
+        IInstanceMethodDefinition[] InstanceMethods { get; }
     }
 }

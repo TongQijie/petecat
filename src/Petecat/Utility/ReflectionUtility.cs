@@ -146,10 +146,5 @@ namespace Petecat.Utility
             matchedParameters = null;
             return false;
         }
-
-        internal static bool TryGetCustomAttribute<T1>(Type type, Predicate<IOC.Attributes.AutoResolvableAttribute> predicate, out IOC.Attributes.AutoResolvableAttribute attribute)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

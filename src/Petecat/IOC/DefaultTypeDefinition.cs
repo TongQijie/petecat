@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 
 namespace Petecat.IOC
 {
@@ -7,50 +8,65 @@ namespace Petecat.IOC
     {
         public DefaultTypeDefinition(Type type)
         {
-            Type = type;
+            Info = type;
         }
 
-        public string Key { get { return Type.FullName; } }
+        public string Key { get { return (Info as Type).FullName; } }
 
-        public Type Type { get; private set; }
+        public MemberInfo Info { get; private set; }
+
+        private IConstructorDefinition[] _Constructors = null;
+
+        public IConstructorDefinition[] Constructors
+        {
+            get
+            {
+                if (_Constructors == null)
+                {
+                    var constructors = new IConstructorDefinition[0];
+
+                    (Info as Type).GetConstructors().ToList().ForEach(x =>
+                    {
+                        constructors = constructors.Concat(new IConstructorDefinition[] { new DefaultConstructorDefinition(x) }).ToArray();
+                    });
+
+                    _Constructors = constructors;
+                }
+
+                return _Constructors;
+            }
+        }
+
+        private IInstanceMethodDefinition[] _InstanceMethods = null;
+
+        public IInstanceMethodDefinition[] InstanceMethods
+        {
+            get
+            {
+                if (_InstanceMethods == null)
+                {
+                    var instanceMethods = new IInstanceMethodDefinition[0];
+
+                    (Info as Type).GetMethods().ToList().ForEach(x =>
+                    {
+                        instanceMethods = instanceMethods.Concat(new IInstanceMethodDefinition[] { new DefaultInstanceMethodDefinition(x) }).ToArray();
+                    });
+
+                    _InstanceMethods = instanceMethods;
+                }
+
+                return _InstanceMethods;
+            }
+        }
 
         public object GetInstance(params object[] arguments)
         {
-            return Activator.CreateInstance(Type, arguments);
-        }
-
-        public MethodArguments[] GetConstructors()
-        {
-            var methodArgumentsArray = new MethodArguments[0];
-
-            var constructors = Type.GetConstructors();
-            foreach (var constructor in constructors)
-            {
-                var constructorParameters = constructor.GetParameters();
-                if (constructorParameters == null)
-                {
-                    continue;
-                }
-
-                var methodArguments = new MethodArguments();
-                methodArguments.Arguments = new MethodArgument[constructorParameters.Length];
-
-                for (int i = 0; i < constructorParameters.Length; i++)
-                {
-                    methodArguments.Arguments[i].Index = i;
-                    methodArguments.Arguments[i].Name = constructorParameters[i].Name;
-                    methodArguments.Arguments[i].ArgumentType = constructorParameters[i].ParameterType;
-                }
-
-                methodArgumentsArray = methodArgumentsArray.Concat(new MethodArguments[] { methodArguments }).ToArray();
-            }
-
-            return methodArgumentsArray;
+            return Activator.CreateInstance(Info as Type, arguments);
         }
 
         public bool IsImplementInterface(Type interfaceType)
         {
-            return interfaceType.IsInterface && interfaceType.IsAssignableFrom(Type);
+            return interfaceType.IsInterface && interfaceType.IsAssignableFrom(Info as Type);
         }
     }
 }
