@@ -6,6 +6,12 @@ namespace Petecat.Service
     {
         public static string[] Get(string uri)
         {
+            uri = uri.TrimStart('/');
+            if (uri.Contains("?"))
+            {
+                uri = uri.Remove(uri.IndexOf('?'));
+            }
+
             return uri.Split('/');
         }
     }

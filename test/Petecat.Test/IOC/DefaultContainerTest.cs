@@ -19,7 +19,7 @@ namespace Petecat.Test.IOC
 
             //var apple = container.AutoResolve<AppleClass>();
             //var banana = container.AutoResolve<BananaClass>();
-            var pear = container.AutoResolve<IPearClass>();
+            //var pear = container.AutoResolve<IPearClass>();
 
             var serviceManager = new ServiceManager(container);
             var response = serviceManager.Invoke("PearClass", "SayHi", "Hellooooooooo");
