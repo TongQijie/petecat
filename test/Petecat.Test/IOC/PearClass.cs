@@ -10,5 +10,17 @@ namespace Petecat.Test.IOC
         {
             return welcome;
         }
+
+        [ServiceMethod]
+        public BananaClass GetBanana(string name)
+        {
+            return new BananaClass() { Name = name };
+        }
+
+        [ServiceMethod]
+        public AppleClass GetApple(BananaClass banana)
+        {
+            return new AppleClass(banana);
+        }
     }
 }

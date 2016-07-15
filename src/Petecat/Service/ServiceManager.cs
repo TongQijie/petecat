@@ -102,7 +102,7 @@ namespace Petecat.Service
                 serviceDefinition.Singleton = _Container.AutoResolve(serviceDefinition.ServiceType.Info as Type);
             }
 
-            var requestBodyType = (method.ServiceMethod.Info as MethodInfo).GetParameters()[0].GetType();
+            var requestBodyType = (method.ServiceMethod.Info as MethodInfo).GetParameters()[0].ParameterType;
             response.WriteObject(method.ServiceMethod.Invoke(serviceDefinition.Singleton, request.ReadObject(requestBodyType)));
         }
     }

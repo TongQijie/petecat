@@ -10,15 +10,16 @@ namespace Petecat.Test.IOC
     [AutoResolvable(typeof(AppleClass))]
     public class AppleClass
     {
-        public AppleClass(BananaClass bananaClass, IPearClass pearClass)
+        public AppleClass() { }
+
+        public AppleClass(BananaClass bananaClass)
         {
             BananaClass = bananaClass;
-            PearClass = pearClass;
         }
 
         public BananaClass BananaClass { get; set; }
 
-        public IPearClass PearClass { get; set; }
+        //public IPearClass PearClass { get; set; }
 
         public string SayHi(string welcome)
         {
