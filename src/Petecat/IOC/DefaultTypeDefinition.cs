@@ -66,7 +66,7 @@ namespace Petecat.IOC
 
         public bool IsImplementInterface(Type interfaceType)
         {
-            return interfaceType.IsInterface && interfaceType.IsAssignableFrom(Info as Type);
+            return interfaceType.IsInterface && (Info as Type).IsClass && (Info as Type).GetInterfaces().ToList().Exists(x => x.FullName == interfaceType.FullName);
         }
     }
 }

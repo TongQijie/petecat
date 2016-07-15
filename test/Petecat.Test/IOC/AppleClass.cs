@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Petecat.Test.IOC
 {
-    [AutoResolvable(typeof(AppleClass))]
     public class AppleClass
     {
         public AppleClass() { }

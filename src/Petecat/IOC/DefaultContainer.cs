@@ -78,7 +78,7 @@ namespace Petecat.IOC
                 var typeDefinition = _LoadedTypeDefinitions.Values.Where(x => x.IsImplementInterface(targetType)).FirstOrDefault(x =>
                 {
                     Attributes.AutoResolvableAttribute attribute;
-                    return ReflectionUtility.TryGetCustomAttribute<Attributes.AutoResolvableAttribute>(x.Info, y => y.SpecifiedType.Equals(targetType), out attribute);
+                    return ReflectionUtility.TryGetCustomAttribute<Attributes.AutoResolvableAttribute>(x.Info, y => y.SpecifiedType.FullName == targetType.FullName, out attribute);
                 });
 
                 if (typeDefinition == null)

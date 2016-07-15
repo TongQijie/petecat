@@ -13,14 +13,14 @@ namespace Petecat.Service
         {
             ServiceType = typeDefinition;
 
-            if (ReflectionUtility.ContainsCustomAttribute<Attributes.ServiceAttribute>(typeDefinition.Info))
+            if (ReflectionUtility.ContainsCustomAttribute<Attributes.ServiceImplementAttribute>(typeDefinition.Info))
             {
-                var attribute = ReflectionUtility.GetCustomAttribute<Attributes.ServiceAttribute>(typeDefinition.Info);
+                var attribute = ReflectionUtility.GetCustomAttribute<Attributes.ServiceImplementAttribute>(typeDefinition.Info);
                 ServiceName = attribute.ServiceName;
             }
-            else if (ReflectionUtility.ContainsCustomAttribute<Attributes.AutoServiceAttribute>(typeDefinition.Info))
+            else if (ReflectionUtility.ContainsCustomAttribute<Attributes.ServiceInterfaceAttribute>(typeDefinition.Info))
             {
-                var attribute = ReflectionUtility.GetCustomAttribute<Attributes.AutoServiceAttribute>(typeDefinition.Info);
+                var attribute = ReflectionUtility.GetCustomAttribute<Attributes.ServiceInterfaceAttribute>(typeDefinition.Info);
                 ServiceName = attribute.ServiceName;
             }
 

@@ -155,11 +155,12 @@
     <Compile Include="Network\Http\HttpVerb.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Attributes\AutoServiceAttribute.cs" />
+    <Compile Include="Service\Attributes\ServiceInterfaceAttribute.cs" />
     <Compile Include="Service\Configuration\ServiceAssembliesConfig.cs" />
     <Compile Include="Service\Configuration\ServiceAssemblyConfig.cs" />
     <Compile Include="Service\ServiceAccessMethod.cs" />
     <Compile Include="Service\Attributes\ServiceMethodAttribute.cs" />
-    <Compile Include="Service\Attributes\ServiceAttribute.cs" />
+    <Compile Include="Service\Attributes\ServiceImplementAttribute.cs" />
     <Compile Include="Service\ServiceDefinition.cs" />
     <Compile Include="Service\ServiceHttpApplication.cs" />
     <Compile Include="Service\ServiceHttpHandler.cs" />

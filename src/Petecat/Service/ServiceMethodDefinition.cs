@@ -17,16 +17,16 @@ namespace Petecat.Service
 
             ServiceMethod = instanceMethodDefinition;
 
-            if (!string.IsNullOrWhiteSpace(attribute.Name))
+            if (!string.IsNullOrWhiteSpace(attribute.MethodName))
             {
-                MethodName = attribute.Name;
+                MethodName = attribute.MethodName;
             }
             else
             {
                 MethodName = instanceMethodDefinition.MethodName;
             }
 
-            Method = attribute.Method;
+            Method = attribute.AccessMethods;
             IsDefaultMethod = attribute.IsDefaultMethod;
         }
 

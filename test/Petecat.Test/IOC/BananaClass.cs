@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace Petecat.Test.IOC
 {
-    [AutoResolvable(typeof(BananaClass))]
     public class BananaClass
     {
         public string Name { get; set; }

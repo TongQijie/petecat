@@ -30,8 +30,12 @@ namespace Petecat.Service
         {
             _Container.LoadedTypeDefinitions.ToList().ForEach(x =>
             {
-                if (ReflectionUtility.ContainsCustomAttribute<Attributes.ServiceAttribute>(x.Info)
-                    || ReflectionUtility.ContainsCustomAttribute<Attributes.AutoServiceAttribute>(x.Info))
+                if (ReflectionUtility.ContainsCustomAttribute<Attributes.ServiceImplementAttribute>(x.Info))
+                {
+                    _LoadedServiceDefinitions.Add(new ServiceDefinition(x));
+                }
+
+                if (ReflectionUtility.ContainsCustomAttribute<Attributes.ServiceInterfaceAttribute>(x.Info))
                 {
                     _LoadedServiceDefinitions.Add(new ServiceDefinition(x));
                 }
@@ -59,12 +63,17 @@ namespace Petecat.Service
 
             if (method == null)
             {
-                throw new Exception("method does not exist or matchs.");
+                throw new Exception("method does not exist or match.");
             }
 
             if (serviceDefinition.Singleton == null)
             {
                 serviceDefinition.Singleton = _Container.AutoResolve(serviceDefinition.ServiceType.Info as Type);
+            }
+
+            if (serviceDefinition.Singleton == null)
+            {
+                throw new Exception("service implement does not exist.");
             }
 
             object[] matchedArgumentValues;
@@ -94,12 +103,17 @@ namespace Petecat.Service
 
             if (method == null)
             {
-                throw new Exception("method does not exist or matchs.");
+                throw new Exception("method does not exist or match.");
             }
 
             if (serviceDefinition.Singleton == null)
             {
                 serviceDefinition.Singleton = _Container.AutoResolve(serviceDefinition.ServiceType.Info as Type);
+            }
+
+            if (serviceDefinition.Singleton == null)
+            {
+                throw new Exception("service implement does not exist.");
             }
 
             var requestBodyType = (method.ServiceMethod.Info as MethodInfo).GetParameters()[0].ParameterType;
