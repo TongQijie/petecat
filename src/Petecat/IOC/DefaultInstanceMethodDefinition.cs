@@ -19,7 +19,8 @@ namespace Petecat.IOC
         {
             foreach (var parameterInfo in (Info as MethodInfo).GetParameters())
             {
-                var argument = arguments.FirstOrDefault(x => x.Name == parameterInfo.Name || x.Index == parameterInfo.Position);
+                var argument = arguments.FirstOrDefault(x => x.Name.Equals(parameterInfo.Name, StringComparison.OrdinalIgnoreCase) 
+                    || x.Index == parameterInfo.Position);
                 if (argument == null)
                 {
                     return false;
@@ -44,7 +45,8 @@ namespace Petecat.IOC
 
             foreach (var parameterInfo in (Info as MethodInfo).GetParameters().OrderBy(x => x.Position))
             {
-                var argument = arguments.FirstOrDefault(x => x.Name == parameterInfo.Name || x.Index == parameterInfo.Position);
+                var argument = arguments.FirstOrDefault(x => x.Name.Equals(parameterInfo.Name, StringComparison.OrdinalIgnoreCase) 
+                    || x.Index == parameterInfo.Position);
                 if (argument == null)
                 {
                     return false;
