@@ -11,9 +11,9 @@ namespace Petecat.Test.Data.Formatters
     [TestClass]
     public class DataFormatterTest
     {
-        private readonly DataFormatterContent DataFormatContent = DataFormatterContent.Xml;
+        private readonly DataFormatterContent DataFormatContent = DataFormatterContent.DataContractJson;
 
-        private readonly string Filename = "product.0.xml";
+        private readonly string Filename = "product.json";
 
         [TestMethod]
         public void ReadObject_StringValue()

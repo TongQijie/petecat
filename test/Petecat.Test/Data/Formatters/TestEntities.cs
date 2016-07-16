@@ -2,20 +2,26 @@
 
 using Petecat.Data.Attributes;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Petecat.Test.Data.Formatters
 {
+    [DataContract]
     public class Product
     {
+        [DataMember(Name = "id")]
         [BinarySerializable("id")]
         public int Id { get; set; }
 
+        [DataMember(Name = "name")]
         [BinarySerializable("name")]
         public string Name { get; set; }
 
+        [DataMember(Name = "time")]
         [BinarySerializable("time")]
         public DateTime CheckInTime { get; set; }
 
+        [DataMember(Name = "prices")]
         [BinarySerializable("prices")]
         public List<Price> Prices { get; set; }
 
@@ -64,11 +70,14 @@ namespace Petecat.Test.Data.Formatters
         }
     }
 
+    [DataContract]
     public class Price
     {
+        [DataMember(Name = "value")]
         [BinarySerializable("value")]
         public decimal Value { get; set; }
 
+        [DataMember(Name = "region")]
         [BinarySerializable("region")]
         public string Region { get; set; }
     }
