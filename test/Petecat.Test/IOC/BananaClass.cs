@@ -9,6 +9,15 @@ namespace Petecat.Test.IOC
 {
     public class BananaClass
     {
+        public BananaClass()
+        {
+        }
+
+        public BananaClass(string name)
+        {
+            Name = name;
+        }
+
         public string Name { get; set; }
     }
 }

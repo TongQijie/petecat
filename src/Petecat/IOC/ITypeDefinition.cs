@@ -10,7 +10,7 @@ namespace Petecat.IOC
 
         bool IsImplementInterface(Type interfaceType);
 
-        IConstructorDefinition[] Constructors { get; }
+        IConstructorMethodDefinition[] Constructors { get; }
 
         IInstanceMethodDefinition[] InstanceMethods { get; }
     }

@@ -15,19 +15,19 @@ namespace Petecat.IOC
 
         public MemberInfo Info { get; private set; }
 
-        private IConstructorDefinition[] _Constructors = null;
+        private IConstructorMethodDefinition[] _Constructors = null;
 
-        public IConstructorDefinition[] Constructors
+        public IConstructorMethodDefinition[] Constructors
         {
             get
             {
                 if (_Constructors == null)
                 {
-                    var constructors = new IConstructorDefinition[0];
+                    var constructors = new IConstructorMethodDefinition[0];
 
                     (Info as Type).GetConstructors().ToList().ForEach(x =>
                     {
-                        constructors = constructors.Concat(new IConstructorDefinition[] { new DefaultConstructorDefinition(x) }).ToArray();
+                        constructors = constructors.Concat(new IConstructorMethodDefinition[] { new DefaultConstructorMethodDefinition(x) }).ToArray();
                     });
 
                     _Constructors = constructors;

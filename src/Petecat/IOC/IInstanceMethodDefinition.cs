@@ -1,12 +1,8 @@
 ﻿namespace Petecat.IOC
 {
-    public interface IInstanceMethodDefinition : IMemberDefinition
+    public interface IInstanceMethodDefinition : IMethodDefinition
     {
         string MethodName { get; }
-
-        bool IsMatch(MethodArgument[] arguments);
-
-        bool TryGetMatchedArguments(MethodArgument[] arguments, out object[] matchedArguments);
 
         T Invoke<T>(object instance, params object[] paramaters);
 

@@ -16,6 +16,12 @@ namespace Petecat.Test.IOC
             BananaClass = bananaClass;
         }
 
+        public AppleClass(BananaClass bananaClass, string welcome)
+        {
+            BananaClass = bananaClass;
+            Welcome = welcome;
+        }
+
         public BananaClass BananaClass { get; set; }
 
         //public IPearClass PearClass { get; set; }
@@ -24,5 +30,7 @@ namespace Petecat.Test.IOC
         {
             return welcome;
         }
+
+        public string Welcome { get; set; }
     }
 }

@@ -68,7 +68,7 @@ namespace Petecat.Service
 
             if (serviceDefinition.Singleton == null)
             {
-                serviceDefinition.Singleton = _Container.AutoResolve(serviceDefinition.ServiceType.Info as Type);
+                serviceDefinition.Singleton = _Container.Resolve(serviceDefinition.ServiceType.Info as Type);
             }
 
             if (serviceDefinition.Singleton == null)
@@ -77,7 +77,7 @@ namespace Petecat.Service
             }
 
             object[] matchedArgumentValues;
-            method.ServiceMethod.TryGetMatchedArguments(methodArguments, out matchedArgumentValues);
+            method.ServiceMethod.TryGetArgumentValues(methodArguments, out matchedArgumentValues);
             response.WriteObject(method.ServiceMethod.Invoke(serviceDefinition.Singleton, matchedArgumentValues));
         }
 
@@ -108,7 +108,7 @@ namespace Petecat.Service
 
             if (serviceDefinition.Singleton == null)
             {
-                serviceDefinition.Singleton = _Container.AutoResolve(serviceDefinition.ServiceType.Info as Type);
+                serviceDefinition.Singleton = _Container.Resolve(serviceDefinition.ServiceType.Info as Type);
             }
 
             if (serviceDefinition.Singleton == null)

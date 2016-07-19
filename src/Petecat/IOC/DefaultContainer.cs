@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
 
 using Petecat.Collection;
 using Petecat.Utility;
+using Petecat.Data.Formatters;
+using Petecat.Extension;
 
 namespace Petecat.IOC
 {
@@ -13,24 +17,50 @@ namespace Petecat.IOC
 
         public IEnumerable<ITypeDefinition> LoadedTypeDefinitions { get { return _LoadedTypeDefinitions.Values; } }
 
+        private ThreadSafeKeyedObjectCollection<string, IContainerObject> _LoadedContainerObjects = new ThreadSafeKeyedObjectCollection<string, IContainerObject>();
+
+        public IEnumerable<IContainerObject> LoadedContainerObjects { get { return _LoadedContainerObjects.Values; } }
+
         public object Resolve(Type targetType, params object[] arguments)
         {
-            throw new NotImplementedException();
+            var typeDefinition = _LoadedTypeDefinitions.Get(targetType.FullName, null);
+            if (typeDefinition == null)
+            {
+                return null;
+            }
+
+            return typeDefinition.GetInstance(arguments);
         }
 
         public T Resolve<T>(params object[] arguments)
         {
-            throw new NotImplementedException();
+            return (T)Resolve(typeof(T), arguments);
         }
 
-        public object AutoResolve(Type targetType)
+        public object Resolve(Type targetType)
         {
             return InternalAutoResolve(targetType);
         }
 
-        public T AutoResolve<T>()
+        public T Resolve<T>()
         {
             return (T)InternalAutoResolve(typeof(T));
+        }
+
+        public object Resolve(string objectName)
+        {
+            var containerObject = _LoadedContainerObjects.Get(objectName, null);
+            if (containerObject == null)
+            {
+                return null;
+            }
+
+            return containerObject.GetObject();
+        }
+
+        public T Resolve<T>(string objectName)
+        {
+            return (T)Resolve(objectName);
         }
 
         public bool ContainTypeDefinition(Type targetType)
@@ -91,6 +121,55 @@ namespace Petecat.IOC
             else
             {
                 return null;
+            }
+        }
+
+        public void Register(string configFile)
+        {
+            if (!File.Exists(configFile.FullPath()))
+            {
+                throw new FileNotFoundException();
+            }
+
+            var instanceConfig = new XmlFormatter().ReadObject<Configuration.ContainerInstanceConfig>(configFile, Encoding.UTF8);
+
+            foreach (var objectConfig in instanceConfig.Objects)
+            {
+                var containerObject = new DefaultContainerObject(objectConfig);
+
+                if (objectConfig.Arguments != null && objectConfig.Arguments.Length > 0)
+                {
+                    containerObject.Arguments = new MethodArgument[objectConfig.Arguments.Length];
+
+                    for (int i = 0; i < containerObject.Arguments.Length; i++)
+                    {
+                        var argument = new MethodArgument()
+                        {
+                            Name = objectConfig.Arguments[i].Name,
+                            Index = objectConfig.Arguments[i].Index,
+                        };
+
+                        if (!objectConfig.Arguments[i].IsObjectValue)
+                        {
+                            argument.ArgumentValue = objectConfig.Arguments[i].StringValue;
+                        }
+                        else
+                        {
+                            var argumentObject = _LoadedContainerObjects.Get(objectConfig.Arguments[i].ObjectName, null);
+                            if (argumentObject == null)
+                            {
+                                throw new Exception(string.Format("argument object {0} not found.", objectConfig.Arguments[i].ObjectName));
+                            }
+
+                            argument.ArgumentValue = argumentObject.GetObject();
+                        }
+
+                        containerObject.Arguments[i] = argument;
+                    }
+                }
+
+                _LoadedTypeDefinitions.Add(containerObject.TypeDefinition);
+                _LoadedContainerObjects.Add(containerObject);
             }
         }
     }

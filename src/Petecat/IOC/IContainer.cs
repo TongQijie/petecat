@@ -11,11 +11,17 @@ namespace Petecat.IOC
 
         T Resolve<T>(params object[] arguments);
 
-        object AutoResolve(Type targetType);
+        object Resolve(Type targetType);
 
-        T AutoResolve<T>();
+        T Resolve<T>();
 
-        void Register(params ITypeDefinition[] assemblies);
+        object Resolve(string objectName);
+
+        T Resolve<T>(string objectName);
+
+        void Register(params ITypeDefinition[] typeDefinitions);
+
+        void Register(string configFile);
 
         bool ContainTypeDefinition(Type targetType);
 
