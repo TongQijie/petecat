@@ -26,6 +26,8 @@ namespace Petecat.IOC
 
         public MethodArgument[] Arguments { get; set; }
 
+        public InstanceProperty[] Properties { get; set; }
+
         public bool IsSingleton { get; private set; }
 
         public object _Singleton = null;
@@ -60,7 +62,23 @@ namespace Petecat.IOC
                     object[] arguments;
                     if (constructor.TryGetArgumentValues(Arguments, out arguments))
                     {
-                        return TypeDefinition.GetInstance(arguments);
+                        var instance = TypeDefinition.GetInstance(arguments);
+
+                        if (Properties != null && Properties.Length > 0)
+                        {
+                            foreach (var property in Properties)
+                            {
+                                var propertyDefinition = TypeDefinition.Properties.FirstOrDefault(x => x.PropertyName == property.Name);
+                                if (propertyDefinition == null)
+                                {
+                                    return null;
+                                }
+
+                                propertyDefinition.SetValue(instance, property.PropertyValue);
+                            }
+                        }
+
+                        return instance;
                     }
                 }
 

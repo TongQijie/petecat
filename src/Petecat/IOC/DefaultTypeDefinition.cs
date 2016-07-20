@@ -59,6 +59,28 @@ namespace Petecat.IOC
             }
         }
 
+        private IPropertyDefinition[] _Properties = null;
+
+        public IPropertyDefinition[] Properties
+        {
+            get
+            {
+                if (_Properties == null)
+                {
+                    var properties = new IPropertyDefinition[0];
+
+                    (Info as Type).GetProperties().ToList().ForEach(x =>
+                    {
+                        properties = properties.Concat(new IPropertyDefinition[] { new DefaultPropertyDefinition(x) }).ToArray();
+                    });
+
+                    _Properties = properties;
+                }
+
+                return _Properties;
+            }
+        }
+
         public object GetInstance(params object[] arguments)
         {
             return Activator.CreateInstance(Info as Type, arguments);

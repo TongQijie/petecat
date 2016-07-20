@@ -13,5 +13,7 @@ namespace Petecat.IOC
         IConstructorMethodDefinition[] Constructors { get; }
 
         IInstanceMethodDefinition[] InstanceMethods { get; }
+
+        IPropertyDefinition[] Properties { get; }
     }
 }

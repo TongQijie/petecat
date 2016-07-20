@@ -155,16 +155,43 @@ namespace Petecat.IOC
                         }
                         else
                         {
-                            var argumentObject = _LoadedContainerObjects.Get(objectConfig.Arguments[i].ObjectName, null);
-                            if (argumentObject == null)
+                            var objectValue = _LoadedContainerObjects.Get(objectConfig.Arguments[i].ObjectName, null);
+                            if (objectValue == null)
                             {
                                 throw new Exception(string.Format("argument object {0} not found.", objectConfig.Arguments[i].ObjectName));
                             }
 
-                            argument.ArgumentValue = argumentObject.GetObject();
+                            argument.ArgumentValue = objectValue.GetObject();
                         }
 
                         containerObject.Arguments[i] = argument;
+                    }
+                }
+
+                if (objectConfig.Properties != null && objectConfig.Properties.Length > 0)
+                {
+                    containerObject.Properties = new InstanceProperty[objectConfig.Properties.Length];
+
+                    for (int i = 0; i < containerObject.Properties.Length; i++)
+                    {
+                        var property = new InstanceProperty() { Name = objectConfig.Properties[i].Name };
+
+                        if (!objectConfig.Properties[i].IsObjectValue)
+                        {
+                            property.PropertyValue = objectConfig.Properties[i].StringValue;
+                        }
+                        else
+                        {
+                            var objectValue = _LoadedContainerObjects.Get(objectConfig.Arguments[i].ObjectName, null);
+                            if (objectValue == null)
+                            {
+                                throw new Exception(string.Format("argument object {0} not found.", objectConfig.Arguments[i].ObjectName));
+                            }
+
+                            property.PropertyValue = objectValue.GetObject();
+                        }
+
+                        containerObject.Properties[i] = property;
                     }
                 }
 

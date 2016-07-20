@@ -13,7 +13,12 @@ namespace Petecat.IOC.Configuration
         [XmlAttribute("singleton")]
         public bool Singleton { get; set; }
 
-        [XmlElement("arg")]
+        [XmlArray("args")]
+        [XmlArrayItem("arg")]
         public ContainerArgumentConfig[] Arguments { get; set; }
+
+        [XmlArray("props")]
+        [XmlArrayItem("prop")]
+        public ContainerPropertyConfig[] Properties { get; set; }
     }
 }
