@@ -2,6 +2,8 @@
 using System.Linq;
 using System;
 
+using Petecat.Logging;
+
 namespace Petecat.Service
 {
     public class ServiceHttpHandler : IHttpHandler
@@ -20,6 +22,8 @@ namespace Petecat.Service
             }
             catch (Exception e)
             {
+                LoggerManager.GetLogger().LogEvent("ServiceHttpHandler", LoggerLevel.Error, e);
+
                 response.SetStatusCode(400);
                 response.WriteObject(e.Message);
             }

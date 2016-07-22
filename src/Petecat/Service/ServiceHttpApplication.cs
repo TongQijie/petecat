@@ -3,6 +3,7 @@ using Petecat.Utility;
 using Petecat.Data.Formatters;
 using Petecat.Logging;
 using Petecat.Logging.Loggers;
+using Petecat.Extension;
 
 using System.Web;
 using System;
@@ -15,29 +16,26 @@ namespace Petecat.Service
 {
     public class ServiceHttpApplication : HttpApplication
     {
+        public IContainer Container { get; private set; }
+
         public ServiceHttpApplication()
         {
-            LoggerManager.SetLogger(new FileLogger(LoggerManager.AppDomainLoggerName, GetFullPath("/log")));
+            LoggerManager.SetLogger(new FileLogger(LoggerManager.AppDomainLoggerName, "./log".FullPath()));
 
-            var container = new DefaultContainer();
+            Container = new DefaultContainer();
 
-            var serviceAssembliesConfigPath = AppConfigUtility.GetAppConfig("serviceAssemblies", string.Empty);
-            if (string.IsNullOrEmpty(serviceAssembliesConfigPath))
-            {
-                LoggerManager.GetLogger().LogEvent("ServiceHttpApplication", LoggerLevel.Fatal, "config element 'serviceAssemblies' is missing.");
-                return;
-            }
+            var configValue = AppConfigUtility.GetAppConfig("serviceContainer", "./Configuration/ServiceContainer.config");
 
             try
             {
-                var serviceAssembliesConfig = new XmlFormatter().ReadObject<Configuration.ServiceAssembliesConfig>(GetFullPath(serviceAssembliesConfigPath), Encoding.UTF8);
+                var serviceAssembliesConfig = new XmlFormatter().ReadObject<Configuration.ServiceAssembliesConfig>(configValue.FullPath(), Encoding.UTF8);
 
                 if (serviceAssembliesConfig.ServiceAssemblies != null && serviceAssembliesConfig.ServiceAssemblies.Length > 0)
                 {
                     foreach (var serviceAssemblyConfig in serviceAssembliesConfig.ServiceAssemblies)
                     {
-                        var assembly = Assembly.LoadFile(GetFullPath(serviceAssemblyConfig.Path));
-                        container.Register(assembly.GetTypes().Select(x => new DefaultTypeDefinition(x)).ToArray());
+                        var assembly = Assembly.LoadFile(serviceAssemblyConfig.Path.FullPath());
+                        Container.Register(assembly.GetTypes().Select(x => new DefaultTypeDefinition(x)).ToArray());
                     }
                 }
             }
@@ -47,19 +45,7 @@ namespace Petecat.Service
                 return;
             }
 
-            ServiceManager.Instance = new ServiceManager(container);
-        }
-
-        private string GetFullPath(string path)
-        {
-            if (path.StartsWith("/"))
-            {
-                return Path.Combine(AppDomain.CurrentDomain.BaseDirectory, path.TrimStart('/'));
-            }
-            else
-            {
-                return path;
-            }
+            ServiceManager.Instance = new ServiceManager(Container);
         }
     }
 }
