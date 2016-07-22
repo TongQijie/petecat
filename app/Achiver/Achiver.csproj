@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Achiver</RootNamespace>
-    <AssemblyName>Achiver</AssemblyName>
+    <AssemblyName>achiver</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -42,9 +42,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Petecat\Petecat.csproj">
-      <Project>{e6cfd007-47f5-4e4d-9185-6d4147f104ce}</Project>
-      <Name>Petecat</Name>
+    <ProjectReference Include="..\..\src\petecat\petecat.csproj">
+      <Project>{E6CFD007-47F5-4E4D-9185-6D4147F104CE}</Project>
+      <Name>petecat</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
