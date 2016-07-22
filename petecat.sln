@@ -5,19 +5,19 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C206A12E-95D1-4654-A3EE-1D2FCDB99002}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petecat", "src\Petecat\Petecat.csproj", "{E6CFD007-47F5-4E4D-9185-6D4147F104CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "petecat", "src\petecat\petecat.csproj", "{E6CFD007-47F5-4E4D-9185-6D4147F104CE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1DBC27B7-F377-4A7C-982A-A9F9DBE571B2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petecat.ConsoleApp", "test\Petecat.ConsoleApp\Petecat.ConsoleApp.csproj", "{70276C47-A34C-4702-8B54-26AE5B5FBEA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "petecat.consoleapp", "test\petecat.consoleapp\petecat.consoleapp.csproj", "{70276C47-A34C-4702-8B54-26AE5B5FBEA4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "app", "app", "{43DC8785-CBF8-454B-858A-03C0D590375B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Achiver", "app\Achiver\Achiver.csproj", "{F5E4A3D5-835C-4AE6-9765-C3BEC4A672F1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "achiver", "app\achiver\achiver.csproj", "{F5E4A3D5-835C-4AE6-9765-C3BEC4A672F1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "crawler", "app\crawler\crawler.csproj", "{E73D3198-EEFE-42AD-87BD-13DF4E9A6453}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petecat.Test", "test\Petecat.Test\Petecat.Test.csproj", "{D76409CF-214D-4986-A4DC-840AB852897E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "petecat.test", "test\petecat.test\petecat.test.csproj", "{D76409CF-214D-4986-A4DC-840AB852897E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
