@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace Petecat.Extension
 {
@@ -13,7 +13,7 @@ namespace Petecat.Extension
         /// </summary>
         public static string FullPath(this string stringValue)
         {
-            var fields = stringValue.Split('/');
+            var fields = stringValue.SplitByChar('/');
             if (fields.Length == 0)
             {
                 throw new Exception("empty path string.");
@@ -46,7 +46,16 @@ namespace Petecat.Extension
                 }
             }
 
-            return string.Join("/", pathStack.ToArray());
+            var fullPath = string.Join("/", pathStack.ToArray());
+
+            if (Regex.IsMatch(fullPath, "^[A-Z]\x3A\x2F"))
+            {
+                return fullPath;
+            }
+            else
+            {
+                return "/" + fullPath;
+            }
         }
 
         public static string[] SplitByChar(this string stringValue, char seperator)
