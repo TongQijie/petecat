@@ -26,11 +26,11 @@ namespace Petecat.Service
         {
             if (AcceptTypes.Contains("application/xml"))
             {
-                Response.Write(new XmlFormatter().WriteString(instance));
+                new XmlFormatter().WriteObject(instance, Response.OutputStream);
             }
             else if (AcceptTypes.Contains("application/json"))
             {
-                Response.Write(new DataContractJsonFormatter().WriteString(instance));
+                new DataContractJsonFormatter().WriteObject(instance, Response.OutputStream);
             }
             else
             {

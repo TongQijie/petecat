@@ -129,9 +129,12 @@
     <Compile Include="Data\Xml\Serializer.cs" />
     <Compile Include="Extension\StringExtension.cs" />
     <Compile Include="IOC\AbstractMethodDefinition.cs" />
+    <Compile Include="IOC\AppDomainContainer.cs" />
     <Compile Include="IOC\Attributes\AutoResolvableAttribute.cs" />
     <Compile Include="IOC\Attributes\ResolvableAttribute.cs" />
     <Compile Include="IOC\Configuration\ContainerArgumentConfig.cs" />
+    <Compile Include="IOC\Configuration\ContainerAssembliesConfig.cs" />
+    <Compile Include="IOC\Configuration\ContainerAssemblyConfig.cs" />
     <Compile Include="IOC\Configuration\ContainerInstanceConfig.cs" />
     <Compile Include="IOC\Configuration\ContainerObjectConfig.cs" />
     <Compile Include="IOC\Configuration\ContainerPropertyConfig.cs" />
@@ -168,8 +171,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Attributes\AutoServiceAttribute.cs" />
     <Compile Include="Service\Attributes\ServiceInterfaceAttribute.cs" />
-    <Compile Include="Service\Configuration\ServiceAssembliesConfig.cs" />
-    <Compile Include="Service\Configuration\ServiceAssemblyConfig.cs" />
     <Compile Include="Service\ServiceAccessMethod.cs" />
     <Compile Include="Service\Attributes\ServiceMethodAttribute.cs" />
     <Compile Include="Service\Attributes\ServiceImplementAttribute.cs" />

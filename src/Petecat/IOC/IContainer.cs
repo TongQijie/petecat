@@ -23,7 +23,7 @@ namespace Petecat.IOC
 
         void Register(string configFile);
 
-        bool ContainTypeDefinition(Type targetType);
+        bool ContainsTypeDefinition(Type targetType);
 
         bool TryGetTypeDefinition(Type targetType, out ITypeDefinition typeDefinition);
     }

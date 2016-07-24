@@ -63,7 +63,7 @@ namespace Petecat.IOC
             return (T)Resolve(objectName);
         }
 
-        public bool ContainTypeDefinition(Type targetType)
+        public bool ContainsTypeDefinition(Type targetType)
         {
             return _LoadedTypeDefinitions.Values.ToList().Exists(x => targetType.FullName == x.Key);
         }
@@ -108,7 +108,7 @@ namespace Petecat.IOC
                 var typeDefinition = _LoadedTypeDefinitions.Values.Where(x => x.IsImplementInterface(targetType)).FirstOrDefault(x =>
                 {
                     Attributes.AutoResolvableAttribute attribute;
-                    return ReflectionUtility.TryGetCustomAttribute<Attributes.AutoResolvableAttribute>(x.Info, y => y.SpecifiedType.FullName == targetType.FullName, out attribute);
+                    return ReflectionUtility.TryGetCustomAttribute(x.Info, y => y.SpecifiedType.FullName == targetType.FullName, out attribute);
                 });
 
                 if (typeDefinition == null)

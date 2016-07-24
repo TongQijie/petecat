@@ -16,7 +16,7 @@ namespace Petecat.Extension
             var fields = stringValue.SplitByChar('/');
             if (fields.Length == 0)
             {
-                throw new Exception("empty path string.");
+                return string.Empty;
             }
 
             var pathStack = new List<string>();

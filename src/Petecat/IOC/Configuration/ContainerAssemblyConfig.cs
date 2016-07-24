@@ -1,8 +1,8 @@
 ﻿using System.Xml.Serialization;
 
-namespace Petecat.Service.Configuration
+namespace Petecat.IOC.Configuration
 {
-    public class ServiceAssemblyConfig
+    public class ContainerAssemblyConfig
     {
         [XmlAttribute("path")]
         public string Path { get; set; }
