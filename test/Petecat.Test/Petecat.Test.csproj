@@ -69,6 +69,7 @@
     <Compile Include="Data\Ini\StringFormatterTest.cs" />
     <Compile Include="Data\Repository\DataCommandHelperTest.cs" />
     <Compile Include="Data\Repository\DataModel.cs" />
+    <Compile Include="Extension\ByteArrayExtensionTest.cs" />
     <Compile Include="IOC\AppleClass.cs" />
     <Compile Include="IOC\BananaClass.cs" />
     <Compile Include="IOC\DefaultContainerTest.cs" />

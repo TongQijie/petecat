@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Petecat.Data.Entity
+namespace Petecat.Data.Attributes
 {
     public abstract class DataMappingAttributeBase : Attribute
     {

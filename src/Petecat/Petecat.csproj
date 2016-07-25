@@ -106,27 +106,21 @@
     <Compile Include="Data\Ini\KeyElement.cs" />
     <Compile Include="Data\Ini\SectionElement.cs" />
     <Compile Include="Data\Ini\StringFormatter.cs" />
-    <Compile Include="Data\Repository\Internal\DatabaseObject.cs" />
-    <Compile Include="Data\Entity\CompositeDataMappingAttribute.cs" />
+    <Compile Include="Data\Attributes\CompositeDataMappingAttribute.cs" />
     <Compile Include="Data\Entity\Internal\CompositeDataMappingPropertyInfo.cs" />
     <Compile Include="Data\Entity\Internal\DataEntitySourceBase.cs" />
     <Compile Include="Data\Entity\Internal\DataMappingEntity.cs" />
     <Compile Include="Data\Entity\Internal\DataReaderEntitySource.cs" />
     <Compile Include="Data\Entity\Internal\DataRowEntitySource.cs" />
     <Compile Include="Data\Entity\Internal\EntityBuilder.cs" />
-    <Compile Include="Data\Entity\IDataMappingAttribute.cs" />
+    <Compile Include="Data\Attributes\DataMappingAttributeBase.cs" />
     <Compile Include="Data\Entity\Internal\IDataMappingPropertyInfo.cs" />
     <Compile Include="Data\Entity\Internal\IEntityDataSource.cs" />
-    <Compile Include="Data\Entity\PlainDataMappingAttribute.cs" />
+    <Compile Include="Data\Attributes\PlainDataMappingAttribute.cs" />
     <Compile Include="Data\Entity\Internal\PlainDataMappingPropertyInfo.cs" />
-    <Compile Include="Data\Repository\DatabaseInstanceCache.cs" />
-    <Compile Include="Data\Repository\DataCommandCache.cs" />
-    <Compile Include="Data\Repository\DataCommandHelper.cs" />
-    <Compile Include="Data\Repository\Internal\DataCommandObject.cs" />
-    <Compile Include="Data\Repository\IDatabase.cs" />
-    <Compile Include="Data\Repository\IDataCommand.cs" />
     <Compile Include="Data\Formatters\DataContractXmlFormatter.cs" />
     <Compile Include="Data\Xml\Serializer.cs" />
+    <Compile Include="Extension\ByteArrayExtension.cs" />
     <Compile Include="Extension\StringExtension.cs" />
     <Compile Include="IOC\AbstractMethodDefinition.cs" />
     <Compile Include="IOC\AppDomainContainer.cs" />
@@ -196,10 +190,8 @@
     <Compile Include="Threading\Tasks\PeriodicBackgroundTask.cs" />
     <Compile Include="Utility\AppConfigUtility.cs" />
     <Compile Include="Utility\CompressUtility.cs" />
-    <Compile Include="Utility\HashAlgorithmName.cs" />
-    <Compile Include="Utility\HashUtility.cs" />
+    <Compile Include="Utility\HashCalculator.cs" />
     <Compile Include="Utility\ReflectionUtility.cs" />
-    <Compile Include="Utility\ValueConvertUtility.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

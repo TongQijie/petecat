@@ -5,11 +5,18 @@ using System.Text;
 
 namespace Petecat.Utility
 {
-    public static class HashUtility
+    public static class HashCalculator
     {
+        public enum Algorithm
+        {
+            Sha1,
+
+            Md5,
+        }
+
         private static int HashBlockSize = 4 * 1024 * 1024;
 
-        public static byte[] Compute(HashAlgorithmName algorithmName, string filename)
+        public static byte[] Compute(Algorithm algorithmName, string filename)
         {
             using (var inputStream = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
@@ -17,14 +24,14 @@ namespace Petecat.Utility
             }
         }
 
-        public static byte[] Compute(HashAlgorithmName algorithmName, Stream stream, long offset, long size)
+        public static byte[] Compute(Algorithm algorithmName, Stream stream, long offset, long size)
         {
             HashAlgorithm algorithm = null;
-            if (algorithmName == HashAlgorithmName.Sha1)
+            if (algorithmName == Algorithm.Sha1)
             {
                 algorithm = SHA1.Create();
             }
-            else if (algorithmName == HashAlgorithmName.Md5)
+            else if (algorithmName == Algorithm.Md5)
             {
                 algorithm = MD5.Create();
             }
@@ -58,14 +65,14 @@ namespace Petecat.Utility
             return algorithm.Hash;
         }
 
-        public static byte[] Compute(HashAlgorithmName algorithmName, Stream stream)
+        public static byte[] Compute(Algorithm algorithmName, Stream stream)
         {
             HashAlgorithm algorithm = null;
-            if (algorithmName == HashAlgorithmName.Sha1)
+            if (algorithmName == Algorithm.Sha1)
             {
                 algorithm = SHA1.Create();
             }
-            else if (algorithmName == HashAlgorithmName.Md5)
+            else if (algorithmName == Algorithm.Md5)
             {
                 algorithm = MD5.Create();
             }
@@ -77,14 +84,14 @@ namespace Petecat.Utility
             return algorithm.ComputeHash(stream);
         }
 
-        public static byte[] Compute(HashAlgorithmName algorithmName, byte[] buffer, int offset, int size)
+        public static byte[] Compute(Algorithm algorithmName, byte[] buffer, int offset, int size)
         {
             HashAlgorithm algorithm = null;
-            if (algorithmName == HashAlgorithmName.Sha1)
+            if (algorithmName == Algorithm.Sha1)
             {
                 algorithm = SHA1.Create();
             }
-            else if (algorithmName == HashAlgorithmName.Md5)
+            else if (algorithmName == Algorithm.Md5)
             {
                 algorithm = MD5.Create();
             }

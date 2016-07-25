@@ -5,6 +5,7 @@ using Petecat.Data.DataContractJson;
 using System.Text;
 using System.IO;
 using System.Runtime.Serialization;
+using Petecat.Data.Formatters;
 
 namespace Petecat.Test.Data.DataContractJson
 {
@@ -48,6 +49,34 @@ namespace Petecat.Test.Data.DataContractJson
             };
 
             Serializer.WriteObject(product, "product.json", Encoding.UTF8);
+        }
+
+        [TestMethod]
+        public void WriteFile()
+        {
+            var product = new Product() { Id = 1, Name = "this is product name<>TTTT", CheckInTime = DateTime.Now };
+            product.Prices = new Price[] 
+            {
+                new Price() { Value = 100.0M, Region = "CHN" },
+                new Price() { Value = 99.7M, Region = "USA" },
+            };
+
+            using (var inputStream = new FileStream("json-utf-8.json", FileMode.Open, FileAccess.Read))
+            {
+                var buffer = new byte[1024];
+                inputStream.Read(buffer, 0, buffer.Length);
+            }
+
+            using (var outputStream = new FileStream("json-utf-8.json", FileMode.Create, FileAccess.Write))
+            {
+                new DataContractJsonFormatter().WriteObject(product, outputStream);
+            }
+
+            using (var inputStream = new FileStream("json-utf-8.json", FileMode.Open, FileAccess.Read))
+            {
+                var buffer = new byte[1024];
+                inputStream.Read(buffer, 0, buffer.Length);
+            }
         }
     }
 

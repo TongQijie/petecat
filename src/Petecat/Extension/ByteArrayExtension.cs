@@ -1,10 +1,10 @@
 ﻿using System.Text;
 
-namespace Petecat.Utility
+namespace Petecat.Extension
 {
-    public static class ValueConvertUtility
+    public static class ByteArrayExtension
     {
-        public static string HexStringFrom(byte[] bytes)
+        public static string ToHexString(this byte[] bytes)
         {
             var stringBuilder = new StringBuilder();
             foreach (var b in bytes)

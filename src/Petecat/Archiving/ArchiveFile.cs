@@ -2,6 +2,7 @@
 using System;
 
 using Petecat.Utility;
+using Petecat.Extension;
 
 namespace Petecat.Archiving
 {
@@ -22,7 +23,7 @@ namespace Petecat.Archiving
             {
                 RelativePath = RelativePath,
                 Length = Length,
-                HashValue = ValueConvertUtility.HexStringFrom(HashUtility.Compute(HashAlgorithmName.Sha1, AbsolutePath)),
+                HashValue = HashCalculator.Compute(HashCalculator.Algorithm.Sha1, AbsolutePath).ToHexString(),
             };
 
             header.WriteStream(outputStream);
@@ -76,7 +77,7 @@ namespace Petecat.Archiving
                 }
             }
 
-            var hashValue = ValueConvertUtility.HexStringFrom(HashUtility.Compute(HashAlgorithmName.Sha1, AbsolutePath));
+            var hashValue = HashCalculator.Compute(HashCalculator.Algorithm.Sha1, AbsolutePath).ToHexString();
             if (!hashValue.Equals(HashValue, StringComparison.OrdinalIgnoreCase))
             {
                 throw new FormatException();

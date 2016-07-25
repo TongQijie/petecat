@@ -2,7 +2,7 @@
 
 using Petecat.Configuration;
 using Petecat.Data.Configuration;
-using Petecat.Data.Repository;
+using Petecat.Data.Access;
 
 using System.Linq;
 
@@ -17,7 +17,7 @@ namespace Petecat.Test.Data.Repository
             DataCommandCache.Manager.Load("configuration/datacommands.config");
             DatabaseInstanceCache.Manager.Load("configuration/databases.config");
 
-            var dataCommand = DataCommandHelper.GetDataCommand("eggsaver");
+            var dataCommand = DataCommandUtility.GetDataCommand("eggsaver");
             //dataCommand.SetParameterValue("@CountryCode", "USA");
             dataCommand.SetParameterValues("@CountryCode", new string[] { "USA", "CAN" });
             var entities = dataCommand.QueryEntities<EggsaverModel>();
