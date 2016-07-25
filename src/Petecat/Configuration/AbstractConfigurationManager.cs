@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Caching;
 
 namespace Petecat.Configuration
 {
+    [Obsolete("replaced by CacheObjectManager")]
     public abstract class AbstractConfigurationManager : IConfigurationManager
     {
         protected ObjectCache _ObjectCache = null;

@@ -1,9 +1,11 @@
-﻿using System.Runtime.Caching;
+﻿using System;
+using System.Runtime.Caching;
 
 namespace Petecat.Configuration
 {
     public delegate void ConfigurationItemChangedDelegate(IConfigurationManager configurationManager, string key);
 
+    [Obsolete("replaced by CacheObjectManager")]
     public interface IConfigurationManager
     {
         bool EnableCache { get; }

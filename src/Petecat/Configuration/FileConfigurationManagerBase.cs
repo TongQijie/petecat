@@ -6,6 +6,7 @@ using System.Text;
 
 namespace Petecat.Configuration
 {
+    [Obsolete("replaced by CacheObjectManager")]
     public class FileConfigurationManagerBase : AbstractConfigurationManager, IFileConfigurationManager
     {
         public FileConfigurationManagerBase(bool enableCache)
