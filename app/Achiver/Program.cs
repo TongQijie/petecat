@@ -14,7 +14,7 @@ namespace Achiver
             var terminalCommandLine = TerminalCommandLineUtility.Parse(string.Format("{0} {1}", "arch", string.Join(" ", args.Select(x => x.Contains(' ') ? ('\"' + x + '\"') : x))));
             if (terminalCommandLine.ContainKeys("m", "mode", "i", "input", "o", "output"))
             {
-                CommonUtility.Write("mode/input/ouput argument is missing.");
+                ConsoleBridging.Write("mode/input/ouput argument is missing.");
                 return;
             }
 
@@ -28,13 +28,13 @@ namespace Achiver
                     {
                         terminalCommandLine["i"] ?? terminalCommandLine["input"],
                     });
-                    CommonUtility.Write("start archiving...");
+                    ConsoleBridging.Write("start archiving...");
                     archiver.Archive();
-                    CommonUtility.Write("done.");
+                    ConsoleBridging.Write("done.");
                 }
                 catch (Exception e)
                 {
-                    CommonUtility.Write(e.Message);
+                    ConsoleBridging.Write(e.Message);
                     return;
                 }
             }
@@ -45,19 +45,19 @@ namespace Achiver
                 try
                 {
                     var archiver = new Archiver(terminalCommandLine["o"] ?? terminalCommandLine["ouput"], terminalCommandLine["i"] ?? terminalCommandLine["input"]);
-                    CommonUtility.Write("start unarchiving...");
+                    ConsoleBridging.Write("start unarchiving...");
                     archiver.Unarchive();
-                    CommonUtility.Write("done.");
+                    ConsoleBridging.Write("done.");
                 }
                 catch (Exception e)
                 {
-                    CommonUtility.Write(e.Message);
+                    ConsoleBridging.Write(e.Message);
                     return;
                 }
             }
             else
             {
-                CommonUtility.Write("invalid mode.");
+                ConsoleBridging.Write("invalid mode.");
             }
         }
     }

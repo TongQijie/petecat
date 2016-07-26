@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 
 using Petecat.Logging;
 
@@ -34,7 +33,7 @@ namespace Petecat.Threading.Tasks
             }
         }
 
-        private Thread _InternalThread = null;
+        private ThreadObject _ThreadObject = null;
 
         public override void Execute()
         {
@@ -66,16 +65,9 @@ namespace Petecat.Threading.Tasks
 
         private void CreateInternalThread()
         {
-            if (_InternalThread != null)
-            {
-                if (_InternalThread.ThreadState == ThreadState.Running)
-                {
-                    _InternalThread.Abort();
-                }
-                _InternalThread = null;
-            }
+            if (_ThreadObject != null) { _ThreadObject.Dispose(); }
 
-            _InternalThread = new Thread(new ThreadStart(() =>
+            _ThreadObject = new ThreadObject(() =>
             {
                 ChangeStatusTo(TaskObjectStatus.Executing);
 
@@ -96,9 +88,7 @@ namespace Petecat.Threading.Tasks
 
                 ChangeStatusTo(TaskObjectStatus.Sleep);
 
-            })) { IsBackground = true };
-
-            _InternalThread.Start();
+            }).Start();
         }
 
         private void TryChangeStatus(TaskObjectStatus from, TaskObjectStatus to)
@@ -121,14 +111,9 @@ namespace Petecat.Threading.Tasks
 
         public override void Dispose()
         {
-            if (_InternalThread != null)
-            {
-                if(_InternalThread.ThreadState == ThreadState.Running)
-                {
-                    _InternalThread.Abort();
-                }
-                _InternalThread = null;
-            }
+            if (_ThreadObject != null) { _ThreadObject.Dispose(); }
+
+            _ThreadObject = null;
         }
 
         protected TaskObjectStatus CheckTransitionalStatus()
@@ -140,7 +125,7 @@ namespace Petecat.Threading.Tasks
 
                 while (Status != TaskObjectStatus.Resuming)
                 {
-                    Thread.Sleep(1000);
+                    ThreadBridging.Sleep(1000);
                 }
             }
 

@@ -2,7 +2,7 @@
 {
     using System;
 
-    public static class CommonUtility
+    public static class ConsoleBridging
     {
         public static void ReadAnyKey()
         {
@@ -22,6 +22,11 @@
         public static void Write(string text)
         {
             Console.Write(text);
+        }
+
+        public static void Write(string format, params object[] values)
+        {
+            Console.Write(format, values);
         }
 
         public static Command.TerminalCommandLine ReadCommand()

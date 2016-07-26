@@ -7,5 +7,7 @@
         DataContractJson,
 
         Xml,
+
+        Binary,
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System;
 
 using Petecat.Collection;
-using System;
 
 namespace Petecat.Threading.Watcher
 {

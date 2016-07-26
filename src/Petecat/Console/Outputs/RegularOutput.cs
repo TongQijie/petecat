@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Petecat.Console.Outputs
 {
-    using System;
-
     public class RegularOutput
     {
         private List<RegularColumn> _Columns = null;
@@ -33,12 +32,12 @@ namespace Petecat.Console.Outputs
         {
             Columns.ForEach(x => x.Value = string.Empty);
 
-            CommonUtility.WriteNewLine();
+            ConsoleBridging.WriteNewLine();
         }
 
         public void Refresh()
         {
-            Console.Write("\r");
+            ConsoleBridging.Write("\r");
 
             if (Columns.Count == 0)
             {
@@ -61,7 +60,7 @@ namespace Petecat.Console.Outputs
                 {
                     if (Columns.Exists(x => x.Index > column.Index && !string.IsNullOrEmpty(x.Value)))
                     {
-                        Console.Write(formatString, "");
+                        ConsoleBridging.Write(formatString, "");
                     }
                     else
                     {
@@ -70,7 +69,7 @@ namespace Petecat.Console.Outputs
                 }
                 else
                 {
-                    Console.Write(formatString, column.Value.Substring(0, Math.Min(column.Length, column.Value.Length)));
+                    ConsoleBridging.Write(formatString, column.Value.Substring(0, Math.Min(column.Length, column.Value.Length)));
                 }
             }
         }

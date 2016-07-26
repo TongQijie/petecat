@@ -13,6 +13,7 @@ namespace Petecat.Data.Formatters
             _FormatterMappings.Add(DataFormatterContent.DataContractXml, new DataContractXmlFormatter());
             _FormatterMappings.Add(DataFormatterContent.DataContractJson, new DataContractJsonFormatter());
             _FormatterMappings.Add(DataFormatterContent.Xml, new XmlFormatter());
+            _FormatterMappings.Add(DataFormatterContent.Binary, new BinaryFormatter());
         }
 
         public static IDataFormatter Get(DataFormatterContent formatterContentType)

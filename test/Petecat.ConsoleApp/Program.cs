@@ -12,6 +12,7 @@ using Petecat.Data.Formatters;
 using System.Text;
 using System;
 using Petecat.Threading.Configuration;
+using Petecat.Threading;
 
 namespace Petecat.ConsoleApp
 {
@@ -58,9 +59,9 @@ namespace Petecat.ConsoleApp
             //    CommonUtility.ReadAnyKey();
             //}
 
-            AppDomainContainer.Initialize();
-            var taskContainer = new TaskContainerBase();
-            taskContainer.Initialize(AppDomainContainer.Instance, "./configuration/TaskObjects.config".FullPath(), "./configuration/TaskSwitchContainer.config".FullPath());
+            //AppDomainContainer.Initialize();
+            //var taskContainer = new TaskContainerBase();
+            //taskContainer.Initialize(AppDomainContainer.Instance, "./configuration/TaskObjects.config".FullPath(), "./configuration/TaskSwitchContainer.config".FullPath());
 
             //AppDomainContainer.Initialize("./configuration/ContainerAssemblies.config".FullPath()).Register("./configuration/TaskObjects.config".FullPath());
 
@@ -113,7 +114,18 @@ namespace Petecat.ConsoleApp
             //        }
             //    }).Start();
 
-            CommonUtility.ReadAnyKey();
+            using(var threadObject = new ThreadObject(() =>
+            {
+                while (true)
+                {
+                    Console.ConsoleBridging.WriteLine(DateTime.Now.ToString("HH:mm:ss.fff"));
+
+                    ThreadBridging.Sleep(2000);
+                }
+            }).Start())
+            {
+                ConsoleBridging.ReadAnyKey();
+            }
 
             //FolderWatcherManager.Instance.GetOrAdd("./configuration").Stop();
         }

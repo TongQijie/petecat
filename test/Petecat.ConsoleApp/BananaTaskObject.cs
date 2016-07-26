@@ -13,7 +13,7 @@ namespace Petecat.ConsoleApp
             {
                 while (true)
                 {
-                    Petecat.Console.CommonUtility.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+                    Petecat.Console.ConsoleBridging.WriteLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                     Thread.Sleep(3000);
 
                     if (CheckTransitionalStatus() == TaskObjectStatus.Sleep)
@@ -26,17 +26,17 @@ namespace Petecat.ConsoleApp
 
         protected override void OnResume()
         {
-            Console.CommonUtility.WriteLine("Resuming...");
+            Console.ConsoleBridging.WriteLine("Resuming...");
         }
 
         protected override void OnSuspend()
         {
-            Console.CommonUtility.WriteLine("suspending...");
+            Console.ConsoleBridging.WriteLine("suspending...");
         }
 
         protected override void OnTerminate()
         {
-            Console.CommonUtility.WriteLine("Terminating...");
+            Console.ConsoleBridging.WriteLine("Terminating...");
         }
     }
 }
