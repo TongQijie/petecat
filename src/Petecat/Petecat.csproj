@@ -187,15 +187,9 @@
     <Compile Include="Threading\Configuration\TaskSwitchConfig.cs" />
     <Compile Include="Threading\Storage\IThreadStorage.cs" />
     <Compile Include="Threading\Storage\ThreadStaticStorage.cs" />
-    <Compile Include="Threading\Tasks\AbstractBackgroundTask.cs" />
     <Compile Include="Threading\Tasks\AbstractTaskObject.cs" />
-    <Compile Include="Threading\Tasks\AlwaysRunBackgroundTask.cs" />
-    <Compile Include="Threading\Tasks\BackgroundTaskManager.cs" />
-    <Compile Include="Threading\Tasks\BackgroundTaskStatus.cs" />
-    <Compile Include="Threading\Tasks\IBackgroundTask.cs" />
     <Compile Include="Threading\Tasks\ITaskContainer.cs" />
     <Compile Include="Threading\Tasks\ITaskObject.cs" />
-    <Compile Include="Threading\Tasks\PeriodicBackgroundTask.cs" />
     <Compile Include="Threading\Tasks\TaskContainerBase.cs" />
     <Compile Include="Threading\Tasks\TaskObjectBase.cs" />
     <Compile Include="Threading\Tasks\TaskObjectOperation.cs" />
