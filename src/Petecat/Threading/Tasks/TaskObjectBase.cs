@@ -106,12 +106,7 @@ namespace Petecat.Threading.Tasks
             var oldStatus = Status;
             ChangeStatusTo(from);
 
-            var tryTimes = 1;
-            while (Status != to && tryTimes <= 10)
-            {
-                Thread.Sleep(tryTimes * 100);
-                tryTimes++;
-            }
+            ThreadBridging.Retry(10, () => Status == to);
 
             if (Status != to)
             {
@@ -134,6 +129,46 @@ namespace Petecat.Threading.Tasks
                 }
                 _InternalThread = null;
             }
+        }
+
+        protected TaskObjectStatus CheckTransitionalStatus()
+        {
+            if (Status == TaskObjectStatus.Suspending)
+            {
+                OnSuspend();
+                ChangeStatusTo(TaskObjectStatus.Suspended);
+
+                while (Status != TaskObjectStatus.Resuming)
+                {
+                    Thread.Sleep(1000);
+                }
+            }
+
+            if (Status == TaskObjectStatus.Resuming)
+            {
+                OnResume();
+                ChangeStatusTo(TaskObjectStatus.Executing);
+            }
+
+            if (Status == TaskObjectStatus.Terminating)
+            {
+                OnTerminate();
+                ChangeStatusTo(TaskObjectStatus.Sleep);
+            }
+
+            return Status;
+        }
+
+        protected virtual void OnSuspend()
+        {
+        }
+
+        protected virtual void OnResume()
+        {
+        }
+
+        protected virtual void OnTerminate()
+        {
         }
     }
 }

@@ -183,8 +183,8 @@
     <Compile Include="Threading\Configuration\BackgroundTask.cs" />
     <Compile Include="Threading\Configuration\BackgroundTaskArgument.cs" />
     <Compile Include="Threading\Configuration\BackgroundTaskCollection.cs" />
-    <Compile Include="Threading\Configuration\TaskContainerConfig.cs" />
-    <Compile Include="Threading\Configuration\TaskObjectConfig.cs" />
+    <Compile Include="Threading\Configuration\TaskSwitchContainerConfig.cs" />
+    <Compile Include="Threading\Configuration\TaskSwitchConfig.cs" />
     <Compile Include="Threading\Storage\IThreadStorage.cs" />
     <Compile Include="Threading\Storage\ThreadStaticStorage.cs" />
     <Compile Include="Threading\Tasks\AbstractBackgroundTask.cs" />
@@ -198,9 +198,11 @@
     <Compile Include="Threading\Tasks\PeriodicBackgroundTask.cs" />
     <Compile Include="Threading\Tasks\TaskContainerBase.cs" />
     <Compile Include="Threading\Tasks\TaskObjectBase.cs" />
+    <Compile Include="Threading\Tasks\TaskObjectOperation.cs" />
     <Compile Include="Threading\Tasks\TaskObjectStatus.cs" />
     <Compile Include="Threading\Tasks\TaskObjectStatusChangedFromHandlerDelegate.cs" />
     <Compile Include="Threading\Tasks\TaskObjectStatusChangedToHandlerDelegate.cs" />
+    <Compile Include="Threading\ThreadBridging.cs" />
     <Compile Include="Threading\Watcher\FileChangedHandlerDelegate.cs" />
     <Compile Include="Threading\Watcher\FileWatcher.cs" />
     <Compile Include="Threading\Watcher\FolderWatcher.cs" />

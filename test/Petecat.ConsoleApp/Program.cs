@@ -11,6 +11,7 @@ using System.Xml.Serialization;
 using Petecat.Data.Formatters;
 using System.Text;
 using System;
+using Petecat.Threading.Configuration;
 
 namespace Petecat.ConsoleApp
 {
@@ -48,18 +49,73 @@ namespace Petecat.ConsoleApp
             //        CacheObjectManager.Instance.Get("AppSettings").IsDirty = true;
             //    }).Start();
 
-            CacheObjectManager.Instance.AddXml<AppSettings>("AppSettings", "./configuration/AppSettings.config".FullPath(), true);
+            //CacheObjectManager.Instance.AddXml<AppSettings>("AppSettings", "./configuration/AppSettings.config".FullPath(), true);
 
-            while (true)
-            {
-                CommonUtility.WriteLine(new XmlFormatter().WriteString(CacheObjectManager.Instance.GetValue<AppSettings>("AppSettings")));
+            //while (true)
+            //{
+            //    CommonUtility.WriteLine(new XmlFormatter().WriteString(CacheObjectManager.Instance.GetValue<AppSettings>("AppSettings")));
 
-                CommonUtility.ReadAnyKey();
-            }
+            //    CommonUtility.ReadAnyKey();
+            //}
+
+            AppDomainContainer.Initialize();
+            var taskContainer = new TaskContainerBase();
+            taskContainer.Initialize(AppDomainContainer.Instance, "./configuration/TaskObjects.config".FullPath(), "./configuration/TaskSwitchContainer.config".FullPath());
+
+            //AppDomainContainer.Initialize("./configuration/ContainerAssemblies.config".FullPath()).Register("./configuration/TaskObjects.config".FullPath());
+
+            //CacheObjectManager.Instance.AddXml<TaskSwitchContainerConfig>("TaskSwitchContainer", "./configuration/TaskSwitchContainer.config".FullPath(), false);
+
+            //{
+            //    var taskSwitchContainerConfig = CacheObjectManager.Instance.GetValue<TaskSwitchContainerConfig>("TaskSwitchContainer");
+            //    foreach (var taskSwitchConfig in taskSwitchContainerConfig.Switches)
+            //    {
+            //        if (taskSwitchConfig.Immediate)
+            //        {
+            //            var taskObject = AppDomainContainer.Instance.Resolve<ITaskObject>(taskSwitchConfig.Name);
+            //            if (taskSwitchConfig.Operation == TaskObjectOperation.Execute)
+            //            {
+            //                taskObject.Execute();
+            //            }
+            //            else if(taskSwitchConfig.Operation == TaskObjectOperation.Terminate)
+            //            {
+            //                taskObject.Terminate();
+            //            }
+            //            else if (taskSwitchConfig.Operation == TaskObjectOperation.Suspend)
+            //            {
+            //                taskObject.Suspend();
+            //            }
+            //        }
+            //    }
+            //}
+
+            //FolderWatcherManager.Instance.GetOrAdd("./configuration".FullPath())
+            //    .SetFileChangedHandler("TaskSwitchContainer.config", (w) =>
+            //    {
+            //        CacheObjectManager.Instance.Get("TaskSwitchContainer").IsDirty = true;
+
+            //        var taskSwitchContainerConfig = CacheObjectManager.Instance.GetValue<TaskSwitchContainerConfig>("TaskSwitchContainer");
+            //        foreach (var taskSwitchConfig in taskSwitchContainerConfig.Switches)
+            //        {
+            //            var taskObject = AppDomainContainer.Instance.Resolve<ITaskObject>(taskSwitchConfig.Name);
+            //            if (taskSwitchConfig.Operation == TaskObjectOperation.Execute)
+            //            {
+            //                taskObject.Execute();
+            //            }
+            //            else if (taskSwitchConfig.Operation == TaskObjectOperation.Terminate)
+            //            {
+            //                taskObject.Terminate();
+            //            }
+            //            else if (taskSwitchConfig.Operation == TaskObjectOperation.Suspend)
+            //            {
+            //                taskObject.Suspend();
+            //            }
+            //        }
+            //    }).Start();
 
             CommonUtility.ReadAnyKey();
 
-            FolderWatcherManager.Instance.GetOrAdd("./configuration").Stop();
+            //FolderWatcherManager.Instance.GetOrAdd("./configuration").Stop();
         }
     }
 

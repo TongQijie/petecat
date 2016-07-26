@@ -38,6 +38,9 @@ namespace Petecat.Threading.Watcher
                 {
                     LastWriteTime = lastWriteTime;
 
+                    // sleep 100ms to ensure file is closed
+                    ThreadBridging.Sleep(100);
+
                     FileChanged(this);
                 }
             }

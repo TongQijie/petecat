@@ -1,6 +1,9 @@
-﻿using Petecat.Collection;
+﻿using Petecat.Caching;
+using Petecat.Collection;
 using Petecat.Data.Formatters;
-
+using Petecat.IOC;
+using Petecat.Threading.Watcher;
+using System.IO;
 using System.Text;
 
 namespace Petecat.Threading.Tasks
@@ -9,14 +12,35 @@ namespace Petecat.Threading.Tasks
     {
         private ThreadSafeKeyedObjectCollection<string, ITaskObject> _TaskObjects = new ThreadSafeKeyedObjectCollection<string, ITaskObject>();
 
-        public void Initialize(string path)
-        {
-            var taskContainerConfig = new XmlFormatter().ReadObject<Configuration.TaskContainerConfig>(path, Encoding.UTF8);
+        private IContainer _Container = null;
 
-            if (taskContainerConfig.TaskObjects != null && taskContainerConfig.TaskObjects.Length > 0)
+        public void Initialize(IContainer container, string taskObjectConfigFile, string taskSwitchConfigFile)
+        {
+            _Container = container;
+            _Container.Register(taskObjectConfigFile);
+
+            CacheObjectManager.Instance.AddXml<Configuration.TaskSwitchContainerConfig>("TaskSwitchContainer", taskSwitchConfigFile, false);
+
+            foreach (var taskSwitchConfig in CacheObjectManager.Instance.GetValue<Configuration.TaskSwitchContainerConfig>("TaskSwitchContainer").Switches)
             {
-                
+                if (taskSwitchConfig.Immediate)
+                {
+                    Operate(taskSwitchConfig);
+                }
             }
+
+            var fileInfo = new FileInfo(taskSwitchConfigFile);
+
+            FolderWatcherManager.Instance.GetOrAdd(fileInfo.Directory.FullName)
+                .SetFileChangedHandler(fileInfo.Name, (w) =>
+                {
+                    CacheObjectManager.Instance.Get("TaskSwitchContainer").IsDirty = true;
+
+                    foreach (var taskSwitchConfig in CacheObjectManager.Instance.GetValue<Configuration.TaskSwitchContainerConfig>("TaskSwitchContainer").Switches)
+                    {
+                        Operate(taskSwitchConfig);
+                    }
+                }).Start();
         }
 
         public ITaskObject GetOrAdd(ITaskObject taskObject)
@@ -86,6 +110,23 @@ namespace Petecat.Threading.Tasks
             if (taskObject != null && taskObject.CanResume)
             {
                 taskObject.Execute();
+            }
+        }
+
+        private void Operate(Configuration.TaskSwitchConfig taskSwitchConfig)
+        {
+            var taskObject = GetOrAdd(AppDomainContainer.Instance.Resolve<ITaskObject>(taskSwitchConfig.Name));
+            if (taskSwitchConfig.Operation == TaskObjectOperation.Execute)
+            {
+                taskObject.Execute();
+            }
+            else if (taskSwitchConfig.Operation == TaskObjectOperation.Terminate)
+            {
+                taskObject.Terminate();
+            }
+            else if (taskSwitchConfig.Operation == TaskObjectOperation.Suspend)
+            {
+                taskObject.Suspend();
             }
         }
     }

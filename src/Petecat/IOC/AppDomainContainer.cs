@@ -13,7 +13,7 @@ namespace Petecat.IOC
 
         public static AppDomainContainer Instance { get { return _Instance; } }
 
-        public static AppDomainContainer Initialize(string path)
+        public static AppDomainContainer Initialize(string path = null)
         {
             if(_Instance == null)
             {
