@@ -1,4 +1,7 @@
-﻿using Petecat.Threading.Tasks;
+﻿//#define Tcp_Listener
+#define Tcp_Client
+
+using Petecat.Threading.Tasks;
 using Petecat.Console.Outputs;
 using Petecat.Console;
 using Petecat.IOC;
@@ -13,6 +16,8 @@ using System.Text;
 using System;
 using Petecat.Threading.Configuration;
 using Petecat.Threading;
+using Petecat.Network;
+using System.Net;
 
 namespace Petecat.ConsoleApp
 {
@@ -114,20 +119,57 @@ namespace Petecat.ConsoleApp
             //        }
             //    }).Start();
 
-            using(var threadObject = new ThreadObject(() =>
-            {
-                while (true)
-                {
-                    Console.ConsoleBridging.WriteLine(DateTime.Now.ToString("HH:mm:ss.fff"));
+            //using(var threadObject = new ThreadObject(() =>
+            //{
+            //    while (true)
+            //    {
+            //        Console.ConsoleBridging.WriteLine(DateTime.Now.ToString("HH:mm:ss.fff"));
 
-                    ThreadBridging.Sleep(2000);
-                }
-            }).Start())
+            //        ThreadBridging.Sleep(2000);
+            //    }
+            //}).Start())
+            //{
+            //    ConsoleBridging.ReadAnyKey();
+            //}
+
+
+
+#if Tcp_Listener
+
+            var tcpListener = SocketObject.CreateTcpListenerObject();
+            tcpListener.ReceivedData += tcpListener_ReceivedData;
+            tcpListener.SocketConnected += tcpListener_SocketConnected;
+            tcpListener.BeginListen(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 10000));
+            ConsoleBridging.ReadAnyKey();
+
+#elif Tcp_Client
+
+            var tcpClient = SocketObject.CreateTcpClientObject();
+            tcpClient.Connect(IPAddress.Parse("127.0.0.1"), 10000);
+            tcpClient.BeginReceive();
+            
+            var text = "";
+            while ((text = ConsoleBridging.ReadLine()) != string.Empty)
             {
-                ConsoleBridging.ReadAnyKey();
+                var data = Encoding.UTF8.GetBytes(text);
+
+                tcpClient.BeginSend(data, 0, data.Length);
             }
 
+#endif
+
+
             //FolderWatcherManager.Instance.GetOrAdd("./configuration").Stop();
+        }
+
+        static void tcpListener_SocketConnected(ISocketObject socketObject)
+        {
+            ConsoleBridging.WriteLine("Connected: " + socketObject.Address.ToString() + ":" + socketObject.Port.ToString());
+        }
+
+        static void tcpListener_ReceivedData(ISocketObject socketObject, byte[] data, int offset, int count)
+        {
+            ConsoleBridging.WriteLine("Received: " + Encoding.UTF8.GetString(data, 0, count));
         }
     }
 

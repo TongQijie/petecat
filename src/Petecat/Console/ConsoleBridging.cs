@@ -34,6 +34,11 @@
             return Command.TerminalCommandLineUtility.Parse(Console.ReadLine());
         }
 
+        public static string ReadLine()
+        {
+            return Console.ReadLine();
+        }
+
         public static T ReadLine<T>(T defaultValue)
         {
             try
