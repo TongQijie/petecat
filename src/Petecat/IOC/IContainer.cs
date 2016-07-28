@@ -26,5 +26,7 @@ namespace Petecat.IOC
         bool ContainsTypeDefinition(Type targetType);
 
         bool TryGetTypeDefinition(Type targetType, out ITypeDefinition typeDefinition);
+
+        bool TryGetTypeDefinition(string type, out ITypeDefinition typeDefinition);
     }
 }

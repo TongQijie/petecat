@@ -7,17 +7,11 @@ namespace Petecat.IOC
 {
     public class DefaultContainerObject : IContainerObject
     {
-        public DefaultContainerObject(Configuration.ContainerObjectConfig config)
+        public DefaultContainerObject(string name, bool singleton, ITypeDefinition typeDefinition)
         {
-            Key = config.Name;
-            IsSingleton = config.Singleton;
-
-            Type targetType;
-            if (!ReflectionUtility.TryGetType(config.Type, out targetType))
-            {
-                throw new TypeLoadException(config.Type);
-            }
-            TypeDefinition = new DefaultTypeDefinition(targetType);
+            Key = name;
+            IsSingleton = singleton;
+            TypeDefinition = typeDefinition;
         }
 
         public string Key { get; private set; }

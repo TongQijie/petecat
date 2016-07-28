@@ -74,14 +74,22 @@ namespace Petecat.IOC
             return typeDefinition != null;
         }
 
-        public void Register(params ITypeDefinition[] typeDefinitions)
+        public bool TryGetTypeDefinition(string type, out ITypeDefinition typeDefinition)
         {
-            if (typeDefinitions == null || typeDefinitions.Length == 0)
+            var fields = type.SplitByChar(',');
+            if (fields.Length == 1)
             {
-                return;
+                typeDefinition = _LoadedTypeDefinitions.Values.FirstOrDefault(x => x.Key == fields[0]);
+                return typeDefinition != null;
+            }
+            else if (fields.Length == 2)
+            {
+                typeDefinition = _LoadedTypeDefinitions.Values.FirstOrDefault(x => x.Key == fields[0] && x.AssemblyInfo.Name == fields[1]);
+                return typeDefinition != null;
             }
 
-            typeDefinitions.Where(x => ReflectionUtility.ContainsCustomAttribute<Attributes.ResolvableAttribute>(x.Info)).ToList().ForEach(x => _LoadedTypeDefinitions.Add(x));
+            typeDefinition = null;
+            return false;
         }
 
         private object InternalAutoResolve(Type targetType)
@@ -124,6 +132,16 @@ namespace Petecat.IOC
             }
         }
 
+        public void Register(params ITypeDefinition[] typeDefinitions)
+        {
+            if (typeDefinitions == null || typeDefinitions.Length == 0)
+            {
+                return;
+            }
+
+            typeDefinitions.Where(x => ReflectionUtility.ContainsCustomAttribute<Attributes.ResolvableAttribute>(x.Info)).ToList().ForEach(x => _LoadedTypeDefinitions.Add(x));
+        }
+
         public void Register(string configFile)
         {
             if (!File.Exists(configFile.FullPath()))
@@ -135,7 +153,13 @@ namespace Petecat.IOC
 
             foreach (var objectConfig in instanceConfig.Objects)
             {
-                var containerObject = new DefaultContainerObject(objectConfig);
+                ITypeDefinition typeDefinition;
+                if (!TryGetTypeDefinition(objectConfig.Type, out typeDefinition))
+                {
+                    continue;
+                }
+
+                var containerObject = new DefaultContainerObject(objectConfig.Name, objectConfig.Singleton, typeDefinition);
 
                 if (objectConfig.Arguments != null && objectConfig.Arguments.Length > 0)
                 {

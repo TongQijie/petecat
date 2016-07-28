@@ -1,6 +1,8 @@
 ﻿using Petecat.Data.Formatters;
 using Petecat.Extension;
+
 using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -13,7 +15,7 @@ namespace Petecat.IOC
 
         public static AppDomainContainer Instance { get { return _Instance; } }
 
-        public static AppDomainContainer Initialize(string path = null)
+        public static AppDomainContainer Initialize()
         {
             if(_Instance == null)
             {
@@ -24,14 +26,11 @@ namespace Petecat.IOC
                     _Instance.Register(assembly);
                 }
 
-                if (!string.IsNullOrEmpty(path))
-                {
-                    var containerAssembliesConfig = new XmlFormatter().ReadObject<Configuration.ContainerAssembliesConfig>(path, Encoding.UTF8);
+                var directory = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
 
-                    foreach (var containerAssemblyConfig in containerAssembliesConfig.Assemblies.Where(x => !string.IsNullOrEmpty(x.Path)))
-                    {
-                        _Instance.Register(Assembly.LoadFile(containerAssemblyConfig.Path.FullPath()));
-                    }
+                foreach (var assembly in directory.GetFiles("*.dll", SearchOption.AllDirectories).Select(x => Assembly.LoadFile(x.FullName)))
+                {
+                    _Instance.Register(assembly);
                 }
             }
 

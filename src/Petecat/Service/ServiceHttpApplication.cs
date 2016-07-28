@@ -11,7 +11,7 @@ namespace Petecat.Service
 {
     public class ServiceHttpApplication : HttpApplication
     {
-        public ServiceHttpApplication()
+        protected void Application_Start(object sender, EventArgs e)
         {
             Initialize();
         }
@@ -22,7 +22,7 @@ namespace Petecat.Service
 
             try
             {
-                AppDomainContainer.Initialize(AppConfigUtility.GetAppConfig("containerAssemblies", string.Empty).FullPath());
+                AppDomainContainer.Initialize();
                 ServiceManager.Instance = new ServiceManager(AppDomainContainer.Instance);
             }
             catch (Exception e)

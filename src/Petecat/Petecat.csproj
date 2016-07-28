@@ -124,6 +124,7 @@
     <Compile Include="Extension\StringExtension.cs" />
     <Compile Include="IOC\AbstractMethodDefinition.cs" />
     <Compile Include="IOC\AppDomainContainer.cs" />
+    <Compile Include="IOC\AssemblyInfo.cs" />
     <Compile Include="IOC\Attributes\AutoResolvableAttribute.cs" />
     <Compile Include="IOC\Attributes\ResolvableAttribute.cs" />
     <Compile Include="IOC\Configuration\ContainerArgumentConfig.cs" />

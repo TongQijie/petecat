@@ -15,5 +15,7 @@ namespace Petecat.IOC
         IInstanceMethodDefinition[] InstanceMethods { get; }
 
         IPropertyDefinition[] Properties { get; }
+
+        AssemblyInfo AssemblyInfo { get; }
     }
 }
