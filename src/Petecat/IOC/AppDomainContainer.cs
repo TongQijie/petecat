@@ -1,11 +1,7 @@
-﻿using Petecat.Data.Formatters;
-using Petecat.Extension;
-
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 
 namespace Petecat.IOC
 {
