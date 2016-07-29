@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Petecat.IOC.Attributes
+namespace Petecat.IoC.Attributes
 {
     /// <summary>
     /// 标记此特性的类支持IOC容器自动解析

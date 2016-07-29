@@ -1,5 +1,5 @@
 ﻿using Petecat.Collection;
-using Petecat.IOC;
+using Petecat.IoC;
 using Petecat.Utility;
 using Petecat.Data.Formatters;
 

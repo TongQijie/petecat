@@ -1,6 +1,6 @@
 ﻿using Petecat.Collection;
 
-namespace Petecat.IOC
+namespace Petecat.IoC
 {
     public interface IContainerObject : IKeyedObject<string>
     {

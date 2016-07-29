@@ -1,7 +1,7 @@
 ﻿using Petecat.Caching;
 using Petecat.Collection;
 using Petecat.Data.Formatters;
-using Petecat.IOC;
+using Petecat.IoC;
 using Petecat.Threading.Watcher;
 using System.IO;
 using System.Text;

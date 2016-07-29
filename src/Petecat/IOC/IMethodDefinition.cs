@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Petecat.IOC
+namespace Petecat.IoC
 {
     public interface IMethodDefinition : IMemberDefinition
     {

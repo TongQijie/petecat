@@ -3,14 +3,14 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Reflection;
 
 using Petecat.Collection;
 using Petecat.Utility;
 using Petecat.Data.Formatters;
 using Petecat.Extension;
-using System.Reflection;
 
-namespace Petecat.IOC
+namespace Petecat.IoC
 {
     public class DefaultContainer : IContainer
     {

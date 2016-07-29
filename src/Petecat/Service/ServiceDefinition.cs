@@ -3,7 +3,7 @@ using System.Linq;
 
 using Petecat.Collection;
 using Petecat.Utility;
-using Petecat.IOC;
+using Petecat.IoC;
 
 namespace Petecat.Service
 {

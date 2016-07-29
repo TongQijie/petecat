@@ -1,6 +1,6 @@
 ﻿using Petecat.Service.Attributes;
 
-namespace Petecat.Test.IOC
+namespace Petecat.Test.IoC
 {
     [AutoService(typeof(IPearClass))]
     public class PearClass : IPearClass

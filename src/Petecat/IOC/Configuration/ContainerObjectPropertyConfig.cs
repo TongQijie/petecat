@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 using System.Xml.Serialization;
 
-namespace Petecat.IOC.Configuration
+namespace Petecat.IoC.Configuration
 {
     public class ContainerObjectPropertyConfig
     {

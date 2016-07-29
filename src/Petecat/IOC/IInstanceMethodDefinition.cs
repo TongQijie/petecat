@@ -1,4 +1,4 @@
-﻿namespace Petecat.IOC
+﻿namespace Petecat.IoC
 {
     public interface IInstanceMethodDefinition : IMethodDefinition
     {

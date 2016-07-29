@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Petecat.IOC
+namespace Petecat.IoC
 {
     public interface IContainer
     {

@@ -1,12 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using System.Reflection;
-using System.Linq;
-
-using Petecat.IOC;
-using Petecat.Service;
-
-namespace Petecat.Test.IOC
+namespace Petecat.Test.IoC
 {
     [TestClass]
     public class DefaultContainerTest

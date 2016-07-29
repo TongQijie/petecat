@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Petecat.IOC.Attributes;
+using Petecat.IoC.Attributes;
 
 namespace Petecat.Service.Attributes
 {

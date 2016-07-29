@@ -1,4 +1,4 @@
-﻿using Petecat.IOC;
+﻿using Petecat.IoC;
 using Petecat.Utility;
 using Petecat.Logging;
 using Petecat.Logging.Loggers;

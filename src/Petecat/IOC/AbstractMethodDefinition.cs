@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 
-namespace Petecat.IOC
+namespace Petecat.IoC
 {
     public abstract class AbstractMethodDefinition : IMethodDefinition
     {

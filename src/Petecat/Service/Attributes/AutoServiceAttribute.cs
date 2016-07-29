@@ -1,4 +1,4 @@
-﻿using Petecat.IOC.Attributes;
+﻿using Petecat.IoC.Attributes;
 using System;
 
 namespace Petecat.Service.Attributes

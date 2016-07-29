@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace Petecat.IOC
+namespace Petecat.IoC
 {
     public class DefaultTypeDefinition : ITypeDefinition
     {

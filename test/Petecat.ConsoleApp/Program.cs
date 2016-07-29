@@ -4,7 +4,7 @@
 using Petecat.Threading.Tasks;
 using Petecat.Console.Outputs;
 using Petecat.Console;
-using Petecat.IOC;
+using Petecat.IoC;
 using Petecat.Extension;
 using Petecat.Utility;
 

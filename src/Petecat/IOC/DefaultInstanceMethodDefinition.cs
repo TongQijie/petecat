@@ -3,7 +3,7 @@ using System.Linq;
 using System;
 using System.Collections.Generic;
 
-namespace Petecat.IOC
+namespace Petecat.IoC
 {
     public class DefaultInstanceMethodDefinition : AbstractMethodDefinition, IInstanceMethodDefinition
     {

@@ -3,7 +3,7 @@ using System.Linq;
 
 using Petecat.Utility;
 
-namespace Petecat.IOC
+namespace Petecat.IoC
 {
     public class DefaultContainerObject : IContainerObject
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Petecat.IOC
+namespace Petecat.IoC
 {
     public class MethodArgument
     {

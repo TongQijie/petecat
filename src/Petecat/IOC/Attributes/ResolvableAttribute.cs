@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Petecat.IOC.Attributes
+namespace Petecat.IoC.Attributes
 {
     /// <summary>
     /// 标记此特性的类自动注册到IOC容器中

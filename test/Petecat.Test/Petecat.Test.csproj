@@ -66,11 +66,11 @@
     <Compile Include="Data\Formatters\TestEntities.cs" />
     <Compile Include="Data\Ini\StringFormatterTest.cs" />
     <Compile Include="Extension\ByteArrayExtensionTest.cs" />
-    <Compile Include="IOC\AppleClass.cs" />
-    <Compile Include="IOC\BananaClass.cs" />
-    <Compile Include="IOC\DefaultContainerTest.cs" />
-    <Compile Include="IOC\IPearClass.cs" />
-    <Compile Include="IOC\PearClass.cs" />
+    <Compile Include="IoC\AppleClass.cs" />
+    <Compile Include="IoC\BananaClass.cs" />
+    <Compile Include="IoC\DefaultContainerTest.cs" />
+    <Compile Include="IoC\IPearClass.cs" />
+    <Compile Include="IoC\PearClass.cs" />
     <Compile Include="Logging\Loggers\FileLoggerTest.cs" />
     <Compile Include="Network\Http\GlobalSession.cs" />
     <Compile Include="Network\Http\HttpClientBaseTest.cs" />

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Reflection;
 
-namespace Petecat.IOC
+namespace Petecat.IoC
 {
     public class DefaultPropertyDefinition : IPropertyDefinition
     {
