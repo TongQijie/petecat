@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Petecat.IOC
 {
@@ -19,9 +20,11 @@ namespace Petecat.IOC
 
         T Resolve<T>(string objectName);
 
-        void Register(params ITypeDefinition[] typeDefinitions);
+        void RegisterContainerAssembly(Assembly assembly);
 
-        void Register(string configFile);
+        void RegisterContainerAssembly(string assemblyPath);
+
+        void RegisterContainerObjects(string objectsFile);
 
         bool ContainsTypeDefinition(Type targetType);
 

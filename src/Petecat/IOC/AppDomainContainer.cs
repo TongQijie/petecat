@@ -23,23 +23,18 @@ namespace Petecat.IOC
 
                 foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    _Instance.Register(assembly);
+                    _Instance.RegisterContainerAssembly(assembly);
                 }
 
                 var directory = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
 
                 foreach (var assembly in directory.GetFiles("*.dll", SearchOption.AllDirectories).Select(x => Assembly.LoadFile(x.FullName)))
                 {
-                    _Instance.Register(assembly);
+                    _Instance.RegisterContainerAssembly(assembly);
                 }
             }
 
             return _Instance;
-        }
-
-        public void Register(Assembly assembly)
-        {
-            Register(assembly.GetTypes().ToList().Select(x => new DefaultTypeDefinition(x)).ToArray());
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace Petecat.IOC.Configuration
 {
-    public class ContainerPropertyConfig
+    public class ContainerObjectPropertyConfig
     {
         [XmlAttribute("name")]
         public string Name { get; set; }

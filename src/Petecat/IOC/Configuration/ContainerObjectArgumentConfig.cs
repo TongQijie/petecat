@@ -3,9 +3,9 @@ using System.Xml.Serialization;
 
 namespace Petecat.IOC.Configuration
 {
-    public class ContainerArgumentConfig
+    public class ContainerObjectArgumentConfig
     {
-        public ContainerArgumentConfig()
+        public ContainerObjectArgumentConfig()
         {
             Index = -1;
         }

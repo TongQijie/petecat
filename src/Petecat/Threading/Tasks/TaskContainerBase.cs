@@ -17,7 +17,7 @@ namespace Petecat.Threading.Tasks
         public void Initialize(IContainer container, string taskObjectConfigFile, string taskSwitchConfigFile)
         {
             _Container = container;
-            _Container.Register(taskObjectConfigFile);
+            _Container.RegisterContainerObjects(taskObjectConfigFile);
 
             CacheObjectManager.Instance.AddXml<Configuration.TaskSwitchContainerConfig>("TaskSwitchContainer", taskSwitchConfigFile, false);
 

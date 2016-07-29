@@ -15,10 +15,10 @@ namespace Petecat.IOC.Configuration
 
         [XmlArray("args")]
         [XmlArrayItem("arg")]
-        public ContainerArgumentConfig[] Arguments { get; set; }
+        public ContainerObjectArgumentConfig[] Arguments { get; set; }
 
         [XmlArray("props")]
         [XmlArrayItem("prop")]
-        public ContainerPropertyConfig[] Properties { get; set; }
+        public ContainerObjectPropertyConfig[] Properties { get; set; }
     }
 }
