@@ -14,12 +14,6 @@ namespace Petecat.Test.IOC
         [TestMethod]
         public void AutoResolve()
         {
-            var container = new DefaultContainer();
-            container.Register(Assembly.GetExecutingAssembly().GetTypes().Select(x => new DefaultTypeDefinition(x)).ToArray());
-
-            //var apple = container.AutoResolve<AppleClass>();
-            //var banana = container.AutoResolve<BananaClass>();
-            //var pear = container.AutoResolve<IPearClass>();
         }
     }
 }

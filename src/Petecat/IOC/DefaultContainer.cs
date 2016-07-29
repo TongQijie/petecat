@@ -8,6 +8,7 @@ using Petecat.Collection;
 using Petecat.Utility;
 using Petecat.Data.Formatters;
 using Petecat.Extension;
+using System.Reflection;
 
 namespace Petecat.IOC
 {
@@ -20,6 +21,8 @@ namespace Petecat.IOC
         private ThreadSafeKeyedObjectCollection<string, IContainerObject> _LoadedContainerObjects = new ThreadSafeKeyedObjectCollection<string, IContainerObject>();
 
         public IEnumerable<IContainerObject> LoadedContainerObjects { get { return _LoadedContainerObjects.Values; } }
+
+        #region Get Instances
 
         public object Resolve(Type targetType, params object[] arguments)
         {
@@ -63,35 +66,6 @@ namespace Petecat.IOC
             return (T)Resolve(objectName);
         }
 
-        public bool ContainsTypeDefinition(Type targetType)
-        {
-            return _LoadedTypeDefinitions.Values.ToList().Exists(x => targetType.FullName == x.Key);
-        }
-
-        public bool TryGetTypeDefinition(Type targetType, out ITypeDefinition typeDefinition)
-        {
-            typeDefinition = _LoadedTypeDefinitions.Values.FirstOrDefault(x => x.Key == targetType.FullName);
-            return typeDefinition != null;
-        }
-
-        public bool TryGetTypeDefinition(string type, out ITypeDefinition typeDefinition)
-        {
-            var fields = type.SplitByChar(',');
-            if (fields.Length == 1)
-            {
-                typeDefinition = _LoadedTypeDefinitions.Values.FirstOrDefault(x => x.Key == fields[0]);
-                return typeDefinition != null;
-            }
-            else if (fields.Length == 2)
-            {
-                typeDefinition = _LoadedTypeDefinitions.Values.FirstOrDefault(x => x.Key == fields[0] && x.AssemblyInfo.Name == fields[1]);
-                return typeDefinition != null;
-            }
-
-            typeDefinition = null;
-            return false;
-        }
-
         private object InternalAutoResolve(Type targetType)
         {
             if (targetType.IsClass)
@@ -132,96 +106,178 @@ namespace Petecat.IOC
             }
         }
 
-        public void Register(params ITypeDefinition[] typeDefinitions)
-        {
-            if (typeDefinitions == null || typeDefinitions.Length == 0)
-            {
-                return;
-            }
+        #endregion
 
-            typeDefinitions.Where(x => ReflectionUtility.ContainsCustomAttribute<Attributes.ResolvableAttribute>(x.Info)).ToList().ForEach(x => _LoadedTypeDefinitions.Add(x));
+        #region Check & Get Types
+
+        public bool ContainsTypeDefinition(Type targetType)
+        {
+            return _LoadedTypeDefinitions.Values.ToList().Exists(x => targetType.FullName == x.Key);
         }
 
-        public void Register(string configFile)
+        public bool TryGetTypeDefinition(Type targetType, out ITypeDefinition typeDefinition)
         {
-            if (!File.Exists(configFile.FullPath()))
+            typeDefinition = _LoadedTypeDefinitions.Values.FirstOrDefault(x => x.Key == targetType.FullName);
+            return typeDefinition != null;
+        }
+
+        public bool TryGetTypeDefinition(string type, out ITypeDefinition typeDefinition)
+        {
+            var fields = type.SplitByChar(',');
+            if (fields.Length == 1)
+            {
+                typeDefinition = _LoadedTypeDefinitions.Values.FirstOrDefault(x => x.Key == fields[0]);
+                return typeDefinition != null;
+            }
+            else if (fields.Length == 2)
+            {
+                typeDefinition = _LoadedTypeDefinitions.Values.FirstOrDefault(x => x.Key == fields[0] && x.AssemblyInfo.Name == fields[1]);
+                return typeDefinition != null;
+            }
+
+            typeDefinition = null;
+            return false;
+        }
+
+        #endregion
+
+        #region Register Types & Objects
+
+        public void RegisterContainerAssembly(Assembly assembly)
+        {
+            assembly.GetTypes().Where(x => ReflectionUtility.ContainsCustomAttribute<Attributes.ResolvableAttribute>(x)).ToList()
+                .ForEach(x => { _LoadedTypeDefinitions.Add(new DefaultTypeDefinition(x)); });
+        }
+
+        public void RegisterContainerAssembly(string assemblyPath)
+        {
+            if (!File.Exists(assemblyPath))
+            {
+                throw new FileNotFoundException(assemblyPath);
+            }
+
+            RegisterContainerAssembly(Assembly.LoadFile(assemblyPath));
+        }
+
+        public void RegisterContainerObjects(string objectsFile)
+        {
+            if (!File.Exists(objectsFile.FullPath()))
             {
                 throw new FileNotFoundException();
             }
 
-            var instanceConfig = new XmlFormatter().ReadObject<Configuration.ContainerInstanceConfig>(configFile, Encoding.UTF8);
+            var containerObjectsConfig = new XmlFormatter().ReadObject<Configuration.ContainerObjectsConfig>(objectsFile.FullPath(), Encoding.UTF8);
 
-            foreach (var objectConfig in instanceConfig.Objects)
+            if (containerObjectsConfig.Assemblies != null && containerObjectsConfig.Assemblies.Length > 0)
             {
-                ITypeDefinition typeDefinition;
-                if (!TryGetTypeDefinition(objectConfig.Type, out typeDefinition))
+                foreach (var containerAssemblyConfig in containerObjectsConfig.Assemblies)
                 {
-                    continue;
+                    RegisterContainerAssembly(containerAssemblyConfig);
                 }
+            }
 
-                var containerObject = new DefaultContainerObject(objectConfig.Name, objectConfig.Singleton, typeDefinition);
-
-                if (objectConfig.Arguments != null && objectConfig.Arguments.Length > 0)
+            if (containerObjectsConfig.Importers != null && containerObjectsConfig.Importers.Length > 0)
+            {
+                foreach (var containerImporterConfig in containerObjectsConfig.Importers)
                 {
-                    containerObject.Arguments = new MethodArgument[objectConfig.Arguments.Length];
-
-                    for (int i = 0; i < containerObject.Arguments.Length; i++)
-                    {
-                        var argument = new MethodArgument()
-                        {
-                            Name = objectConfig.Arguments[i].Name,
-                            Index = objectConfig.Arguments[i].Index,
-                        };
-
-                        if (!objectConfig.Arguments[i].IsObjectValue)
-                        {
-                            argument.ArgumentValue = objectConfig.Arguments[i].StringValue;
-                        }
-                        else
-                        {
-                            var objectValue = _LoadedContainerObjects.Get(objectConfig.Arguments[i].ObjectName, null);
-                            if (objectValue == null)
-                            {
-                                throw new Exception(string.Format("argument object {0} not found.", objectConfig.Arguments[i].ObjectName));
-                            }
-
-                            argument.ArgumentValue = objectValue.GetObject();
-                        }
-
-                        containerObject.Arguments[i] = argument;
-                    }
+                    RegisterContainerObjects(containerImporterConfig.Path);
                 }
+            }
 
-                if (objectConfig.Properties != null && objectConfig.Properties.Length > 0)
+            if (containerObjectsConfig.Objects != null && containerObjectsConfig.Objects.Length > 0)
+            {
+                foreach (var containerObjectConfig in containerObjectsConfig.Objects)
                 {
-                    containerObject.Properties = new InstanceProperty[objectConfig.Properties.Length];
-
-                    for (int i = 0; i < containerObject.Properties.Length; i++)
-                    {
-                        var property = new InstanceProperty() { Name = objectConfig.Properties[i].Name };
-
-                        if (!objectConfig.Properties[i].IsObjectValue)
-                        {
-                            property.PropertyValue = objectConfig.Properties[i].StringValue;
-                        }
-                        else
-                        {
-                            var objectValue = _LoadedContainerObjects.Get(objectConfig.Arguments[i].ObjectName, null);
-                            if (objectValue == null)
-                            {
-                                throw new Exception(string.Format("argument object {0} not found.", objectConfig.Arguments[i].ObjectName));
-                            }
-
-                            property.PropertyValue = objectValue.GetObject();
-                        }
-
-                        containerObject.Properties[i] = property;
-                    }
+                    RegisterContainerObject(containerObjectConfig);
                 }
-
-                _LoadedTypeDefinitions.Add(containerObject.TypeDefinition);
-                _LoadedContainerObjects.Add(containerObject);
             }
         }
+
+        private void RegisterContainerAssembly(Configuration.ContainerAssemblyConfig containerAssemblyConfig)
+        {
+            if (containerAssemblyConfig != null)
+            {
+                RegisterContainerAssembly(containerAssemblyConfig.Path);
+            }
+        }
+
+        private void RegisterContainerObject(Configuration.ContainerObjectConfig containerObjectConfig)
+        {
+            if (containerObjectConfig == null)
+            {
+                return;
+            }
+
+            ITypeDefinition typeDefinition;
+            if (!TryGetTypeDefinition(containerObjectConfig.Type, out typeDefinition))
+            {
+                return;
+            }
+
+            var containerObject = new DefaultContainerObject(containerObjectConfig.Name, containerObjectConfig.Singleton, typeDefinition);
+
+            if (containerObjectConfig.Arguments != null && containerObjectConfig.Arguments.Length > 0)
+            {
+                containerObject.Arguments = new MethodArgument[containerObjectConfig.Arguments.Length];
+
+                for (int i = 0; i < containerObject.Arguments.Length; i++)
+                {
+                    var argument = new MethodArgument()
+                    {
+                        Name = containerObjectConfig.Arguments[i].Name,
+                        Index = containerObjectConfig.Arguments[i].Index,
+                    };
+
+                    if (!containerObjectConfig.Arguments[i].IsObjectValue)
+                    {
+                        argument.ArgumentValue = containerObjectConfig.Arguments[i].StringValue;
+                    }
+                    else
+                    {
+                        var objectValue = _LoadedContainerObjects.Get(containerObjectConfig.Arguments[i].ObjectName, null);
+                        if (objectValue == null)
+                        {
+                            throw new Exception(string.Format("argument object {0} not found.", containerObjectConfig.Arguments[i].ObjectName));
+                        }
+
+                        argument.ArgumentValue = objectValue.GetObject();
+                    }
+
+                    containerObject.Arguments[i] = argument;
+                }
+            }
+
+            if (containerObjectConfig.Properties != null && containerObjectConfig.Properties.Length > 0)
+            {
+                containerObject.Properties = new InstanceProperty[containerObjectConfig.Properties.Length];
+
+                for (int i = 0; i < containerObject.Properties.Length; i++)
+                {
+                    var property = new InstanceProperty() { Name = containerObjectConfig.Properties[i].Name };
+
+                    if (!containerObjectConfig.Properties[i].IsObjectValue)
+                    {
+                        property.PropertyValue = containerObjectConfig.Properties[i].StringValue;
+                    }
+                    else
+                    {
+                        var objectValue = _LoadedContainerObjects.Get(containerObjectConfig.Arguments[i].ObjectName, null);
+                        if (objectValue == null)
+                        {
+                            throw new Exception(string.Format("argument object {0} not found.", containerObjectConfig.Arguments[i].ObjectName));
+                        }
+
+                        property.PropertyValue = objectValue.GetObject();
+                    }
+
+                    containerObject.Properties[i] = property;
+                }
+            }
+
+            _LoadedTypeDefinitions.Add(containerObject.TypeDefinition);
+            _LoadedContainerObjects.Add(containerObject);
+        }
+
+        #endregion
     }
 }

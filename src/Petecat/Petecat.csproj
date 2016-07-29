@@ -127,12 +127,12 @@
     <Compile Include="IOC\AssemblyInfo.cs" />
     <Compile Include="IOC\Attributes\AutoResolvableAttribute.cs" />
     <Compile Include="IOC\Attributes\ResolvableAttribute.cs" />
-    <Compile Include="IOC\Configuration\ContainerArgumentConfig.cs" />
-    <Compile Include="IOC\Configuration\ContainerAssembliesConfig.cs" />
+    <Compile Include="IOC\Configuration\ContainerImporterConfig.cs" />
+    <Compile Include="IOC\Configuration\ContainerObjectArgumentConfig.cs" />
     <Compile Include="IOC\Configuration\ContainerAssemblyConfig.cs" />
-    <Compile Include="IOC\Configuration\ContainerInstanceConfig.cs" />
+    <Compile Include="IOC\Configuration\ContainerObjectsConfig.cs" />
     <Compile Include="IOC\Configuration\ContainerObjectConfig.cs" />
-    <Compile Include="IOC\Configuration\ContainerPropertyConfig.cs" />
+    <Compile Include="IOC\Configuration\ContainerObjectPropertyConfig.cs" />
     <Compile Include="IOC\DefaultConstructorMethodDefinition.cs" />
     <Compile Include="IOC\DefaultContainerObject.cs" />
     <Compile Include="IOC\DefaultInstanceMethodDefinition.cs" />
