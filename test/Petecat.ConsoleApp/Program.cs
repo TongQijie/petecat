@@ -32,7 +32,7 @@ namespace Petecat.ConsoleApp
             //var banana = container.Resolve("banana");
             //var another = container.Resolve("another-apple");
 
-            //AppDomainContainer.Initialize(AppConfigUtility.GetAppConfig("containerAssemblies", string.Empty).FullPath());
+            AppDomainContainer.Initialize();
 
             //FolderWatcherManager.Instance.GetOrAdd("./configuration".FullPath())
             //    .SetFileChangedHandler("container.config", (w) =>
