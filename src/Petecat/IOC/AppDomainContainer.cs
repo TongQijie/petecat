@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
+using Petecat.Logging;
+
 namespace Petecat.IoC
 {
     public class AppDomainContainer : DefaultContainer
@@ -26,7 +28,14 @@ namespace Petecat.IoC
 
                 foreach (var assembly in directory.GetFiles("*.dll", SearchOption.AllDirectories).Select(x => Assembly.LoadFile(x.FullName)))
                 {
-                    _Instance.RegisterContainerAssembly(assembly);
+                    try
+                    {
+                        _Instance.RegisterContainerAssembly(assembly);
+                    }
+                    catch (Exception e)
+                    {
+                        LoggerManager.GetLogger().LogEvent("AppDomainContainer", LoggerLevel.Warn, "failed to register assembly " + assembly.FullName, e);
+                    }
                 }
             }
 
