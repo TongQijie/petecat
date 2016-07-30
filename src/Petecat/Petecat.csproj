@@ -167,7 +167,9 @@
     <Compile Include="Network\ITcpClientObject.cs" />
     <Compile Include="Network\ITcpListenerObject.cs" />
     <Compile Include="Network\SocketConnectedHandlerDelegate.cs" />
-    <Compile Include="Network\SocketObject.cs" />
+    <Compile Include="Network\SocketDisconnectedHandlerDelegate.cs" />
+    <Compile Include="Network\SocketFactory.cs" />
+    <Compile Include="Network\Internal\SocketObject.cs" />
     <Compile Include="Network\SocketReceivedDataHandlerDelegate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Attributes\AutoServiceAttribute.cs" />

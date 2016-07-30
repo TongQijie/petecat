@@ -7,9 +7,5 @@ namespace Petecat.Network
         void Connect(IPAddress address, int port);
 
         void Disconnect();
-
-        void BeginReceive();
-
-        void BeginSend(byte[] data, int offset, int count);
     }
 }

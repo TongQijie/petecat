@@ -144,17 +144,17 @@ namespace Petecat.ConsoleApp
 
 #elif Tcp_Client
 
-            var tcpClient = SocketObject.CreateTcpClientObject();
-            tcpClient.Connect(IPAddress.Parse("127.0.0.1"), 10000);
-            tcpClient.BeginReceive();
+            //var tcpClient = SocketObject.CreateTcpClientObject();
+            //tcpClient.Connect(IPAddress.Parse("127.0.0.1"), 10000);
+            //tcpClient.BeginReceive();
             
-            var text = "";
-            while ((text = ConsoleBridging.ReadLine()) != string.Empty)
-            {
-                var data = Encoding.UTF8.GetBytes(text);
+            //var text = "";
+            //while ((text = ConsoleBridging.ReadLine()) != string.Empty)
+            //{
+            //    var data = Encoding.UTF8.GetBytes(text);
 
-                tcpClient.BeginSend(data, 0, data.Length);
-            }
+            //    tcpClient.BeginSend(data, 0, data.Length);
+            //}
 
 #endif
 

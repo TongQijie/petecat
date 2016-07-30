@@ -4,8 +4,10 @@ namespace Petecat.Network
 {
     public interface ITcpListenerObject : ISocketObject
     {
-        void BeginListen(IPEndPoint hostEndPoint);
+        void Listen(IPEndPoint hostEndPoint);
 
         event SocketConnectedHandlerDelegate SocketConnected;
+
+        event SocketDisconnectedHandlerDelegate SocketDisconnected;
     }
 }

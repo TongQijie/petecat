@@ -19,6 +19,11 @@
             Console.WriteLine(text);
         }
 
+        public static void WriteLine(string format, params object[] values)
+        {
+            Console.WriteLine(format, values);
+        }
+
         public static void Write(string text)
         {
             Console.Write(text);

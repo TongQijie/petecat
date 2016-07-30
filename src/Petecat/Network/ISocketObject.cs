@@ -9,10 +9,8 @@ namespace Petecat.Network
         Socket Socket { get; }
 
         event SocketReceivedDataHandlerDelegate ReceivedData;
-
-        void BeginReceive();
-
-        void BeginSend(byte[] data, int offset, int count);
+        
+        void Send(byte[] data, int offset, int count);
 
         IPAddress Address { get; }
 

@@ -4,19 +4,9 @@ using System.Net.Sockets;
 
 namespace Petecat.Network
 {
-    public class SocketObject : ITcpClientObject, ITcpListenerObject
+    internal class SocketObject : ITcpClientObject, ITcpListenerObject
     {
-        public static ITcpClientObject CreateTcpClientObject()
-        {
-            return new SocketObject(new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)) as ITcpClientObject;
-        }
-
-        public static ITcpListenerObject CreateTcpListenerObject()
-        {
-            return new SocketObject(new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp)) as ITcpListenerObject; 
-        }
-
-        private SocketObject(Socket socket)
+        public SocketObject(Socket socket)
         {
             Socket = socket;
 
@@ -38,23 +28,27 @@ namespace Petecat.Network
 
         public event SocketConnectedHandlerDelegate SocketConnected;
 
+        public event SocketDisconnectedHandlerDelegate SocketDisconnected;
+
         public void Connect(IPAddress address, int port)
         {
             Socket.Connect(address, port);
 
             Address = address;
             Port = port;
+
+            BeginReceive();
         }
 
         public void Disconnect()
         {
             if (Socket.Connected)
             {
-                Socket.Disconnect(true);
+                Socket.Disconnect(false);
             }
         }
 
-        public void BeginListen(IPEndPoint hostEndPoint)
+        public void Listen(IPEndPoint hostEndPoint)
         {
             Socket.Bind(hostEndPoint);
 
@@ -72,38 +66,61 @@ namespace Petecat.Network
                 SocketConnected(socketObject);
             }
 
-            socketObject.BeginReceive();
+            socketObject.BeginReceive(this);
 
             Socket.BeginAccept(AcceptCallback, this);
         }
 
         private byte[] _ReceiveBuffer = new byte[1024 * 4];
 
-        public void BeginReceive()
+        public void BeginReceive(ISocketObject listener = null)
         {
             if (Socket.Connected)
             {
-                Socket.BeginReceive(_ReceiveBuffer, 0, _ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, this);
+                Socket.BeginReceive(_ReceiveBuffer, 0, _ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, listener ?? this);
             }
         }
 
         private void ReceiveCallback(IAsyncResult ar)
         {
-            var count = Socket.EndReceive(ar);
-            if (count == 0)
+            var owner = ar.AsyncState as SocketObject;
+
+            var count = 0;
+            try
             {
+                count = Socket.EndReceive(ar);
+            }
+            catch (Exception)
+            {
+                if (owner.SocketDisconnected != null)
+                {
+                    owner.SocketDisconnected.Invoke(this);
+                }
+
+                Dispose();
                 return;
             }
 
-            if (ReceivedData != null)
+            if (count == 0)
             {
-                ReceivedData(ar.AsyncState as ISocketObject, _ReceiveBuffer, 0, count);
+                if (owner.SocketDisconnected != null)
+                {
+                    owner.SocketDisconnected.Invoke(this);
+                }
+
+                Dispose();
+                return;
             }
 
-            Socket.BeginReceive(_ReceiveBuffer, 0, _ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, this);
+            if (owner.ReceivedData != null)
+            {
+                owner.ReceivedData.Invoke(this, _ReceiveBuffer, 0, count);
+            }
+
+            Socket.BeginReceive(_ReceiveBuffer, 0, _ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, ar.AsyncState);
         }
 
-        public void BeginSend(byte[] data, int offset, int count)
+        public void Send(byte[] data, int offset, int count)
         {
             if (Socket.Connected)
             {
@@ -118,7 +135,6 @@ namespace Petecat.Network
 
         public void Dispose()
         {
-            Socket.Shutdown(SocketShutdown.Both);
             Socket.Close();
         }
     }
