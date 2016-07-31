@@ -29,7 +29,9 @@ namespace Petecat.IoC
 
         public virtual bool IsMatch(MethodArgument[] arguments)
         {
-            foreach (var parameterInfo in (Info as MethodBase).GetParameters())
+            var methodBase = Info as MethodBase;
+
+            foreach (var parameterInfo in methodBase.GetParameters())
             {
                 var argument = arguments.FirstOrDefault(x => x.Name.Equals(parameterInfo.Name, StringComparison.OrdinalIgnoreCase)
                     || x.Index == parameterInfo.Position);
@@ -38,11 +40,7 @@ namespace Petecat.IoC
                     return false;
                 }
 
-                try
-                {
-                    Convert.ChangeType(argument.ArgumentValue, parameterInfo.ParameterType);
-                }
-                catch (Exception)
+                if (!parameterInfo.ParameterType.IsAssignableFrom(argument.ArgumentValue.GetType()))
                 {
                     return false;
                 }
@@ -71,12 +69,11 @@ namespace Petecat.IoC
                     return false;
                 }
 
-                try
+                if (parameterInfo.ParameterType.IsAssignableFrom(argument.ArgumentValue.GetType()))
                 {
-                    var argumentValue = Convert.ChangeType(argument.ArgumentValue, parameterInfo.ParameterType);
-                    argumentValues = argumentValues.Concat(new object[] { argumentValue }).ToArray();
+                    argumentValues = argumentValues.Concat(new object[] { argument.ArgumentValue }).ToArray();
                 }
-                catch (Exception)
+                else
                 {
                     return false;
                 }
