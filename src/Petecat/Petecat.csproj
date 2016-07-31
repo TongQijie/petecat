@@ -158,6 +158,9 @@
     <Compile Include="Logging\LoggerManager.cs" />
     <Compile Include="Logging\Internal\ExceptionWrapper.cs" />
     <Compile Include="Logging\Loggers\FileLogger.cs" />
+    <Compile Include="Network\Ftp\FtpClientRequest.cs" />
+    <Compile Include="Network\Ftp\FtpClientResponse.cs" />
+    <Compile Include="Network\Ftp\FtpVerb.cs" />
     <Compile Include="Network\Http\HttpClientRequest.cs" />
     <Compile Include="Network\Http\HttpClientResponse.cs" />
     <Compile Include="Network\Http\HttpConstants.cs" />
