@@ -33,8 +33,6 @@ namespace petecat.tcp
                 }
 
                 client.Disconnect();
-
-                // just for branch test
             }
         }
 
