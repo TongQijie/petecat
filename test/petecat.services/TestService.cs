@@ -9,5 +9,10 @@ namespace Petecat.Services
         {
             return "Welcome to access test service.";
         }
+
+        public string UpdateInfo(int age)
+        {
+            return age.ToString();
+        }
     }
 }

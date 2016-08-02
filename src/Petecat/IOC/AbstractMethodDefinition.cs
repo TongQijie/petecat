@@ -40,9 +40,21 @@ namespace Petecat.IoC
                     return false;
                 }
 
-                if (!parameterInfo.ParameterType.IsAssignableFrom(argument.ArgumentValue.GetType()))
+                if (parameterInfo.ParameterType.IsAssignableFrom(argument.ArgumentValue.GetType()))
                 {
-                    return false;
+                    continue;
+                }
+                else if (typeof(IConvertible).IsAssignableFrom(argument.ArgumentValue.GetType()))
+                {
+                    try
+                    {
+                        Convert.ChangeType(argument.ArgumentValue, parameterInfo.ParameterType);
+                        continue;
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
                 }
             }
 
@@ -73,9 +85,19 @@ namespace Petecat.IoC
                 {
                     argumentValues = argumentValues.Concat(new object[] { argument.ArgumentValue }).ToArray();
                 }
-                else
+                else if (typeof(IConvertible).IsAssignableFrom(argument.ArgumentValue.GetType()))
                 {
-                    return false;
+                    object typeChangedValue;
+                    try
+                    {
+                        typeChangedValue = Convert.ChangeType(argument.ArgumentValue, parameterInfo.ParameterType);
+                    }
+                    catch (Exception)
+                    {
+                        return false;
+                    }
+
+                    argumentValues = argumentValues.Concat(new object[] { typeChangedValue }).ToArray();
                 }
             }
 
