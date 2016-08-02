@@ -7,5 +7,8 @@ namespace Petecat.Services
     {
         [ServiceMethod(MethodName = "hi", IsDefaultMethod = true)]
         string Hi();
+
+        [ServiceMethod(MethodName = "")]
+        string UpdateInfo(int age);
     }
 }
