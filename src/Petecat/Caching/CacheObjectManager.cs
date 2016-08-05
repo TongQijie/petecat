@@ -30,22 +30,19 @@ namespace Petecat.Caching
 
             var fileInfo = new FileInfo(path);
 
-            CacheObjectManager.Instance.Add(key, () =>
-            {
-                return new XmlFormatter().ReadObject<T>(path, Encoding.UTF8);
-            });
+            CacheObjectManager.Instance.Add(key, () => new XmlFormatter().ReadObject<T>(path, Encoding.UTF8));
 
             if (enableWatcher)
             {
                 FolderWatcherManager.Instance.GetOrAdd(fileInfo.Directory.FullName)
                     .SetFileChangedHandler(fileInfo.Name, (w) =>
                     {
-                        CacheObjectManager.Instance.Get(key).IsDirty = true;
+                        CacheObjectManager.Instance.GetObject(key).IsDirty = true;
                     }).Start();
             }
         }
 
-        public ICacheObject Get(string key)
+        public ICacheObject GetObject(string key)
         {
             return _CacheObjects.Get(key, null);
         }

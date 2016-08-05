@@ -28,7 +28,7 @@ namespace Petecat.Data.Access
 
         public IDataCommandObject GetDataCommandObject(string name)
         {
-            var cacheObject = CacheObjectManager.Instance.Get(CacheObjectName);
+            var cacheObject = CacheObjectManager.Instance.GetObject(CacheObjectName);
             if (cacheObject == null)
             {
                 throw new Exception("data command object manager has not initialized.");

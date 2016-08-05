@@ -1,6 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-using Petecat.Configuration;
 using Petecat.Data.Configuration;
 using Petecat.Data.Access;
 using Petecat.Extension;
