@@ -3,9 +3,9 @@
 namespace Petecat.Data.Configuration
 {
     [XmlRoot("databases")]
-    public class DatabaseInstanceCollection
+    public class DatabaseObjectSectionConfig
     {
         [XmlElement("database")]
-        public DatabaseInstance[] DatabaseInstances { get; set; }
+        public DatabaseObjectConfig[] DatabaseObjects { get; set; }
     }
 }

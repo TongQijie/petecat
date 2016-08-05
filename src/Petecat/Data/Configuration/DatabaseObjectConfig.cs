@@ -2,7 +2,7 @@
 
 namespace Petecat.Data.Configuration
 {
-    public class DatabaseInstance : Collection.IKeyedObject<string>
+    public class DatabaseObjectConfig : Collection.IKeyedObject<string>
     {
         [XmlAttribute("name")]
         public string Key { get; set; }

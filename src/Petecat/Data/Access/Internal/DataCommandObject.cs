@@ -7,11 +7,11 @@ using System.Text;
 
 namespace Petecat.Data.Access
 {
-    internal class DataCommandObject : IDataCommand
+    internal class DataCommandObject : IDataCommandObject
     {
         private DbProviderFactory _DbProviderFactory = null;
 
-        private DatabaseObject _DatabaseObject = null;
+        private IDatabaseObject _DatabaseObject = null;
 
         private DbCommand _DbCommand = null;
 
@@ -29,7 +29,7 @@ namespace Petecat.Data.Access
             _DbCommand.CommandType = commandType;
         }
 
-        public DataCommandObject(DatabaseObject databaseObject, CommandType commandType, string commandText)
+        public DataCommandObject(IDatabaseObject databaseObject, CommandType commandType, string commandText)
         {
             if (databaseObject == null)
             {
@@ -86,7 +86,7 @@ namespace Petecat.Data.Access
             }
         }
 
-        public void SetParameterValues(string parameterName, object[] parameterValues)
+        public void SetParameterValues(string parameterName, params object[] parameterValues)
         {
             if (!_DbCommand.Parameters.Contains(parameterName))
             {

@@ -3,24 +3,39 @@ using Petecat.Data.Entity;
 
 namespace Petecat.Test.Data.Access
 {
-    public class EggsaverModel
+    public class SO
     {
+        [PlainDataMapping]
+        public string SONumber { get; set; }
+
+        [PlainDataMapping]
+        public int IndexName { get; set; }
+
+        [PlainDataMapping]
+        public int SOType { get; set; }
+
         [PlainDataMapping]
         public string ItemNumber { get; set; }
 
         [PlainDataMapping]
-        public string CountryCode { get; set; }
+        public int Quantity { get; set; }
 
         [PlainDataMapping]
-        public decimal WarehouseAvailableQty { get; set; }
+        public int ShipViaCode { get; set; }
 
         [PlainDataMapping]
         public string WarehouseNumber { get; set; }
 
         [PlainDataMapping]
-        public decimal TotalAvailableQty { get; set; }
+        public string SellerID { get; set; }
 
         [PlainDataMapping]
-        public string IsEggSaverItem { get; set; }
+        public string SellerName { get; set; }
+
+        [PlainDataMapping]
+        public string Description { get; set; }
+
+        [PlainDataMapping]
+        public decimal ExtendPrice { get; set; }
     }
 }

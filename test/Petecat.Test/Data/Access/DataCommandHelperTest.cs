@@ -3,6 +3,7 @@
 using Petecat.Configuration;
 using Petecat.Data.Configuration;
 using Petecat.Data.Access;
+using Petecat.Extension;
 
 using System.Linq;
 
@@ -14,13 +15,12 @@ namespace Petecat.Test.Data.Access
         [TestMethod]
         public void GetDataCommand()
         {
-            DataCommandCache.Manager.Load("configuration/datacommands.config");
-            DatabaseInstanceCache.Manager.Load("configuration/databases.config");
+            DatabaseObjectManager.Instance.Initialize("./configuration/Databases.config".FullPath());
+            DataCommandObjectManager.Instance.Initialize("./configuration/DataCommands.config".FullPath());
 
-            var dataCommand = DataCommandUtility.GetDataCommand("eggsaver");
-            //dataCommand.SetParameterValue("@CountryCode", "USA");
-            dataCommand.SetParameterValues("@CountryCode", new string[] { "USA", "CAN" });
-            var entities = dataCommand.QueryEntities<EggsaverModel>();
+            var dataCommandObject = DataCommandObjectManager.Instance.GetDataCommandObject("QuerySOInfo");
+            dataCommandObject.SetParameterValues("@SONumber", 614393042, 614386922);
+            var orders = dataCommandObject.QueryEntities<SO>();
         }
     }
 }

@@ -3,9 +3,9 @@ using System.Xml.Serialization;
 
 namespace Petecat.Data.Configuration
 {
-    public class DataCommandParameter
+    public class DataCommandObjectParameterConfig
     {
-        public DataCommandParameter()
+        public DataCommandObjectParameterConfig()
         {
             Direction = ParameterDirection.Input;
             Size = -1;
