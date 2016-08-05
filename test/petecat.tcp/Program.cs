@@ -3,6 +3,7 @@
 using Petecat.Console;
 using Petecat.Network;
 using System.Text;
+using Petecat.Network.Sockets;
 
 namespace petecat.tcp
 {

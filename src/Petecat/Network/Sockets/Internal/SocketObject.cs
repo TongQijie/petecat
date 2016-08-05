@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Sockets;
 
-namespace Petecat.Network
+namespace Petecat.Network.Sockets
 {
     internal class SocketObject : ITcpClientObject, ITcpListenerObject
     {
