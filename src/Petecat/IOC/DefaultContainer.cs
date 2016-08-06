@@ -230,7 +230,7 @@ namespace Petecat.IoC
 
                     if (!containerObjectConfig.Arguments[i].IsObjectValue)
                     {
-                        argument.ArgumentValue = containerObjectConfig.Arguments[i].StringValue;
+                        argument.ArgumentValue = containerObjectConfig.Arguments[i].StringValue ?? "";
                     }
                     else
                     {
