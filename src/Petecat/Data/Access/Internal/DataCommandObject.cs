@@ -82,7 +82,14 @@ namespace Petecat.Data.Access
             }
             else
             {
-                _DbCommand.Parameters[parameterName].Value = parameterValue;
+                if (parameterValue == null)
+                {
+                    _DbCommand.Parameters[parameterName].Value = DBNull.Value;
+                }
+                else
+                {
+                    _DbCommand.Parameters[parameterName].Value = parameterValue;
+                }
             }
         }
 
