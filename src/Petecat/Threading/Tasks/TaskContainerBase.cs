@@ -34,7 +34,7 @@ namespace Petecat.Threading.Tasks
             FolderWatcherManager.Instance.GetOrAdd(fileInfo.Directory.FullName)
                 .SetFileChangedHandler(fileInfo.Name, (w) =>
                 {
-                    CacheObjectManager.Instance.Get("TaskSwitchContainer").IsDirty = true;
+                    CacheObjectManager.Instance.GetObject("TaskSwitchContainer").IsDirty = true;
 
                     foreach (var taskSwitchConfig in CacheObjectManager.Instance.GetValue<Configuration.TaskSwitchContainerConfig>("TaskSwitchContainer").Switches)
                     {

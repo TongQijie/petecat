@@ -3,9 +3,9 @@
 namespace Petecat.Data.Configuration
 {
     [XmlRoot("dataCommands")]
-    public class DataCommandCollection
+    public class DataCommandObjectSectionConfig
     {
         [XmlElement("dataCommand")]
-        public DataCommand[] DataCommands { get; set; }
+        public DataCommandObjectConfig[] DataCommands { get; set; }
     }
 }

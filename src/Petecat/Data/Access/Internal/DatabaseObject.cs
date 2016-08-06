@@ -6,7 +6,7 @@ using System.Data;
 
 namespace Petecat.Data.Access
 {
-    internal class DatabaseObject : IDatabase, IDisposable
+    internal class DatabaseObject : IDatabaseObject
     {
         public DbProviderFactory DbProviderFactory { get; private set; }
 
@@ -60,7 +60,7 @@ namespace Petecat.Data.Access
             return _DbConnection;
         }
 
-        private DbCommand CreateDbCommnad(IDataCommand dataCommand)
+        private DbCommand CreateDbCommnad(IDataCommandObject dataCommand)
         {
             var dbCommand = dataCommand.GetDbCommand();
             dbCommand.Connection = OpenConnection();
@@ -68,12 +68,12 @@ namespace Petecat.Data.Access
             return dbCommand;
         }
 
-        public int ExecuteNonQuery(IDataCommand dataCommand)
+        public int ExecuteNonQuery(IDataCommandObject dataCommand)
         {
             return CreateDbCommnad(dataCommand).ExecuteNonQuery();
         }
 
-        public bool ExecuteTransaction(Func<IDatabase, bool> execution)
+        public bool ExecuteTransaction(Func<IDatabaseObject, bool> execution)
         {
             var success = false;
             try
@@ -101,7 +101,7 @@ namespace Petecat.Data.Access
             return success;
         }
 
-        public List<T> QueryEntities<T>(IDataCommand dataCommand) where T : class, new()
+        public List<T> QueryEntities<T>(IDataCommandObject dataCommand) where T : class, new()
         {
             var result = new List<T>();
             using (var reader = CreateDbCommnad(dataCommand).ExecuteReader())
@@ -114,7 +114,7 @@ namespace Petecat.Data.Access
             return result;
         }
 
-        public T QueryScalar<T>(IDataCommand dataCommand)
+        public T QueryScalar<T>(IDataCommandObject dataCommand)
         {
             return (T)CreateDbCommnad(dataCommand).ExecuteScalar();
         }

@@ -1,6 +1,6 @@
 ﻿using System.Net.Sockets;
 
-namespace Petecat.Network
+namespace Petecat.Network.Sockets
 {
     public static class SocketFactory
     {

@@ -21,7 +21,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\build\net45\debug\</OutputPath>
+    <OutputPath>bin\debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -55,16 +55,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Archiving\ArchiverTest.cs" />
-    <Compile Include="Configuration\AppSettings.cs" />
-    <Compile Include="Configuration\FileConfigurationManagerTest.cs" />
-    <Compile Include="Configuration\RuntimeConfigurationManagerTest.cs" />
     <Compile Include="Console\Command\TerminalCommandLineUtilityTest.cs" />
     <Compile Include="Data\Access\DataCommandHelperTest.cs" />
     <Compile Include="Data\Access\DataModel.cs" />
     <Compile Include="Data\Formatters\BinarySerializerTest.cs" />
     <Compile Include="Data\Formatters\DataFormatterTest.cs" />
     <Compile Include="Data\Formatters\TestEntities.cs" />
-    <Compile Include="Data\Ini\StringFormatterTest.cs" />
     <Compile Include="Extension\ByteArrayExtensionTest.cs" />
     <Compile Include="IoC\AppleClass.cs" />
     <Compile Include="IoC\BananaClass.cs" />
@@ -108,6 +104,10 @@
   </Choose>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

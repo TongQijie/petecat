@@ -18,6 +18,7 @@ using Petecat.Threading.Configuration;
 using Petecat.Threading;
 using Petecat.Network;
 using System.Net;
+using Petecat.Network.Sockets;
 
 namespace Petecat.ConsoleApp
 {

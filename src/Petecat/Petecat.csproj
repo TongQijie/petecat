@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\build\dms-20160731\net45\debug\</OutputPath>
+    <OutputPath>..\..\build\master\net45\debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -57,12 +57,6 @@
     <Compile Include="Collection\IKeyedObject`.cs" />
     <Compile Include="Collection\KeyedObjectCollectionBase`.cs" />
     <Compile Include="Collection\ThreadSafeKeyedObjectCollection`.cs" />
-    <Compile Include="Configuration\AbstractConfigurationManager.cs" />
-    <Compile Include="Configuration\FileConfigurationManagerBase.cs" />
-    <Compile Include="Configuration\IConfigurationManager.cs" />
-    <Compile Include="Configuration\IFileConfigurationManager.cs" />
-    <Compile Include="Configuration\IRuntimeConfigurationManager.cs" />
-    <Compile Include="Configuration\RuntimeConfigurationManagerBase.cs" />
     <Compile Include="Console\Command\ITerminalCommand.cs" />
     <Compile Include="Console\Command\ITerminalCommandChannel.cs" />
     <Compile Include="Console\Command\TerminalCommandAttribute.cs" />
@@ -77,19 +71,18 @@
     <Compile Include="Console\Errors\TerminalCommandParseException.cs" />
     <Compile Include="Console\Outputs\RegularOutput.cs" />
     <Compile Include="Console\Outputs\RegularColumn.cs" />
-    <Compile Include="Data\Access\DatabaseInstanceCache.cs" />
-    <Compile Include="Data\Access\DataCommandCache.cs" />
-    <Compile Include="Data\Access\DataCommandUtility.cs" />
-    <Compile Include="Data\Access\IDatabase.cs" />
-    <Compile Include="Data\Access\IDataCommand.cs" />
+    <Compile Include="Data\Access\DatabaseObjectManager.cs" />
+    <Compile Include="Data\Access\DataCommandObjectManager.cs" />
+    <Compile Include="Data\Access\IDatabaseObject.cs" />
+    <Compile Include="Data\Access\IDataCommandObject.cs" />
     <Compile Include="Data\Access\Internal\DatabaseObject.cs" />
     <Compile Include="Data\Access\Internal\DataCommandObject.cs" />
     <Compile Include="Data\Attributes\BinarySerializableAttribute.cs" />
-    <Compile Include="Data\Configuration\DatabaseInstance.cs" />
-    <Compile Include="Data\Configuration\DatabaseInstanceCollection.cs" />
-    <Compile Include="Data\Configuration\DataCommand.cs" />
-    <Compile Include="Data\Configuration\DataCommandCollection.cs" />
-    <Compile Include="Data\Configuration\DataCommandParameter.cs" />
+    <Compile Include="Data\Configuration\DatabaseObjectConfig.cs" />
+    <Compile Include="Data\Configuration\DatabaseObjectSectionConfig.cs" />
+    <Compile Include="Data\Configuration\DataCommandObjectConfig.cs" />
+    <Compile Include="Data\Configuration\DataCommandObjectSectionConfig.cs" />
+    <Compile Include="Data\Configuration\DataCommandObjectParameterConfig.cs" />
     <Compile Include="Data\Errors\DatabaseInstanceNotFoundException.cs" />
     <Compile Include="Data\Errors\DataCommandNotFoundException.cs" />
     <Compile Include="Data\Errors\DbProviderNotFoundException.cs" />
@@ -166,14 +159,14 @@
     <Compile Include="Network\Http\HttpConstants.cs" />
     <Compile Include="Network\Http\HttpContentType.cs" />
     <Compile Include="Network\Http\HttpVerb.cs" />
-    <Compile Include="Network\ISocketObject.cs" />
-    <Compile Include="Network\ITcpClientObject.cs" />
-    <Compile Include="Network\ITcpListenerObject.cs" />
-    <Compile Include="Network\SocketConnectedHandlerDelegate.cs" />
-    <Compile Include="Network\SocketDisconnectedHandlerDelegate.cs" />
-    <Compile Include="Network\SocketFactory.cs" />
-    <Compile Include="Network\Internal\SocketObject.cs" />
-    <Compile Include="Network\SocketReceivedDataHandlerDelegate.cs" />
+    <Compile Include="Network\Sockets\ISocketObject.cs" />
+    <Compile Include="Network\Sockets\ITcpClientObject.cs" />
+    <Compile Include="Network\Sockets\ITcpListenerObject.cs" />
+    <Compile Include="Network\Sockets\SocketConnectedHandlerDelegate.cs" />
+    <Compile Include="Network\Sockets\SocketDisconnectedHandlerDelegate.cs" />
+    <Compile Include="Network\Sockets\SocketFactory.cs" />
+    <Compile Include="Network\Sockets\Internal\SocketObject.cs" />
+    <Compile Include="Network\Sockets\SocketReceivedDataHandlerDelegate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Attributes\AutoServiceAttribute.cs" />
     <Compile Include="Service\Attributes\ServiceInterfaceAttribute.cs" />

@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace Petecat.Network
+namespace Petecat.Network.Sockets
 {
     public interface ITcpClientObject : ISocketObject
     {

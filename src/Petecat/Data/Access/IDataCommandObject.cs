@@ -4,7 +4,7 @@ using System.Data.Common;
 
 namespace Petecat.Data.Access
 {
-    public interface IDataCommand
+    public interface IDataCommandObject
     {
         DbCommand GetDbCommand();
 
@@ -12,7 +12,7 @@ namespace Petecat.Data.Access
 
         void SetParameterValue(string parameterName, object parameterValue);
 
-        void SetParameterValues(string parameterName, object[] parameterValues);
+        void SetParameterValues(string parameterName, params object[] parameterValues);
 
         object GetParameterValue(string parameterName);
 
