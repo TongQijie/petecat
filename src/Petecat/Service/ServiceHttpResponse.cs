@@ -37,5 +37,10 @@ namespace Petecat.Service
                 Response.Write(instance);
             }
         }
+
+        public void WriteString(string text)
+        {
+            Response.Write(text);
+        }
     }
 }

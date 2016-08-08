@@ -15,17 +15,15 @@ namespace Petecat.Service
             var request = new ServiceHttpRequest(context.Request);
             var response = new ServiceHttpResponse(context.Response, context.Request.AcceptTypes);
 
+            response.SetStatusCode(200);
             try
             {
                 InternalProcessRequest(request, response);
-                response.SetStatusCode(200);
             }
             catch (Exception e)
             {
                 LoggerManager.GetLogger().LogEvent("ServiceHttpHandler", LoggerLevel.Error, e);
-
-                response.SetStatusCode(400);
-                response.WriteObject(e.Message);
+                response.WriteString(e.Message);
             }
         }
 
