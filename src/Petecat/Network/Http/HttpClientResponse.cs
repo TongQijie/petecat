@@ -6,6 +6,7 @@ using System.Linq;
 
 using Petecat.Data.Errors;
 using Petecat.Data.Formatters;
+using Petecat.Extension;
 
 namespace Petecat.Network.Http
 {
@@ -45,7 +46,7 @@ namespace Petecat.Network.Http
 
                 while ((count = inputStream.Read(buffer, 0, buffer.Length)) > 0)
                 {
-                    data = data.Concat(new byte[count]).ToArray();
+                    data = data.Append(new byte[count]);
                     Buffer.BlockCopy(buffer, 0, data, data.Length - count, count);
 
                     progress(data.Length, false);

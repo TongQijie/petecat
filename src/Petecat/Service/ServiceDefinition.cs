@@ -4,6 +4,7 @@ using System.Linq;
 using Petecat.Collection;
 using Petecat.Utility;
 using Petecat.IoC;
+using Petecat.Extension;
 
 namespace Petecat.Service
 {
@@ -34,7 +35,7 @@ namespace Petecat.Service
             {
                 if (ReflectionUtility.ContainsCustomAttribute<Attributes.ServiceMethodAttribute>(x.Info))
                 {
-                    Methods = Methods.Concat(new ServiceMethodDefinition[] { new ServiceMethodDefinition(x) }).ToArray();
+                    Methods = Methods.Append(new ServiceMethodDefinition(x));
                 }
             });
         }

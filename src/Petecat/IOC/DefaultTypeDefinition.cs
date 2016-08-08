@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Reflection;
 
+using Petecat.Extension;
+
 namespace Petecat.IoC
 {
     public class DefaultTypeDefinition : ITypeDefinition
@@ -30,7 +32,7 @@ namespace Petecat.IoC
 
                     (Info as Type).GetConstructors().ToList().ForEach(x =>
                     {
-                        constructors = constructors.Concat(new IConstructorMethodDefinition[] { new DefaultConstructorMethodDefinition(x) }).ToArray();
+                        constructors = constructors.Append(new DefaultConstructorMethodDefinition(x));
                     });
 
                     _Constructors = constructors;
@@ -52,7 +54,7 @@ namespace Petecat.IoC
 
                     (Info as Type).GetMethods().ToList().ForEach(x =>
                     {
-                        instanceMethods = instanceMethods.Concat(new IInstanceMethodDefinition[] { new DefaultInstanceMethodDefinition(x) }).ToArray();
+                        instanceMethods = instanceMethods.Append(new DefaultInstanceMethodDefinition(x));
                     });
 
                     _InstanceMethods = instanceMethods;
@@ -74,7 +76,7 @@ namespace Petecat.IoC
 
                     (Info as Type).GetProperties().ToList().ForEach(x =>
                     {
-                        properties = properties.Concat(new IPropertyDefinition[] { new DefaultPropertyDefinition(x) }).ToArray();
+                        properties = properties.Append(new DefaultPropertyDefinition(x));
                     });
 
                     _Properties = properties;
