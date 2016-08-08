@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 
+using Petecat.Extension;
+
 namespace Petecat.IoC
 {
     public abstract class AbstractMethodDefinition : IMethodDefinition
@@ -83,7 +85,7 @@ namespace Petecat.IoC
 
                 if (parameterInfo.ParameterType.IsAssignableFrom(argument.ArgumentValue.GetType()))
                 {
-                    argumentValues = argumentValues.Concat(new object[] { argument.ArgumentValue }).ToArray();
+                    argumentValues = argumentValues.Append(argument.ArgumentValue);
                 }
                 else if (typeof(IConvertible).IsAssignableFrom(argument.ArgumentValue.GetType()))
                 {
@@ -97,7 +99,7 @@ namespace Petecat.IoC
                         return false;
                     }
 
-                    argumentValues = argumentValues.Concat(new object[] { typeChangedValue }).ToArray();
+                    argumentValues = argumentValues.Append(typeChangedValue);
                 }
             }
 

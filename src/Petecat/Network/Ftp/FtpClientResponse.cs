@@ -4,6 +4,8 @@ using System.Net;
 using System.Linq;
 using System.Text;
 
+using Petecat.Extension;
+
 namespace Petecat.Network.Ftp
 {
     public class FtpClientResponse : IDisposable
@@ -42,7 +44,7 @@ namespace Petecat.Network.Ftp
 
                 while ((count = inputStream.Read(buffer, 0, buffer.Length)) > 0)
                 {
-                    data = data.Concat(new byte[count]).ToArray();
+                    data = data.Append(new byte[count]);
                     Buffer.BlockCopy(buffer, 0, data, data.Length - count, count);
 
                     progress(data.Length, false);

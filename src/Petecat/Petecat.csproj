@@ -113,6 +113,7 @@
     <Compile Include="Data\Attributes\PlainDataMappingAttribute.cs" />
     <Compile Include="Data\Entity\Internal\PlainDataMappingPropertyInfo.cs" />
     <Compile Include="Data\Formatters\DataContractXmlFormatter.cs" />
+    <Compile Include="Extension\ArrayExtension.cs" />
     <Compile Include="Extension\ByteArrayExtension.cs" />
     <Compile Include="Extension\StringExtension.cs" />
     <Compile Include="IoC\AbstractMethodDefinition.cs" />

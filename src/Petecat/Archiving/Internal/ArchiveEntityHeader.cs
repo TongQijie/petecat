@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
+using Petecat.Extension;
+
 namespace Petecat.Archiving
 {
     internal class ArchiveEntityHeader
@@ -40,7 +42,7 @@ namespace Petecat.Archiving
             {
                 if (b != 0xFF)
                 {
-                    buffer = buffer.Concat(new byte[] { (byte)b }).ToArray();
+                    buffer = buffer.Append((byte)b);
                 }
                 else
                 {
