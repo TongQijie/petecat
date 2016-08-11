@@ -47,7 +47,7 @@ namespace Petecat.Service
             var serviceDefinition = _LoadedServiceDefinitions.Get(request.ServiceName, null);
             if (serviceDefinition == null)
             {
-                throw new Exception(string.Format("service named '{0}' does not exist.", request.ServiceName));
+                throw new Errors.ServiceDefinitionNotFoundException(request.ServiceName);
             }
 
             var methodArguments = request.ReadQueryString().Select(x => new MethodArgument() { Name = x.Key, ArgumentValue = x.Value }).ToArray();
@@ -63,7 +63,7 @@ namespace Petecat.Service
 
             if (method == null)
             {
-                throw new Exception("method does not exist or match.");
+                throw new Errors.ServiceMethodNotMatchedException(request.MethodName);
             }
 
             if (serviceDefinition.Singleton == null)
@@ -73,7 +73,7 @@ namespace Petecat.Service
 
             if (serviceDefinition.Singleton == null)
             {
-                throw new Exception("service implement does not exist.");
+                throw new Errors.ServiceImplementNotFoundException(serviceDefinition.Key);
             }
 
             object[] matchedArgumentValues;
@@ -86,7 +86,7 @@ namespace Petecat.Service
             var serviceDefinition = _LoadedServiceDefinitions.Get(request.ServiceName, null);
             if (serviceDefinition == null)
             {
-                throw new Exception(string.Format("service named '{0}' does not exist.", request.ServiceName));
+                throw new Errors.ServiceDefinitionNotFoundException(request.ServiceName);
             }
 
             ServiceMethodDefinition method = null;
@@ -103,7 +103,7 @@ namespace Petecat.Service
 
             if (method == null)
             {
-                throw new Exception("method does not exist or match.");
+                throw new Errors.ServiceMethodNotMatchedException(request.MethodName);
             }
 
             if (serviceDefinition.Singleton == null)
@@ -113,7 +113,7 @@ namespace Petecat.Service
 
             if (serviceDefinition.Singleton == null)
             {
-                throw new Exception("service implement does not exist.");
+                throw new Errors.ServiceImplementNotFoundException(serviceDefinition.Key);
             }
 
             var requestBodyType = (method.ServiceMethod.Info as MethodInfo).GetParameters()[0].ParameterType;

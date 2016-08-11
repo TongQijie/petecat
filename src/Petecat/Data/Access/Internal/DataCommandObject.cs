@@ -19,7 +19,7 @@ namespace Petecat.Data.Access
         {
             if (dbProviderFactory == null)
             {
-                Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "dbProviderFactory is null.");
+                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "dbProviderFactory is null.");
                 throw new ArgumentNullException("dbProviderFactory");
             }
 
@@ -33,7 +33,7 @@ namespace Petecat.Data.Access
         {
             if (databaseObject == null)
             {
-                Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "databaseObject is null.");
+                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "databaseObject is null.");
                 throw new ArgumentNullException("databaseObject");
             }
 

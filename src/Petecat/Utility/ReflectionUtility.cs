@@ -20,7 +20,7 @@ namespace Petecat.Utility
             }
             catch (Exception e)
             {
-                Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("target type not found. type name={0}", typeName), e);
+                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("target type not found. type name={0}", typeName), e);
             }
 
             targetType = null;
@@ -36,7 +36,7 @@ namespace Petecat.Utility
             }
             catch (Exception e)
             {
-                Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("target type not found. type name={0}", typeName), e);
+                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("target type not found. type name={0}", typeName), e);
                 return null;
             }
         }

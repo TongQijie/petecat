@@ -22,8 +22,8 @@ namespace Petecat.Test.Logging.Loggers
 
         private void Setup()
         {
-            LoggerManager.Set(new FileLogger("test01", "test01"));
-            LoggerManager.Set(new FileLogger("test02", "test02"));
+            LoggerManager.SetLogger(new FileLogger("test01", "test01"));
+            LoggerManager.SetLogger(new FileLogger("test02", "test02"));
         }
     }
 }

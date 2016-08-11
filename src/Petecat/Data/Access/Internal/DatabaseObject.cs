@@ -20,13 +20,13 @@ namespace Petecat.Data.Access
         {
             if (string.IsNullOrEmpty(connectionString))
             {
-                Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "ConnectionString is empty.");
+                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "ConnectionString is empty.");
                 throw new ArgumentNullException("connectionString");
             }
 
             if (dbProviderFactory == null)
             {
-                Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "dbProviderFactory is null.");
+                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "dbProviderFactory is null.");
                 throw new ArgumentNullException("dbProviderFactory");
             }
 
@@ -83,7 +83,7 @@ namespace Petecat.Data.Access
             }
             catch (Exception e)
             {
-                Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "failed to execute transaction.", e);
+                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "failed to execute transaction.", e);
             }
             finally
             {

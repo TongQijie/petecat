@@ -83,10 +83,12 @@
     <Compile Include="Data\Configuration\DataCommandObjectConfig.cs" />
     <Compile Include="Data\Configuration\DataCommandObjectSectionConfig.cs" />
     <Compile Include="Data\Configuration\DataCommandObjectParameterConfig.cs" />
-    <Compile Include="Data\Errors\DatabaseInstanceNotFoundException.cs" />
-    <Compile Include="Data\Errors\DataCommandNotFoundException.cs" />
+    <Compile Include="Data\Errors\DatabaseObjectNotFoundException.cs" />
+    <Compile Include="Data\Errors\DataCommandObjectNotFoundException.cs" />
     <Compile Include="Data\Errors\DbProviderNotFoundException.cs" />
     <Compile Include="Data\Errors\FormatterNotFoundException.cs" />
+    <Compile Include="Data\Errors\NotInitializedDatabaseObjectManagerException.cs" />
+    <Compile Include="Data\Errors\NotInitializedDataCommandObjectManagerException.cs" />
     <Compile Include="Data\Formatters\BinaryFormatter.cs" />
     <Compile Include="Data\Formatters\DataContractJsonFormatter.cs" />
     <Compile Include="Data\Formatters\DataFormatterUtility.cs" />
@@ -171,6 +173,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Attributes\AutoServiceAttribute.cs" />
     <Compile Include="Service\Attributes\ServiceInterfaceAttribute.cs" />
+    <Compile Include="Service\Errors\ServiceDefinitionNotFoundException.cs" />
+    <Compile Include="Service\Errors\ServiceImplementNotFoundException.cs" />
+    <Compile Include="Service\Errors\ServiceMethodNotMatchedException.cs" />
     <Compile Include="Service\ServiceAccessMethod.cs" />
     <Compile Include="Service\Attributes\ServiceMethodAttribute.cs" />
     <Compile Include="Service\Attributes\ServiceImplementAttribute.cs" />
