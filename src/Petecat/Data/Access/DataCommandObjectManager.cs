@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 
 using Petecat.Caching;
+using System.Text;
+using Petecat.Data.Formatters;
 
 namespace Petecat.Data.Access
 {
@@ -23,7 +25,8 @@ namespace Petecat.Data.Access
                 throw new FileNotFoundException(configPath);
             }
 
-            CacheObjectManager.Instance.AddXml<Configuration.DataCommandObjectSectionConfig>(CacheObjectName, configPath, true);
+            CacheObjectManager.Instance.Add<Configuration.DataCommandObjectSectionConfig>(CacheObjectName, configPath, Encoding.UTF8,
+                ObjectFormatterFactory.GetFormatter(ObjectFormatterType.Xml), true);
         }
 
         public IDataCommandObject GetDataCommandObject(string name)
