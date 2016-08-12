@@ -78,6 +78,7 @@
     <Compile Include="Data\Access\Internal\DatabaseObject.cs" />
     <Compile Include="Data\Access\Internal\DataCommandObject.cs" />
     <Compile Include="Data\Attributes\BinarySerializableAttribute.cs" />
+    <Compile Include="Data\Attributes\IniSerializableAttribute.cs" />
     <Compile Include="Data\Configuration\DatabaseObjectConfig.cs" />
     <Compile Include="Data\Configuration\DatabaseObjectSectionConfig.cs" />
     <Compile Include="Data\Configuration\DataCommandObjectConfig.cs" />
@@ -94,8 +95,10 @@
     <Compile Include="Data\Formatters\DataFormatterUtility.cs" />
     <Compile Include="Data\Formatters\DataFormatterContent.cs" />
     <Compile Include="Data\Formatters\IDataFormatter.cs" />
+    <Compile Include="Data\Formatters\IniFormatter.cs" />
     <Compile Include="Data\Formatters\Internal\BinaryEncoder.cs" />
     <Compile Include="Data\Formatters\Internal\BinarySerializer.cs" />
+    <Compile Include="Data\Formatters\Internal\IniSerializer.cs" />
     <Compile Include="Data\Formatters\IObjectFormatter.cs" />
     <Compile Include="Data\Formatters\ObjectFormatterFactory.cs" />
     <Compile Include="Data\Formatters\ObjectFormatterType.cs" />

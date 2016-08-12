@@ -81,4 +81,31 @@ namespace Petecat.Test.Data.Formatters
         [BinarySerializable("region")]
         public string Region { get; set; }
     }
+
+    public class ItemInfo
+    {
+        [IniSerializable(Name = "detail")]
+        public ItemDetail Detail { get; set; }
+
+        [IniSerializable(Name = "price")]
+        public ItemPrice Price { get; set; }
+    }
+
+    public class ItemDetail
+    {
+        [IniSerializable(Name = "name")]
+        public string Name { get; set; }
+
+        [IniSerializable(Name = "qty")]
+        public int Qty { get; set; }
+    }
+
+    public class ItemPrice
+    {
+        [IniSerializable(Name = "price")]
+        public decimal Price { get; set; }
+
+        [IniSerializable(Name = "currency")]
+        public string Currency { get; set; }
+    }
 }
