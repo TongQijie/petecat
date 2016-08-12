@@ -24,13 +24,10 @@ namespace Petecat.Service
 
         public void WriteObject(object instance)
         {
-            if (AcceptTypes.Contains("application/xml"))
+            var objectFormatter = ServiceHttpFormatter.GetFormatter(AcceptTypes);
+            if (objectFormatter != null)
             {
-                new XmlFormatter().WriteObject(instance, Response.OutputStream);
-            }
-            else if (AcceptTypes.Contains("application/json"))
-            {
-                new DataContractJsonFormatter().WriteObject(instance, Response.OutputStream);
+                objectFormatter.WriteObject(instance, Response.OutputStream);
             }
             else
             {

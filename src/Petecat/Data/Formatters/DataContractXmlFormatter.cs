@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Xml;
+using System.Text;
+using System.Runtime.Serialization;
 
 namespace Petecat.Data.Formatters
 {
-    public class DataContractXmlFormatter : IDataFormatter
+    public class DataContractXmlFormatter : IDataFormatter, IObjectFormatter
     {
         public object ReadObject(Type targetType, Stream stream)
         {

@@ -4,8 +4,7 @@ using System.Text;
 
 namespace Petecat.Data.Formatters
 {
-    [Obsolete("this interface is replaced by IObjectFormatter.")]
-    public interface IDataFormatter
+    public interface IObjectFormatter
     {
         T ReadObject<T>(string path, Encoding encoding);
 
@@ -24,11 +23,6 @@ namespace Petecat.Data.Formatters
         object ReadObject(Type targetType, byte[] byteValues, int offset, int count);
 
         void WriteObject(object instance, string path, Encoding encoding);
-
-        /// <summary>
-        /// [Obsolete] replaced by WriteString(object instance);
-        /// </summary>
-        string WriteObject(object instance);
 
         void WriteObject(object instance, Stream stream);
 

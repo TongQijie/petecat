@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Petecat.Data.Formatters
 {
-    public class BinaryFormatter : IDataFormatter
+    public class BinaryFormatter : IDataFormatter, IObjectFormatter
     {
         public T ReadObject<T>(string path, Encoding encoding)
         {

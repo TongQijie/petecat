@@ -29,15 +29,15 @@ namespace Petecat.Service
 
         private void InternalProcessRequest(ServiceHttpRequest request, ServiceHttpResponse response)
         {
-            var parts = ServiceHttpPathHelper.Get(request.Request.RawUrl).Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
-            if (parts.Length == 0 || parts.Length > 2)
+            var parts = ServiceHttpPathHelper.Get(request.Request.RawUrl);
+            if (string.IsNullOrEmpty(request.ServiceName))
             {
-                throw new Exception("Welcome to Service Host. Please specify service name and method name to access specified service.");
+                throw new Errors.ServiceNameNotSpecifiedException();
             }
 
             if (ServiceManager.Instance == null)
             {
-                throw new Exception("Service Manager has not initialized.");
+                throw new Errors.ServiceManagerNotInitializedException();
             }
 
             if (request.Request.HttpMethod.Equals("GET", StringComparison.OrdinalIgnoreCase))
@@ -50,7 +50,7 @@ namespace Petecat.Service
             }
             else
             {
-                throw new Exception(string.Format("Http Method '{0}' not support now.", request.Request.HttpMethod));
+                throw new Errors.ServiceHttpMethodNotSupportException(request.Request.HttpMethod);
             }
         }
     }

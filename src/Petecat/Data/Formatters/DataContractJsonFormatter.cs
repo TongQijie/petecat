@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Runtime.Serialization.Json;
 
 namespace Petecat.Data.Formatters
 {
-    public class DataContractJsonFormatter : IDataFormatter
+    public class DataContractJsonFormatter : IDataFormatter, IObjectFormatter
     {
         public object ReadObject(Type targetType, Stream stream)
         {
