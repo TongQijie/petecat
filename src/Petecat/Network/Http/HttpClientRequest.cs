@@ -105,6 +105,20 @@ namespace Petecat.Network.Http
             }
         }
 
+        public void SetRequestBody(object requestBody)
+        {
+            var objectFormatter = HttpFormatterSelector.Get(Request.ContentType);
+            if (objectFormatter == null)
+            {
+                throw new Exception(string.Format("cannot find object formatter for contenttype '{0}'", Request.ContentType));
+            }
+
+            using (var requestStream = Request.GetRequestStream())
+            {
+                objectFormatter.WriteObject(requestBody, requestStream);
+            }
+        }
+
         public HttpClientResponse GetResponse()
         {
             try
