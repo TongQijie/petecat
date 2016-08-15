@@ -56,5 +56,73 @@ namespace Petecat.Extension
 
             return true;
         }
+
+        public static int IndexOf<T>(this T[] data, T flag, int startIndex, int count)
+        {
+            return data.ToList().IndexOf(flag, startIndex, count);
+        }
+
+        public static int IndexOfEx<T>(this T[] data, T[] findBytes, int startIndex, int count)
+        {
+            for (int i = startIndex; i < data.Length && i < (startIndex + count); i++)
+            {
+                var k = i;
+                var foundBytes = true;
+                for (int j = 0; j < findBytes.Length && k < data.Length && k < (startIndex + count); j++, k++)
+                {
+                    if (!data[k].Equals(findBytes[j]))
+                    {
+                        foundBytes = false;
+                        break;
+                    }
+                }
+
+                if (foundBytes)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        public static int IndexOfEx<T>(this T[] data, T[][] findBytesSet, int startIndex, int count, out int index)
+        {
+            for (int i = startIndex; i < data.Length && i < (startIndex + count); i++)
+            {
+                for (int h = 0; h < findBytesSet.Length; h++)
+                {
+                    var foundBytes = true;
+                    var k = i;
+                    for (int j = 0; j < findBytesSet[h].Length && k < data.Length && k < (startIndex + count); j++, k++)
+                    {
+                        if (!data[k].Equals(findBytesSet[h][j]))
+                        {
+                            foundBytes = false;
+                            break;
+                        }
+                    }
+
+                    if (foundBytes)
+                    {
+                        index = h;
+                        return i;
+                    }
+                }
+            }
+
+            index = -1;
+            return -1;
+        }
+
+        public static T[] SubArray<T>(this T[] data, int startIndex)
+        {
+            return data.ToList().Skip(startIndex).ToArray();
+        }
+
+        public static T[] SubArray<T>(this T[] data, int startIndex, int count)
+        {
+            return data.ToList().Skip(startIndex).Take(count).ToArray();
+        }
     }
 }
