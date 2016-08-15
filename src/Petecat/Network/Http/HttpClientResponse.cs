@@ -102,7 +102,6 @@ namespace Petecat.Network.Http
 
             using (var responseStream = Response.GetResponseStream())
             {
-                SkipStreamUtf8BOM(responseStream);
                 return objectFormatter.ReadObject<TResponse>(responseStream);
             }
         }
@@ -118,7 +117,6 @@ namespace Petecat.Network.Http
 
             using (var responseStream = Response.GetResponseStream())
             {
-                SkipStreamUtf8BOM(responseStream);
                 return dataFormatter.ReadObject<TResponse>(responseStream);
             }
         }
@@ -127,7 +125,6 @@ namespace Petecat.Network.Http
         {
             using (var responseStream = Response.GetResponseStream())
             {
-                SkipStreamUtf8BOM(responseStream);
                 return objectFormatter.ReadObject<TResponse>(responseStream);
             }
         }
@@ -135,20 +132,6 @@ namespace Petecat.Network.Http
         public void Dispose()
         {
             Response.Close();
-        }
-
-        private void SkipStreamUtf8BOM(Stream stream)
-        {
-            var buffer = new byte[3];
-            var count = stream.Read(buffer, 0, 3);
-            if (count == 3 && buffer[0] == 0xEF && buffer[1] == 0xBB && buffer[2] == 0xBF)
-            {
-                return;
-            }
-            else
-            {
-                stream.Seek(-3, SeekOrigin.Current);
-            }
         }
     }
 }

@@ -56,7 +56,7 @@ namespace Petecat.Service.Client
             {
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    return response.GetObject<TResponse>();
+                    return response.GetObject<TResponse>(HttpFormatterSelector.Get(serviceResourceConfig.Accept ?? "application/json"));
                 }
                 else
                 {

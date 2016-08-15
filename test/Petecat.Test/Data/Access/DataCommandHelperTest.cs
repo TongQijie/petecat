@@ -29,12 +29,11 @@ namespace Petecat.Test.Data.Access
         [TestMethod]
         public void ExecuteTransaction()
         {
-            var databaseObject = DatabaseObjectManager.Instance.GetDatabaseObject("test");
-            databaseObject.ExecuteTransaction((db) =>
+            var dataCommandObject = DataCommandObjectManager.Instance.GetDataCommandObject("InsertProduct");
+            dataCommandObject.DatabaseObject.ExecuteTransaction((db) =>
             {
                 var id = new Random().Next(100, 1000);
-
-                var dataCommandObject = DataCommandObjectManager.Instance.GetDataCommandObject("InsertProduct", db);
+                
                 dataCommandObject.SetParameterValue("@ID", id);
                 dataCommandObject.SetParameterValue("@Name", id.ToString());
                 dataCommandObject.SetParameterValue("@ListPrice", id);

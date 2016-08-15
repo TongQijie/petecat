@@ -15,6 +15,8 @@ namespace Petecat.Data.Access
 
         private DbCommand _DbCommand = null;
 
+        public IDatabaseObject DatabaseObject { get { return _DatabaseObject; } }
+
         public DataCommandObject(DbProviderFactory dbProviderFactory, CommandType commandType, string commandText)
         {
             if (dbProviderFactory == null)
