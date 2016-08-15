@@ -5,12 +5,12 @@ namespace Petecat.Data.Errors
     public class FormatterNotFoundException : Exception
     {
         public FormatterNotFoundException()
-            : base(string.Format("formatter not found."))
+            : base(string.Format("object formatter cannot be found."))
         {
         }
 
         public FormatterNotFoundException(string formatterString)
-            : base(string.Format("formatter({0}) not found.", formatterString))
+            : base(string.Format("object formatter '{0}' cannot be found.", formatterString))
         {
         }
     }

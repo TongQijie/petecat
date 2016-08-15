@@ -78,7 +78,7 @@ namespace Petecat.Data.Access
             var success = false;
             try
             {
-                _DbTransaction = _DbConnection.BeginTransaction();
+                _DbTransaction = OpenConnection().BeginTransaction();
                 success = execution(this);
             }
             catch (Exception e)
@@ -87,15 +87,19 @@ namespace Petecat.Data.Access
             }
             finally
             {
-                if (success)
+                if (_DbTransaction != null)
                 {
-                    _DbTransaction.Commit();
+                    if (success)
+                    {
+                        _DbTransaction.Commit();
+                    }
+                    else
+                    {
+                        _DbTransaction.Rollback();
+                    }
+
+                    _DbTransaction = null;
                 }
-                else
-                {
-                    _DbTransaction.Rollback();
-                }
-                _DbTransaction = null;
             }
 
             return success;

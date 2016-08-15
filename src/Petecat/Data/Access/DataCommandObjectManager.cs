@@ -29,7 +29,7 @@ namespace Petecat.Data.Access
                 ObjectFormatterFactory.GetFormatter(ObjectFormatterType.Xml), true);
         }
 
-        public IDataCommandObject GetDataCommandObject(string name)
+        public IDataCommandObject GetDataCommandObject(string name, IDatabaseObject databaseObject = null)
         {
             var cacheObject = CacheObjectManager.Instance.GetObject(CacheObjectName);
             if (cacheObject == null)
@@ -49,7 +49,10 @@ namespace Petecat.Data.Access
                 throw new Errors.DataCommandObjectNotFoundException(name);
             }
 
-            var databaseObject = DatabaseObjectManager.Instance.GetDatabaseObject(dataCommandObjectConfig.Database);
+            if (databaseObject == null)
+            {
+                databaseObject = DatabaseObjectManager.Instance.GetDatabaseObject(dataCommandObjectConfig.Database);
+            }
             if (databaseObject == null)
             {
                 throw new Errors.DatabaseObjectNotFoundException(dataCommandObjectConfig.Database);
