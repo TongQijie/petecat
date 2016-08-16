@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Linq;
 
 using Petecat.Extension;
+using Petecat.Utility;
 
 namespace Petecat.IoC
 {
@@ -83,22 +84,9 @@ namespace Petecat.IoC
                     return false;
                 }
 
-                if (parameterInfo.ParameterType.IsAssignableFrom(argument.ArgumentValue.GetType()))
+                object typeChangedValue;
+                if (ReflectionUtility.TryChangeType(argument.ArgumentValue, parameterInfo.ParameterType, out typeChangedValue))
                 {
-                    argumentValues = argumentValues.Append(argument.ArgumentValue);
-                }
-                else if (typeof(IConvertible).IsAssignableFrom(argument.ArgumentValue.GetType()))
-                {
-                    object typeChangedValue;
-                    try
-                    {
-                        typeChangedValue = Convert.ChangeType(argument.ArgumentValue, parameterInfo.ParameterType);
-                    }
-                    catch (Exception)
-                    {
-                        return false;
-                    }
-
                     argumentValues = argumentValues.Append(typeChangedValue);
                 }
             }

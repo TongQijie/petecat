@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Petecat.Utility;
+
+using System;
 using System.Reflection;
 
 namespace Petecat.IoC
@@ -18,14 +20,14 @@ namespace Petecat.IoC
         {
             var propertyInfo = Info as PropertyInfo;
 
-            try
+            object typeChangedValue;
+            if (ReflectionUtility.TryChangeType(value, propertyInfo.PropertyType, out typeChangedValue))
             {
-                var propertyValue = Convert.ChangeType(value, propertyInfo.PropertyType);
-                propertyInfo.SetValue(instance, propertyValue);
+                propertyInfo.SetValue(instance, typeChangedValue);
             }
-            catch (Exception)
+            else
             {
-                throw;
+                propertyInfo.SetValue(instance, null);
             }
         }
     }

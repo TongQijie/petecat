@@ -47,7 +47,23 @@ namespace Petecat.IoC
         {
             if (Arguments == null || Arguments.Length == 0)
             {
-                return TypeDefinition.GetInstance();
+                var instance = TypeDefinition.GetInstance();
+
+                if (Properties != null && Properties.Length > 0)
+                {
+                    foreach (var property in Properties)
+                    {
+                        var propertyDefinition = TypeDefinition.Properties.FirstOrDefault(x => x.PropertyName == property.Name);
+                        if (propertyDefinition == null)
+                        {
+                            return null;
+                        }
+
+                        propertyDefinition.SetValue(instance, property.PropertyValue);
+                    }
+                }
+
+                return instance;
             }
             else
             {

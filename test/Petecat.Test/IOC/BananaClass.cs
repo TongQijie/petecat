@@ -1,5 +1,8 @@
-﻿namespace Petecat.Test.IoC
+﻿using Petecat.IoC.Attributes;
+
+namespace Petecat.Test.IoC
 {
+    [Resolvable]
     public class BananaClass
     {
         public BananaClass()

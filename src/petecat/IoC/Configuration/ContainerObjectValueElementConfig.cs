@@ -26,7 +26,7 @@ namespace Petecat.IoC.Configuration
         {
             get
             {
-                return ElementValue.Name == "object";
+                return ElementValue != null && ElementValue.Name == "object";
             }
         }
 
@@ -34,7 +34,7 @@ namespace Petecat.IoC.Configuration
         {
             get
             {
-                return ElementValue.Name == "list";
+                return ElementValue != null && ElementValue.Name == "list";
             }
         }
 
