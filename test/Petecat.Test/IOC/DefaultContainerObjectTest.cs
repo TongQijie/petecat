@@ -8,7 +8,7 @@ namespace Petecat.Test.IoC
     {
         public DefaultContainerObjectTest()
         {
-            AppDomainContainer.Initialize().RegisterContainerObjects("./objects.config");
+            AppDomainContainer.Initialize().RegisterContainerObjects("./IoC/objects.config");
         }
 
         [TestMethod]

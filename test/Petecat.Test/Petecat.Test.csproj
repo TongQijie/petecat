@@ -87,6 +87,11 @@
   <ItemGroup>
     <Folder Include="Service\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="IoC\objects.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
