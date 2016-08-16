@@ -2,6 +2,7 @@
 
 namespace Petecat.IoC.Configuration
 {
+    [XmlRoot("object")]
     public class ContainerObjectConfig
     {
         [XmlAttribute("name")]

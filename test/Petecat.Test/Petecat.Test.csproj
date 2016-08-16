@@ -66,6 +66,7 @@
     <Compile Include="Extension\ByteArrayExtensionTest.cs" />
     <Compile Include="IoC\AppleClass.cs" />
     <Compile Include="IoC\BananaClass.cs" />
+    <Compile Include="IoC\DefaultContainerObjectTest.cs" />
     <Compile Include="IoC\DefaultContainerTest.cs" />
     <Compile Include="IoC\IPearClass.cs" />
     <Compile Include="IoC\PearClass.cs" />

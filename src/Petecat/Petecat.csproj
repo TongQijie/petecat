@@ -126,7 +126,7 @@
     <Compile Include="Extension\StringExtension.cs" />
     <Compile Include="IoC\AbstractMethodDefinition.cs" />
     <Compile Include="IoC\AppDomainContainer.cs" />
-    <Compile Include="IoC\AssemblyInfo.cs" />
+    <Compile Include="IoC\ContainerAssemblyInfo.cs" />
     <Compile Include="IoC\Attributes\AutoResolvableAttribute.cs" />
     <Compile Include="IoC\Attributes\ResolvableAttribute.cs" />
     <Compile Include="IoC\Configuration\ContainerImporterConfig.cs" />
@@ -135,10 +135,14 @@
     <Compile Include="IoC\Configuration\ContainerObjectsConfig.cs" />
     <Compile Include="IoC\Configuration\ContainerObjectConfig.cs" />
     <Compile Include="IoC\Configuration\ContainerObjectPropertyConfig.cs" />
+    <Compile Include="IoC\Configuration\ContainerObjectValueCollectionConfig.cs" />
+    <Compile Include="IoC\Configuration\ContainerObjectValueElementConfig.cs" />
     <Compile Include="IoC\DefaultConstructorMethodDefinition.cs" />
     <Compile Include="IoC\DefaultContainerObject.cs" />
     <Compile Include="IoC\DefaultInstanceMethodDefinition.cs" />
     <Compile Include="IoC\DefaultPropertyDefinition.cs" />
+    <Compile Include="IoC\Errors\ContainerAssemblyRegisterFailedException.cs" />
+    <Compile Include="IoC\Errors\ContainerObjectNotFoundException.cs" />
     <Compile Include="IoC\IConstructorMethodDefinition.cs" />
     <Compile Include="IoC\IContainerObject.cs" />
     <Compile Include="IoC\IMemberDefinition.cs" />

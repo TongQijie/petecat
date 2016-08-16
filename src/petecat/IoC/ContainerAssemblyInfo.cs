@@ -3,9 +3,9 @@ using System.Reflection;
 
 namespace Petecat.IoC
 {
-    public class AssemblyInfo
+    public class ContainerAssemblyInfo
     {
-        public AssemblyInfo(Assembly assembly)
+        public ContainerAssemblyInfo(Assembly assembly)
         {
             Location = assembly.Location;
             var info = new FileInfo(Location);

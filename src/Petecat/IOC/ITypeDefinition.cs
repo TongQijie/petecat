@@ -16,6 +16,6 @@ namespace Petecat.IoC
 
         IPropertyDefinition[] Properties { get; }
 
-        AssemblyInfo AssemblyInfo { get; }
+        ContainerAssemblyInfo AssemblyInfo { get; }
     }
 }

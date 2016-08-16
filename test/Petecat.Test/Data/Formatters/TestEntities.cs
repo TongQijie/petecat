@@ -3,6 +3,8 @@
 using Petecat.Data.Attributes;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using System.Xml;
 
 namespace Petecat.Test.Data.Formatters
 {
@@ -107,5 +109,31 @@ namespace Petecat.Test.Data.Formatters
 
         [IniSerializable(Name = "currency")]
         public string Currency { get; set; }
+    }
+
+    [XmlRoot("settings")]
+    public class GlobalSettings
+    {
+        [XmlElement("network")]
+        public NetworkSetting[] NetworkSettings { get; set; }
+    }
+
+    [XmlRoot("network")]
+    public class NetworkSetting
+    {
+        [XmlAttribute("name")]
+        public string Name { get; set; }
+
+        [XmlElement("desc")]
+        public Description Description { get; set; }
+    }
+
+    public class Description
+    {
+        [XmlAnyElement]
+        public XmlElement Node { get; set; }
+
+        [XmlText]
+        public string Text { get; set; }
     }
 }
