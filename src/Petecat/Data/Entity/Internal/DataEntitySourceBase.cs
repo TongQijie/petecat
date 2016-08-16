@@ -25,6 +25,10 @@ namespace Petecat.Data.Entity
             {
                 return this[columnName].ToString().Trim();
             }
+            else if (targetType.IsEnum)
+            {
+                return Enum.ToObject(targetType, this[columnName]);
+            }
             else
             {
                 return Convert.ChangeType(this[columnName], targetType);
