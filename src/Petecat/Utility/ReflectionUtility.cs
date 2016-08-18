@@ -20,7 +20,7 @@ namespace Petecat.Utility
             }
             catch (Exception e)
             {
-                Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("target type not found. type name={0}", typeName), e);
+                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("target type not found. type name={0}", typeName), e);
             }
 
             targetType = null;
@@ -36,7 +36,7 @@ namespace Petecat.Utility
             }
             catch (Exception e)
             {
-                Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("target type not found. type name={0}", typeName), e);
+                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("target type not found. type name={0}", typeName), e);
                 return null;
             }
         }
@@ -70,6 +70,53 @@ namespace Petecat.Utility
             }
 
             attribute = null;
+            return false;
+        }
+
+        public static bool TryChangeType(object value, Type targetType, out object typeChangedValue)
+        {
+            if (targetType.IsAssignableFrom(value.GetType()))
+            {
+                typeChangedValue = value;
+                return true;
+            }
+            else if (typeof(IConvertible).IsAssignableFrom(value.GetType()))
+            {
+                try
+                {
+                    typeChangedValue = Convert.ChangeType(value, targetType);
+                }
+                catch (Exception)
+                {
+                    typeChangedValue = null;
+                    return false;
+                }
+
+                return true;
+            }
+            else if (targetType.IsArray && value.GetType().IsArray)
+            {
+                var array = value as Array;
+                var collection = Array.CreateInstance(targetType.GetElementType(), array.Length) as Array;
+                for (int i = 0; i < array.Length; i++)
+                {
+                    object result;
+                    if (TryChangeType(array.GetValue(i), targetType.GetElementType(), out result))
+                    {
+                        collection.SetValue(result, i);
+                    }
+                    else
+                    {
+                        typeChangedValue = null;
+                        return false;
+                    }
+                }
+
+                typeChangedValue = collection;
+                return true;
+            }
+
+            typeChangedValue = null;
             return false;
         }
     }

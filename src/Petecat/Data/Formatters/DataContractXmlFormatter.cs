@@ -1,12 +1,12 @@
 ﻿using System;
 using System.IO;
-using System.Runtime.Serialization;
-using System.Text;
 using System.Xml;
+using System.Text;
+using System.Runtime.Serialization;
 
 namespace Petecat.Data.Formatters
 {
-    public class DataContractXmlFormatter : IDataFormatter
+    public class DataContractXmlFormatter : IDataFormatter, IObjectFormatter
     {
         public object ReadObject(Type targetType, Stream stream)
         {
@@ -55,9 +55,7 @@ namespace Petecat.Data.Formatters
             return (T)ReadObject<T>(Encoding.UTF8.GetString(byteValues, offset, count));
         }
 
-        /// <summary>
-        /// [Obsolete] replaced by WriteString(object instance);
-        /// </summary>
+        [Obsolete("this is replaced by WriteString(object instance)")]
         public string WriteObject(object instance)
         {
             using (var memoryStream = new MemoryStream())
@@ -83,7 +81,7 @@ namespace Petecat.Data.Formatters
         {
             using (var streamWriter = new StreamWriter(path, false, encoding))
             {
-                streamWriter.Write(WriteObject(instance));
+                streamWriter.Write(WriteString(instance));
             }
         }
 

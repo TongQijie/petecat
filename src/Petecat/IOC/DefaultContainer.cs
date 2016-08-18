@@ -9,6 +9,7 @@ using Petecat.Collection;
 using Petecat.Utility;
 using Petecat.Data.Formatters;
 using Petecat.Extension;
+using Petecat.IoC.Configuration;
 
 namespace Petecat.IoC
 {
@@ -145,8 +146,15 @@ namespace Petecat.IoC
 
         public void RegisterContainerAssembly(Assembly assembly)
         {
-            assembly.GetTypes().Where(x => ReflectionUtility.ContainsCustomAttribute<Attributes.ResolvableAttribute>(x)).ToList()
-                .ForEach(x => { _LoadedTypeDefinitions.Add(new DefaultTypeDefinition(x)); });
+            try
+            {
+                assembly.GetTypes().Where(x => ReflectionUtility.ContainsCustomAttribute<Attributes.ResolvableAttribute>(x)).ToList()
+                    .ForEach(x => { _LoadedTypeDefinitions.Add(new DefaultTypeDefinition(x)); });
+            }
+            catch (Exception e)
+            {
+                throw new Errors.ContainerAssemblyRegisterFailedException(assembly.FullName, e);
+            }
         }
 
         public void RegisterContainerAssembly(string assemblyPath)
@@ -222,28 +230,12 @@ namespace Petecat.IoC
 
                 for (int i = 0; i < containerObject.Arguments.Length; i++)
                 {
-                    var argument = new MethodArgument()
+                    containerObject.Arguments[i] = new MethodArgument()
                     {
                         Name = containerObjectConfig.Arguments[i].Name,
                         Index = containerObjectConfig.Arguments[i].Index,
+                        ArgumentValue = GetElementValue(containerObjectConfig.Arguments[i]),
                     };
-
-                    if (!containerObjectConfig.Arguments[i].IsObjectValue)
-                    {
-                        argument.ArgumentValue = containerObjectConfig.Arguments[i].StringValue ?? "";
-                    }
-                    else
-                    {
-                        var objectValue = _LoadedContainerObjects.Get(containerObjectConfig.Arguments[i].ObjectName, null);
-                        if (objectValue == null)
-                        {
-                            throw new Exception(string.Format("argument object {0} not found.", containerObjectConfig.Arguments[i].ObjectName));
-                        }
-
-                        argument.ArgumentValue = objectValue.GetObject();
-                    }
-
-                    containerObject.Arguments[i] = argument;
                 }
             }
 
@@ -253,29 +245,67 @@ namespace Petecat.IoC
 
                 for (int i = 0; i < containerObject.Properties.Length; i++)
                 {
-                    var property = new InstanceProperty() { Name = containerObjectConfig.Properties[i].Name };
-
-                    if (!containerObjectConfig.Properties[i].IsObjectValue)
+                    containerObject.Properties[i] = new InstanceProperty()
                     {
-                        property.PropertyValue = containerObjectConfig.Properties[i].StringValue;
-                    }
-                    else
-                    {
-                        var objectValue = _LoadedContainerObjects.Get(containerObjectConfig.Arguments[i].ObjectName, null);
-                        if (objectValue == null)
-                        {
-                            throw new Exception(string.Format("argument object {0} not found.", containerObjectConfig.Arguments[i].ObjectName));
-                        }
-
-                        property.PropertyValue = objectValue.GetObject();
-                    }
-
-                    containerObject.Properties[i] = property;
+                        Name = containerObjectConfig.Properties[i].Name,
+                        PropertyValue = GetElementValue(containerObjectConfig.Properties[i]),
+                    };
                 }
             }
 
             _LoadedTypeDefinitions.Add(containerObject.TypeDefinition);
             _LoadedContainerObjects.Add(containerObject);
+        }
+
+        private object GetElementValue(Configuration.ContainerObjectValueElementConfig containerObjectValueElementConfig)
+        {
+            if (containerObjectValueElementConfig.IsReferenceObject)
+            {
+                var objectValue = _LoadedContainerObjects.Get(containerObjectValueElementConfig.ObjectName, null);
+                if (objectValue == null)
+                {
+                    throw new Errors.ContainerObjectNotFoundException(containerObjectValueElementConfig.ObjectName);
+                }
+
+                return objectValue.GetObject();
+            }
+            else if (containerObjectValueElementConfig.IsDirectObject)
+            {
+                var config = new XmlFormatter().ReadObject<ContainerObjectConfig>(containerObjectValueElementConfig.ElementValue.OuterXml);
+                if (string.IsNullOrEmpty(config.Name))
+                {
+                    config.Name = Guid.NewGuid().ToString();
+                }
+                RegisterContainerObject(config);
+
+                var objectValue = _LoadedContainerObjects.Get(config.Name, null);
+                if (objectValue == null)
+                {
+                    throw new Errors.ContainerObjectNotFoundException(config.Name);
+                }
+
+                return objectValue.GetObject();
+            }
+            else if (containerObjectValueElementConfig.IsValueCollection)
+            {
+                var config = new XmlFormatter().ReadObject<ContainerObjectValueCollectionConfig>(containerObjectValueElementConfig.ElementValue.OuterXml);
+                if (config == null || config.Elements == null || config.Elements.Length == 0)
+                {
+                    return null;
+                }
+
+                var values = new object[config.Elements.Length];
+                for (int i = 0; i < config.Elements.Length; i++)
+                {
+                    values[i] = GetElementValue(config.Elements[i]);
+                }
+
+                return values;
+            }
+            else
+            {
+                return containerObjectValueElementConfig.StringValue;
+            }
         }
 
         #endregion

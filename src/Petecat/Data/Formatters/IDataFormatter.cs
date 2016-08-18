@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Petecat.Data.Formatters
 {
+    [Obsolete("this interface is replaced by IObjectFormatter.")]
     public interface IDataFormatter
     {
         T ReadObject<T>(string path, Encoding encoding);

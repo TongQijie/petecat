@@ -60,7 +60,17 @@ namespace Petecat.Extension
 
         public static string[] SplitByChar(this string stringValue, char seperator)
         {
+            if (stringValue == null)
+            {
+                return null;
+            }
+
             return stringValue.Split(seperator).Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()).ToArray();
+        }
+
+        public static bool HasValue(this string stringValue)
+        {
+            return !string.IsNullOrEmpty(stringValue) && !string.IsNullOrWhiteSpace(stringValue);
         }
     }
 }

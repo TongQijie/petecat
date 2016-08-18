@@ -5,15 +5,16 @@ using Petecat.Data.Formatters;
 using System.Text;
 using System.Linq;
 using System.IO;
+using System.Xml;
 
 namespace Petecat.Test.Data.Formatters
 {
     [TestClass]
     public class DataFormatterTest
     {
-        private readonly DataFormatterContent DataFormatContent = DataFormatterContent.DataContractJson;
+        private readonly DataFormatterContent DataFormatContent = DataFormatterContent.Xml;
 
-        private readonly string Filename = "product.json";
+        private readonly string Filename = "settings.xml";
 
         [TestMethod]
         public void ReadObject_StringValue()
@@ -26,7 +27,22 @@ namespace Petecat.Test.Data.Formatters
         [TestMethod]
         public void ReadObject_File()
         {
-            var product = DataFormatterUtility.Get(DataFormatContent).ReadObject<Product>(Filename, Encoding.UTF8);
+            var settings = DataFormatterUtility.Get(DataFormatContent).ReadObject<GlobalSettings>(Filename, Encoding.UTF8);
+            if (settings.NetworkSettings != null)
+            {
+                foreach (var networkSetting in settings.NetworkSettings)
+                {
+                    if (networkSetting.Description.Node != null)
+                    {
+                        var xmlElement = networkSetting.Description.Node as XmlElement;
+                        var s = DataFormatterUtility.Get(DataFormatContent).ReadObject<NetworkSetting>(xmlElement.OuterXml);
+                    }
+                    else if(!string.IsNullOrEmpty(networkSetting.Description.Text))
+                    {
+
+                    }
+                }
+            }
         }
 
         [TestMethod]

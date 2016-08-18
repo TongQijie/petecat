@@ -1,8 +1,16 @@
-﻿namespace Petecat.Test.IoC
+﻿using Petecat.IoC.Attributes;
+
+namespace Petecat.Test.IoC
 {
+    [Resolvable]
     public class AppleClass
     {
         public AppleClass() { }
+
+        public AppleClass(string[] children)
+        {
+            Children = children;
+        }
 
         public AppleClass(BananaClass bananaClass)
         {
@@ -17,7 +25,7 @@
 
         public BananaClass BananaClass { get; set; }
 
-        //public IPearClass PearClass { get; set; }
+        public string[] Children { get; set; }
 
         public string SayHi(string welcome)
         {

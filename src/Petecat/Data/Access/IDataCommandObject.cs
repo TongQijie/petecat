@@ -8,6 +8,8 @@ namespace Petecat.Data.Access
     {
         DbCommand GetDbCommand();
 
+        IDatabaseObject DatabaseObject { get; }
+
         void AddParameter(string parameterName, DbType dbType, ParameterDirection direction, int size);
 
         void SetParameterValue(string parameterName, object parameterValue);

@@ -19,9 +19,10 @@ namespace Petecat.Threading.Tasks
             _Container = container;
             _Container.RegisterContainerObjects(taskObjectConfigFile);
 
-            CacheObjectManager.Instance.AddXml<Configuration.TaskSwitchContainerConfig>("TaskSwitchContainer", taskSwitchConfigFile, false);
+            CacheObjectManager.Instance.Add<Configuration.TaskSwitchContainerConfig>(taskObjectConfigFile, taskSwitchConfigFile, Encoding.UTF8,
+                ObjectFormatterFactory.GetFormatter(ObjectFormatterType.Xml), false);
 
-            foreach (var taskSwitchConfig in CacheObjectManager.Instance.GetValue<Configuration.TaskSwitchContainerConfig>("TaskSwitchContainer").Switches)
+            foreach (var taskSwitchConfig in CacheObjectManager.Instance.GetValue<Configuration.TaskSwitchContainerConfig>(taskObjectConfigFile).Switches)
             {
                 if (taskSwitchConfig.Immediate)
                 {
@@ -34,9 +35,9 @@ namespace Petecat.Threading.Tasks
             FolderWatcherManager.Instance.GetOrAdd(fileInfo.Directory.FullName)
                 .SetFileChangedHandler(fileInfo.Name, (w) =>
                 {
-                    CacheObjectManager.Instance.GetObject("TaskSwitchContainer").IsDirty = true;
+                    CacheObjectManager.Instance.GetObject(taskObjectConfigFile).IsDirty = true;
 
-                    foreach (var taskSwitchConfig in CacheObjectManager.Instance.GetValue<Configuration.TaskSwitchContainerConfig>("TaskSwitchContainer").Switches)
+                    foreach (var taskSwitchConfig in CacheObjectManager.Instance.GetValue<Configuration.TaskSwitchContainerConfig>(taskObjectConfigFile).Switches)
                     {
                         Operate(taskSwitchConfig);
                     }

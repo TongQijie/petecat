@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using Petecat.Caching;
 using Petecat.Utility;
 using Petecat.Logging;
+using System.Text;
+using Petecat.Data.Formatters;
 
 namespace Petecat.Data.Access
 {
@@ -29,7 +31,8 @@ namespace Petecat.Data.Access
                 throw new FileNotFoundException(configPath);
             }
 
-            CacheObjectManager.Instance.AddXml<Configuration.DatabaseObjectSectionConfig>(CacheObjectName, configPath, true);
+            CacheObjectManager.Instance.Add<Configuration.DatabaseObjectSectionConfig>(CacheObjectName, configPath, Encoding.UTF8, 
+                ObjectFormatterFactory.GetFormatter(ObjectFormatterType.Xml), true);
         }
 
         public IDatabaseObject GetDatabaseObject(string name)
@@ -37,19 +40,19 @@ namespace Petecat.Data.Access
             var cacheObject = CacheObjectManager.Instance.GetObject(CacheObjectName);
             if (cacheObject == null)
             {
-                throw new Exception("database object manager has not initialized.");
+                throw new Errors.NotInitializedDatabaseObjectManagerException();
             }
 
             var databaseObjectSectionConfig = cacheObject.GetValue() as Configuration.DatabaseObjectSectionConfig;
             if (databaseObjectSectionConfig == null)
             {
-                throw new Exception("database object section not exists.");
+                throw new Errors.DatabaseObjectNotFoundException(name);
             }
 
             var databaseObjectConfig = databaseObjectSectionConfig.DatabaseObjects.FirstOrDefault(x => x.Key.Equals(name, StringComparison.OrdinalIgnoreCase));
             if (databaseObjectConfig == null)
             {
-                throw new Exception(string.Format("database object {0} not exists.", name));
+                throw new Errors.DatabaseObjectNotFoundException(name);
             }
 
             DatabaseObject databaseObject = null;
@@ -87,27 +90,31 @@ namespace Petecat.Data.Access
             Type providerType;
             if (!ReflectionUtility.TryGetType(providerString, out providerType))
             {
-                LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, LoggerLevel.Error, string.Format("provider type not found. providerString={0}", providerString));
+                LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, LoggerLevel.Error, 
+                    string.Format("provider type not found. providerString={0}", providerString));
                 return null;
             }
 
             var providerInstance = providerType.GetField("Instance", BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static);
             if (providerInstance == null)
             {
-                LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, LoggerLevel.Error, string.Format("provider instance not found. providerString={0}", providerString));
+                LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, LoggerLevel.Error, 
+                    string.Format("provider instance not found. providerString={0}", providerString));
                 return null;
             }
 
             if (!providerInstance.FieldType.IsSubclassOf(typeof(DbProviderFactory)))
             {
-                LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, LoggerLevel.Error, string.Format("provider instance is not subclass of DbProviderFactory. providerString={0}", providerString));
+                LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, LoggerLevel.Error, 
+                    string.Format("provider instance is not subclass of DbProviderFactory. providerString={0}", providerString));
                 return null;
             }
 
             var providerFactory = providerInstance.GetValue(null) as DbProviderFactory;
             if (providerFactory == null)
             {
-                LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, LoggerLevel.Error, string.Format("provider instance is null. providerString={0}", providerString));
+                LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, LoggerLevel.Error, 
+                    string.Format("provider instance is null. providerString={0}", providerString));
                 return null;
             }
 

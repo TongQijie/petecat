@@ -19,23 +19,28 @@ namespace Petecat.IoC
             {
                 _Instance = new AppDomainContainer();
 
-                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+                try
                 {
-                    _Instance.RegisterContainerAssembly(assembly);
-                }
-
-                var directory = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
-
-                foreach (var assembly in directory.GetFiles("*.dll", SearchOption.AllDirectories).Select(x => Assembly.LoadFile(x.FullName)))
-                {
-                    try
+                    foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                     {
                         _Instance.RegisterContainerAssembly(assembly);
                     }
-                    catch (Exception e)
+
+                    var directory = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+
+                    foreach (var assembly in directory.GetFiles("*.dll", SearchOption.AllDirectories).Select(x => Assembly.LoadFile(x.FullName)))
                     {
-                        LoggerManager.GetLogger().LogEvent("AppDomainContainer", LoggerLevel.Warn, "failed to register assembly " + assembly.FullName, e);
+                        _Instance.RegisterContainerAssembly(assembly);
                     }
+
+                    foreach (var assembly in directory.GetFiles("*.exe", SearchOption.AllDirectories).Select(x => Assembly.LoadFile(x.FullName)))
+                    {
+                        _Instance.RegisterContainerAssembly(assembly);
+                    }
+                }
+                catch (Exception e)
+                {
+                    LoggerManager.GetLogger().LogEvent("AppDomainContainer", LoggerLevel.Warn, e);
                 }
             }
 

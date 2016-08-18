@@ -68,7 +68,7 @@ namespace Petecat.Data.Entity
 
         #region 私有方法，填充实体对象属性
 
-        private static object FillEntityProperties(IEntityDataSource entityDataSource, Type entityType)
+        private static object FillEntityProperties(IEntityDataSource entityDataSource, Type entityType, string prefix = null)
         {
             var dataMappingEntity = GetDataMappingEntity(entityType);
             if (dataMappingEntity == null)
@@ -82,18 +82,22 @@ namespace Petecat.Data.Entity
             {
                 if (dataMappingPropertyInfo is PlainDataMappingPropertyInfo)
                 {
-                    if (!entityDataSource.ContainsColumn(dataMappingPropertyInfo.Key))
+                    var columnName = prefix == null ? dataMappingPropertyInfo.Key : (prefix + dataMappingPropertyInfo.Key);
+                    if (!entityDataSource.ContainsColumn(columnName))
                     {
                         continue;
                     }
 
                     var plainDataMappingPropertyInfo = dataMappingPropertyInfo as PlainDataMappingPropertyInfo;
-                    plainDataMappingPropertyInfo.PropertyInfo.SetValue(filledEntity, entityDataSource.GetColumnValue(dataMappingPropertyInfo.Key, plainDataMappingPropertyInfo.PropertyInfo.PropertyType), null);
+                    plainDataMappingPropertyInfo.PropertyInfo.SetValue(filledEntity, 
+                        entityDataSource.GetColumnValue(columnName, plainDataMappingPropertyInfo.PropertyInfo.PropertyType), null);
                 }
                 else if (dataMappingPropertyInfo is CompositeDataMappingPropertyInfo)
                 {
                     var compositeDataMappingPropertyInfo = dataMappingPropertyInfo as CompositeDataMappingPropertyInfo;
-                    compositeDataMappingPropertyInfo.PropertyInfo.SetValue(filledEntity, FillEntityProperties(entityDataSource, compositeDataMappingPropertyInfo.CompositeDataMappingAttribute.Type), null);
+                    compositeDataMappingPropertyInfo.PropertyInfo.SetValue(filledEntity, 
+                        FillEntityProperties(entityDataSource, compositeDataMappingPropertyInfo.CompositeDataMappingAttribute.Type, 
+                        compositeDataMappingPropertyInfo.CompositeDataMappingAttribute.Prefix), null);
                 }
                 else
                 {

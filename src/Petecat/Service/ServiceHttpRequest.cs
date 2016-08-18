@@ -47,13 +47,10 @@ namespace Petecat.Service
             var inputStream = Request.InputStream;
             inputStream.Seek(0, SeekOrigin.Begin);
 
-            if (Request.ContentType.Contains("application/xml"))
+            var objectFormatter = ServiceHttpFormatter.GetFormatter(Request.ContentType);
+            if (objectFormatter != null)
             {
-                return new XmlFormatter().ReadObject(targetType, inputStream);
-            }
-            else if (Request.ContentType.Contains("application/json"))
-            {
-                return new DataContractJsonFormatter().ReadObject(targetType, inputStream);
+                return objectFormatter.ReadObject(targetType, inputStream);
             }
             else
             {

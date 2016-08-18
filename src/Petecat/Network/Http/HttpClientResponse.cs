@@ -94,25 +94,15 @@ namespace Petecat.Network.Http
 
         public TResponse GetObject<TResponse>()
         {
-            IDataFormatter dataFormatter = null;
-
-            foreach (var contentTypeString in HttpConstants.HttpContentTypeStringMapping)
+            var objectFormatter = HttpFormatterSelector.Get(Response.ContentType);
+            if (objectFormatter == null)
             {
-                if (Response.ContentType.Contains(contentTypeString.Value))
-                {
-                    dataFormatter = DataFormatterUtility.Get(HttpConstants.HttpContentTypeFormatterMapping[contentTypeString.Key]);
-                    break;
-                }
-            }
-
-            if (dataFormatter == null)
-            {
-                throw new FormatterNotFoundException();
+                throw new Exception(string.Format("cannot find object formatter for contenttype {0}", Response.ContentType));
             }
 
             using (var responseStream = Response.GetResponseStream())
             {
-                return dataFormatter.ReadObject<TResponse>(responseStream);
+                return objectFormatter.ReadObject<TResponse>(responseStream);
             }
         }
 
@@ -128,6 +118,14 @@ namespace Petecat.Network.Http
             using (var responseStream = Response.GetResponseStream())
             {
                 return dataFormatter.ReadObject<TResponse>(responseStream);
+            }
+        }
+
+        public TResponse GetObject<TResponse>(IObjectFormatter objectFormatter)
+        {
+            using (var responseStream = Response.GetResponseStream())
+            {
+                return objectFormatter.ReadObject<TResponse>(responseStream);
             }
         }
 

@@ -15,11 +15,13 @@ namespace Petecat.Data.Access
 
         private DbCommand _DbCommand = null;
 
+        public IDatabaseObject DatabaseObject { get { return _DatabaseObject; } }
+
         public DataCommandObject(DbProviderFactory dbProviderFactory, CommandType commandType, string commandText)
         {
             if (dbProviderFactory == null)
             {
-                Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "dbProviderFactory is null.");
+                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "dbProviderFactory is null.");
                 throw new ArgumentNullException("dbProviderFactory");
             }
 
@@ -33,7 +35,7 @@ namespace Petecat.Data.Access
         {
             if (databaseObject == null)
             {
-                Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "databaseObject is null.");
+                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "databaseObject is null.");
                 throw new ArgumentNullException("databaseObject");
             }
 

@@ -60,10 +60,13 @@
     <Compile Include="Data\Access\DataModel.cs" />
     <Compile Include="Data\Formatters\BinarySerializerTest.cs" />
     <Compile Include="Data\Formatters\DataFormatterTest.cs" />
+    <Compile Include="Data\Formatters\IniFormatterTest.cs" />
     <Compile Include="Data\Formatters\TestEntities.cs" />
+    <Compile Include="Extension\ArrayExtensionTest.cs" />
     <Compile Include="Extension\ByteArrayExtensionTest.cs" />
     <Compile Include="IoC\AppleClass.cs" />
     <Compile Include="IoC\BananaClass.cs" />
+    <Compile Include="IoC\DefaultContainerObjectTest.cs" />
     <Compile Include="IoC\DefaultContainerTest.cs" />
     <Compile Include="IoC\IPearClass.cs" />
     <Compile Include="IoC\PearClass.cs" />
@@ -83,6 +86,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Service\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="IoC\objects.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -3,6 +3,8 @@ using System.IO;
 using System.Linq;
 
 using Petecat.Caching;
+using System.Text;
+using Petecat.Data.Formatters;
 
 namespace Petecat.Data.Access
 {
@@ -23,38 +25,37 @@ namespace Petecat.Data.Access
                 throw new FileNotFoundException(configPath);
             }
 
-            CacheObjectManager.Instance.AddXml<Configuration.DataCommandObjectSectionConfig>(CacheObjectName, configPath, true);
+            CacheObjectManager.Instance.Add<Configuration.DataCommandObjectSectionConfig>(CacheObjectName, configPath, Encoding.UTF8,
+                ObjectFormatterFactory.GetFormatter(ObjectFormatterType.Xml), true);
         }
 
-        public IDataCommandObject GetDataCommandObject(string name)
+        public IDataCommandObject GetDataCommandObject(string name, IDatabaseObject databaseObject = null)
         {
             var cacheObject = CacheObjectManager.Instance.GetObject(CacheObjectName);
             if (cacheObject == null)
             {
-                throw new Exception("data command object manager has not initialized.");
+                throw new Errors.NotInitializedDataCommandObjectManagerException();
             }
 
             var dataCommandObjectSectionConfig = cacheObject.GetValue() as Configuration.DataCommandObjectSectionConfig;
             if (dataCommandObjectSectionConfig == null)
             {
-                throw new Exception("data command object section not exists.");
+                throw new Errors.DataCommandObjectNotFoundException(name);
             }
 
             var dataCommandObjectConfig = dataCommandObjectSectionConfig.DataCommands.FirstOrDefault(x => x.Key.Equals(name, StringComparison.OrdinalIgnoreCase));
             if (dataCommandObjectConfig == null)
             {
-                throw new Exception(string.Format("data command object {0} not exists.", name));
+                throw new Errors.DataCommandObjectNotFoundException(name);
             }
 
-            if (string.IsNullOrEmpty(dataCommandObjectConfig.Database))
-            {
-                throw new Exception("database field is empty.");
-            }
-
-            var databaseObject = DatabaseObjectManager.Instance.GetDatabaseObject(dataCommandObjectConfig.Database);
             if (databaseObject == null)
             {
-                throw new Exception("database object not exists.");
+                databaseObject = DatabaseObjectManager.Instance.GetDatabaseObject(dataCommandObjectConfig.Database);
+            }
+            if (databaseObject == null)
+            {
+                throw new Errors.DatabaseObjectNotFoundException(dataCommandObjectConfig.Database);
             }
 
             var dataCommandObject = new DataCommandObject(databaseObject, dataCommandObjectConfig.CommandType, dataCommandObjectConfig.CommandText);

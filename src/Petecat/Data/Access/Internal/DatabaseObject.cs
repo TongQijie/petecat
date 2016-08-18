@@ -20,13 +20,13 @@ namespace Petecat.Data.Access
         {
             if (string.IsNullOrEmpty(connectionString))
             {
-                Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "ConnectionString is empty.");
+                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "ConnectionString is empty.");
                 throw new ArgumentNullException("connectionString");
             }
 
             if (dbProviderFactory == null)
             {
-                Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "dbProviderFactory is null.");
+                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "dbProviderFactory is null.");
                 throw new ArgumentNullException("dbProviderFactory");
             }
 
@@ -78,24 +78,28 @@ namespace Petecat.Data.Access
             var success = false;
             try
             {
-                _DbTransaction = _DbConnection.BeginTransaction();
+                _DbTransaction = OpenConnection().BeginTransaction();
                 success = execution(this);
             }
             catch (Exception e)
             {
-                Logging.LoggerManager.Get().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "failed to execute transaction.", e);
+                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "failed to execute transaction.", e);
             }
             finally
             {
-                if (success)
+                if (_DbTransaction != null)
                 {
-                    _DbTransaction.Commit();
+                    if (success)
+                    {
+                        _DbTransaction.Commit();
+                    }
+                    else
+                    {
+                        _DbTransaction.Rollback();
+                    }
+
+                    _DbTransaction = null;
                 }
-                else
-                {
-                    _DbTransaction.Rollback();
-                }
-                _DbTransaction = null;
             }
 
             return success;

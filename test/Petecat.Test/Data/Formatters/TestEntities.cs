@@ -3,6 +3,8 @@
 using Petecat.Data.Attributes;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
+using System.Xml;
 
 namespace Petecat.Test.Data.Formatters
 {
@@ -80,5 +82,58 @@ namespace Petecat.Test.Data.Formatters
         [DataMember(Name = "region")]
         [BinarySerializable("region")]
         public string Region { get; set; }
+    }
+
+    public class ItemInfo
+    {
+        [IniSerializable(Name = "detail")]
+        public ItemDetail Detail { get; set; }
+
+        [IniSerializable(Name = "price")]
+        public ItemPrice Price { get; set; }
+    }
+
+    public class ItemDetail
+    {
+        [IniSerializable(Name = "name")]
+        public string Name { get; set; }
+
+        [IniSerializable(Name = "qty")]
+        public int Qty { get; set; }
+    }
+
+    public class ItemPrice
+    {
+        [IniSerializable(Name = "price")]
+        public decimal Price { get; set; }
+
+        [IniSerializable(Name = "currency")]
+        public string Currency { get; set; }
+    }
+
+    [XmlRoot("settings")]
+    public class GlobalSettings
+    {
+        [XmlElement("network")]
+        public NetworkSetting[] NetworkSettings { get; set; }
+    }
+
+    [XmlRoot("network")]
+    public class NetworkSetting
+    {
+        [XmlAttribute("name")]
+        public string Name { get; set; }
+
+        [XmlElement("desc")]
+        public Description Description { get; set; }
+    }
+
+    public class Description
+    {
+        [XmlAnyElement]
+        public XmlElement Node { get; set; }
+
+        [XmlText]
+        public string Text { get; set; }
     }
 }
