@@ -11,12 +11,15 @@ namespace Petecat.IoC
         public DefaultTypeDefinition(Type type)
         {
             Info = type;
+            FullName = type.FullName;
             AssemblyInfo = new ContainerAssemblyInfo(type.Assembly);
         }
 
-        public string Key { get { return (Info as Type).FullName; } }
+        public string Key { get { return FullName + "," + AssemblyInfo.Location; } }
 
         public MemberInfo Info { get; private set; }
+
+        public string FullName { get; private set; }
 
         public ContainerAssemblyInfo AssemblyInfo { get; private set; }
 
