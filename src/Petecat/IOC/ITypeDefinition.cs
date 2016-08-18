@@ -6,6 +6,8 @@ namespace Petecat.IoC
 {
     public interface ITypeDefinition : IKeyedObject<string>, IMemberDefinition
     {
+        string FullName { get; }
+
         object GetInstance(params object[] arguments);
 
         bool IsImplementInterface(Type interfaceType);

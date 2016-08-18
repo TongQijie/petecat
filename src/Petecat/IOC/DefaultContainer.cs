@@ -27,7 +27,7 @@ namespace Petecat.IoC
 
         public object Resolve(Type targetType, params object[] arguments)
         {
-            var typeDefinition = _LoadedTypeDefinitions.Get(targetType.FullName, null);
+            var typeDefinition = GetTypeDefinition(targetType);
             if (typeDefinition == null)
             {
                 return null;
@@ -113,26 +113,40 @@ namespace Petecat.IoC
 
         public bool ContainsTypeDefinition(Type targetType)
         {
-            return _LoadedTypeDefinitions.Values.ToList().Exists(x => targetType.FullName == x.Key);
+            var targetTypeKey = targetType.FullName + "," + targetType.Module.FullyQualifiedName;
+
+            return _LoadedTypeDefinitions.ContainsKey(targetTypeKey);
+        }
+
+        public ITypeDefinition GetTypeDefinition(Type targetType)
+        {
+            var targetTypeKey = targetType.FullName + "," + targetType.Module.FullyQualifiedName;
+
+            if (!_LoadedTypeDefinitions.ContainsKey(targetTypeKey))
+            {
+                RegisterContainerAssembly(targetType.Module.FullyQualifiedName);
+            }
+
+            return _LoadedTypeDefinitions.Get(targetTypeKey, null);
         }
 
         public bool TryGetTypeDefinition(Type targetType, out ITypeDefinition typeDefinition)
         {
-            typeDefinition = _LoadedTypeDefinitions.Values.FirstOrDefault(x => x.Key == targetType.FullName);
+            typeDefinition = GetTypeDefinition(targetType);
             return typeDefinition != null;
         }
 
-        public bool TryGetTypeDefinition(string type, out ITypeDefinition typeDefinition)
+        public bool TryGetTypeDefinition(string typeString, out ITypeDefinition typeDefinition)
         {
-            var fields = type.SplitByChar(',');
+            var fields = typeString.SplitByChar(',');
             if (fields.Length == 1)
             {
-                typeDefinition = _LoadedTypeDefinitions.Values.FirstOrDefault(x => x.Key == fields[0]);
+                typeDefinition = _LoadedTypeDefinitions.Values.FirstOrDefault(x => x.FullName == fields[0]);
                 return typeDefinition != null;
             }
             else if (fields.Length == 2)
             {
-                typeDefinition = _LoadedTypeDefinitions.Values.FirstOrDefault(x => x.Key == fields[0] && x.AssemblyInfo.Name == fields[1]);
+                typeDefinition = _LoadedTypeDefinitions.Values.FirstOrDefault(x => x.FullName == fields[0] && x.AssemblyInfo.Name == fields[1]);
                 return typeDefinition != null;
             }
 
@@ -174,7 +188,7 @@ namespace Petecat.IoC
                 throw new FileNotFoundException();
             }
 
-            var containerObjectsConfig = new XmlFormatter().ReadObject<Configuration.ContainerObjectsConfig>(objectsFile.FullPath(), Encoding.UTF8);
+            var containerObjectsConfig = new XmlFormatter().ReadObject<ContainerObjectsConfig>(objectsFile.FullPath(), Encoding.UTF8);
 
             if (containerObjectsConfig.Assemblies != null && containerObjectsConfig.Assemblies.Length > 0)
             {
@@ -201,7 +215,7 @@ namespace Petecat.IoC
             }
         }
 
-        private void RegisterContainerAssembly(Configuration.ContainerAssemblyConfig containerAssemblyConfig)
+        private void RegisterContainerAssembly(ContainerAssemblyConfig containerAssemblyConfig)
         {
             if (containerAssemblyConfig != null)
             {
@@ -209,7 +223,7 @@ namespace Petecat.IoC
             }
         }
 
-        private void RegisterContainerObject(Configuration.ContainerObjectConfig containerObjectConfig)
+        private void RegisterContainerObject(ContainerObjectConfig containerObjectConfig)
         {
             if (containerObjectConfig == null)
             {

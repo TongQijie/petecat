@@ -1,12 +1,9 @@
 ﻿using Petecat.Collection;
 using Petecat.IoC;
 using Petecat.Utility;
-using Petecat.Data.Formatters;
 
 using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
 
 namespace Petecat.Service
