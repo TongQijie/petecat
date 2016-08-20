@@ -48,6 +48,7 @@
     <Compile Include="Archiving\AbstractArchiveItem.cs" />
     <Compile Include="Archiving\Archiver.cs" />
     <Compile Include="Archiving\IArchiveItem.cs" />
+    <Compile Include="Caching\Errors\CacheObjectValueGetFailedException.cs" />
     <Compile Include="Caching\Internal\CacheObjectBase.cs" />
     <Compile Include="Caching\CacheObjectManager.cs" />
     <Compile Include="Caching\ICacheObject.cs" />

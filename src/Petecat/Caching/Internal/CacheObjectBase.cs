@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Petecat.Logging;
+using System;
 
 namespace Petecat.Caching
 {
@@ -37,7 +38,10 @@ namespace Petecat.Caching
                 _Value = _Source();
                 IsDirty = false;
             }
-            catch (Exception) { }
+            catch (Exception e)
+            {
+                throw new Errors.CacheObjectValueGetFailedException(Key, e);
+            }
 
             return _Value;
         }
