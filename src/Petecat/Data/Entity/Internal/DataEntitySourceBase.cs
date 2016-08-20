@@ -21,6 +21,18 @@ namespace Petecat.Data.Entity
                 return null;
             }
 
+            if (this[columnName] == DBNull.Value)
+            {
+                if (targetType.IsValueType)
+                {
+                    return Activator.CreateInstance(targetType);
+                }
+                else
+                {
+                    return null;
+                }
+            }
+
             if (targetType == typeof(string))
             {
                 return this[columnName].ToString().Trim();
