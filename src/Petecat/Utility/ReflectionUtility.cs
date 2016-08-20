@@ -75,6 +75,20 @@ namespace Petecat.Utility
 
         public static bool TryChangeType(object value, Type targetType, out object typeChangedValue)
         {
+            if (value == null)
+            {
+                if (targetType.IsValueType)
+                {
+                    typeChangedValue = Activator.CreateInstance(targetType);
+                }
+                else
+                {
+                    typeChangedValue = null;
+                }
+
+                return true;
+            }
+
             if (targetType.IsAssignableFrom(value.GetType()))
             {
                 typeChangedValue = value;
