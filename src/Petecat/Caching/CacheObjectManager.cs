@@ -16,9 +16,14 @@ namespace Petecat.Caching
 
         private ThreadSafeKeyedObjectCollection<string, ICacheObject> _CacheObjects = new ThreadSafeKeyedObjectCollection<string, ICacheObject>();
 
-        public ICacheObject Add(string key, Func<object> source)
+        public ICacheObject Add(string key, Func<object> readCacheHandler)
         {
-            return _CacheObjects.Add(new CacheObjectBase(key, source));
+            return _CacheObjects.Add(new CacheObjectBase(key, readCacheHandler));
+        }
+
+        public ICacheObject Add(string key, Func<object> readCacheHandler, Action<object> writeCacheHandler)
+        {
+            return _CacheObjects.Add(new WritableCacheObject(key, readCacheHandler, writeCacheHandler));
         }
 
         [Obsolete("this is replaced by Add<T>(string key, string path, Encoding encoding, IObjectFormatter objectFormatter, bool enableWatcher)")]

@@ -48,10 +48,13 @@
     <Compile Include="Archiving\AbstractArchiveItem.cs" />
     <Compile Include="Archiving\Archiver.cs" />
     <Compile Include="Archiving\IArchiveItem.cs" />
-    <Compile Include="Caching\Errors\CacheObjectValueGetFailedException.cs" />
+    <Compile Include="Caching\Errors\CacheObjectValueUpdateFailedException.cs" />
+    <Compile Include="Caching\Errors\CacheObjectValueWriteFailedException.cs" />
     <Compile Include="Caching\Internal\CacheObjectBase.cs" />
     <Compile Include="Caching\CacheObjectManager.cs" />
     <Compile Include="Caching\ICacheObject.cs" />
+    <Compile Include="Caching\Internal\WritableCacheObject.cs" />
+    <Compile Include="Caching\IWritableCacheObject.cs" />
     <Compile Include="Collection\CaseInsensitiveStringEqualityComparer.cs" />
     <Compile Include="Collection\DefaultKeyedObjectEqualityComparer.cs" />
     <Compile Include="Collection\IKeyedObjectCollection`.cs" />

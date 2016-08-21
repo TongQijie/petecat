@@ -1,21 +1,20 @@
-﻿using Petecat.Logging;
-using System;
+﻿using System;
 
 namespace Petecat.Caching
 {
     internal class CacheObjectBase : ICacheObject
     {
-        public CacheObjectBase(string key, Func<object> source)
+        public CacheObjectBase(string key, Func<object> readCacheHandler)
         {
             Key = key;
-            _Source = source;
+            _ReadCacheHandler = readCacheHandler;
         }
 
         public string Key { get; private set; }
 
-        private Func<object> _Source = null;
+        private Func<object> _ReadCacheHandler = null;
 
-        private object _Value = null;
+        protected object _Value = null;
 
         public bool IsDirty { get; set; }
 
@@ -35,12 +34,12 @@ namespace Petecat.Caching
         {
             try
             {
-                _Value = _Source();
+                _Value = _ReadCacheHandler();
                 IsDirty = false;
             }
             catch (Exception e)
             {
-                throw new Errors.CacheObjectValueGetFailedException(Key, e);
+                throw new Errors.CacheObjectValueUpdateFailedException(Key, e);
             }
 
             return _Value;
