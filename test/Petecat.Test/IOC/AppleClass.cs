@@ -2,7 +2,7 @@
 
 namespace Petecat.Test.IoC
 {
-    [Resolvable]
+    [AutoResolvable(typeof(AppleClass))]
     public class AppleClass
     {
         public AppleClass() { }

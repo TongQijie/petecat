@@ -57,6 +57,7 @@
     <Compile Include="Archiving\ArchiverTest.cs" />
     <Compile Include="Console\Command\TerminalCommandLineUtilityTest.cs" />
     <Compile Include="Data\Access\DataCommandHelperTest.cs" />
+    <Compile Include="Data\Access\DataCommandObjectTest.cs" />
     <Compile Include="Data\Access\DataModel.cs" />
     <Compile Include="Data\Formatters\BinarySerializerTest.cs" />
     <Compile Include="Data\Formatters\DataFormatterTest.cs" />
