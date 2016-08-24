@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Common;
-using System.Reflection;
 using System.Text;
+using System.Reflection;
+using System.Data.Common;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace Petecat.Data.Access
 {
@@ -114,6 +115,29 @@ namespace Petecat.Data.Access
 
             _DbCommand.Parameters.Remove(_DbCommand.Parameters[parameterName]);
             _DbCommand.CommandText = _DbCommand.CommandText.Replace(parameterName, stringBuilder.ToString().Trim(','));
+        }
+
+        public void FormatCommandText(int index, params object[] args)
+        {
+            if (args == null || args.Length == 0 || !Regex.IsMatch(_DbCommand.CommandText, "\\x7b" + index + "\\x7d"))
+            {
+                return;
+            }
+
+            var stringArgs = new string[args.Length];
+            for (int i = 0; i < args.Length; i++)
+            {
+                if (args[i] is string || args[i] is DateTime)
+                {
+                    stringArgs[i] = string.Format("'{0}'", args[i].ToString());
+                }
+                else
+                {
+                    stringArgs[i] = args[i].ToString();
+                }
+            }
+
+            _DbCommand.CommandText = Regex.Replace(_DbCommand.CommandText, "\\x7b" + index + "\\x7d", string.Join(",", stringArgs));
         }
 
         public T QueryScalar<T>()

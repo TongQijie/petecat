@@ -16,6 +16,8 @@ namespace Petecat.Data.Access
 
         void SetParameterValues(string parameterName, params object[] parameterValues);
 
+        void FormatCommandText(int index, params object[] args);
+
         object GetParameterValue(string parameterName);
 
         T QueryScalar<T>();

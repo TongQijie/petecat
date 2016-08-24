@@ -6,7 +6,7 @@ namespace Petecat.Test.Data.Access
     public class SO
     {
         [PlainDataMapping]
-        public string SONumber { get; set; }
+        public int SONumber { get; set; }
 
         [PlainDataMapping]
         public int IndexName { get; set; }

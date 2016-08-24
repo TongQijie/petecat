@@ -3,6 +3,7 @@
 using Petecat.Data.Access;
 using Petecat.Extension;
 using System.Data;
+using System.Text.RegularExpressions;
 
 namespace Petecat.Test.Data.Access
 {
@@ -30,6 +31,14 @@ namespace Petecat.Test.Data.Access
             dataCommandObject.SetParameterValue("@NumberValue02", 222);
             dataCommandObject.SetParameterValue("@Remark", "123456");
             dataCommandObject.ExecuteNonQuery();
+        }
+
+        [TestMethod]
+        public void FormatCommandTextTest()
+        {
+            var dataCommandObject = DataCommandObjectManager.Instance.GetDataCommandObject("QuerySOInfo_V1");
+            dataCommandObject.FormatCommandText(0, "100152240", "100152260", "100152280");
+            var orders = dataCommandObject.QueryEntities<SO>();
         }
     }
 }
