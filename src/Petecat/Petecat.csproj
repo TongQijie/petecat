@@ -107,11 +107,6 @@
     <Compile Include="Data\Formatters\ObjectFormatterFactory.cs" />
     <Compile Include="Data\Formatters\ObjectFormatterType.cs" />
     <Compile Include="Data\Formatters\XmlFormatter.cs" />
-    <Compile Include="Data\Ini\IElement.cs" />
-    <Compile Include="Data\Ini\IniKeyAttribute.cs" />
-    <Compile Include="Data\Ini\KeyElement.cs" />
-    <Compile Include="Data\Ini\SectionElement.cs" />
-    <Compile Include="Data\Ini\StringFormatter.cs" />
     <Compile Include="Data\Attributes\CompositeDataMappingAttribute.cs" />
     <Compile Include="Data\Entity\Internal\CompositeDataMappingPropertyInfo.cs" />
     <Compile Include="Data\Entity\Internal\DataEntitySourceBase.cs" />
@@ -235,6 +230,7 @@
     <Compile Include="Utility\CompressUtility.cs" />
     <Compile Include="Utility\HashCalculator.cs" />
     <Compile Include="Utility\ReflectionUtility.cs" />
+    <Compile Include="Utility\Converter.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

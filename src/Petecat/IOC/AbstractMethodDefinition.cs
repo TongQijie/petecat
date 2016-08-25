@@ -85,7 +85,7 @@ namespace Petecat.IoC
                 }
 
                 object typeChangedValue;
-                if (ReflectionUtility.TryChangeType(argument.ArgumentValue, parameterInfo.ParameterType, out typeChangedValue))
+                if (Converter.TryBeAssignable(argument.ArgumentValue, parameterInfo.ParameterType, out typeChangedValue))
                 {
                     argumentValues = argumentValues.Append(typeChangedValue);
                 }

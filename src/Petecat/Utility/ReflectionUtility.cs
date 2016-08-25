@@ -73,6 +73,7 @@ namespace Petecat.Utility
             return false;
         }
 
+        [Obsolete("this is replaced by Converter.TryBeAssignable(object sourceValue, Type targetType, out object targetValue)")]
         public static bool TryChangeType(object value, Type targetType, out object typeChangedValue)
         {
             if (value == null)

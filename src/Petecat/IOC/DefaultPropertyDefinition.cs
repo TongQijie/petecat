@@ -21,7 +21,7 @@ namespace Petecat.IoC
             var propertyInfo = Info as PropertyInfo;
 
             object typeChangedValue;
-            if (ReflectionUtility.TryChangeType(value, propertyInfo.PropertyType, out typeChangedValue))
+            if (Converter.TryBeAssignable(value, propertyInfo.PropertyType, out typeChangedValue))
             {
                 propertyInfo.SetValue(instance, typeChangedValue);
             }
