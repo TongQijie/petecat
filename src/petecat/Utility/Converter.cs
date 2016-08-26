@@ -2,32 +2,17 @@
 using System.Linq;
 using System.Collections;
 
+using Petecat.Extension;
+
 namespace Petecat.Utility
 {
     public static class Converter
     {
-        public static object GetDefaultValue(Type targetType)
-        {
-            if (targetType.IsValueType)
-            {
-                return Activator.CreateInstance(targetType);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        public static T GetDefaultValue<T>()
-        {
-            return (T)GetDefaultValue(typeof(T));
-        }
-
         public static object Assignable(object sourceValue, Type targetType)
         {
             if (sourceValue == null)
             {
-                return GetDefaultValue(targetType);
+                return targetType.GetDefaultValue();
             }
 
             if (targetType.IsAssignableFrom(sourceValue.GetType()))
@@ -54,6 +39,10 @@ namespace Petecat.Utility
                     targetList.Add(Assignable(elementValue, elementType));
                 }
                 return targetList;
+            }
+            else if (targetType.IsEnum && sourceValue is string)
+            {
+                return null;
             }
             else if (typeof(IConvertible).IsAssignableFrom(sourceValue.GetType()))
             {
@@ -99,7 +88,7 @@ namespace Petecat.Utility
             }
             catch (Exception) { }
 
-            targetValue = GetDefaultValue<T>();
+            targetValue = (T)typeof(T).GetDefaultValue();
             return false;
         }
     }

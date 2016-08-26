@@ -121,8 +121,10 @@
     <Compile Include="Data\Entity\Internal\PlainDataMappingPropertyInfo.cs" />
     <Compile Include="Data\Formatters\DataContractXmlFormatter.cs" />
     <Compile Include="Extension\ArrayExtension.cs" />
+    <Compile Include="Extension\Attributes\EnumValueAttribute.cs" />
     <Compile Include="Extension\ByteArrayExtension.cs" />
     <Compile Include="Extension\StringExtension.cs" />
+    <Compile Include="Extension\TypeExtension.cs" />
     <Compile Include="IoC\AbstractMethodDefinition.cs" />
     <Compile Include="IoC\AppDomainContainer.cs" />
     <Compile Include="IoC\ContainerAssemblyInfo.cs" />

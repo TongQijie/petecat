@@ -10,19 +10,6 @@ namespace Petecat.Test.Utility
     public class ValueConverterTest
     {
         [TestMethod]
-        public void GetDefaultValue()
-        {
-            var defaultValue = Converter.GetDefaultValue(typeof(int));
-            Assert.IsTrue((int)defaultValue == 0);
-            defaultValue = Converter.GetDefaultValue(typeof(string));
-            Assert.IsTrue((string)defaultValue == null);
-            defaultValue = Converter.GetDefaultValue(typeof(AClass));
-            Assert.IsTrue((AClass)defaultValue == null);
-            defaultValue = Converter.GetDefaultValue(typeof(AEnum));
-            Assert.IsTrue((int)((AEnum)defaultValue) == 0);
-        }
-
-        [TestMethod]
         public void Assignable()
         {
             var integer = Converter.Assignable<int>("3333");
