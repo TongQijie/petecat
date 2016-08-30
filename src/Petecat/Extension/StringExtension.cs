@@ -72,5 +72,11 @@ namespace Petecat.Extension
         {
             return !string.IsNullOrEmpty(stringValue) && !string.IsNullOrWhiteSpace(stringValue);
         }
+
+        public static bool IsDateTime(this string stringValue)
+        {
+            DateTime datetime;
+            return DateTime.TryParse(stringValue, out datetime);
+        }
     }
 }

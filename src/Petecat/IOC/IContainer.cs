@@ -6,7 +6,7 @@ namespace Petecat.IoC
 {
     public interface IContainer
     {
-        IEnumerable<ITypeDefinition> LoadedTypeDefinitions { get; }
+        IList<ITypeDefinition> LoadedTypeDefinitions { get; }
 
         object Resolve(Type targetType, params object[] arguments);
 
@@ -25,6 +25,8 @@ namespace Petecat.IoC
         void RegisterContainerAssembly(string assemblyPath);
 
         void RegisterContainerObjects(string objectsFile);
+
+        void RegisterContainerType(Type type);
 
         bool ContainsTypeDefinition(Type targetType);
 

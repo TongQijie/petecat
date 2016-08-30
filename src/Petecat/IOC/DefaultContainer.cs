@@ -17,7 +17,7 @@ namespace Petecat.IoC
     {
         private ThreadSafeKeyedObjectCollection<string, ITypeDefinition> _LoadedTypeDefinitions = new ThreadSafeKeyedObjectCollection<string, ITypeDefinition>();
 
-        public IEnumerable<ITypeDefinition> LoadedTypeDefinitions { get { return _LoadedTypeDefinitions.Values; } }
+        public IList<ITypeDefinition> LoadedTypeDefinitions { get { return _LoadedTypeDefinitions.Values.ToList(); } }
 
         private ThreadSafeKeyedObjectCollection<string, IContainerObject> _LoadedContainerObjects = new ThreadSafeKeyedObjectCollection<string, IContainerObject>();
 
@@ -88,7 +88,7 @@ namespace Petecat.IoC
             }
             else if (targetType.IsInterface)
             {
-                var typeDefinition = _LoadedTypeDefinitions.Values.Where(x => x.IsImplementInterface(targetType)).FirstOrDefault(x =>
+                var typeDefinition = _LoadedTypeDefinitions.Values.Where(x => x.Info is Type && targetType.IsAssignableFrom(x.Info as Type)).FirstOrDefault(x =>
                 {
                     Attributes.AutoResolvableAttribute attribute;
                     return ReflectionUtility.TryGetCustomAttribute(x.Info, y => y.SpecifiedType.FullName == targetType.FullName, out attribute);
@@ -162,12 +162,33 @@ namespace Petecat.IoC
         {
             try
             {
-                assembly.GetTypes().Where(x => ReflectionUtility.ContainsCustomAttribute<Attributes.ResolvableAttribute>(x)).ToList()
-                    .ForEach(x => { _LoadedTypeDefinitions.Add(new DefaultTypeDefinition(x)); });
+                assembly.GetTypes().Where(x => ReflectionUtility.ContainsCustomAttribute<Attributes.ResolvableAttribute>(x)).ToList().ForEach(x => RegisterContainerType(x));
             }
             catch (Exception e)
             {
                 throw new Errors.ContainerAssemblyRegisterFailedException(assembly.FullName, e);
+            }
+        }
+
+        public void RegisterContainerType(Type type)
+        {
+            var typeDefinition = new DefaultTypeDefinition(type);
+            _LoadedTypeDefinitions.Add(typeDefinition);
+
+            Logging.LoggerManager.GetLogger().LogEvent("DefaultContainer", Logging.LoggerLevel.Info, string.Format("register type '{0}'", typeDefinition.Key));
+
+            if (type.IsClass)
+            {
+                if (type.BaseType != null && type.BaseType != typeof(object))
+                {
+                    RegisterContainerType(type.BaseType);
+                }
+
+                type.GetInterfaces().ToList().ForEach(x => RegisterContainerType(x));
+            }
+            else if (type.IsInterface)
+            {
+                type.GetInterfaces().ToList().ForEach(x => RegisterContainerType(x));
             }
         }
 
