@@ -13,15 +13,15 @@ using Petecat.IoC.Configuration;
 
 namespace Petecat.IoC
 {
-    public class DefaultContainer : IContainer
+    public class DefaultIoCContainer : IIoCContainer
     {
         private ThreadSafeKeyedObjectCollection<string, ITypeDefinition> _LoadedTypeDefinitions = new ThreadSafeKeyedObjectCollection<string, ITypeDefinition>();
 
-        public IList<ITypeDefinition> LoadedTypeDefinitions { get { return _LoadedTypeDefinitions.Values.ToList(); } }
+        public IEnumerable<ITypeDefinition> LoadedTypeDefinitions { get { return _LoadedTypeDefinitions.Values; } }
 
-        private ThreadSafeKeyedObjectCollection<string, IContainerObject> _LoadedContainerObjects = new ThreadSafeKeyedObjectCollection<string, IContainerObject>();
+        private ThreadSafeKeyedObjectCollection<string, IIoCObject> _LoadedContainerObjects = new ThreadSafeKeyedObjectCollection<string, IIoCObject>();
 
-        public IEnumerable<IContainerObject> LoadedContainerObjects { get { return _LoadedContainerObjects.Values; } }
+        public IEnumerable<IIoCObject> LoadedContainerObjects { get { return _LoadedContainerObjects.Values; } }
 
         #region Get Instances
 
@@ -257,7 +257,7 @@ namespace Petecat.IoC
                 return;
             }
 
-            var containerObject = new DefaultContainerObject(containerObjectConfig.Name, containerObjectConfig.Singleton, typeDefinition);
+            var containerObject = new DefaultIoCObject(containerObjectConfig.Name, containerObjectConfig.Singleton, typeDefinition);
 
             if (containerObjectConfig.Arguments != null && containerObjectConfig.Arguments.Length > 0)
             {

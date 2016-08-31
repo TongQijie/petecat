@@ -21,8 +21,8 @@ namespace Petecat.Service
 
             try
             {
-                AppDomainContainer.Initialize();
-                ServiceManager.Instance = new ServiceManager(AppDomainContainer.Instance);
+                AppDomainIoCContainer.Initialize();
+                ServiceManager.Instance = new ServiceManager(AppDomainIoCContainer.Instance);
             }
             catch (Exception e)
             {

@@ -2,7 +2,7 @@
 
 namespace Petecat.IoC
 {
-    public interface IContainerObject : IKeyedObject<string>
+    public interface IIoCObject : IKeyedObject<string>
     {
         ITypeDefinition TypeDefinition { get; }
 

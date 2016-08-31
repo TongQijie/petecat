@@ -7,17 +7,17 @@ using Petecat.Logging;
 
 namespace Petecat.IoC
 {
-    public class AppDomainContainer : DefaultContainer
+    public class AppDomainIoCContainer : DefaultIoCContainer
     {
-        private static AppDomainContainer _Instance = null;
+        private static AppDomainIoCContainer _Instance = null;
 
-        public static AppDomainContainer Instance { get { return _Instance; } }
+        public static AppDomainIoCContainer Instance { get { return _Instance; } }
 
-        public static AppDomainContainer Initialize()
+        public static AppDomainIoCContainer Initialize()
         {
             if(_Instance == null)
             {
-                _Instance = new AppDomainContainer();
+                _Instance = new AppDomainIoCContainer();
 
                 try
                 {
@@ -40,7 +40,7 @@ namespace Petecat.IoC
                 }
                 catch (Exception e)
                 {
-                    LoggerManager.GetLogger().LogEvent("AppDomainContainer", LoggerLevel.Warn, e);
+                    LoggerManager.GetLogger().LogEvent("AppDomainIoCContainer", LoggerLevel.Warn, e);
                 }
             }
 

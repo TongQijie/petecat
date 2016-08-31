@@ -4,9 +4,9 @@ using System.Reflection;
 
 namespace Petecat.IoC
 {
-    public interface IContainer
+    public interface IIoCContainer
     {
-        IList<ITypeDefinition> LoadedTypeDefinitions { get; }
+        IEnumerable<ITypeDefinition> LoadedTypeDefinitions { get; }
 
         object Resolve(Type targetType, params object[] arguments);
 

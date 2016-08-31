@@ -5,9 +5,9 @@ using Petecat.Utility;
 
 namespace Petecat.IoC
 {
-    public class DefaultContainerObject : IContainerObject
+    public class DefaultIoCObject : IIoCObject
     {
-        public DefaultContainerObject(string name, bool singleton, ITypeDefinition typeDefinition)
+        public DefaultIoCObject(string name, bool singleton, ITypeDefinition typeDefinition)
         {
             Key = name;
             IsSingleton = singleton;
