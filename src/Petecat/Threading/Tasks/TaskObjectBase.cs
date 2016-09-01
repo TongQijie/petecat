@@ -67,6 +67,12 @@ namespace Petecat.Threading.Tasks
         {
             if (_ThreadObject != null) { _ThreadObject.Dispose(); }
 
+            if (Implement == null)
+            {
+                LoggerManager.GetLogger().LogEvent("TaskObjectBase", LoggerLevel.Error, new Errors.TaskNotImplementException(Name));
+                return;
+            }
+
             _ThreadObject = new ThreadObject(() =>
             {
                 ChangeStatusTo(TaskObjectStatus.Executing);
@@ -83,7 +89,7 @@ namespace Petecat.Threading.Tasks
 
                 if (!result)
                 {
-                    LoggerManager.GetLogger().LogEvent("TaskObjectBase", LoggerLevel.Error, string.Format("failed to execute task {0}", Name));
+                    LoggerManager.GetLogger().LogEvent("TaskObjectBase", LoggerLevel.Error, new Errors.TaskExecuteFailedException(Name));
                 }
 
                 ChangeStatusTo(TaskObjectStatus.Sleep);
@@ -100,7 +106,7 @@ namespace Petecat.Threading.Tasks
 
             if (Status != to)
             {
-                LoggerManager.GetLogger().LogEvent("TaskObjectBase", LoggerLevel.Warn, string.Format("failed to change task status from {0} to {1}", from, to));
+                LoggerManager.GetLogger().LogEvent("TaskObjectBase", LoggerLevel.Warn, new Errors.TaskStatusChangeFailedException(Name, from, to));
 
                 if (Status == from)
                 {

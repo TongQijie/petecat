@@ -220,6 +220,9 @@
     <Compile Include="Service\ServiceMethodDefinition.cs" />
     <Compile Include="Threading\Configuration\TaskSwitchContainerConfig.cs" />
     <Compile Include="Threading\Configuration\TaskSwitchConfig.cs" />
+    <Compile Include="Threading\Errors\TaskExecuteFailedException.cs" />
+    <Compile Include="Threading\Errors\TaskNotImplementException.cs" />
+    <Compile Include="Threading\Errors\TaskStatusChangeFailedException.cs" />
     <Compile Include="Threading\Storage\IThreadStorage.cs" />
     <Compile Include="Threading\Storage\ThreadStaticStorage.cs" />
     <Compile Include="Threading\Tasks\AbstractTaskObject.cs" />

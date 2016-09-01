@@ -40,9 +40,9 @@ namespace Petecat.Utility
                 }
                 return targetList;
             }
-            else if (targetType.IsEnum && sourceValue is string)
+            else if (targetType.IsEnum)
             {
-                return null;
+                return targetType.GetEnumByValue(sourceValue.ToString());
             }
             else if (typeof(IConvertible).IsAssignableFrom(sourceValue.GetType()))
             {
