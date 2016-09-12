@@ -1,9 +1,9 @@
 ﻿using Petecat.Collection;
 using Petecat.Data.Formatters;
 using Petecat.Threading.Watcher;
-
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Petecat.Caching
@@ -15,6 +15,8 @@ namespace Petecat.Caching
         public static CacheObjectManager Instance { get { return _Instance ?? (_Instance = new CacheObjectManager()); } }
 
         private ThreadSafeKeyedObjectCollection<string, ICacheObject> _CacheObjects = new ThreadSafeKeyedObjectCollection<string, ICacheObject>();
+
+        public ICacheObject[] CacheObjects { get { return _CacheObjects.Values.ToArray(); } }
 
         public ICacheObject Add(string key, Func<object> readCacheHandler)
         {
