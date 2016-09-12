@@ -237,6 +237,9 @@
     <Compile Include="Threading\ThreadBridging.cs" />
     <Compile Include="Threading\ThreadObject.cs" />
     <Compile Include="Threading\Watcher\FileChangedHandlerDelegate.cs" />
+    <Compile Include="Threading\Watcher\FileCreatedHandlerDelegate.cs" />
+    <Compile Include="Threading\Watcher\FileDeletedHandlerDelegate.cs" />
+    <Compile Include="Threading\Watcher\FileRenamedHandlerDelegate.cs" />
     <Compile Include="Threading\Watcher\FileWatcher.cs" />
     <Compile Include="Threading\Watcher\FolderWatcher.cs" />
     <Compile Include="Threading\Watcher\FolderWatcherManager.cs" />

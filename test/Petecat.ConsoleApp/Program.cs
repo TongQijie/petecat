@@ -19,6 +19,7 @@ using Petecat.Threading;
 using Petecat.Network;
 using System.Net;
 using Petecat.Network.Sockets;
+using System.IO;
 
 namespace Petecat.ConsoleApp
 {
@@ -33,7 +34,7 @@ namespace Petecat.ConsoleApp
             //var banana = container.Resolve("banana");
             //var another = container.Resolve("another-apple");
 
-            AppDomainIoCContainer.Initialize();
+            //AppDomainIoCContainer.Initialize();
 
             //FolderWatcherManager.Instance.GetOrAdd("./configuration".FullPath())
             //    .SetFileChangedHandler("container.config", (w) =>
@@ -50,11 +51,23 @@ namespace Petecat.ConsoleApp
             //    return new XmlFormatter().ReadObject<AppSettings>("./configuration/AppSettings.config".FullPath(), Encoding.UTF8);
             //});
 
-            //FolderWatcherManager.Instance.GetOrAdd("./configuration".FullPath())
-            //    .SetFileChangedHandler("AppSettings.config", (w) =>
-            //    {
-            //        CacheObjectManager.Instance.Get("AppSettings").IsDirty = true;
-            //    }).Start();
+            FolderWatcherManager.Instance.GetOrAdd("./configuration".FullPath())
+                .SetFileCreatedHandler((f, n) =>
+                {
+                    ConsoleBridging.WriteLine("created " + n);
+                })
+                .SetFileDeletedHandler((f, n) =>
+                {
+                    ConsoleBridging.WriteLine("deleted " + n);
+                })
+                .SetFileRenamedHandler((f, o, n) =>
+                {
+                    ConsoleBridging.WriteLine("renamed from " + o + " to " + n);
+                }).Start();
+
+            ConsoleBridging.ReadAnyKey();
+
+            FolderWatcherManager.Instance.GetOrAdd("./configuration".FullPath()).Stop();
 
             //CacheObjectManager.Instance.AddXml<AppSettings>("AppSettings", "./configuration/AppSettings.config".FullPath(), true);
 
@@ -137,11 +150,11 @@ namespace Petecat.ConsoleApp
 
 #if Tcp_Listener
 
-            var tcpListener = SocketObject.CreateTcpListenerObject();
-            tcpListener.ReceivedData += tcpListener_ReceivedData;
-            tcpListener.SocketConnected += tcpListener_SocketConnected;
-            tcpListener.BeginListen(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 10000));
-            ConsoleBridging.ReadAnyKey();
+            //var tcpListener = SocketObject.CreateTcpListenerObject();
+            //tcpListener.ReceivedData += tcpListener_ReceivedData;
+            //tcpListener.SocketConnected += tcpListener_SocketConnected;
+            //tcpListener.BeginListen(new IPEndPoint(IPAddress.Parse("127.0.0.1"), 10000));
+            //ConsoleBridging.ReadAnyKey();
 
 #elif Tcp_Client
 
@@ -160,7 +173,7 @@ namespace Petecat.ConsoleApp
 #endif
 
 
-            //FolderWatcherManager.Instance.GetOrAdd("./configuration").Stop();
+            
         }
 
         static void tcpListener_SocketConnected(ISocketObject socketObject)
