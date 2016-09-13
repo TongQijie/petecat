@@ -53,6 +53,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "articleservice.repositorymo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "articleservice.repositorytransfer", "app\blogservices\repository\articleservice.repositorytransfer\articleservice.repositorytransfer.csproj", "{3844A557-F2CB-43B5-BD94-4E87EF3A2480}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "articleservice.serviceproxy", "app\blogservices\articleservice.serviceproxy\articleservice.serviceproxy.csproj", "{2998BAF3-E770-4712-920E-D2B19A7D2507}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "articleservice.servicetest", "app\blogservices\articleservice.servicetest\articleservice.servicetest.csproj", "{89109E0F-3FAE-4FE9-866D-DCF6DB0D178B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -135,6 +139,14 @@ Global
 		{3844A557-F2CB-43B5-BD94-4E87EF3A2480}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3844A557-F2CB-43B5-BD94-4E87EF3A2480}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3844A557-F2CB-43B5-BD94-4E87EF3A2480}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2998BAF3-E770-4712-920E-D2B19A7D2507}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2998BAF3-E770-4712-920E-D2B19A7D2507}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2998BAF3-E770-4712-920E-D2B19A7D2507}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2998BAF3-E770-4712-920E-D2B19A7D2507}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89109E0F-3FAE-4FE9-866D-DCF6DB0D178B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89109E0F-3FAE-4FE9-866D-DCF6DB0D178B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89109E0F-3FAE-4FE9-866D-DCF6DB0D178B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89109E0F-3FAE-4FE9-866D-DCF6DB0D178B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -156,6 +168,8 @@ Global
 		{05BA1EAE-4793-4E12-953B-E7543535782F} = {2B14BFA3-031C-4978-B73B-547A615EE04B}
 		{B7FF9340-EB63-41C9-8ACB-59EDF7FA46B7} = {2B14BFA3-031C-4978-B73B-547A615EE04B}
 		{82A20664-2444-4531-91BC-5A92058A02AE} = {2B14BFA3-031C-4978-B73B-547A615EE04B}
+		{2998BAF3-E770-4712-920E-D2B19A7D2507} = {2B14BFA3-031C-4978-B73B-547A615EE04B}
+		{89109E0F-3FAE-4FE9-866D-DCF6DB0D178B} = {2B14BFA3-031C-4978-B73B-547A615EE04B}
 		{892EBFA4-5661-4B89-8EFC-9876840AF57B} = {05BA1EAE-4793-4E12-953B-E7543535782F}
 		{B6D6C53F-9EDE-4E48-9A06-CD40B1209056} = {05BA1EAE-4793-4E12-953B-E7543535782F}
 		{43B81C4F-167A-442C-855A-5F56764FB336} = {B7FF9340-EB63-41C9-8ACB-59EDF7FA46B7}
