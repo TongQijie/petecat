@@ -7,6 +7,10 @@ namespace ArticleService.RepositoryInterface
 
         ArticleInfoSource GetArticleById(string id);
 
-        bool EditArticleById(ArticleInfoSource articleInfoSource);
+        bool CreateArticle(ArticleInfoSource articleInfoSource);
+
+        bool ModifyArticle(ArticleInfoSource articleInfoSource);
+
+        bool DeleteArticle(ArticleInfoSource articleInfoSource);
     }
 }

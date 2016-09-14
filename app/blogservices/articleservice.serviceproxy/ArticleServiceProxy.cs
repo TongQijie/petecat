@@ -15,9 +15,9 @@ namespace ArticleService.ServiceProxy
             return new ServiceClientBase("get-article-by-id").Call<ServiceResponse<ArticleInfo>>(request);
         }
 
-        public static ServiceResponse EditArticleById(ServiceRequest<ArticleInfo> request)
+        public static ServiceResponse OperateArticle(ServiceRequest<ArticleInfo> request)
         {
-            return new ServiceClientBase("edit-article-by-id").Call<ServiceResponse>(request);
+            return new ServiceClientBase("operate-article").Call<ServiceResponse>(request);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace ArticleService.ServiceInterface
         [ServiceMethod(MethodName = "get-article-by-id")]
         ServiceResponse<ArticleInfo> GetArticleById(ServiceRequest request);
 
-        [ServiceMethod(MethodName = "edit-article-by-id")]
-        ServiceResponse EditArticleById(ServiceRequest<ArticleInfo> request);
+        [ServiceMethod(MethodName = "operate-article")]
+        ServiceResponse OperateArticle(ServiceRequest<ArticleInfo> request);
     }
 }

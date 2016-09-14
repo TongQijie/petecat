@@ -245,6 +245,7 @@
     <Compile Include="Threading\Watcher\FolderWatcherManager.cs" />
     <Compile Include="Utility\AppConfigUtility.cs" />
     <Compile Include="Utility\CompressUtility.cs" />
+    <Compile Include="Utility\Errors\ConvertFailedException.cs" />
     <Compile Include="Utility\HashCalculator.cs" />
     <Compile Include="Utility\ReflectionUtility.cs" />
     <Compile Include="Utility\Converter.cs" />

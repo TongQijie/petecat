@@ -44,15 +44,22 @@ namespace ArticleService.RepositoryImplement
                 }).Start();
         }
 
-        public List<ArticleInfoSource> ReadAll()
-        {
-            return CacheObjectManager.Instance.CacheObjects.Select(x => x.GetValue() as ArticleInfoSource).ToList();
-        }
-
-        public ArticleInfoSource Read(string id)
+        public List<ArticleInfoSource> ReadMany(Predicate<ArticleInfoSource> predicate)
         {
             return CacheObjectManager.Instance.CacheObjects.Select(x => x.GetValue() as ArticleInfoSource)
-                .FirstOrDefault(x => string.Equals(x.Id, id, StringComparison.OrdinalIgnoreCase));
+                .Where(x => predicate(x)).ToList();
+        }
+
+        public ArticleInfoSource ReadSingle(Predicate<ArticleInfoSource> predicate)
+        {
+            return CacheObjectManager.Instance.CacheObjects.Select(x => x.GetValue() as ArticleInfoSource)
+                .FirstOrDefault(x => predicate(x));
+        }
+
+        public bool Exists(Predicate<ArticleInfoSource> predicate)
+        {
+            return CacheObjectManager.Instance.CacheObjects.Select(x => x.GetValue() as ArticleInfoSource)
+                .ToList().Exists(predicate);
         }
 
         public void Write(ArticleInfoSource articleInfoSource)

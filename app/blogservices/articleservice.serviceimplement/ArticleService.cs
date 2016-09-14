@@ -31,9 +31,9 @@ namespace ArticleService.ServiceImplement
             return Sandbox(request, _ArticleServiceImpl.GetArticleById);
         }
 
-        public ServiceResponse EditArticleById(ServiceRequest<ArticleInfo> request)
+        public ServiceResponse OperateArticle(ServiceRequest<ArticleInfo> request)
         {
-            return Sandbox(request, _ArticleServiceImpl.EditArticleById);
+            return Sandbox(request, _ArticleServiceImpl.OperateArticle);
         }
     }
 }

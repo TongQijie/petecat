@@ -30,16 +30,48 @@ namespace ArticleService.RepositoryImplement
 
         public ArticleInfoSource[] GetArticlesByPage(PagingSource pagingSource)
         {
-            return _Cache.ReadAll().OrderByDescending(x => x.CreationDate)
+            return _Cache.ReadMany(x => !x.Deleted).OrderByDescending(x => x.CreationDate)
                 .Skip((pagingSource.PageNumber - 1) * pagingSource.PageSize).Take(pagingSource.PageSize).ToArray();
         }
 
         public ArticleInfoSource GetArticleById(string id)
         {
-            return _Cache.Read(id);
+            return _Cache.ReadSingle(x => !x.Deleted && string.Equals(x.Id, id, StringComparison.OrdinalIgnoreCase));
         }
 
-        public bool EditArticleById(ArticleInfoSource articleInfoSource)
+        public bool CreateArticle(ArticleInfoSource articleInfoSource)
+        {
+            if (_Cache.Exists(x => !x.Deleted && string.Equals(x.Id, articleInfoSource.Id, StringComparison.OrdinalIgnoreCase)))
+            {
+                return false;
+            }
+
+            articleInfoSource.CreationDate = DateTime.Now;
+            articleInfoSource.ModifiedDate = DateTime.Now;
+            articleInfoSource.Deleted = false;
+
+            return Write(articleInfoSource);
+        }
+
+        public bool ModifyArticle(ArticleInfoSource articleInfoSource)
+        {
+            var article = _Cache.ReadSingle(x => !x.Deleted && string.Equals(x.Id, articleInfoSource.Id, StringComparison.OrdinalIgnoreCase));
+            if (article == null)
+            {
+                return false;
+            }
+
+            articleInfoSource.ModifiedDate = DateTime.Now;
+            return Write(articleInfoSource);
+        }
+
+        public bool DeleteArticle(ArticleInfoSource articleInfoSource)
+        {
+            articleInfoSource.Deleted = true;
+            return Write(articleInfoSource);
+        }
+
+        private bool Write(ArticleInfoSource articleInfoSource)
         {
             try
             {

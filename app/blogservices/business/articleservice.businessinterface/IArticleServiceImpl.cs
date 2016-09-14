@@ -9,6 +9,6 @@ namespace ArticleService.BusinessInterface
 
         ServiceResponse<ArticleInfo> GetArticleById(ServiceRequest request);
 
-        ServiceResponse EditArticleById(ServiceRequest<ArticleInfo> request);
+        ServiceResponse OperateArticle(ServiceRequest<ArticleInfo> request);
     }
 }

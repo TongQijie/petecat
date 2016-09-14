@@ -8,28 +8,33 @@ namespace articleservice.servicetest
     {
         static void Main(string[] args)
         {
-            var articles = ArticleServiceProxy.GetArticlesByPage(new ServiceRequest()
+            var count = 10;
+            while (count > 0)
             {
-                Paging = new Paging(1, 10),
-            });
-            var article = ArticleServiceProxy.GetArticleById(new ServiceRequest()
-            {
-                KeyValues = new KeyValuePair[] 
-                { 
-                    new KeyValuePair("ArticleId", "hello-world"),
-                },
-            });
-            ArticleServiceProxy.EditArticleById(new ServiceRequest<ArticleInfo>()
-            {
-                Body = new ArticleInfo()
+                ArticleServiceProxy.OperateArticle(new ServiceRequest<ArticleInfo>()
                 {
-                    Id = Environment.TickCount.ToString(),
-                    CreationDate = DateTime.Now,
-                    Title = "hello, World!",
-                    Abstract = "hey, man",
-                    Content = "this is a note about butterfly.",
-                },
-            });
+                    Body = new ArticleInfo()
+                    {
+                        Id = Environment.TickCount.ToString(),
+                        Title = "hello, World!",
+                        Abstract = "hey, man",
+                        Content = "this is a note about butterfly.",
+                    },
+                });
+                var articles = ArticleServiceProxy.GetArticlesByPage(new ServiceRequest()
+                {
+                    Paging = new Paging(1, 10),
+                });
+                var article = ArticleServiceProxy.GetArticleById(new ServiceRequest()
+                {
+                    KeyValues = new KeyValuePair[] 
+                    { 
+                        new KeyValuePair("ArticleId", "hello-world"),
+                    },
+                });
+
+                count--;
+            }
         }
     }
 }

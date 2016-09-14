@@ -6,7 +6,9 @@ namespace ArticleService.ServiceModel
     {
         public string Id { get; set; }
 
-        public DateTime CreationDate { get; set; }
+        public string CreationDate { get; set; }
+
+        public string ModifiedDate { get; set; }
 
         public string Title { get; set; }
 

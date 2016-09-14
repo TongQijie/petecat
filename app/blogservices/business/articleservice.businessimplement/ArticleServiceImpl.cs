@@ -44,11 +44,16 @@ namespace ArticleService.BusinessImplement
             return response;
         }
 
-        public ServiceResponse EditArticleById(ServiceRequest<ArticleInfo> request)
+        public ServiceResponse OperateArticle(ServiceRequest<ArticleInfo> request)
         {
             var response = new ServiceResponse();
 
-            _ArticleServiceRepo.EditArticleById(ArticleInfoTransfer.BuildArticleInfoSource(request.Body));
+            switch (request.ActionName)
+            {
+                case "Create": _ArticleServiceRepo.CreateArticle(ArticleInfoTransfer.BuildArticleInfoSource(request.Body)); break;
+                case "Modify": _ArticleServiceRepo.ModifyArticle(ArticleInfoTransfer.BuildArticleInfoSource(request.Body)); break;
+                case "Delete": _ArticleServiceRepo.DeleteArticle(ArticleInfoTransfer.BuildArticleInfoSource(request.Body)); break;
+            }
 
             return response;
         }

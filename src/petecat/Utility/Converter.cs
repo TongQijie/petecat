@@ -52,12 +52,12 @@ namespace Petecat.Utility
                 }
                 catch (Exception)
                 {
-                    throw;
+                    throw new Errors.ConvertFailedException(sourceValue.ToString(), targetType.ToString());
                 }
             }
             else
             {
-                return null;
+                throw new Errors.ConvertFailedException(sourceValue.ToString(), targetType.ToString());
             }
         }
 
@@ -75,7 +75,7 @@ namespace Petecat.Utility
             }
             catch (Exception) { }
 
-            targetValue = null;
+            targetValue = targetType.GetDefaultValue();
             return false;
         }
 
@@ -90,6 +90,28 @@ namespace Petecat.Utility
 
             targetValue = (T)typeof(T).GetDefaultValue();
             return false;
+        }
+
+        public static object BeAssignable(object sourceValue, Type targetType)
+        {
+            try
+            {
+                return Assignable(sourceValue, targetType);
+            }
+            catch (Exception) { }
+
+            return targetType.GetDefaultValue();
+        }
+
+        public static T BeAssignable<T>(object sourceValue)
+        {
+            try
+            {
+                return Assignable<T>(sourceValue);
+            }
+            catch (Exception) { }
+
+            return (T)typeof(T).GetDefaultValue();
         }
     }
 }

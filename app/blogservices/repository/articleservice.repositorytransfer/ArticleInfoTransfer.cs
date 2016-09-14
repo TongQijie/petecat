@@ -2,6 +2,8 @@
 using ArticleService.ServiceModel;
 using System.Collections.Generic;
 using Petecat.Extension;
+using System;
+using Petecat.Utility;
 
 namespace ArticleService.RepositoryTransfer
 {
@@ -38,9 +40,10 @@ namespace ArticleService.RepositoryTransfer
             {
                 Abstract = articleInfoSource.Abstract,
                 Content = articleInfoSource.Content,
-                CreationDate = articleInfoSource.CreationDate,
+                CreationDate = articleInfoSource.CreationDate.ToString("yyyy/MM/dd HH:mm:ss"),
                 Id = articleInfoSource.Id,
                 Title = articleInfoSource.Title,
+                ModifiedDate = articleInfoSource.ModifiedDate.ToString("yyyy/MM/dd HH:mm:ss"),
             };
         }
 
@@ -55,9 +58,10 @@ namespace ArticleService.RepositoryTransfer
             {
                 Abstract = articleInfo.Abstract,
                 Content = articleInfo.Content,
-                CreationDate = articleInfo.CreationDate,
+                CreationDate = Converter.BeAssignable<DateTime>(articleInfo.CreationDate),
                 Id = articleInfo.Id,
                 Title = articleInfo.Title,
+                ModifiedDate = Converter.BeAssignable<DateTime>(articleInfo.ModifiedDate),
             };
         }
     }
