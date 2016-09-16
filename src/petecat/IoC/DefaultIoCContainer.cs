@@ -175,8 +175,6 @@ namespace Petecat.IoC
             var typeDefinition = new DefaultTypeDefinition(type);
             _LoadedTypeDefinitions.Add(typeDefinition);
 
-            Logging.LoggerManager.GetLogger().LogEvent("DefaultContainer", Logging.LoggerLevel.Info, string.Format("register type '{0}'", typeDefinition.Key));
-
             if (type.IsClass)
             {
                 if (type.BaseType != null && type.BaseType != typeof(object))

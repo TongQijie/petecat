@@ -12,11 +12,11 @@ namespace Petecat.Service
 
         public void ProcessRequest(HttpContext context)
         {
-            var request = new ServiceHttpRequest(context.Request);
             var response = new ServiceHttpResponse(context.Response, context.Request.AcceptTypes);
 
             try
             {
+                var request = new ServiceHttpRequest(context.Request);
                 InternalProcessRequest(request, response);
                 response.SetStatusCode(200);
             }

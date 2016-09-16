@@ -200,6 +200,7 @@
     <Compile Include="Service\Configuration\ServiceHostConfig.cs" />
     <Compile Include="Service\Configuration\ServiceResourceConfig.cs" />
     <Compile Include="Service\Errors\ServiceHttpMethodNotSupportException.cs" />
+    <Compile Include="Service\Errors\ServiceHttpRequestInvalidVirtualPathException.cs" />
     <Compile Include="Service\Errors\ServiceManagerNotInitializedException.cs" />
     <Compile Include="Service\Errors\ServiceDefinitionNotFoundException.cs" />
     <Compile Include="Service\Errors\ServiceImplementNotFoundException.cs" />

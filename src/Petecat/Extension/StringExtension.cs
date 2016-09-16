@@ -48,7 +48,7 @@ namespace Petecat.Extension
 
             var fullPath = string.Join("/", pathStack.ToArray());
 
-            if (Regex.IsMatch(fullPath, "^[A-Z]\x3A\x2F"))
+            if (Regex.IsMatch(fullPath, "^[A-Z]\x3A\x2F", RegexOptions.IgnoreCase))
             {
                 return fullPath;
             }
