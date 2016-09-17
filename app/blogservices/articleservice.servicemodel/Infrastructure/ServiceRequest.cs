@@ -1,16 +1,21 @@
 ﻿using System;
 using System.Linq;
+using System.Runtime.Serialization;
 
 using Petecat.Extension;
 
 namespace ArticleService.ServiceModel.Infrastructure
 {
+    [DataContract]
     public class ServiceRequest
     {
+        [DataMember(Name = "actionName")]
         public string ActionName { get; set; }
 
+        [DataMember(Name = "keyValues")]
         public KeyValuePair[] KeyValues { get; set; }
 
+        [DataMember(Name = "paging")]
         public Paging Paging { get; set; }
 
         public string GetValue(string key)

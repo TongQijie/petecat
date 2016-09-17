@@ -23,6 +23,8 @@ namespace Petecat.Threading.Watcher
             }
         }
 
+        public string Key { get { return FullPath; } }
+
         public string FullPath { get; private set; }
 
         private ThreadSafeKeyedObjectCollection<string, FileWatcher> _FileWatchers = new ThreadSafeKeyedObjectCollection<string, FileWatcher>();
@@ -112,7 +114,13 @@ namespace Petecat.Threading.Watcher
 
         private void OnCreated(object source, FileSystemEventArgs e)
         {
-            var fileAttributes = File.GetAttributes(e.FullPath);
+            FileAttributes fileAttributes;
+            try
+            {
+                fileAttributes = File.GetAttributes(e.FullPath);
+            }
+            catch (Exception) { return; }
+
             if (fileAttributes.HasFlag(FileAttributes.Directory))
             {
                 // do nothing
@@ -150,6 +158,6 @@ namespace Petecat.Threading.Watcher
             }
         }
 
-        public string Key { get { return FullPath; } }
+        
     }
 }

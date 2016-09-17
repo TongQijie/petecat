@@ -1,5 +1,8 @@
-﻿namespace ArticleService.ServiceModel.Infrastructure
+﻿using System.Runtime.Serialization;
+
+namespace ArticleService.ServiceModel.Infrastructure
 {
+    [DataContract]
     public class Paging
     {
         public Paging() { }
@@ -10,10 +13,13 @@
             PageSize = pageSize;
         }
 
+        [DataMember(Name = "pageNumber")]
         public int PageNumber { get; set; }
 
+        [DataMember(Name = "totalPages")]
         public int TotalPages { get; set; }
         
+        [DataMember(Name = "pageSize")]
         public int PageSize { get; set; }
     }
 }
