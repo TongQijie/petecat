@@ -40,10 +40,10 @@ namespace ArticleService.RepositoryTransfer
             {
                 Abstract = articleInfoSource.Abstract,
                 Content = articleInfoSource.Content,
-                CreationDate = articleInfoSource.CreationDate.ToString("yyyy/MM/dd HH:mm:ss"),
+                CreationDate = articleInfoSource.CreationDate.ToString("yyyy/MM/dd"),
                 Id = articleInfoSource.Id,
                 Title = articleInfoSource.Title,
-                ModifiedDate = articleInfoSource.ModifiedDate.ToString("yyyy/MM/dd HH:mm:ss"),
+                ModifiedDate = articleInfoSource.ModifiedDate.ToString("yyyy/MM/dd"),
                 Signature = articleInfoSource.Signature,
             };
         }
