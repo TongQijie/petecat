@@ -34,9 +34,23 @@ namespace ArticleService.RepositoryImplement
                 .Skip((pagingSource.PageNumber - 1) * pagingSource.PageSize).Take(pagingSource.PageSize).ToArray();
         }
 
-        public ArticleInfoSource GetArticleById(string id)
+        public ArticleInfoSource[] GetArticleById(string id)
         {
-            return _Cache.ReadSingle(x => !x.Deleted && string.Equals(x.Id, id, StringComparison.OrdinalIgnoreCase));
+            var article = _Cache.ReadSingle(x => !x.Deleted && string.Equals(x.Id, id, StringComparison.OrdinalIgnoreCase));
+            if (article == null)
+            {
+                return null;
+            }
+
+            var previous = _Cache.ReadMany(x => !x.Deleted && x.CreationDate > article.CreationDate).OrderBy(x => x.CreationDate).FirstOrDefault();
+            var next = _Cache.ReadMany(x => !x.Deleted && x.CreationDate < article.CreationDate).OrderByDescending(x => x.CreationDate).FirstOrDefault();
+
+            return new ArticleInfoSource[3]
+            {
+                previous,
+                article,
+                next,
+            };
         }
 
         public bool CreateArticle(ArticleInfoSource articleInfoSource)
@@ -49,7 +63,6 @@ namespace ArticleService.RepositoryImplement
             articleInfoSource.CreationDate = DateTime.Now;
             articleInfoSource.ModifiedDate = DateTime.Now;
             articleInfoSource.Deleted = false;
-
             return Write(articleInfoSource);
         }
 

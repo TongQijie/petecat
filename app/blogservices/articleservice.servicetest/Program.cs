@@ -13,9 +13,9 @@ namespace articleservice.servicetest
             {
                 ArticleServiceProxy.OperateArticle(new ServiceRequest<ArticleInfo>()
                 {
+                    ActionName = "Create",
                     Body = new ArticleInfo()
                     {
-                        Id = Environment.TickCount.ToString(),
                         Title = "hello, World!",
                         Abstract = "hey, man",
                         Content = "this is a note about butterfly.",
@@ -29,7 +29,7 @@ namespace articleservice.servicetest
                 {
                     KeyValues = new KeyValuePair[] 
                     { 
-                        new KeyValuePair("ArticleId", "hello-world"),
+                        new KeyValuePair("ArticleId", "hey"),
                     },
                 });
 

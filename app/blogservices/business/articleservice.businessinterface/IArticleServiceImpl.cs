@@ -7,7 +7,7 @@ namespace ArticleService.BusinessInterface
     {
         ServiceResponse<ArticleInfo[]> GetArticlesByPage(ServiceRequest request);
 
-        ServiceResponse<ArticleInfo> GetArticleById(ServiceRequest request);
+        ServiceResponse<ArticleInfo[]> GetArticleById(ServiceRequest request);
 
         ServiceResponse OperateArticle(ServiceRequest<ArticleInfo> request);
     }

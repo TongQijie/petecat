@@ -31,14 +31,14 @@ namespace ArticleService.BusinessImplement
             return response;
         }
 
-        public ServiceResponse<ArticleInfo> GetArticleById(ServiceRequest request)
+        public ServiceResponse<ArticleInfo[]> GetArticleById(ServiceRequest request)
         {
-            var response = new ServiceResponse<ArticleInfo>();
+            var response = new ServiceResponse<ArticleInfo[]>();
 
-            var articleInfoSource = _ArticleServiceRepo.GetArticleById(request.GetValue<string>("ArticleId", null));
-            if (articleInfoSource != null)
+            var articleInfoSources = _ArticleServiceRepo.GetArticleById(request.GetValue<string>("ArticleId", null));
+            if (articleInfoSources != null)
             {
-                response.Body = ArticleInfoTransfer.BuildArticleInfo(articleInfoSource);
+                response.Body = ArticleInfoTransfer.BuildArticleInfos(articleInfoSources);
             }
 
             return response;

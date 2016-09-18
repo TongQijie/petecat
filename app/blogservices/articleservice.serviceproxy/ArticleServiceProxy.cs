@@ -10,9 +10,9 @@ namespace ArticleService.ServiceProxy
             return new ServiceClientBase("get-articles-by-page").Call<ServiceResponse<ArticleInfo[]>>(request);
         }
 
-        public static ServiceResponse<ArticleInfo> GetArticleById(ServiceRequest request)
+        public static ServiceResponse<ArticleInfo[]> GetArticleById(ServiceRequest request)
         {
-            return new ServiceClientBase("get-article-by-id").Call<ServiceResponse<ArticleInfo>>(request);
+            return new ServiceClientBase("get-article-by-id").Call<ServiceResponse<ArticleInfo[]>>(request);
         }
 
         public static ServiceResponse OperateArticle(ServiceRequest<ArticleInfo> request)

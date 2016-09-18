@@ -44,6 +44,7 @@ namespace ArticleService.RepositoryTransfer
                 Id = articleInfoSource.Id,
                 Title = articleInfoSource.Title,
                 ModifiedDate = articleInfoSource.ModifiedDate.ToString("yyyy/MM/dd HH:mm:ss"),
+                Signature = articleInfoSource.Signature,
             };
         }
 
@@ -62,6 +63,7 @@ namespace ArticleService.RepositoryTransfer
                 Id = articleInfo.Id,
                 Title = articleInfo.Title,
                 ModifiedDate = Converter.BeAssignable<DateTime>(articleInfo.ModifiedDate),
+                Signature = articleInfo.Signature,
             };
         }
     }

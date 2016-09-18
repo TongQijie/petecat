@@ -23,5 +23,8 @@ namespace ArticleService.ServiceModel
 
         [DataMember(Name = "content")]
         public string Content { get; set; }
+
+        [DataMember(Name = "signature")]
+        public string Signature { get; set; }
     }
 }

@@ -26,7 +26,7 @@ namespace ArticleService.ServiceImplement
             return Sandbox(request, _ArticleServiceImpl.GetArticlesByPage);
         }
 
-        public ServiceResponse<ArticleInfo> GetArticleById(ServiceRequest request)
+        public ServiceResponse<ArticleInfo[]> GetArticleById(ServiceRequest request)
         {
             return Sandbox(request, _ArticleServiceImpl.GetArticleById);
         }

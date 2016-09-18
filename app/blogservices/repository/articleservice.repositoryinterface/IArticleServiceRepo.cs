@@ -5,7 +5,7 @@ namespace ArticleService.RepositoryInterface
     {
         ArticleInfoSource[] GetArticlesByPage(PagingSource pagingSource);
 
-        ArticleInfoSource GetArticleById(string id);
+        ArticleInfoSource[] GetArticleById(string id);
 
         bool CreateArticle(ArticleInfoSource articleInfoSource);
 
