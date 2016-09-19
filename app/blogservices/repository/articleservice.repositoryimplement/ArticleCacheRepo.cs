@@ -41,6 +41,10 @@ namespace ArticleService.RepositoryImplement
                 {
                     CacheObjectManager.Instance.Add<ArticleInfoSource>(n, System.IO.Path.Combine(f.FullPath, n), Encoding.UTF8,
                         ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson), true);
+                })
+                .SetFileDeletedHandler((f, n) =>
+                {
+
                 }).Start();
         }
 
@@ -62,7 +66,13 @@ namespace ArticleService.RepositoryImplement
                 .ToList().Exists(predicate);
         }
 
-        public void Write(ArticleInfoSource articleInfoSource)
+        public void Update(ArticleInfoSource articleInfoSource)
+        {
+            ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteObject(articleInfoSource,
+                System.IO.Path.Combine(Path, articleInfoSource.Id) + ".json", Encoding.UTF8);
+        }
+
+        public void Insert(ArticleInfoSource articleInfoSource)
         {
             articleInfoSource.Id = System.IO.Path.GetRandomFileName().Replace(".", "");
             ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteObject(articleInfoSource,

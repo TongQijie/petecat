@@ -63,7 +63,7 @@ namespace ArticleService.RepositoryImplement
             articleInfoSource.CreationDate = DateTime.Now;
             articleInfoSource.ModifiedDate = DateTime.Now;
             articleInfoSource.Deleted = false;
-            return Write(articleInfoSource);
+            return Insert(articleInfoSource);
         }
 
         public bool ModifyArticle(ArticleInfoSource articleInfoSource)
@@ -74,21 +74,47 @@ namespace ArticleService.RepositoryImplement
                 return false;
             }
 
-            articleInfoSource.ModifiedDate = DateTime.Now;
-            return Write(articleInfoSource);
+            article.ModifiedDate = DateTime.Now;
+            article.Title = articleInfoSource.Title;
+            article.Abstract = articleInfoSource.Abstract;
+            article.Content = articleInfoSource.Content;
+            article.Signature = articleInfoSource.Signature;
+            return Update(article);
         }
 
         public bool DeleteArticle(ArticleInfoSource articleInfoSource)
         {
-            articleInfoSource.Deleted = true;
-            return Write(articleInfoSource);
+            var article = _Cache.ReadSingle(x => !x.Deleted && string.Equals(x.Id, articleInfoSource.Id, StringComparison.OrdinalIgnoreCase));
+            if (article == null)
+            {
+                return false;
+            }
+
+            article.ModifiedDate = DateTime.Now;
+            article.Deleted = true;
+            return Update(article);
         }
 
-        private bool Write(ArticleInfoSource articleInfoSource)
+        private bool Update(ArticleInfoSource articleInfoSource)
         {
             try
             {
-                _Cache.Write(articleInfoSource);
+                _Cache.Update(articleInfoSource);
+                return true;
+            }
+            catch (Exception e)
+            {
+                LoggerManager.GetLogger().LogEvent("ArticleServiceRepo", LoggerLevel.Error, e);
+            }
+
+            return false;
+        }
+
+        private bool Insert(ArticleInfoSource articleInfoSource)
+        {
+            try
+            {
+                _Cache.Insert(articleInfoSource);
                 return true;
             }
             catch (Exception e)

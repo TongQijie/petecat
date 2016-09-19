@@ -28,28 +28,6 @@ namespace Petecat.Caching
             return _CacheObjects.Add(new WritableCacheObject(key, readCacheHandler, writeCacheHandler));
         }
 
-        [Obsolete("this is replaced by Add<T>(string key, string path, Encoding encoding, IObjectFormatter objectFormatter, bool enableWatcher)")]
-        public void AddXml<T>(string key, string path, bool enableWatcher)
-        {
-            if (!File.Exists(path))
-            {
-                throw new FileNotFoundException(path);
-            }
-
-            var fileInfo = new FileInfo(path);
-
-            CacheObjectManager.Instance.Add(key, () => new XmlFormatter().ReadObject<T>(path, Encoding.UTF8));
-
-            if (enableWatcher)
-            {
-                FolderWatcherManager.Instance.GetOrAdd(fileInfo.Directory.FullName)
-                    .SetFileChangedHandler(fileInfo.Name, (w) =>
-                    {
-                        CacheObjectManager.Instance.GetObject(key).IsDirty = true;
-                    }).Start();
-            }
-        }
-
         public void Add<T>(string key, string path, Encoding encoding, IObjectFormatter objectFormatter, bool enableWatcher)
         {
             if (!File.Exists(path))
@@ -68,6 +46,15 @@ namespace Petecat.Caching
                     {
                         CacheObjectManager.Instance.GetObject(key).IsDirty = true;
                     }).Start();
+            }
+        }
+
+        public void Remove(string key)
+        {
+            var cacheObject = _CacheObjects.Get(key, null);
+            if (cacheObject != null)
+            {
+                _CacheObjects.Remove(cacheObject);
             }
         }
 
