@@ -10,7 +10,7 @@ namespace Petecat.Service.Client
 {
     public class ServiceResourceManager
     {
-        public const string CacheObjectName = "RestServiceResources";
+        public const string CacheObjectName = "Global_ServiceResources";
 
         private static ServiceResourceManager _Instance = null;
 

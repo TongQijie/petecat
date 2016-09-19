@@ -26,7 +26,7 @@ namespace Petecat.Test.Network.Http
         public void PostObject()
         {
             var httpClientRequest = new HttpClientRequest(HttpVerb.POST, "http://localhost:60932/service.svc/getva1");
-            using (var httpClientResponse = httpClientRequest.GetResponse(HttpContentType.Json, new Identification() { Username = "hey", Password = "world!" }))
+            using (var httpClientResponse = httpClientRequest.GetResponse(new Identification() { Username = "hey", Password = "world!" }))
             {
                 var globalSession = httpClientResponse.GetObject<GlobalSession>();
             }

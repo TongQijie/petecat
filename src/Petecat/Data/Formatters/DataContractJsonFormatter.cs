@@ -5,7 +5,7 @@ using System.Runtime.Serialization.Json;
 
 namespace Petecat.Data.Formatters
 {
-    public class DataContractJsonFormatter : IDataFormatter, IObjectFormatter
+    public class DataContractJsonFormatter : IObjectFormatter
     {
         public object ReadObject(Type targetType, Stream stream)
         {

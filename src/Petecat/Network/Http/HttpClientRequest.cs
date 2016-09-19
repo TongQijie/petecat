@@ -39,71 +39,9 @@ namespace Petecat.Network.Http
 
         public HttpWebRequest Request { get; private set; }
 
-        private HttpContentType _RequestContentType = HttpContentType.None;
-
-        public HttpContentType RequestContentType
-        {
-            get { return _RequestContentType; }
-            set
-            {
-                if (_RequestContentType != value)
-                {
-                    _RequestContentType = value;
-                    if (HttpConstants.HttpContentTypeStringMapping.ContainsKey(_RequestContentType))
-                    {
-                        Request.ContentType = HttpConstants.HttpContentTypeStringMapping[_RequestContentType];
-                    }
-                    else
-                    {
-                        Request.ContentType = "";
-                    }
-                }
-            }
-        }
-
         public HttpVerb HttpVerb { get; private set; }
 
-        public void SetRequestBody(HttpContentType contentType, object requestBody)
-        {
-            RequestContentType = contentType;
-
-            if (contentType == HttpContentType.FormUrlEncoded)
-            {
-                var keyValues = requestBody as Dictionary<string, string>;
-                if (keyValues == null)
-                {
-                    throw new FormatException("type of request body is not dictionary.");
-                }
-
-                var data = Encoding.UTF8.GetBytes(UrlEncodedString(keyValues));
-
-                Request.ContentLength = data.Length;
-
-                using (var requestStream = Request.GetRequestStream())
-                {
-                    requestStream.Write(data, 0, data.Length);
-                }
-            }
-            else
-            {
-                IDataFormatter dataFormatter = null;
-
-                if (HttpConstants.HttpContentTypeFormatterMapping.ContainsKey(contentType))
-                {
-                    dataFormatter = DataFormatterUtility.Get(HttpConstants.HttpContentTypeFormatterMapping[contentType]);
-                }
-
-                if (dataFormatter == null)
-                {
-                    throw new NotSupportedException("formatter not found.");
-                }
-
-                using (var requestStream = Request.GetRequestStream())
-                {
-                    dataFormatter.WriteObject(requestBody, requestStream);
-                }
-            }
-        }
+        public object Body { get; private set; }
 
         public void SetRequestBody(object requestBody)
         {
@@ -112,6 +50,8 @@ namespace Petecat.Network.Http
             {
                 throw new Exception(string.Format("cannot find object formatter for contenttype '{0}'", Request.ContentType));
             }
+
+            Body = requestBody;
 
             using (var requestStream = Request.GetRequestStream())
             {
@@ -131,9 +71,9 @@ namespace Petecat.Network.Http
             }
         }
 
-        public HttpClientResponse GetResponse(HttpContentType contentType, object requestBody)
+        public HttpClientResponse GetResponse(object requestBody)
         {
-            SetRequestBody(contentType, requestBody);
+            SetRequestBody(requestBody);
             return GetResponse();
         }
 

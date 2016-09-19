@@ -96,9 +96,6 @@
     <Compile Include="Data\Errors\NotInitializedDataCommandObjectManagerException.cs" />
     <Compile Include="Data\Formatters\BinaryFormatter.cs" />
     <Compile Include="Data\Formatters\DataContractJsonFormatter.cs" />
-    <Compile Include="Data\Formatters\DataFormatterUtility.cs" />
-    <Compile Include="Data\Formatters\DataFormatterContent.cs" />
-    <Compile Include="Data\Formatters\IDataFormatter.cs" />
     <Compile Include="Data\Formatters\IniFormatter.cs" />
     <Compile Include="Data\Formatters\Internal\BinaryEncoder.cs" />
     <Compile Include="Data\Formatters\Internal\BinarySerializer.cs" />
@@ -177,8 +174,6 @@
     <Compile Include="Network\Ftp\FtpVerb.cs" />
     <Compile Include="Network\Http\HttpClientRequest.cs" />
     <Compile Include="Network\Http\HttpClientResponse.cs" />
-    <Compile Include="Network\Http\HttpConstants.cs" />
-    <Compile Include="Network\Http\HttpContentType.cs" />
     <Compile Include="Network\Http\HttpFormatterSelector.cs" />
     <Compile Include="Network\Http\HttpVerb.cs" />
     <Compile Include="Network\Mail\MailSimpleClient.cs" />
@@ -199,6 +194,7 @@
     <Compile Include="Service\Configuration\ServiceClientConfig.cs" />
     <Compile Include="Service\Configuration\ServiceHostConfig.cs" />
     <Compile Include="Service\Configuration\ServiceResourceConfig.cs" />
+    <Compile Include="Service\Errors\ServiceClientCalledException.cs" />
     <Compile Include="Service\Errors\ServiceHttpMethodNotSupportException.cs" />
     <Compile Include="Service\Errors\ServiceHttpRequestInvalidVirtualPathException.cs" />
     <Compile Include="Service\Errors\ServiceManagerNotInitializedException.cs" />
@@ -206,6 +202,7 @@
     <Compile Include="Service\Errors\ServiceImplementNotFoundException.cs" />
     <Compile Include="Service\Errors\ServiceMethodNotMatchedException.cs" />
     <Compile Include="Service\Errors\ServiceNameNotSpecifiedException.cs" />
+    <Compile Include="Service\Errors\ServiceResourceNotFoundException.cs" />
     <Compile Include="Service\ServiceAccessMethod.cs" />
     <Compile Include="Service\Attributes\ServiceMethodAttribute.cs" />
     <Compile Include="Service\Attributes\ServiceImplementAttribute.cs" />

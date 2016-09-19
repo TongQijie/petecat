@@ -60,7 +60,6 @@
     <Compile Include="Data\Access\DataCommandObjectTest.cs" />
     <Compile Include="Data\Access\DataModel.cs" />
     <Compile Include="Data\Formatters\BinarySerializerTest.cs" />
-    <Compile Include="Data\Formatters\DataFormatterTest.cs" />
     <Compile Include="Data\Formatters\IniFormatterTest.cs" />
     <Compile Include="Data\Formatters\TestEntities.cs" />
     <Compile Include="Extension\ArrayExtensionTest.cs" />

@@ -1,5 +1,5 @@
-﻿using Petecat.Network.Http;
-
+﻿using Petecat.Data.Formatters;
+using Petecat.Network.Http;
 using System;
 using System.Net;
 
@@ -20,7 +20,7 @@ namespace Petecat.Service.Client
             string fullUrl = null;
             if (!ServiceResourceManager.Instance.TryGetResource(ResourceName, out serviceResourceConfig, out fullUrl))
             {
-                throw new Exception(string.Format("service resource '{0}' not found.", ResourceName));
+                throw new Errors.ServiceResourceNotFoundException(ResourceName);
             }
 
             var request = new HttpClientRequest((HttpVerb)Enum.Parse(typeof(HttpVerb), serviceResourceConfig.Method, true), fullUrl);
@@ -30,11 +30,12 @@ namespace Petecat.Service.Client
             {
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    return response.GetObject<TResponse>(HttpContentType.Json);
+                    return response.GetObject<TResponse>(HttpFormatterSelector.Get(serviceResourceConfig.Accept ?? "application/json"));
                 }
                 else
                 {
-                    throw new Exception(string.Format("failed to call service '{0}'. ", ResourceName));
+                    throw new Errors.ServiceClientCallingFailedException(ResourceName, response.StatusCode.ToString(),
+                        ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteString(request.Body));
                 }
             }
         }
@@ -45,7 +46,7 @@ namespace Petecat.Service.Client
             string fullUrl = null;
             if (!ServiceResourceManager.Instance.TryGetResource(ResourceName, out serviceResourceConfig, out fullUrl))
             {
-                throw new Exception(string.Format("service resource '{0}' not found.", ResourceName));
+                throw new Errors.ServiceResourceNotFoundException(ResourceName);
             }
 
             var request = new HttpClientRequest((HttpVerb)Enum.Parse(typeof(HttpVerb), serviceResourceConfig.Method, true), fullUrl);
@@ -60,7 +61,8 @@ namespace Petecat.Service.Client
                 }
                 else
                 {
-                    throw new Exception(string.Format("failed to call service '{0}'. ", ResourceName));
+                    throw new Errors.ServiceClientCallingFailedException(ResourceName, response.StatusCode.ToString(),
+                        ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteString(request.Body));
                 }
             }
         }
