@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{892EBFA4-5661-4B89-8EFC-9876840AF57B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ArticleService.BusinessImplement</RootNamespace>
+    <AssemblyName>articleservice.businessimplement</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\articleservice.servicehost\bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ArticleServiceImpl.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\petecat\petecat.csproj">
+      <Project>{e6cfd007-47f5-4e4d-9185-6d4147f104ce}</Project>
+      <Name>petecat</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\articleservice.servicemodel\articleservice.servicemodel.csproj">
+      <Project>{decbad3f-b0ec-48e4-bfa8-73ffb7c77422}</Project>
+      <Name>articleservice.servicemodel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\repository\articleservice.repositoryinterface\articleservice.repositoryinterface.csproj">
+      <Project>{31751945-fc77-4751-a916-1216958efd4d}</Project>
+      <Name>articleservice.repositoryinterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\repository\articleservice.repositorymodel\articleservice.repositorymodel.csproj">
+      <Project>{f528dd5b-cf70-4740-90ce-28a1a3ed4139}</Project>
+      <Name>articleservice.repositorymodel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\repository\articleservice.repositorytransfer\articleservice.repositorytransfer.csproj">
+      <Project>{3844a557-f2cb-43b5-bd94-4e87ef3a2480}</Project>
+      <Name>articleservice.repositorytransfer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\articleservice.businessinterface\articleservice.businessinterface.csproj">
+      <Project>{b6d6c53f-9ede-4e48-9a06-cd40b1209056}</Project>
+      <Name>articleservice.businessinterface</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

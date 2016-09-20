@@ -106,21 +106,6 @@ namespace Petecat.Network.Http
             }
         }
 
-        public TResponse GetObject<TResponse>(HttpContentType contentType)
-        {
-            IDataFormatter dataFormatter = DataFormatterUtility.Get(HttpConstants.HttpContentTypeFormatterMapping[contentType]);
-
-            if (dataFormatter == null)
-            {
-                throw new FormatterNotFoundException();
-            }
-
-            using (var responseStream = Response.GetResponseStream())
-            {
-                return dataFormatter.ReadObject<TResponse>(responseStream);
-            }
-        }
-
         public TResponse GetObject<TResponse>(IObjectFormatter objectFormatter)
         {
             using (var responseStream = Response.GetResponseStream())

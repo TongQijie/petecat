@@ -1,9 +1,9 @@
 ﻿using Petecat.Collection;
 using Petecat.Data.Formatters;
 using Petecat.Threading.Watcher;
-
 using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Petecat.Caching
@@ -16,6 +16,8 @@ namespace Petecat.Caching
 
         private ThreadSafeKeyedObjectCollection<string, ICacheObject> _CacheObjects = new ThreadSafeKeyedObjectCollection<string, ICacheObject>();
 
+        public ICacheObject[] CacheObjects { get { return _CacheObjects.Values.ToArray(); } }
+
         public ICacheObject Add(string key, Func<object> readCacheHandler)
         {
             return _CacheObjects.Add(new CacheObjectBase(key, readCacheHandler));
@@ -24,28 +26,6 @@ namespace Petecat.Caching
         public ICacheObject Add(string key, Func<object> readCacheHandler, Action<object> writeCacheHandler)
         {
             return _CacheObjects.Add(new WritableCacheObject(key, readCacheHandler, writeCacheHandler));
-        }
-
-        [Obsolete("this is replaced by Add<T>(string key, string path, Encoding encoding, IObjectFormatter objectFormatter, bool enableWatcher)")]
-        public void AddXml<T>(string key, string path, bool enableWatcher)
-        {
-            if (!File.Exists(path))
-            {
-                throw new FileNotFoundException(path);
-            }
-
-            var fileInfo = new FileInfo(path);
-
-            CacheObjectManager.Instance.Add(key, () => new XmlFormatter().ReadObject<T>(path, Encoding.UTF8));
-
-            if (enableWatcher)
-            {
-                FolderWatcherManager.Instance.GetOrAdd(fileInfo.Directory.FullName)
-                    .SetFileChangedHandler(fileInfo.Name, (w) =>
-                    {
-                        CacheObjectManager.Instance.GetObject(key).IsDirty = true;
-                    }).Start();
-            }
         }
 
         public void Add<T>(string key, string path, Encoding encoding, IObjectFormatter objectFormatter, bool enableWatcher)
@@ -66,6 +46,15 @@ namespace Petecat.Caching
                     {
                         CacheObjectManager.Instance.GetObject(key).IsDirty = true;
                     }).Start();
+            }
+        }
+
+        public void Remove(string key)
+        {
+            var cacheObject = _CacheObjects.Get(key, null);
+            if (cacheObject != null)
+            {
+                _CacheObjects.Remove(cacheObject);
             }
         }
 

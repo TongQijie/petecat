@@ -11,6 +11,11 @@ namespace Petecat.Extension
             return data.ToList().Where(predicate).ToArray();
         }
 
+        public static T FirstOrDefault<T>(this T[] data, Func<T, bool> predicate)
+        {
+            return data.ToList().FirstOrDefault(predicate);
+        }
+
         public static T[] Append<T>(this T[] data, T item)
         {
             return data.Concat(new T[] { item }).ToArray();

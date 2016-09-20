@@ -14,14 +14,14 @@ namespace Petecat.Service
 
         private ThreadSafeKeyedObjectCollection<string, ServiceDefinition> _LoadedServiceDefinitions = new ThreadSafeKeyedObjectCollection<string, ServiceDefinition>();
 
-        public ServiceManager(IContainer container)
+        public ServiceManager(IIoCContainer container)
         {
             _Container = container;
 
             LoadServicesDefinitions();
         }
 
-        private IContainer _Container = null;
+        private IIoCContainer _Container = null;
 
         private void LoadServicesDefinitions()
         {

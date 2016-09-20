@@ -5,7 +5,7 @@ using System.Xml.Serialization;
 
 namespace Petecat.Data.Formatters
 {
-    public class XmlFormatter : IDataFormatter, IObjectFormatter
+    public class XmlFormatter : IObjectFormatter
     {
         public XmlFormatter()
         {

@@ -22,6 +22,11 @@ namespace Petecat.Extension
 
         public static Enum GetEnumByValue(this Type sourceType, string enumValue)
         {
+            if (sourceType == null || !sourceType.IsEnum)
+            {
+                return null;
+            }
+
             var fields = sourceType.GetFields();
             foreach (var field in fields)
             {
@@ -38,6 +43,11 @@ namespace Petecat.Extension
 
         public static string GetValueByEnum(this Type sourceType, Enum enumInstance)
         {
+            if (sourceType == null || !sourceType.IsEnum)
+            {
+                return null;
+            }
+
             var field = sourceType.GetFields().First(x => x.Name == enumInstance.ToString());
             EnumValueAttribute attribute;
             if (ReflectionUtility.TryGetCustomAttribute<EnumValueAttribute>(field, x => !string.IsNullOrEmpty(x.Value), out attribute))

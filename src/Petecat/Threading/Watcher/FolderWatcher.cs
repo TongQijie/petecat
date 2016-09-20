@@ -23,6 +23,8 @@ namespace Petecat.Threading.Watcher
             }
         }
 
+        public string Key { get { return FullPath; } }
+
         public string FullPath { get; private set; }
 
         private ThreadSafeKeyedObjectCollection<string, FileWatcher> _FileWatchers = new ThreadSafeKeyedObjectCollection<string, FileWatcher>();
@@ -46,6 +48,30 @@ namespace Petecat.Threading.Watcher
             return this;
         }
 
+        public FolderWatcher SetFileCreatedHandler(FileCreatedHandlerDelegate handler)
+        {
+            FileCreated = handler;
+            return this;
+        }
+
+        public FolderWatcher SetFileDeletedHandler(FileDeletedHandlerDelegate handler)
+        {
+            FileDeleted = handler;
+            return this;
+        }
+
+        public FolderWatcher SetFileRenamedHandler(FileRenamedHandlerDelegate handler)
+        {
+            FileRenamed = handler;
+            return this;
+        }
+
+        private FileCreatedHandlerDelegate FileCreated = null;
+
+        private FileDeletedHandlerDelegate FileDeleted = null;
+
+        private FileRenamedHandlerDelegate FileRenamed = null;
+
         private FileSystemWatcher _Watcher = null;
 
         public void Start()
@@ -56,6 +82,9 @@ namespace Petecat.Threading.Watcher
                 _Watcher.Path = FullPath;
                 _Watcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite | NotifyFilters.FileName | NotifyFilters.DirectoryName;
                 _Watcher.Changed += new FileSystemEventHandler(OnChanged);
+                _Watcher.Created += new FileSystemEventHandler(OnCreated);
+                _Watcher.Deleted += new FileSystemEventHandler(OnDeleted);
+                _Watcher.Renamed += new RenamedEventHandler(OnRenamed);
             }
 
             _Watcher.EnableRaisingEvents = true;
@@ -66,6 +95,9 @@ namespace Petecat.Threading.Watcher
             if (_Watcher != null)
             {
                 _Watcher.Changed -= new FileSystemEventHandler(OnChanged);
+                _Watcher.Created -= new FileSystemEventHandler(OnCreated);
+                _Watcher.Deleted -= new FileSystemEventHandler(OnDeleted);
+                _Watcher.Renamed -= new RenamedEventHandler(OnRenamed);
                 _Watcher.EnableRaisingEvents = false;
                 _Watcher = null;
             }
@@ -80,6 +112,52 @@ namespace Petecat.Threading.Watcher
             }
         }
 
-        public string Key { get { return FullPath; } }
+        private void OnCreated(object source, FileSystemEventArgs e)
+        {
+            FileAttributes fileAttributes;
+            try
+            {
+                fileAttributes = File.GetAttributes(e.FullPath);
+            }
+            catch (Exception) { return; }
+
+            if (fileAttributes.HasFlag(FileAttributes.Directory))
+            {
+                // do nothing
+            }
+            else
+            {
+                if (FileCreated != null)
+                {
+                    FileCreated.Invoke(this, e.Name);
+                }
+            }
+        }
+
+        private void OnDeleted(object source, FileSystemEventArgs e)
+        {
+            if (FileDeleted != null)
+            {
+                FileDeleted.Invoke(this, e.Name);
+            }
+        }
+
+        private void OnRenamed(object source, RenamedEventArgs e)
+        {
+            var fileAttributes = File.GetAttributes(e.FullPath);
+            if (fileAttributes.HasFlag(FileAttributes.Directory))
+            {
+                // do nothing
+            }
+            else
+            {
+                if (FileRenamed != null)
+                {
+                    FileRenamed.Invoke(this, e.OldName, e.Name);
+                }
+            }
+        }
+
+        
     }
 }

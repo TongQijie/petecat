@@ -48,7 +48,7 @@ namespace Petecat.Extension
 
             var fullPath = string.Join("/", pathStack.ToArray());
 
-            if (Regex.IsMatch(fullPath, "^[A-Z]\x3A\x2F"))
+            if (Regex.IsMatch(fullPath, "^[A-Z]\x3A\x2F", RegexOptions.IgnoreCase))
             {
                 return fullPath;
             }
@@ -71,6 +71,12 @@ namespace Petecat.Extension
         public static bool HasValue(this string stringValue)
         {
             return !string.IsNullOrEmpty(stringValue) && !string.IsNullOrWhiteSpace(stringValue);
+        }
+
+        public static bool IsDateTime(this string stringValue)
+        {
+            DateTime datetime;
+            return DateTime.TryParse(stringValue, out datetime);
         }
     }
 }

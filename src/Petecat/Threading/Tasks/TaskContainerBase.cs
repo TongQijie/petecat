@@ -12,9 +12,9 @@ namespace Petecat.Threading.Tasks
     {
         private ThreadSafeKeyedObjectCollection<string, ITaskObject> _TaskObjects = new ThreadSafeKeyedObjectCollection<string, ITaskObject>();
 
-        private IContainer _Container = null;
+        private IIoCContainer _Container = null;
 
-        public void Initialize(IContainer container, string taskObjectConfigFile, string taskSwitchConfigFile)
+        public void Initialize(IIoCContainer container, string taskObjectConfigFile, string taskSwitchConfigFile)
         {
             _Container = container;
             _Container.RegisterContainerObjects(taskObjectConfigFile);
@@ -116,7 +116,7 @@ namespace Petecat.Threading.Tasks
 
         private void Operate(Configuration.TaskSwitchConfig taskSwitchConfig)
         {
-            var taskObject = GetOrAdd(AppDomainContainer.Instance.Resolve<ITaskObject>(taskSwitchConfig.Name));
+            var taskObject = GetOrAdd(AppDomainIoCContainer.Instance.Resolve<ITaskObject>(taskSwitchConfig.Name));
             if (taskSwitchConfig.Operation == TaskObjectOperation.Execute)
             {
                 taskObject.Execute();

@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 
 namespace Petecat.Data.Formatters
 {
-    public class DataContractXmlFormatter : IDataFormatter, IObjectFormatter
+    public class DataContractXmlFormatter : IObjectFormatter
     {
         public object ReadObject(Type targetType, Stream stream)
         {

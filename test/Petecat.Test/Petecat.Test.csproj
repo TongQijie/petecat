@@ -60,7 +60,6 @@
     <Compile Include="Data\Access\DataCommandObjectTest.cs" />
     <Compile Include="Data\Access\DataModel.cs" />
     <Compile Include="Data\Formatters\BinarySerializerTest.cs" />
-    <Compile Include="Data\Formatters\DataFormatterTest.cs" />
     <Compile Include="Data\Formatters\IniFormatterTest.cs" />
     <Compile Include="Data\Formatters\TestEntities.cs" />
     <Compile Include="Extension\ArrayExtensionTest.cs" />
@@ -82,9 +81,9 @@
     <Compile Include="Utility\ValueConverterTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Petecat\Petecat.csproj">
+    <ProjectReference Include="..\..\src\petecat\petecat.csproj">
       <Project>{e6cfd007-47f5-4e4d-9185-6d4147f104ce}</Project>
-      <Name>Petecat</Name>
+      <Name>petecat</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
