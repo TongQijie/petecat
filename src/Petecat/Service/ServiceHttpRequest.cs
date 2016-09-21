@@ -32,7 +32,7 @@ namespace Petecat.Service
                 var paths = VirtualPath.SplitByChar('/');
                 for (int i = 0; i < paths.Length; i++)
                 {
-                    if (fields.Length <= i || !string.Equals(paths[i], fields[i]))
+                    if (fields.Length <= i || !string.Equals(paths[i], fields[i], StringComparison.OrdinalIgnoreCase))
                     {
                         throw new Errors.ServiceHttpRequestInvalidVirtualPathException(Request.Url.AbsoluteUri);
                     }
