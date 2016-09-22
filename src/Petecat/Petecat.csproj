@@ -110,6 +110,7 @@
     <Compile Include="Data\Formatters\Internal\Json\JsonObjectParseArgs.cs" />
     <Compile Include="Data\Formatters\Internal\Json\JsonObjectParser.cs" />
     <Compile Include="Data\Formatters\Internal\Json\JsonPlainValueObject.cs" />
+    <Compile Include="Data\Formatters\Internal\Json\JsonUtility.cs" />
     <Compile Include="Data\Formatters\IObjectFormatter.cs" />
     <Compile Include="Data\Formatters\JsonFormatter.cs" />
     <Compile Include="Data\Formatters\ObjectFormatterFactory.cs" />

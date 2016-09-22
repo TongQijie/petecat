@@ -1,4 +1,5 @@
 ﻿using System.IO;
+
 namespace Petecat.Data.Formatters.Internal.Json
 {
     public class JsonObjectParseArgs

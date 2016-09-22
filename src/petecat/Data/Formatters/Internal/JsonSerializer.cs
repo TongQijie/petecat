@@ -1,10 +1,12 @@
-﻿using Petecat.Collection;
-using Petecat.Extension;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Collections;
+using System.Collections.Generic;
+
+using Petecat.Collection;
+using Petecat.Extension;
+
 namespace Petecat.Data.Formatters.Internal
 {
     internal class JsonSerializer : IKeyedObject<string>

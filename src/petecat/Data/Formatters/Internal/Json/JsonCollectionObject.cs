@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+
 using Petecat.Extension;
 
 namespace Petecat.Data.Formatters.Internal.Json
@@ -11,34 +13,28 @@ namespace Petecat.Data.Formatters.Internal.Json
         {
             Elements = new JsonCollectionElement[0];
 
-            if (Parse(stream))
+            while (!Parse(stream))
+            {
+                ;
+            }
+
+            var b = JsonUtility.Find(stream, x => JsonUtility.IsVisibleChar(x));
+            if (b == -1)
             {
                 return true;
             }
 
-            int b;
-            while ((b = stream.ReadByte()) != -1)
+            if (seperators != null && seperators.Exists(x => x == b))
             {
-                if (seperators != null && seperators.Exists(x => x == b))
-                {
-                    return false;
-                }
-
-                if (terminators != null && terminators.Exists(x => x == b))
-                {
-                    return true;
-                }
-
-                if (b == JsonEncoder.Comma)
-                {
-                    if (Parse(stream))
-                    {
-                        break;
-                    }
-                }
+                return false;
             }
 
-            return true;
+            if (terminators != null && terminators.Exists(x => x == b))
+            {
+                return true;
+            }
+
+            throw new Exception("");
         }
 
         private bool Parse(Stream stream)

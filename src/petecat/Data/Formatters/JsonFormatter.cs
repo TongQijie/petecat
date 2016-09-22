@@ -53,7 +53,10 @@ namespace Petecat.Data.Formatters
 
         public void WriteObject(object instance, string path, Encoding encoding)
         {
-            throw new System.NotImplementedException();
+            using (var outputStream = new FileStream(path, FileMode.Create, FileAccess.Write))
+            {
+                WriteObject(instance, outputStream);
+            }
         }
 
         public void WriteObject(object instance, Stream stream)

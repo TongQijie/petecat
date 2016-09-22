@@ -29,7 +29,7 @@ namespace Petecat.Test.Data.Formatters
         [TestMethod]
         public void WriteString_Test()
         {
-            var product = new Product() { Id = 1, CheckInTime = DateTime.Now, Name = "dddddd[{}]\'\"" };
+            var product = new Product() { Id = 1, CheckInTime = DateTime.Now, Name = "dddddd[{}]\'\\\"" };
 
             var d = ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteString(product);
         }

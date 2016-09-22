@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.IO;
 using System.Text;
 using Petecat.Extension;
@@ -54,9 +53,11 @@ namespace Petecat.Data.Formatters.Internal
 
         public static string GetElementName(Stream stream)
         {
+            Json.JsonUtility.Seek(stream, Double_Quotes);
+
             var name = new byte[0];
             int b;
-            while ((b = stream.ReadByte()) != -1 && b != JsonEncoder.Double_Quotes)
+            while ((b = stream.ReadByte()) != -1 && b != Double_Quotes)
             {
                 name = name.Append((byte)b);
             }

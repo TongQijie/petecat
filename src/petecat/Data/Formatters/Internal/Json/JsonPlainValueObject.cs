@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Text;
+
 using Petecat.Extension;
 
 namespace Petecat.Data.Formatters.Internal.Json
@@ -13,6 +16,18 @@ namespace Petecat.Data.Formatters.Internal.Json
 
         public byte[] Buffer { get; set; }
 
+        public override string ToString()
+        {
+            if (Buffer != null)
+            {
+                return Encoding.UTF8.GetString(Buffer);
+            }
+            else
+            {
+                return string.Empty;
+            }
+        }
+
         public override bool Fill(Stream stream, byte[] seperators, byte[] terminators)
         {
             if (EncompassedByQuote)
@@ -22,7 +37,23 @@ namespace Petecat.Data.Formatters.Internal.Json
                 {
                     if (after == JsonEncoder.Double_Quotes && before != JsonEncoder.Backslash)
                     {
-                        break;
+                        var b = JsonUtility.Find(stream, x => JsonUtility.IsVisibleChar(x));
+                        if (b == -1)
+                        {
+                            return true;
+                        }
+
+                        if (seperators != null && seperators.Exists(x => x == b))
+                        {
+                            return false;
+                        }
+
+                        if (terminators != null && terminators.Exists(x => x == b))
+                        {
+                            return true;
+                        }
+
+                        throw new Exception("");
                     }
                     else if (after == JsonEncoder.Double_Quotes && before == JsonEncoder.Backslash)
                     {
@@ -35,26 +66,17 @@ namespace Petecat.Data.Formatters.Internal.Json
 
                     before = after;
                 }
-
-                int b;
-                while ((b = stream.ReadByte()) != -1)
-                {
-                    if (seperators != null && seperators.Exists(x => x == b))
-                    {
-                        return false;
-                    }
-                    
-                    if (terminators != null && terminators.Exists(x => x == b))
-                    {
-                        return true;
-                    }
-                }
             }
             else
             {
                 int b;
                 while ((b = stream.ReadByte()) != -1)
                 {
+                    if (!JsonUtility.IsVisibleChar(b))
+                    {
+                        continue;
+                    }
+
                     if (seperators != null && seperators.Exists(x => x == b))
                     {
                         return false;

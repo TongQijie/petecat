@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+
 using Petecat.Extension;
 
 namespace Petecat.Data.Formatters.Internal.Json
@@ -11,66 +13,53 @@ namespace Petecat.Data.Formatters.Internal.Json
         {
             Elements = new JsonDictionaryElement[0];
 
-            int b;
-            while ((b = stream.ReadByte()) != -1)
+            while (!Parse(stream))
             {
-                if (seperators != null && seperators.Exists(x => x == b))
-                {
-                    return false;
-                }
-
-                if (terminators != null && terminators.Exists(x => x == b))
-                {
-                    return true;
-                }
-
-                if (b == JsonEncoder.Double_Quotes)
-                {
-                    // start to read element's name
-                    var elementName = JsonEncoder.GetElementName(stream);
-
-                    // start to read element's value
-                    Seek(stream, JsonEncoder.Colon);
-
-                    var args = new JsonObjectParseArgs()
-                    {
-                        ExternalObject = this,
-                        Stream = stream,
-                    };
-                    JsonObjectParser.Parse(args);
-
-                    if (args.InternalObject != null)
-                    {
-                        Elements = Elements.Append(new JsonDictionaryElement() 
-                        { 
-                            Key = elementName,
-                            Value = args.InternalObject,
-                        });
-                    }
-
-                    if (args.Handled)
-                    {
-                        break;
-                    }
-                }
+                ;
             }
 
-            return true;
-        }
-
-        private bool Seek(Stream stream, byte target)
-        {
-            int b;
-            while ((b = stream.ReadByte()) != -1 && b != target)
-            {
-            }
-
+            var b = JsonUtility.Find(stream, x => JsonUtility.IsVisibleChar(x));
             if (b == -1)
+            {
+                return true;
+            }
+
+            if (seperators != null && seperators.Exists(x => x == b))
             {
                 return false;
             }
 
-            return true;
+            if (terminators != null && terminators.Exists(x => x == b))
+            {
+                return true;
+            }
+
+            throw new Exception("");
+        }
+
+        private bool Parse(Stream stream)
+        {
+            var elementName = JsonEncoder.GetElementName(stream);
+
+            JsonUtility.Seek(stream, JsonEncoder.Colon);
+
+            var args = new JsonObjectParseArgs()
+            {
+                ExternalObject = this,
+                Stream = stream,
+            };
+            JsonObjectParser.Parse(args);
+
+            if (args.InternalObject != null)
+            {
+                Elements = Elements.Append(new JsonDictionaryElement()
+                {
+                    Key = elementName,
+                    Value = args.InternalObject,
+                });
+            }
+
+            return args.Handled;
         }
     }
 }
