@@ -54,18 +54,6 @@ namespace Petecat.Data.Formatters
             return (T)ReadObject<T>(Encoding.UTF8.GetString(byteValues, offset, count));
         }
 
-        /// <summary>
-        /// [Obsolete] replaced by WriteString(object instance);
-        /// </summary>
-        public string WriteObject(object instance)
-        {
-            using (var memoryStream = new MemoryStream())
-            {
-                WriteObject(instance, memoryStream);
-                return Encoding.UTF8.GetString(memoryStream.ToArray());
-            }
-        }
-
         public void WriteObject(object instance, Stream stream)
         {
             using (var writer = JsonReaderWriterFactory.CreateJsonWriter(stream, Encoding.UTF8))
@@ -79,7 +67,7 @@ namespace Petecat.Data.Formatters
         {
             using (var streamWriter = new StreamWriter(path, false, encoding))
             {
-                streamWriter.Write(WriteObject(instance));
+                streamWriter.Write(WriteString(instance));
             }
         }
 

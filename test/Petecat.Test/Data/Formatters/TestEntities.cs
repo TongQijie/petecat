@@ -27,6 +27,8 @@ namespace Petecat.Test.Data.Formatters
         [BinarySerializable("prices")]
         public List<Price> Prices { get; set; }
 
+        public Price[] AnotherPrices { get; set; }
+
         public override bool Equals(object obj)
         {
             if (obj is Product)
