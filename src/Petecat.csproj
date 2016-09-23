@@ -1,4 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+MSBuild: msbuild petecat.csproj /p:Configuration=[Debug|Release] /p:OutputPath=..\build\[net4|net45]\[debug|release]\ /p:TargetFrameworkVersion=[v4.0|v4.5]
+-->
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -42,16 +45,17 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Archiving\Internal\ArchiveEntityHeader.cs" />
+    <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Archiving\ArchiveFile.cs" />
     <Compile Include="Archiving\ArchiveFolder.cs" />
     <Compile Include="Archiving\AbstractArchiveItem.cs" />
     <Compile Include="Archiving\Archiver.cs" />
     <Compile Include="Archiving\IArchiveItem.cs" />
+    <Compile Include="Archiving\Internal\ArchiveEntityHeader.cs" />
+    <Compile Include="Caching\CacheObjectManager.cs" />
     <Compile Include="Caching\Errors\CacheObjectValueUpdateFailedException.cs" />
     <Compile Include="Caching\Errors\CacheObjectValueWriteFailedException.cs" />
     <Compile Include="Caching\Internal\CacheObjectBase.cs" />
-    <Compile Include="Caching\CacheObjectManager.cs" />
     <Compile Include="Caching\ICacheObject.cs" />
     <Compile Include="Caching\Internal\WritableCacheObject.cs" />
     <Compile Include="Caching\IWritableCacheObject.cs" />
@@ -82,8 +86,11 @@
     <Compile Include="Data\Access\Internal\DatabaseObject.cs" />
     <Compile Include="Data\Access\Internal\DataCommandObject.cs" />
     <Compile Include="Data\Attributes\BinarySerializableAttribute.cs" />
+    <Compile Include="Data\Attributes\CompositeDataMappingAttribute.cs" />
+    <Compile Include="Data\Attributes\DataMappingAttributeBase.cs" />
     <Compile Include="Data\Attributes\IniSerializableAttribute.cs" />
     <Compile Include="Data\Attributes\JsonPropertyAttribute.cs" />
+    <Compile Include="Data\Attributes\PlainDataMappingAttribute.cs" />
     <Compile Include="Data\Configuration\DatabaseObjectConfig.cs" />
     <Compile Include="Data\Configuration\DatabaseObjectSectionConfig.cs" />
     <Compile Include="Data\Configuration\DataCommandObjectConfig.cs" />
@@ -99,6 +106,7 @@
     <Compile Include="Data\Formatters\AbstractObjectFormatter.cs" />
     <Compile Include="Data\Formatters\BinaryFormatter.cs" />
     <Compile Include="Data\Formatters\DataContractJsonFormatter.cs" />
+    <Compile Include="Data\Formatters\DataContractXmlFormatter.cs" />
     <Compile Include="Data\Formatters\IniFormatter.cs" />
     <Compile Include="Data\Formatters\Internal\BinaryEncoder.cs" />
     <Compile Include="Data\Formatters\Internal\BinarySerializer.cs" />
@@ -120,19 +128,15 @@
     <Compile Include="Data\Formatters\ObjectFormatterFactory.cs" />
     <Compile Include="Data\Formatters\ObjectFormatterType.cs" />
     <Compile Include="Data\Formatters\XmlFormatter.cs" />
-    <Compile Include="Data\Attributes\CompositeDataMappingAttribute.cs" />
     <Compile Include="Data\Entity\Internal\CompositeDataMappingPropertyInfo.cs" />
     <Compile Include="Data\Entity\Internal\DataEntitySourceBase.cs" />
     <Compile Include="Data\Entity\Internal\DataMappingEntity.cs" />
     <Compile Include="Data\Entity\Internal\DataReaderEntitySource.cs" />
     <Compile Include="Data\Entity\Internal\DataRowEntitySource.cs" />
     <Compile Include="Data\Entity\Internal\EntityBuilder.cs" />
-    <Compile Include="Data\Attributes\DataMappingAttributeBase.cs" />
     <Compile Include="Data\Entity\Internal\IDataMappingPropertyInfo.cs" />
     <Compile Include="Data\Entity\Internal\IEntityDataSource.cs" />
-    <Compile Include="Data\Attributes\PlainDataMappingAttribute.cs" />
     <Compile Include="Data\Entity\Internal\PlainDataMappingPropertyInfo.cs" />
-    <Compile Include="Data\Formatters\DataContractXmlFormatter.cs" />
     <Compile Include="Extension\ArrayExtension.cs" />
     <Compile Include="Extension\Attributes\EnumValueAttribute.cs" />
     <Compile Include="Extension\ByteArrayExtension.cs" />
@@ -169,14 +173,14 @@
     <Compile Include="IoC\DefaultTypeDefinition.cs" />
     <Compile Include="IoC\IIoCContainer.cs" />
     <Compile Include="IoC\ITypeDefinition.cs" />
-    <Compile Include="Logging\Internal\LoggersBase.cs" />
     <Compile Include="Logging\ILoggers.cs" />
-    <Compile Include="Logging\Loggers\ConsoleLogger.cs" />
-    <Compile Include="Logging\Internal\EmptyLogger.cs" />
     <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\Internal\ExceptionWrapper.cs" />
+    <Compile Include="Logging\Internal\EmptyLogger.cs" />
+    <Compile Include="Logging\Internal\LoggersBase.cs" />
     <Compile Include="Logging\LoggerLevel.cs" />
     <Compile Include="Logging\LoggerManager.cs" />
-    <Compile Include="Logging\Internal\ExceptionWrapper.cs" />
+    <Compile Include="Logging\Loggers\ConsoleLogger.cs" />
     <Compile Include="Logging\Loggers\FileLogger.cs" />
     <Compile Include="Network\Configuration\MailTemplateConfig.cs" />
     <Compile Include="Network\Configuration\MailTemplateCollectionConfig.cs" />
@@ -202,9 +206,10 @@
     <Compile Include="Network\Sockets\SocketFactory.cs" />
     <Compile Include="Network\Sockets\Internal\SocketObject.cs" />
     <Compile Include="Network\Sockets\SocketReceivedDataHandlerDelegate.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\Attributes\AutoServiceAttribute.cs" />
+    <Compile Include="Service\Attributes\ServiceImplementAttribute.cs" />
     <Compile Include="Service\Attributes\ServiceInterfaceAttribute.cs" />
+    <Compile Include="Service\Attributes\ServiceMethodAttribute.cs" />
     <Compile Include="Service\Client\ServiceClientBase.cs" />
     <Compile Include="Service\Client\ServiceResourceManager.cs" />
     <Compile Include="Service\Configuration\ServiceClientConfig.cs" />
@@ -220,8 +225,6 @@
     <Compile Include="Service\Errors\ServiceNameNotSpecifiedException.cs" />
     <Compile Include="Service\Errors\ServiceResourceNotFoundException.cs" />
     <Compile Include="Service\ServiceAccessMethod.cs" />
-    <Compile Include="Service\Attributes\ServiceMethodAttribute.cs" />
-    <Compile Include="Service\Attributes\ServiceImplementAttribute.cs" />
     <Compile Include="Service\ServiceDefinition.cs" />
     <Compile Include="Service\ServiceHttpApplication.cs" />
     <Compile Include="Service\ServiceHttpFormatter.cs" />
