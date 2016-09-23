@@ -16,6 +16,7 @@ namespace Petecat.Data.Formatters.Internal.Json
         public JsonSerializer(Type type)
         {
             Type = type;
+            Initialize();
         }
 
         public string Key { get { return Type.FullName; } }
@@ -47,11 +48,6 @@ namespace Petecat.Data.Formatters.Internal.Json
 
         public void Serialize(object instance, Stream stream, bool omitDefaultValueProperty)
         {
-            if (_JsonProperties == null)
-            {
-                Initialize();
-            }
-
             var elementType = GetElementType(Type);
             if (elementType == JsonElementType.Collection)
             {
@@ -182,29 +178,24 @@ namespace Petecat.Data.Formatters.Internal.Json
                 Stream = stream,
             };
 
-            Json.JsonObjectParser.Parse(args);
+            JsonObjectParser.Parse(args);
 
             return InternalDeserialize(args.InternalObject);
         }
 
-        private object InternalDeserialize(Json.JsonObject jsonObject)
+        private object InternalDeserialize(JsonObject jsonObject)
         {
-            if (_JsonProperties == null)
+            if (jsonObject is JsonDictionaryObject)
             {
-                Initialize();
+                return DeserializeJsonDictionaryObject(jsonObject as JsonDictionaryObject);
             }
-
-            if (jsonObject is Json.JsonDictionaryObject)
+            else if (jsonObject is JsonCollectionObject)
             {
-                return DeserializeJsonDictionaryObject(jsonObject as Json.JsonDictionaryObject);
+                return DeserializeJsonCollectionObject(jsonObject as JsonCollectionObject, Type);
             }
-            else if (jsonObject is Json.JsonCollectionObject)
+            else if (jsonObject is JsonPlainValueObject)
             {
-                return DeserializeJsonCollectionObject(jsonObject as Json.JsonCollectionObject, Type);
-            }
-            else if (jsonObject is Json.JsonPlainValueObject)
-            {
-                return DeserializeJsonPlainValueObject(jsonObject as Json.JsonPlainValueObject, Type);
+                return DeserializeJsonPlainValueObject(jsonObject as JsonPlainValueObject, Type);
             }
             else
             {
@@ -212,7 +203,7 @@ namespace Petecat.Data.Formatters.Internal.Json
             }
         }
 
-        private object DeserializeJsonDictionaryObject(Json.JsonDictionaryObject dictionaryObject)
+        private object DeserializeJsonDictionaryObject(JsonDictionaryObject dictionaryObject)
         {
             var instance = Activator.CreateInstance(Type);
 
@@ -230,11 +221,11 @@ namespace Petecat.Data.Formatters.Internal.Json
                     if (element.Value is JsonDictionaryObject)
                     {
                         var value = GetSerializer(jsonProperty.PropertyInfo.PropertyType).InternalDeserialize(element.Value);
-                        jsonProperty.PropertyInfo.SetValue(instance, value);
+                        jsonProperty.PropertyInfo.SetValue(instance, value, null);
                     }
                     else if (element.Value is JsonPlainValueObject && JsonEncoder.IsNullValue(element.Value))
                     {
-                        jsonProperty.PropertyInfo.SetValue(instance, null);
+                        jsonProperty.PropertyInfo.SetValue(instance, null, null);
                     }
                     else
                     {
@@ -245,23 +236,23 @@ namespace Petecat.Data.Formatters.Internal.Json
                 {
                     if (element.Value is JsonCollectionObject)
                     {
-                        var collectionObject = element.Value as Json.JsonCollectionObject;
+                        var collectionObject = element.Value as JsonCollectionObject;
                         jsonProperty.PropertyInfo.SetValue(instance,
-                            DeserializeJsonCollectionObject(collectionObject, jsonProperty.PropertyInfo.PropertyType));
+                            DeserializeJsonCollectionObject(collectionObject, jsonProperty.PropertyInfo.PropertyType), null);
                     }
                     else if (element.Value is JsonPlainValueObject && JsonEncoder.IsNullValue(element.Value))
                     {
-                        jsonProperty.PropertyInfo.SetValue(instance, null);
+                        jsonProperty.PropertyInfo.SetValue(instance, null, null);
                     }
                     else
                     {
                         throw new Exception("");
                     }
                 }
-                else if (elementType == JsonElementType.Simple && element.Value is Json.JsonPlainValueObject)
+                else if (elementType == JsonElementType.Simple && element.Value is JsonPlainValueObject)
                 {
-                    var value = DeserializeJsonPlainValueObject(element.Value as Json.JsonPlainValueObject, jsonProperty.PropertyInfo.PropertyType);
-                    jsonProperty.PropertyInfo.SetValue(instance, value);
+                    var value = DeserializeJsonPlainValueObject(element.Value as JsonPlainValueObject, jsonProperty.PropertyInfo.PropertyType);
+                    jsonProperty.PropertyInfo.SetValue(instance, value, null);
                 }
                 else
                 {
@@ -272,7 +263,7 @@ namespace Petecat.Data.Formatters.Internal.Json
             return instance;
         }
 
-        private object DeserializeJsonCollectionObject(Json.JsonCollectionObject collectionObject, Type targetType)
+        private object DeserializeJsonCollectionObject(JsonCollectionObject collectionObject, Type targetType)
         {
             if (targetType.IsArray)
             {
@@ -281,18 +272,18 @@ namespace Petecat.Data.Formatters.Internal.Json
                 for (var i = 0; i < array.Length; i++)
                 {
                     var jsonObject = collectionObject.Elements[i].Value;
-                    if (jsonObject is Json.JsonDictionaryObject)
+                    if (jsonObject is JsonDictionaryObject)
                     {
                         var value = GetSerializer(elementType).InternalDeserialize(jsonObject);
                         array.SetValue(value, i);
                     }
-                    else if (jsonObject is Json.JsonCollectionObject)
+                    else if (jsonObject is JsonCollectionObject)
                     {
                         // TODO: multi-dimension array
                     }
-                    else if (jsonObject is Json.JsonPlainValueObject)
+                    else if (jsonObject is JsonPlainValueObject)
                     {
-                        var value = DeserializeJsonPlainValueObject(jsonObject as Json.JsonPlainValueObject, elementType);
+                        var value = DeserializeJsonPlainValueObject(jsonObject as JsonPlainValueObject, elementType);
                         array.SetValue(value, i);
                     }
                 }
@@ -306,18 +297,18 @@ namespace Petecat.Data.Formatters.Internal.Json
                 for (int i = 0; i < collectionObject.Elements.Length; i++)
                 {
                     var jsonObject = collectionObject.Elements[i].Value;
-                    if (jsonObject is Json.JsonDictionaryObject)
+                    if (jsonObject is JsonDictionaryObject)
                     {
                         var value = GetSerializer(elementType).InternalDeserialize(jsonObject);
                         collection.Add(value);
                     }
-                    else if (jsonObject is Json.JsonCollectionObject)
+                    else if (jsonObject is JsonCollectionObject)
                     {
                         // TODO: multi-dimension array
                     }
-                    else if (jsonObject is Json.JsonPlainValueObject)
+                    else if (jsonObject is JsonPlainValueObject)
                     {
-                        var value = DeserializeJsonPlainValueObject(jsonObject as Json.JsonPlainValueObject, elementType);
+                        var value = DeserializeJsonPlainValueObject(jsonObject as JsonPlainValueObject, elementType);
                         collection.Add(value);
                     }
                 }
@@ -328,9 +319,16 @@ namespace Petecat.Data.Formatters.Internal.Json
             return null;
         }
 
-        private object DeserializeJsonPlainValueObject(Json.JsonPlainValueObject plainValueObject, Type targetType)
+        private object DeserializeJsonPlainValueObject(JsonPlainValueObject plainValueObject, Type targetType)
         {
-            return Converter.Assignable(plainValueObject.ToString(), targetType);
+            if (JsonEncoder.IsNullValue(plainValueObject))
+            {
+                return null;
+            }
+            else
+            {
+                return Converter.Assignable(plainValueObject.ToString(), targetType);
+            }
         }
 
         #endregion

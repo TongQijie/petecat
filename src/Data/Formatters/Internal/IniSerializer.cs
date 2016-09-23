@@ -29,7 +29,7 @@ namespace Petecat.Data.Formatters
                         }
 
                         foundProperty = true;
-                        propertyInfo.SetValue(instance, InternalDeserialize(propertyInfo.PropertyType, streamReader, out line));
+                        propertyInfo.SetValue(instance, InternalDeserialize(propertyInfo.PropertyType, streamReader, out line), null);
                         break;
                     }
 
@@ -63,7 +63,7 @@ namespace Petecat.Data.Formatters
                     foreach (var propertyInfo in targetType.GetProperties())
                     {
                         Attributes.IniSerializableAttribute attribute;
-                        if (!Utility.ReflectionUtility.TryGetCustomAttribute<Attributes.IniSerializableAttribute>(propertyInfo, 
+                        if (!Utility.ReflectionUtility.TryGetCustomAttribute(propertyInfo, 
                             x => !x.NonSerialized && x.Name.Equals(stringKey, StringComparison.OrdinalIgnoreCase), out attribute))
                         {
                             continue;
@@ -72,7 +72,7 @@ namespace Petecat.Data.Formatters
                         try
                         {
                             var value = Convert.ChangeType(stringValue, propertyInfo.PropertyType);
-                            propertyInfo.SetValue(instance, value);
+                            propertyInfo.SetValue(instance, value, null);
                             break;
                         }
                         catch (Exception e)

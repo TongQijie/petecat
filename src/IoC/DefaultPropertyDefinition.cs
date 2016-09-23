@@ -23,11 +23,11 @@ namespace Petecat.IoC
             object typeChangedValue;
             if (Converter.TryBeAssignable(value, propertyInfo.PropertyType, out typeChangedValue))
             {
-                propertyInfo.SetValue(instance, typeChangedValue);
+                propertyInfo.SetValue(instance, typeChangedValue, null);
             }
             else
             {
-                propertyInfo.SetValue(instance, null);
+                propertyInfo.SetValue(instance, null, null);
             }
         }
     }

@@ -67,6 +67,11 @@ namespace Petecat.Extension
             return true;
         }
 
+        public static int IndexOf<T>(this T[] data, T flag, int startIndex)
+        {
+            return data.ToList().IndexOf(flag, startIndex);
+        }
+
         public static int IndexOf<T>(this T[] data, T flag, int startIndex, int count)
         {
             return data.ToList().IndexOf(flag, startIndex, count);

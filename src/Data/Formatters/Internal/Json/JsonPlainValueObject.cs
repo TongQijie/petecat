@@ -18,7 +18,7 @@ namespace Petecat.Data.Formatters.Internal.Json
         {
             if (Buffer != null)
             {
-                return JsonEncoder.GetString(Buffer);
+                return JsonEncoder.GetPlainValue(Buffer);
             }
             else
             {
@@ -29,6 +29,10 @@ namespace Petecat.Data.Formatters.Internal.Json
         public override bool Fill(Stream stream, byte[] seperators, byte[] terminators)
         {
             var terminated = true;
+            if (Buffer == null)
+            {
+                Buffer = new byte[0];
+            }
 
             if (EncompassedByQuote)
             {
@@ -59,30 +63,43 @@ namespace Petecat.Data.Formatters.Internal.Json
 
                         return false;
                     }
-                    else if (after == JsonEncoder.Double_Quotes && before == JsonEncoder.Backslash)
+                    else
                     {
-                        Buffer[Buffer.Length - 1] = JsonEncoder.Double_Quotes;
+                        Buffer = Buffer.Append((byte)a);
                     }
-                    else if (after == JsonEncoder.Backslash && before == JsonEncoder.Backslash)
+
+                    if (before == JsonEncoder.Backslash)
                     {
-                        after = -1;
+                        before = -1;
                     }
                     else
                     {
-                        Buffer = Buffer.Append((byte)after);
+                        before = after;
                     }
-
-                    before = after;
+                    
                     return true;
                 });
             }
             else
             {
+                var hasTrailingSpace = false;
                 JsonUtility.Feed(stream, (b) =>
                 {
                     if (!JsonUtility.IsVisibleChar(b))
                     {
-                        return true;
+                        if (Buffer.Length == 0 || hasTrailingSpace)
+                        {
+                            return true;
+                        }
+                        else if(!hasTrailingSpace)
+                        {
+                            hasTrailingSpace = true;
+                            return true;
+                        }
+                        else
+                        {
+                            throw new Exception("");
+                        }
                     }
                     else if (seperators != null && seperators.Exists(x => x == b))
                     {
@@ -96,12 +113,18 @@ namespace Petecat.Data.Formatters.Internal.Json
                     }
                     else
                     {
+                        if (hasTrailingSpace)
+                        {
+                            throw new Exception("");
+                        }
+
                         Buffer = Buffer.Append((byte)b);
                         return true;
                     }
                 });
             }
 
+            //Buffer = JsonEncoder.GetPlainValue(buf);
             return terminated;
         }
     }

@@ -14,7 +14,7 @@ namespace Petecat.Network.Http
                 }
                 else if (contentType.ToLower().Contains("application/json"))
                 {
-                    return ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson);
+                    return ObjectFormatterFactory.GetFormatter(ObjectFormatterType.Json);
                 }
             }
 

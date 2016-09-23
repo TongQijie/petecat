@@ -62,6 +62,7 @@
     <Compile Include="Data\Formatters\BinarySerializerTest.cs" />
     <Compile Include="Data\Formatters\DataContractJsonFormatterTest.cs" />
     <Compile Include="Data\Formatters\IniFormatterTest.cs" />
+    <Compile Include="Data\Formatters\JsonEncoderTest.cs" />
     <Compile Include="Data\Formatters\JsonFormatterTest.cs" />
     <Compile Include="Data\Formatters\TestEntities.cs" />
     <Compile Include="Extension\ArrayExtensionTest.cs" />

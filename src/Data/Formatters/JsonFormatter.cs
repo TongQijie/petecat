@@ -1,14 +1,8 @@
-﻿using Petecat.Utility;
-using Petecat.Extension;
-using Petecat.Collection;
-using Petecat.Data.Formatters.Internal;
-
-using System;
+﻿using System;
 using System.IO;
-using System.Text;
-using System.Collections.Generic;
 
 using Petecat.Data.Formatters.Internal.Json;
+using Petecat.Logging;
 
 namespace Petecat.Data.Formatters
 {
@@ -18,12 +12,17 @@ namespace Petecat.Data.Formatters
 
         public override object ReadObject(Type targetType, Stream stream)
         {
-            return JsonSerializer.GetSerializer(targetType).Deserialize(stream);
+            var now = DateTime.Now;
+            var obj = JsonSerializer.GetSerializer(targetType).Deserialize(stream);
+            LoggerManager.GetLogger().LogEvent("JsonFormatter", LoggerLevel.Info, string.Format("deserialize [{0}] cost: {1}", targetType.FullName, (DateTime.Now - now).TotalMilliseconds));
+            return obj;
         }
 
         public override void WriteObject(object instance, Stream stream)
         {
+            var now = DateTime.Now;
             JsonSerializer.GetSerializer(instance.GetType()).Serialize(instance, stream, OmitDefaultValueProperty);
+            LoggerManager.GetLogger().LogEvent("JsonFormatter", LoggerLevel.Info, string.Format("serialize [{0}] cost: {1}", instance.GetType().FullName, (DateTime.Now - now).TotalMilliseconds));
         }
     }
 }

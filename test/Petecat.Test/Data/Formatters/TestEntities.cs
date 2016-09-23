@@ -23,6 +23,8 @@ namespace Petecat.Test.Data.Formatters
         [BinarySerializable("time")]
         public DateTime CheckInTime { get; set; }
 
+        public bool IsSelected { get; set; }
+
         [DataMember(Name = "prices")]
         [BinarySerializable("prices")]
         public List<Price> Prices { get; set; }
