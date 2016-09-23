@@ -11,5 +11,7 @@
         Binary,
 
         Ini,
+
+        Json,
     }
 }

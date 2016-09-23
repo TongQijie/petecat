@@ -59,6 +59,10 @@ namespace Petecat.Data.Formatters.Internal.Json
                     {
                         Buffer[Buffer.Length - 1] = JsonEncoder.Double_Quotes;
                     }
+                    else if (after == JsonEncoder.Backslash && before == JsonEncoder.Backslash)
+                    {
+                        after = -1;
+                    }
                     else
                     {
                         Buffer = Buffer.Append((byte)after);

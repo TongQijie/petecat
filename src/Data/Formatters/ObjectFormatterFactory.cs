@@ -11,6 +11,7 @@
                 case ObjectFormatterType.Xml: return new XmlFormatter();
                 case ObjectFormatterType.Binary: return new BinaryFormatter();
                 case ObjectFormatterType.Ini: return new IniFormatter();
+                case ObjectFormatterType.Json: return new JsonFormatter();
                 default: return null;
             }
         }

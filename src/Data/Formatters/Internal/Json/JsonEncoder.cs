@@ -74,7 +74,9 @@ namespace Petecat.Data.Formatters.Internal.Json
         {
             if (elementValue is string || elementValue is DateTime)
             {
-                var value = Encoding.UTF8.GetBytes(elementValue.ToString().Replace("\"", "\\\""));
+                // " -> \"
+                // \ -> \\
+                var value = Encoding.UTF8.GetBytes(elementValue.ToString().Replace("\\", "\\\\").Replace("\"", "\\\""));
                 var dest = new byte[value.Length + 2];
                 dest[0] = Double_Quotes;
                 Array.Copy(value, 0, dest, 1, value.Length);

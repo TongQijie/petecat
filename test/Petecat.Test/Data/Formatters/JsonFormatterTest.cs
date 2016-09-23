@@ -13,23 +13,20 @@ namespace Petecat.Test.Data.Formatters
         [TestMethod]
         public void WriteString_Test()
         {
-            var product = new Product() { Id = 1, CheckInTime = DateTime.Now, Name = "dddddd[{}]\'\"" };
-            product.AnotherPrices = new Price[]
-            {
-                new Price() { Region = "USA", Value = 1.2M },
-                new Price() { Region = "CHN", Value = 11111.2M },
-            };
+            var product = new Product() { Id = 1, Name = "dddddd\\\"\\\\\"\\" };
             product.Prices = new System.Collections.Generic.List<Price>();
             product.Prices.Add(new Price() { Region = "USA", Value = 1.2M });
             product.Prices.Add(new Price() { Region = "CHN", Value = 11111.2M });
 
-            var d = new JsonFormatter().WriteString(product, Encoding.UTF8);
+            var d = new JsonFormatter() { OmitDefaultValueProperty = true }.WriteString(product, Encoding.UTF8);
+
+            var p = new JsonFormatter().ReadObject<Product>(d, Encoding.UTF8);
         }
 
         [TestMethod]
         public void WriteObject_Test()
         {
-            var product = new Product() { Id = 1, CheckInTime = DateTime.Now, Name = "dddddd[{}]\'\"" };
+            var product = new Product() { Id = 1, CheckInTime = DateTime.Now, Name = "dddddd\\\"" };
             product.AnotherPrices = new Price[]
             {
                 new Price() { Region = "USA", Value = 1.2M },

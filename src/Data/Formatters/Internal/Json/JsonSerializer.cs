@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Petecat.Collection;
 using Petecat.Extension;
 using Petecat.Utility;
+using Petecat.Data.Attributes;
 
 namespace Petecat.Data.Formatters.Internal.Json
 {
@@ -40,7 +41,7 @@ namespace Petecat.Data.Formatters.Internal.Json
 
         #region Serialization
 
-        public void Serialize(object instance, Stream stream)
+        public void Serialize(object instance, Stream stream, bool omitDefaultValueProperty)
         {
             if (_JsonProperties == null)
             {
@@ -66,6 +67,12 @@ namespace Petecat.Data.Formatters.Internal.Json
             {
                 foreach (var property in JsonProperties)
                 {
+                    var propertyValue = property.PropertyInfo.GetValue(instance, null);
+                    if (omitDefaultValueProperty && Comparator.Equal(property.DefaultValue, propertyValue))
+                    {
+                        continue;
+                    }
+
                     if (firstElement)
                     {
                         firstElement = false;
@@ -82,21 +89,20 @@ namespace Petecat.Data.Formatters.Internal.Json
                     {
                         case JsonElementType.Simple:
                             {
-                                buf = JsonEncoder.GetSimpleValue(property.PropertyInfo.GetValue(instance, null));
+                                buf = JsonEncoder.GetSimpleValue(propertyValue);
                                 stream.Write(buf, 0, buf.Length);
                                 break;
                             }
                         default:
                             {
-                                var value = property.PropertyInfo.GetValue(instance, null);
-                                if (value == null)
+                                if (propertyValue == null)
                                 {
                                     buf = JsonEncoder.GetNullValue();
                                     stream.Write(buf, 0, buf.Length);
                                 }
                                 else
                                 {
-                                    GetSerializer(property.PropertyInfo.PropertyType).Serialize(value, stream);
+                                    GetSerializer(property.PropertyInfo.PropertyType).Serialize(propertyValue, stream, omitDefaultValueProperty);
                                 }
                                 break;
                             }
@@ -135,7 +141,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                                 }
                                 else
                                 {
-                                    GetSerializer(value.GetType()).Serialize(value, stream);
+                                    GetSerializer(value.GetType()).Serialize(value, stream, omitDefaultValueProperty);
                                 }
                                 break;
                             }
@@ -318,24 +324,10 @@ namespace Petecat.Data.Formatters.Internal.Json
             {
                 foreach (var propertyInfo in Type.GetProperties())
                 {
-                    _JsonProperties.Add(new JsonProperty(propertyInfo, null));
+                    var attribute = ReflectionUtility.GetCustomAttribute<JsonPropertyAttribute>(propertyInfo);
+                    _JsonProperties.Add(new JsonProperty(propertyInfo, attribute == null ? null : attribute.Alias));
                 }
             }
-        }
-
-        public class JsonProperty : IKeyedObject<string>
-        {
-            public JsonProperty(PropertyInfo propertyInfo, string alias)
-            {
-                PropertyInfo = propertyInfo;
-                Alias = alias;
-            }
-
-            public string Key { get { return Alias.HasValue() ? Alias : PropertyInfo.Name; } }
-
-            public PropertyInfo PropertyInfo { get; private set; }
-
-            public string Alias { get; set; }
         }
 
         #endregion
@@ -368,7 +360,5 @@ namespace Petecat.Data.Formatters.Internal.Json
         }
 
         #endregion
-
-        
     }
 }
