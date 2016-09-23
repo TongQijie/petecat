@@ -4,89 +4,30 @@ using System.Text;
 
 namespace Petecat.Data.Formatters
 {
-    public class BinaryFormatter : IObjectFormatter
+    public class BinaryFormatter : AbstractObjectFormatter, IObjectFormatter
     {
-        public T ReadObject<T>(string path, Encoding encoding)
-        {
-            using (var inputStream = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                return (T)ReadObject(typeof(T), inputStream);
-            }
-        }
-
-        public T ReadObject<T>(string stringValue)
-        {
-            var byteValues = Convert.FromBase64String(stringValue);
-            return (T)ReadObject(typeof(T), byteValues, 0, byteValues.Length);
-        }
-
-        public T ReadObject<T>(Stream stream)
-        {
-            return (T)BinarySerializer.Deserialize(typeof(T), stream);
-        }
-
-        public T ReadObject<T>(byte[] byteValues, int offset, int count)
-        {
-            var buffer = new byte[count];
-            Buffer.BlockCopy(byteValues, offset, buffer, 0, count);
-            return (T)BinarySerializer.Deserialize(buffer, typeof(T));
-        }
-
-        public object ReadObject(Type targetType, string path, Encoding encoding)
-        {
-            using (var inputStream = new FileStream(path, FileMode.Open, FileAccess.Read))
-            {
-                return ReadObject(targetType, inputStream);
-            }
-        }
-
-        public object ReadObject(Type targetType, string stringValue)
-        {
-            var byteValues = Convert.FromBase64String(stringValue);
-            return ReadObject(targetType, byteValues, 0, byteValues.Length);
-        }
-
-        public object ReadObject(Type targetType, Stream stream)
+        public override object ReadObject(Type targetType, Stream stream)
         {
             return BinarySerializer.Deserialize(targetType, stream);
         }
 
-        public object ReadObject(Type targetType, byte[] byteValues, int offset, int count)
+        public override object ReadObject(Type targetType, string stringValue, Encoding encoding)
         {
-            var buffer = new byte[count];
-            Buffer.BlockCopy(byteValues, offset, buffer, 0, count);
-            return BinarySerializer.Deserialize(buffer, targetType);
-        }
-
-        public void WriteObject(object instance, string path, Encoding encoding)
-        {
-            using (var outputStream = new FileStream(path, FileMode.Create, FileAccess.Write))
+            var byteValues = Convert.FromBase64String(stringValue);
+            using (var inputStream = new MemoryStream(byteValues))
             {
-                WriteObject(instance, outputStream);
+                return BinarySerializer.Deserialize(targetType, inputStream);
             }
         }
 
-        /// <summary>
-        /// [Obsolete] replaced by WriteString(object instance);
-        /// </summary>
-        public string WriteObject(object instance)
-        {
-            return Convert.ToBase64String(BinarySerializer.Serialize(instance));
-        }
-
-        public void WriteObject(object instance, Stream stream)
+        public override void WriteObject(object instance, Stream stream)
         {
             BinarySerializer.Serialize(instance, stream);
         }
 
-        public string WriteString(object instance)
+        public override string WriteString(object instance, Encoding encoding)
         {
-            return Convert.ToBase64String(BinarySerializer.Serialize(instance));
-        }
-
-        public byte[] WriteBytes(object instance)
-        {
-            return BinarySerializer.Serialize(instance);
+            return Convert.ToBase64String(WriteBytes(instance));
         }
     }
 }

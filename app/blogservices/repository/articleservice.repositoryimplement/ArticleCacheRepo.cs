@@ -69,14 +69,14 @@ namespace ArticleService.RepositoryImplement
         public void Update(ArticleInfoSource articleInfoSource)
         {
             ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteObject(articleInfoSource,
-                System.IO.Path.Combine(Path, articleInfoSource.Id) + ".json", Encoding.UTF8);
+                System.IO.Path.Combine(Path, articleInfoSource.Id) + ".json");
         }
 
         public void Insert(ArticleInfoSource articleInfoSource)
         {
             articleInfoSource.Id = System.IO.Path.GetRandomFileName().Replace(".", "");
             ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteObject(articleInfoSource,
-                System.IO.Path.Combine(Path, articleInfoSource.Id) + ".json", Encoding.UTF8);
+                System.IO.Path.Combine(Path, articleInfoSource.Id) + ".json");
         }
     }
 }

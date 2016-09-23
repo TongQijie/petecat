@@ -1,6 +1,6 @@
 ﻿namespace Petecat.Data.Formatters.Internal.Json
 {
-    public class JsonDictionaryElement
+    internal class JsonDictionaryElement
     {
         public string Key { get; set; }
 

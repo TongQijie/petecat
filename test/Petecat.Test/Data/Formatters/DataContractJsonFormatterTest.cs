@@ -31,7 +31,7 @@ namespace Petecat.Test.Data.Formatters
         {
             var product = new Product() { Id = 1, CheckInTime = DateTime.Now, Name = "dddddd[{}]\'\\\"" };
 
-            var d = ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteString(product);
+            var d = ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteString(product, Encoding.UTF8);
         }
     }
 }

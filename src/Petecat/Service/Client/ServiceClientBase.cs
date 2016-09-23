@@ -1,7 +1,9 @@
-﻿using Petecat.Data.Formatters;
-using Petecat.Network.Http;
+﻿using Petecat.Network.Http;
+using Petecat.Data.Formatters;
+
 using System;
 using System.Net;
+using System.Text;
 
 namespace Petecat.Service.Client
 {
@@ -35,7 +37,7 @@ namespace Petecat.Service.Client
                 else
                 {
                     throw new Errors.ServiceClientCallingFailedException(ResourceName, response.StatusCode.ToString(),
-                        ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteString(request.Body));
+                        ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteString(request.Body, Encoding.UTF8));
                 }
             }
         }
@@ -62,7 +64,7 @@ namespace Petecat.Service.Client
                 else
                 {
                     throw new Errors.ServiceClientCallingFailedException(ResourceName, response.StatusCode.ToString(),
-                        ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteString(request.Body));
+                        ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteString(request.Body, Encoding.UTF8));
                 }
             }
         }

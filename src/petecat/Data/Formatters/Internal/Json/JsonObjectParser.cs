@@ -2,7 +2,7 @@
 {
     public static class JsonObjectParser
     {
-        public static void Parse(JsonObjectParseArgs args)
+        internal static void Parse(JsonObjectParseArgs args)
         {
             var b = JsonUtility.Find(args.Stream, x => JsonUtility.IsVisibleChar(x));
             if (b == -1)
@@ -35,7 +35,6 @@
                 //         ------------------------------------^
                 //                                             Position
                 args.InternalObject = new JsonDictionaryObject();
-                
             }
             else if (b == JsonEncoder.Left_Bracket)
             {

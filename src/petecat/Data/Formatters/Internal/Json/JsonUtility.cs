@@ -3,7 +3,7 @@ using System.IO;
 
 namespace Petecat.Data.Formatters.Internal.Json
 {
-    public static class JsonUtility
+    internal static class JsonUtility
     {
         public static bool IsVisibleChar(int b)
         {

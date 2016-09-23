@@ -6,27 +6,27 @@ namespace Petecat.Data.Formatters
 {
     public interface IObjectFormatter
     {
-        T ReadObject<T>(string path, Encoding encoding);
-
-        T ReadObject<T>(string stringValue);
-
-        T ReadObject<T>(Stream stream);
-
-        T ReadObject<T>(byte[] byteValues, int offset, int count);
-
-        object ReadObject(Type targetType, string path, Encoding encoding);
-
-        object ReadObject(Type targetType, string stringValue);
-
         object ReadObject(Type targetType, Stream stream);
+
+        object ReadObject(Type targetType, string path);
+
+        object ReadObject(Type targetType, string stringValue, Encoding encoding);
 
         object ReadObject(Type targetType, byte[] byteValues, int offset, int count);
 
-        void WriteObject(object instance, string path, Encoding encoding);
+        T ReadObject<T>(Stream stream);
+
+        T ReadObject<T>(string path);
+
+        T ReadObject<T>(string stringValue, Encoding encoding);
+
+        T ReadObject<T>(byte[] byteValues, int offset, int count);
 
         void WriteObject(object instance, Stream stream);
 
-        string WriteString(object instance);
+        void WriteObject(object instance, string path);
+
+        string WriteString(object instance, Encoding encoding);
 
         byte[] WriteBytes(object instance);
     }

@@ -2,7 +2,9 @@
 using Petecat.Data.Formatters;
 using Petecat.Extension;
 using Petecat.Logging;
+
 using System;
+using System.Text;
 
 namespace ArticleService.ServiceImplement
 {
@@ -25,7 +27,8 @@ namespace ArticleService.ServiceImplement
             }
             catch (Exception e)
             {
-                LoggerManager.GetLogger().LogEvent(handler.Method.Name, LoggerLevel.Error, "unknown error.", new DataContractJsonFormatter().WriteString(request), e);
+                LoggerManager.GetLogger().LogEvent(handler.Method.Name, LoggerLevel.Error, "unknown error.", 
+                    new DataContractJsonFormatter().WriteString(request, Encoding.UTF8), e);
                 response.AppendError("999999", "unknown error.");
             }
 

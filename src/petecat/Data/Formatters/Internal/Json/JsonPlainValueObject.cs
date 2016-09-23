@@ -6,7 +6,7 @@ using Petecat.Extension;
 
 namespace Petecat.Data.Formatters.Internal.Json
 {
-    public class JsonPlainValueObject : JsonObject
+    internal class JsonPlainValueObject : JsonObject
     {
         public object Value { get; set; }
 

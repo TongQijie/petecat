@@ -6,8 +6,9 @@ using System.Collections.Generic;
 
 using Petecat.Collection;
 using Petecat.Extension;
+using Petecat.Utility;
 
-namespace Petecat.Data.Formatters.Internal
+namespace Petecat.Data.Formatters.Internal.Json
 {
     internal class JsonSerializer : IKeyedObject<string>
     {
@@ -166,272 +167,138 @@ namespace Petecat.Data.Formatters.Internal
 
         public object Deserialize(Stream stream)
         {
+            var args = new Json.JsonObjectParseArgs()
+            {
+                Stream = stream,
+            };
+
+            Json.JsonObjectParser.Parse(args);
+
+            return InternalDeserialize(args.InternalObject);
+        }
+
+        private object InternalDeserialize(Json.JsonObject jsonObject)
+        {
             if (_JsonProperties == null)
             {
                 Initialize();
             }
 
-            var elementType = GetElementType(Type);
-            if (elementType == JsonElementType.Object)
+            if (jsonObject is Json.JsonDictionaryObject)
             {
-                var instance = Activator.CreateInstance(Type);
+                return DeserializeJsonDictionaryObject(jsonObject as Json.JsonDictionaryObject);
+            }
+            else if (jsonObject is Json.JsonCollectionObject)
+            {
+                return DeserializeJsonCollectionObject(jsonObject as Json.JsonCollectionObject, Type);
+            }
+            else if (jsonObject is Json.JsonPlainValueObject)
+            {
+                return DeserializeJsonPlainValueObject(jsonObject as Json.JsonPlainValueObject, Type);
+            }
+            else
+            {
+                throw new Exception("");
+            }
+        }
 
-                if (!Seek(stream, JsonEncoder.Left_Brace))
+        private object DeserializeJsonDictionaryObject(Json.JsonDictionaryObject dictionaryObject)
+        {
+            var instance = Activator.CreateInstance(Type);
+
+            foreach (var element in dictionaryObject.Elements)
+            {
+                var jsonProperty = _JsonProperties.Get(element.Key, null);
+                if (jsonProperty == null)
+                {
+                    continue;
+                }
+
+                var elementType = GetElementType(jsonProperty.PropertyInfo.PropertyType);
+                if (elementType == JsonElementType.Object && element.Value is Json.JsonDictionaryObject)
+                {
+                    var value = GetSerializer(jsonProperty.PropertyInfo.PropertyType).InternalDeserialize(element.Value);
+                    jsonProperty.PropertyInfo.SetValue(instance, value);
+                }
+                else if (elementType == JsonElementType.Collection && element.Value is Json.JsonCollectionObject)
+                {
+                    var collectionObject = element.Value as Json.JsonCollectionObject;
+                    jsonProperty.PropertyInfo.SetValue(instance, 
+                        DeserializeJsonCollectionObject(collectionObject, jsonProperty.PropertyInfo.PropertyType));
+                }
+                else if (elementType == JsonElementType.Simple && element.Value is Json.JsonPlainValueObject)
+                {
+                    var value = DeserializeJsonPlainValueObject(element.Value as Json.JsonPlainValueObject, jsonProperty.PropertyInfo.PropertyType);
+                    jsonProperty.PropertyInfo.SetValue(instance, value);
+                }
+                else
                 {
                     throw new Exception("");
                 }
+            }
 
-                var firstElement = true;
-                int b;
-                // {
-                while ((b = stream.ReadByte()) != -1 && b != JsonEncoder.Right_Brace)
+            return instance;
+        }
+
+        private object DeserializeJsonCollectionObject(Json.JsonCollectionObject collectionObject, Type targetType)
+        {
+            if (targetType.IsArray)
+            {
+                var elementType = targetType.GetElementType();
+                var array = Array.CreateInstance(elementType, collectionObject.Elements.Length);
+                for (var i = 0; i < array.Length; i++)
                 {
-                    if (firstElement)
+                    var jsonObject = collectionObject.Elements[i].Value;
+                    if (jsonObject is Json.JsonDictionaryObject)
                     {
-                        if (b == JsonEncoder.Double_Quotes)
-                        {
-                            var name = JsonEncoder.GetElementName(stream).Trim();
-                            if (!name.HasValue())
-                            {
-                                throw new Exception("");
-                            }
-
-                            if (!Seek(stream, JsonEncoder.Colon))
-                            {
-                                throw new Exception("");
-                            }
-
-                            if (!_JsonProperties.ContainsKey(name))
-                            {
-
-                            }
-                        }
+                        var value = GetSerializer(elementType).InternalDeserialize(jsonObject);
+                        array.SetValue(value, i);
+                    }
+                    else if (jsonObject is Json.JsonCollectionObject)
+                    {
+                        // TODO: multi-dimension array
+                    }
+                    else if (jsonObject is Json.JsonPlainValueObject)
+                    {
+                        var value = DeserializeJsonPlainValueObject(jsonObject as Json.JsonPlainValueObject, elementType);
+                        array.SetValue(value, i);
                     }
                 }
 
-                if (b == -1)
+                return array;
+            }
+            else if (typeof(IList).IsAssignableFrom(targetType))
+            {
+                var elementType = targetType.GetGenericArguments().FirstOrDefault() ?? typeof(object);
+                var collection = Activator.CreateInstance(targetType) as IList;
+                for (int i = 0; i < collectionObject.Elements.Length; i++)
                 {
-                    throw new Exception("");
+                    var jsonObject = collectionObject.Elements[i].Value;
+                    if (jsonObject is Json.JsonDictionaryObject)
+                    {
+                        var value = GetSerializer(elementType).InternalDeserialize(jsonObject);
+                        collection.Add(value);
+                    }
+                    else if (jsonObject is Json.JsonCollectionObject)
+                    {
+                        // TODO: multi-dimension array
+                    }
+                    else if (jsonObject is Json.JsonPlainValueObject)
+                    {
+                        var value = DeserializeJsonPlainValueObject(jsonObject as Json.JsonPlainValueObject, elementType);
+                        collection.Add(value);
+                    }
                 }
 
-                // }
-                return instance;
+                return collection;
             }
 
             return null;
         }
 
-        private bool Seek(Stream stream, byte target)
+        private object DeserializeJsonPlainValueObject(Json.JsonPlainValueObject plainValueObject, Type targetType)
         {
-            int b;
-            while ((b = stream.ReadByte()) != -1 && b != target)
-            {
-            }
-
-            if (b == -1)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private int Seek(Stream stream, byte[] targets)
-        {
-            int b = -1;
-            while ((b = stream.ReadByte()) != -1 && !targets.Exists(x => x == b))
-            {
-            }
-            return b;
-        }
-
-        class JsonObject
-        {
-            public static JsonObject Parse(Stream stream, JsonObject container = null)
-            {
-                JsonObject current = null;
-
-                int b;
-                while ((b = stream.ReadByte()) != -1)
-                {
-                    if (b == JsonEncoder.Left_Brace)
-                    {
-                        // object
-                        current = new JsonDictionaryObject().ReadValue(stream);
-                    }
-                    else if (b == JsonEncoder.Left_Bracket)
-                    {
-                        // collection
-                        current = new JsonCollectionObject().ReadValue(stream);
-                    }
-                    else if (IsNonEmptyChar(b))
-                    {
-                        // value
-                        current = new JsonValueObject()
-                        {
-                            IsStringValue = b == JsonEncoder.Double_Quotes,
-                            Buffer = b == JsonEncoder.Double_Quotes ? new byte[0] : new byte[1] { (byte)b },
-                            Container = container,
-                        }.ReadValue(stream);
-                    }
-                }
-
-                return current;
-            }
-
-            public static bool IsNonEmptyChar(int b)
-            {
-                return b > 0x20 && b <= 0x7E;
-            }
-
-            public static bool Seek(Stream stream, byte target)
-            {
-                int b;
-                while ((b = stream.ReadByte()) != -1 && b != target)
-                {
-                }
-
-                if (b == -1)
-                {
-                    return false;
-                }
-
-                return true;
-            }
-        }
-
-        class JsonValueObject : JsonObject
-        {
-            public object Value { get; set; }
-
-            public bool IsStringValue { get; set; }
-
-            public JsonObject Container { get; set; }
-
-            public byte[] Buffer { get; set; }
-
-            public JsonObject ReadValue(Stream stream)
-            {
-                if (IsStringValue)
-                {
-                    int before = -1, after = -1;
-                    while ((after = stream.ReadByte()) != -1)
-                    {
-                        if (after == JsonEncoder.Double_Quotes && before != JsonEncoder.Backslash)
-                        {
-                            break;
-                        }
-                        else if (after == JsonEncoder.Double_Quotes && before == JsonEncoder.Backslash)
-                        {
-                            Buffer[Buffer.Length - 1] = JsonEncoder.Double_Quotes;
-                        }
-                        else
-                        {
-                            Buffer = Buffer.Append((byte)after);
-                        }
-
-                        before = after;
-                    }
-                }
-                else
-                {
-                    byte[] endBytes;
-                    if (Container is JsonDictionaryObject)
-                    {
-                        endBytes = new byte[] { JsonEncoder.Comma, JsonEncoder.Right_Brace };
-                    }
-                    else if (Container is JsonCollectionObject)
-                    {
-                        endBytes = new byte[] { JsonEncoder.Comma, JsonEncoder.Right_Bracket };
-                    }
-                    else
-                    {
-                        endBytes = new byte[0];
-                    }
-
-                    int b;
-                    while ((b = stream.ReadByte()) != -1 && !endBytes.Exists(x => x == b))
-                    {
-                        Buffer = Buffer.Append((byte)b);
-                    }
-                }
-
-                return this;
-            }
-        }
-
-        class JsonDictionaryObject : JsonObject
-        {
-            public JsonDictionaryElement[] Elements { get; set; }
-
-            public JsonObject ReadValue(Stream stream)
-            {
-                Elements = new JsonDictionaryElement[0];
-
-                string elementName = null;
-                int b;
-                while ((b = stream.ReadByte()) != -1 && b != JsonEncoder.Right_Brace)
-                {
-                    if (b == JsonEncoder.Double_Quotes)
-                    {
-                        if (elementName == null)
-                        {
-                            // start to read element's name
-                            elementName = JsonEncoder.GetElementName(stream);
-                        }
-                        else
-                        {
-                            // start to read element's value
-                            Seek(stream, JsonEncoder.Colon);
-                            Elements = Elements.Append(new JsonDictionaryElement()
-                            {
-                                Key = elementName,
-                                Value = Parse(stream, this),
-                            });
-
-                            elementName = null;
-                        }
-                    }
-                }
-
-                return this;
-            }
-        }
-
-        class JsonCollectionObject : JsonObject
-        {
-            public JsonCollectionElement[] Elements { get; set; }
-
-            public JsonObject ReadValue(Stream stream)
-            {
-                Elements = new JsonCollectionElement[0];
-
-                int b;
-                while ((b = stream.ReadByte()) != -1 && b != JsonEncoder.Right_Bracket)
-                {
-                    if (IsNonEmptyChar(b) && b != JsonEncoder.Comma)
-                    {
-                        Elements = Elements.Append(new JsonCollectionElement()
-                        {
-                            Value = Parse(stream, this),
-                        });
-                    }
-                }
-
-                return this;
-            }
-        }
-
-        class JsonDictionaryElement
-        {
-            public string Key { get; set; }
-
-            public JsonObject Value { get; set; }
-        }
-
-        class JsonCollectionElement
-        {
-            public JsonObject Value { get; set; } 
+            return Converter.Assignable(plainValueObject.ToString(), targetType);
         }
 
         #endregion

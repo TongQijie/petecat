@@ -23,7 +23,7 @@ namespace Petecat.Test.Data.Formatters
             product.Prices.Add(new Price() { Region = "USA", Value = 1.2M });
             product.Prices.Add(new Price() { Region = "CHN", Value = 11111.2M });
 
-            var d = new JsonFormatter().WriteString(product);
+            var d = new JsonFormatter().WriteString(product, Encoding.UTF8);
         }
 
         [TestMethod]
@@ -39,7 +39,7 @@ namespace Petecat.Test.Data.Formatters
             product.Prices.Add(new Price() { Region = "USA", Value = 1.2M });
             product.Prices.Add(new Price() { Region = "CHN", Value = 11111.2M });
 
-            new JsonFormatter().WriteObject(product, "json.txt", null);
+            new JsonFormatter().WriteObject(product, "json.txt");
         }
 
         [TestMethod]
@@ -387,6 +387,62 @@ namespace Petecat.Test.Data.Formatters
                 Assert.IsTrue(d2.Elements[1].Key == "Name"
                     && d2.Elements[1].Value is JsonPlainValueObject
                     && (d2.Elements[1].Value as JsonPlainValueObject).ToString() == "def");
+            }
+        }
+
+        [TestMethod]
+        public void Parse_12_Test()
+        {
+            using (var inputStream = new MemoryStream(Encoding.UTF8.GetBytes("{\"Id\":100,\"Name\":\"apple\",\"CheckInTime\":\"2016-09-23 12:00:00\"}")))
+            {
+                var product = new JsonFormatter().ReadObject<Product>(inputStream);
+
+                Assert.IsTrue(product.Id == 100 && product.Name == "apple" 
+                    && product.CheckInTime.Year == 2016 && product.CheckInTime.Month == 9 && product.CheckInTime.Day == 23
+                    && product.CheckInTime.Hour == 12 && product.CheckInTime.Minute == 0 && product.CheckInTime.Second == 0);
+            }
+        }
+
+        [TestMethod]
+        public void Parse_13_Test()
+        {
+            using (var inputStream = new MemoryStream(Encoding.UTF8.GetBytes("{\"Id\":100,\"Name\":\"apple\",\"CheckInTime\":\"2016-09-23 12:00:00\",\"Prices\":[{\"Value\":12.1,\"Region\":\"CHN\"},{\"Region\":\"USA\",\"Value\":2222.111}]}")))
+            {
+                var product = new JsonFormatter().ReadObject<Product>(inputStream);
+
+                Assert.IsTrue(product.Id == 100 && product.Name == "apple"
+                    && product.CheckInTime.Year == 2016 && product.CheckInTime.Month == 9 && product.CheckInTime.Day == 23
+                    && product.CheckInTime.Hour == 12 && product.CheckInTime.Minute == 0 && product.CheckInTime.Second == 0);
+
+                Assert.IsTrue(product.Prices != null && product.Prices.Count == 2
+                    && product.Prices[0].Value == 12.1M && product.Prices[0].Region == "CHN"
+                    && product.Prices[1].Value == 2222.111M && product.Prices[1].Region == "USA");
+            }
+        }
+
+        [TestMethod]
+        public void Parse_14_Test()
+        {
+            using (var inputStream = new MemoryStream(Encoding.UTF8.GetBytes("{\"Id\":100,\"Name\":\"apple\",\"CheckInTime\":\"2016-09-23 12:00:00\",\"AnotherPrices\":[{\"Value\":12.1,\"Region\":\"CHN\"},{\"Region\":\"USA\",\"Value\":2222.111}]}")))
+            {
+                var product = new JsonFormatter().ReadObject<Product>(inputStream);
+
+                Assert.IsTrue(product.Id == 100 && product.Name == "apple"
+                    && product.CheckInTime.Year == 2016 && product.CheckInTime.Month == 9 && product.CheckInTime.Day == 23
+                    && product.CheckInTime.Hour == 12 && product.CheckInTime.Minute == 0 && product.CheckInTime.Second == 0);
+
+                Assert.IsTrue(product.AnotherPrices != null && product.AnotherPrices.Length == 2
+                    && product.AnotherPrices[0].Value == 12.1M && product.AnotherPrices[0].Region == "CHN"
+                    && product.AnotherPrices[1].Value == 2222.111M && product.AnotherPrices[1].Region == "USA");
+            }
+        }
+
+        [TestMethod]
+        public void Parse_15_Test()
+        {
+            using (var inputStream = new FileStream("json.txt", FileMode.Open, FileAccess.Read))
+            {
+                var product = new JsonFormatter().ReadObject<Product>(inputStream);
             }
         }
     }

@@ -2,7 +2,7 @@
 
 namespace Petecat.Data.Formatters.Internal.Json
 {
-    public class JsonObject
+    internal class JsonObject
     {
         /// <summary>
         /// fill object content, including internal elements or value

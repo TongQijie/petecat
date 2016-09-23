@@ -94,14 +94,15 @@
     <Compile Include="Data\Errors\FormatterNotFoundException.cs" />
     <Compile Include="Data\Errors\NotInitializedDatabaseObjectManagerException.cs" />
     <Compile Include="Data\Errors\NotInitializedDataCommandObjectManagerException.cs" />
+    <Compile Include="Data\Formatters\AbstractObjectFormatter.cs" />
     <Compile Include="Data\Formatters\BinaryFormatter.cs" />
     <Compile Include="Data\Formatters\DataContractJsonFormatter.cs" />
     <Compile Include="Data\Formatters\IniFormatter.cs" />
     <Compile Include="Data\Formatters\Internal\BinaryEncoder.cs" />
     <Compile Include="Data\Formatters\Internal\BinarySerializer.cs" />
     <Compile Include="Data\Formatters\Internal\IniSerializer.cs" />
-    <Compile Include="Data\Formatters\Internal\JsonEncoder.cs" />
-    <Compile Include="Data\Formatters\Internal\JsonSerializer.cs" />
+    <Compile Include="Data\Formatters\Internal\Json\JsonEncoder.cs" />
+    <Compile Include="Data\Formatters\Internal\Json\JsonSerializer.cs" />
     <Compile Include="Data\Formatters\Internal\Json\JsonCollectionElement.cs" />
     <Compile Include="Data\Formatters\Internal\Json\JsonCollectionObject.cs" />
     <Compile Include="Data\Formatters\Internal\Json\JsonDictionaryElement.cs" />

@@ -46,7 +46,7 @@ namespace Petecat.Test.Data.Formatters
         {
             var product = GetEntity();
 
-            new BinaryFormatter().WriteObject(product, "product.dat", null);
+            new BinaryFormatter().WriteObject(product, "product.dat");
 
             var anotherProduct = new BinaryFormatter().ReadObject<Product>("product.dat", null);
 
