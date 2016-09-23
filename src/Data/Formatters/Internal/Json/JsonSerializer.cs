@@ -4,15 +4,26 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 
-using Petecat.Collection;
-using Petecat.Extension;
 using Petecat.Utility;
+using Petecat.Extension;
+using Petecat.Collection;
 using Petecat.Data.Attributes;
 
 namespace Petecat.Data.Formatters.Internal.Json
 {
     internal class JsonSerializer : IKeyedObject<string>
     {
+        public JsonSerializer(Type type)
+        {
+            Type = type;
+        }
+
+        public string Key { get { return Type.FullName; } }
+
+        public Type Type { get; private set; }
+
+        #region Serializer Cache
+
         private static ThreadSafeKeyedObjectCollection<string, JsonSerializer> _Serializers = null;
 
         private static ThreadSafeKeyedObjectCollection<string, JsonSerializer> Serializers
@@ -30,14 +41,7 @@ namespace Petecat.Data.Formatters.Internal.Json
             return _Serializers.Get(targetType.FullName, null);
         }
 
-        public JsonSerializer(Type type)
-        {
-            Type = type;
-        }
-
-        public string Key { get { return Type.FullName; } }
-
-        public Type Type { get; private set; }
+        #endregion
 
         #region Serialization
 
@@ -89,7 +93,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                     {
                         case JsonElementType.Simple:
                             {
-                                buf = JsonEncoder.GetSimpleValue(propertyValue);
+                                buf = JsonEncoder.GetPlainValue(propertyValue);
                                 stream.Write(buf, 0, buf.Length);
                                 break;
                             }
@@ -128,7 +132,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                     {
                         case JsonElementType.Simple:
                             {
-                                var buf = JsonEncoder.GetSimpleValue(value);
+                                var buf = JsonEncoder.GetPlainValue(value);
                                 stream.Write(buf, 0, buf.Length);
                                 break;
                             }
@@ -221,16 +225,38 @@ namespace Petecat.Data.Formatters.Internal.Json
                 }
 
                 var elementType = GetElementType(jsonProperty.PropertyInfo.PropertyType);
-                if (elementType == JsonElementType.Object && element.Value is Json.JsonDictionaryObject)
+                if (elementType == JsonElementType.Object)
                 {
-                    var value = GetSerializer(jsonProperty.PropertyInfo.PropertyType).InternalDeserialize(element.Value);
-                    jsonProperty.PropertyInfo.SetValue(instance, value);
+                    if (element.Value is JsonDictionaryObject)
+                    {
+                        var value = GetSerializer(jsonProperty.PropertyInfo.PropertyType).InternalDeserialize(element.Value);
+                        jsonProperty.PropertyInfo.SetValue(instance, value);
+                    }
+                    else if (element.Value is JsonPlainValueObject && JsonEncoder.IsNullValue(element.Value))
+                    {
+                        jsonProperty.PropertyInfo.SetValue(instance, null);
+                    }
+                    else
+                    {
+                        throw new Exception("");
+                    }
                 }
-                else if (elementType == JsonElementType.Collection && element.Value is Json.JsonCollectionObject)
+                else if (elementType == JsonElementType.Collection)
                 {
-                    var collectionObject = element.Value as Json.JsonCollectionObject;
-                    jsonProperty.PropertyInfo.SetValue(instance, 
-                        DeserializeJsonCollectionObject(collectionObject, jsonProperty.PropertyInfo.PropertyType));
+                    if (element.Value is JsonCollectionObject)
+                    {
+                        var collectionObject = element.Value as Json.JsonCollectionObject;
+                        jsonProperty.PropertyInfo.SetValue(instance,
+                            DeserializeJsonCollectionObject(collectionObject, jsonProperty.PropertyInfo.PropertyType));
+                    }
+                    else if (element.Value is JsonPlainValueObject && JsonEncoder.IsNullValue(element.Value))
+                    {
+                        jsonProperty.PropertyInfo.SetValue(instance, null);
+                    }
+                    else
+                    {
+                        throw new Exception("");
+                    }
                 }
                 else if (elementType == JsonElementType.Simple && element.Value is Json.JsonPlainValueObject)
                 {

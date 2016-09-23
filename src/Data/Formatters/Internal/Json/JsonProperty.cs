@@ -1,7 +1,7 @@
-﻿using Petecat.Collection;
-using Petecat.Extension;
+﻿using System.Reflection;
 
-using System.Reflection;
+using Petecat.Extension;
+using Petecat.Collection;
 
 namespace Petecat.Data.Formatters.Internal.Json
 {

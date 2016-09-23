@@ -8,8 +8,6 @@ namespace Petecat.Data.Formatters.Internal.Json
 {
     internal class JsonPlainValueObject : JsonObject
     {
-        public object Value { get; set; }
-
         public bool EncompassedByQuote { get; set; }
 
         public JsonObject ExternalObject { get; set; }
@@ -20,7 +18,7 @@ namespace Petecat.Data.Formatters.Internal.Json
         {
             if (Buffer != null)
             {
-                return Encoding.UTF8.GetString(Buffer);
+                return JsonEncoder.GetString(Buffer);
             }
             else
             {
@@ -30,30 +28,36 @@ namespace Petecat.Data.Formatters.Internal.Json
 
         public override bool Fill(Stream stream, byte[] seperators, byte[] terminators)
         {
+            var terminated = true;
+
             if (EncompassedByQuote)
             {
                 int before = -1, after = -1;
-                while ((after = stream.ReadByte()) != -1)
+                JsonUtility.Feed(stream, (a) =>
                 {
+                    after = a;
+
                     if (after == JsonEncoder.Double_Quotes && before != JsonEncoder.Backslash)
                     {
                         var b = JsonUtility.Find(stream, x => JsonUtility.IsVisibleChar(x));
                         if (b == -1)
                         {
-                            return true;
+                            terminated = true;
                         }
-
-                        if (seperators != null && seperators.Exists(x => x == b))
+                        else if (seperators != null && seperators.Exists(x => x == b))
                         {
-                            return false;
+                            terminated = false;
                         }
-
-                        if (terminators != null && terminators.Exists(x => x == b))
+                        else if (terminators != null && terminators.Exists(x => x == b))
                         {
-                            return true;
+                            terminated = true;
+                        }
+                        else
+                        {
+                            throw new Exception("");
                         }
 
-                        throw new Exception("");
+                        return false;
                     }
                     else if (after == JsonEncoder.Double_Quotes && before == JsonEncoder.Backslash)
                     {
@@ -69,33 +73,36 @@ namespace Petecat.Data.Formatters.Internal.Json
                     }
 
                     before = after;
-                }
+                    return true;
+                });
             }
             else
             {
-                int b;
-                while ((b = stream.ReadByte()) != -1)
+                JsonUtility.Feed(stream, (b) =>
                 {
                     if (!JsonUtility.IsVisibleChar(b))
                     {
-                        continue;
-                    }
-
-                    if (seperators != null && seperators.Exists(x => x == b))
-                    {
-                        return false;
-                    }
-                    
-                    if (terminators != null && terminators.Exists(x => x == b))
-                    {
                         return true;
                     }
-
-                    Buffer = Buffer.Append((byte)b);
-                }
+                    else if (seperators != null && seperators.Exists(x => x == b))
+                    {
+                        terminated = false;
+                        return false;
+                    }
+                    else if (terminators != null && terminators.Exists(x => x == b))
+                    {
+                        terminated = true;
+                        return false;
+                    }
+                    else
+                    {
+                        Buffer = Buffer.Append((byte)b);
+                        return true;
+                    }
+                });
             }
 
-            return true;
+            return terminated;
         }
     }
 }

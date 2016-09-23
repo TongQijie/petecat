@@ -39,7 +39,25 @@ namespace Petecat.Data.Formatters.Internal.Json
 
         private bool Parse(Stream stream)
         {
-            var elementName = JsonEncoder.GetElementName(stream);
+            Json.JsonUtility.Seek(stream, JsonEncoder.Double_Quotes);
+
+            var buf = new byte[0];
+            JsonUtility.Feed(stream, (b) =>
+            {
+                if (b != JsonEncoder.Double_Quotes)
+                {
+                    buf = buf.Append((byte)b);
+                    return true;
+                }
+
+                return false;
+            });
+
+            var elementName = JsonEncoder.GetString(buf);
+            if (!elementName.HasValue())
+            {
+                throw new Exception("");
+            }
 
             JsonUtility.Seek(stream, JsonEncoder.Colon);
 

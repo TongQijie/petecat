@@ -37,7 +37,7 @@ namespace Petecat.Caching
 
             var fileInfo = new FileInfo(path);
 
-            CacheObjectManager.Instance.Add(key, () => objectFormatter.ReadObject<T>(path, encoding));
+            CacheObjectManager.Instance.Add(key, () => objectFormatter.ReadObject<T>(path));
 
             if (enableWatcher)
             {

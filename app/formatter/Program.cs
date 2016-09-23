@@ -25,7 +25,7 @@ namespace Formatter
             ConsoleBridging.Write("output path: ");
             var outputPath = ConsoleBridging.ReadLine().FullPath();
 
-            var formatterConfig = new XmlFormatter().ReadObject<Configuration.FormatterConfig>("./format.config".FullPath(), Encoding.UTF8);
+            var formatterConfig = new XmlFormatter().ReadObject<Configuration.FormatterConfig>("./format.config".FullPath());
             if (formatterConfig == null)
             {
                 ConsoleBridging.WriteLine("format.config does not exist.");

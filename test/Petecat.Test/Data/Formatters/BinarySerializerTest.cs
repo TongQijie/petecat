@@ -48,7 +48,7 @@ namespace Petecat.Test.Data.Formatters
 
             new BinaryFormatter().WriteObject(product, "product.dat");
 
-            var anotherProduct = new BinaryFormatter().ReadObject<Product>("product.dat", null);
+            var anotherProduct = new BinaryFormatter().ReadObject<Product>("product.dat");
 
             Assert.IsTrue(product.Equals(anotherProduct));
         }

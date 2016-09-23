@@ -3,6 +3,7 @@
 using System.Xml;
 using System.Xml.Serialization;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace Petecat.IoC.Configuration
 {
@@ -56,7 +57,7 @@ namespace Petecat.IoC.Configuration
                 }
                 else if (IsDirectObject)
                 {
-                    var objectValue = new XmlFormatter().ReadObject<ContainerObjectConfig>(ElementValue.OuterXml);
+                    var objectValue = new XmlFormatter().ReadObject<ContainerObjectConfig>(ElementValue.OuterXml, Encoding.UTF8);
                     return objectValue.Name;
                 }
                 else

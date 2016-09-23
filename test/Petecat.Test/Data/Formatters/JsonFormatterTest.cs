@@ -18,7 +18,7 @@ namespace Petecat.Test.Data.Formatters
             product.Prices.Add(new Price() { Region = "USA", Value = 1.2M });
             product.Prices.Add(new Price() { Region = "CHN", Value = 11111.2M });
 
-            var d = new JsonFormatter() { OmitDefaultValueProperty = true }.WriteString(product, Encoding.UTF8);
+            var d = new JsonFormatter().WriteString(product, Encoding.UTF8);
 
             var p = new JsonFormatter().ReadObject<Product>(d, Encoding.UTF8);
         }

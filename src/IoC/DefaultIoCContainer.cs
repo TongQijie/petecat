@@ -207,7 +207,7 @@ namespace Petecat.IoC
                 throw new FileNotFoundException();
             }
 
-            var containerObjectsConfig = new XmlFormatter().ReadObject<ContainerObjectsConfig>(objectsFile.FullPath(), Encoding.UTF8);
+            var containerObjectsConfig = new XmlFormatter().ReadObject<ContainerObjectsConfig>(objectsFile.FullPath());
 
             if (containerObjectsConfig.Assemblies != null && containerObjectsConfig.Assemblies.Length > 0)
             {
@@ -304,7 +304,7 @@ namespace Petecat.IoC
             }
             else if (containerObjectValueElementConfig.IsDirectObject)
             {
-                var config = new XmlFormatter().ReadObject<ContainerObjectConfig>(containerObjectValueElementConfig.ElementValue.OuterXml);
+                var config = new XmlFormatter().ReadObject<ContainerObjectConfig>(containerObjectValueElementConfig.ElementValue.OuterXml, Encoding.UTF8);
                 if (string.IsNullOrEmpty(config.Name))
                 {
                     config.Name = Guid.NewGuid().ToString();
@@ -321,7 +321,7 @@ namespace Petecat.IoC
             }
             else if (containerObjectValueElementConfig.IsValueCollection)
             {
-                var config = new XmlFormatter().ReadObject<ContainerObjectValueCollectionConfig>(containerObjectValueElementConfig.ElementValue.OuterXml);
+                var config = new XmlFormatter().ReadObject<ContainerObjectValueCollectionConfig>(containerObjectValueElementConfig.ElementValue.OuterXml, Encoding.UTF8);
                 if (config == null || config.Elements == null || config.Elements.Length == 0)
                 {
                     return null;

@@ -10,7 +10,7 @@ namespace Petecat.Test.Data.Formatters
         [TestMethod]
         public void Deserialize_Test()
         {
-            var itemInfo = new IniFormatter().ReadObject<ItemInfo>("iteminfo.ini", Encoding.UTF8);
+            var itemInfo = new IniFormatter().ReadObject<ItemInfo>("iteminfo.ini");
         }
     }
 }

@@ -39,5 +39,11 @@ namespace Petecat.Data.Formatters.Internal.Json
 
             return b;
         }
+
+        public static void Feed(Stream stream, Func<int, bool> action)
+        {
+            int b;
+            while ((b = stream.ReadByte()) != -1 && action(b)) { }
+        }
     }
 }

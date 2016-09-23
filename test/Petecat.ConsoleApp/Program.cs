@@ -48,7 +48,7 @@ namespace Petecat.ConsoleApp
 
             //CacheObjectManager.Instance.Add("AppSettings", () =>
             //{
-            //    return new XmlFormatter().ReadObject<AppSettings>("./configuration/AppSettings.config".FullPath(), Encoding.UTF8);
+            //    return new XmlFormatter().ReadObject<AppSettings>("./configuration/AppSettings.config".FullPath());
             //});
 
             FolderWatcherManager.Instance.GetOrAdd("./configuration".FullPath())

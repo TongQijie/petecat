@@ -14,7 +14,7 @@ namespace Petecat.Service
                 }
                 else if (contentType.ToLower().Contains("application/json"))
                 {
-                    return ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson);
+                    return new JsonFormatter() { OmitDefaultValueProperty = true };
                 }
             }
 

@@ -16,9 +16,12 @@ namespace ArticleService.RepositoryImplement
         public ArticleCacheRepo(string path)
         {
             Path = path;
+            _ObjectFormatter = new JsonFormatter();
         }
 
         public string Path { get; private set; }
+
+        private IObjectFormatter _ObjectFormatter = null;
 
         public void Initialize()
         {
@@ -32,15 +35,13 @@ namespace ArticleService.RepositoryImplement
 
             foreach (var fileInfo in fileInfos)
             {
-                CacheObjectManager.Instance.Add<ArticleInfoSource>(fileInfo.Name, fileInfo.FullName, Encoding.UTF8,
-                    ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson), true);
+                CacheObjectManager.Instance.Add<ArticleInfoSource>(fileInfo.Name, fileInfo.FullName, Encoding.UTF8, _ObjectFormatter, true);
             }
 
             FolderWatcherManager.Instance.GetOrAdd(Path)
                 .SetFileCreatedHandler((f, n) =>
                 {
-                    CacheObjectManager.Instance.Add<ArticleInfoSource>(n, System.IO.Path.Combine(f.FullPath, n), Encoding.UTF8,
-                        ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson), true);
+                    CacheObjectManager.Instance.Add<ArticleInfoSource>(n, System.IO.Path.Combine(f.FullPath, n), Encoding.UTF8, _ObjectFormatter, true);
                 })
                 .SetFileDeletedHandler((f, n) =>
                 {
@@ -68,15 +69,13 @@ namespace ArticleService.RepositoryImplement
 
         public void Update(ArticleInfoSource articleInfoSource)
         {
-            ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteObject(articleInfoSource,
-                System.IO.Path.Combine(Path, articleInfoSource.Id) + ".json");
+            _ObjectFormatter.WriteObject(articleInfoSource, System.IO.Path.Combine(Path, articleInfoSource.Id) + ".json");
         }
 
         public void Insert(ArticleInfoSource articleInfoSource)
         {
             articleInfoSource.Id = System.IO.Path.GetRandomFileName().Replace(".", "");
-            ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteObject(articleInfoSource,
-                System.IO.Path.Combine(Path, articleInfoSource.Id) + ".json");
+            _ObjectFormatter.WriteObject(articleInfoSource, System.IO.Path.Combine(Path, articleInfoSource.Id) + ".json");
         }
     }
 }
