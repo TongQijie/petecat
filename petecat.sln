@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C206A12E-95D1-4654-A3EE-1D2FCDB99002}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "petecat", "src\petecat\petecat.csproj", "{E6CFD007-47F5-4E4D-9185-6D4147F104CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "petecat", "src\petecat.csproj", "{E6CFD007-47F5-4E4D-9185-6D4147F104CE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{1DBC27B7-F377-4A7C-982A-A9F9DBE571B2}"
 EndProject

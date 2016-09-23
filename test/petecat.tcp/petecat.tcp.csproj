@@ -39,7 +39,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\petecat\petecat.csproj">
+    <ProjectReference Include="..\..\src\petecat.csproj">
       <Project>{e6cfd007-47f5-4e4d-9185-6d4147f104ce}</Project>
       <Name>petecat</Name>
     </ProjectReference>

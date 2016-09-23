@@ -46,7 +46,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\petecat\petecat.csproj">
+    <ProjectReference Include="..\..\src\petecat.csproj">
       <Project>{E6CFD007-47F5-4E4D-9185-6D4147F104CE}</Project>
       <Name>petecat</Name>
     </ProjectReference>
