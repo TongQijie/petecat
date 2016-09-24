@@ -175,10 +175,10 @@ namespace Petecat.Data.Formatters.Internal.Json
         {
             var args = new Json.JsonObjectParseArgs()
             {
-                Stream = stream,
+                Stream = new BufferStream(stream, 128 * 1024 ),
             };
 
-            JsonObjectParser.Parse(args);
+            JsonObjectParser.Parse(args, true);
 
             return InternalDeserialize(args.InternalObject);
         }

@@ -4,7 +4,7 @@ namespace Petecat.Data.Formatters.Internal.Json
 {
     internal class JsonObjectParseArgs
     {
-        public Stream Stream { get; set; }
+        public IBufferStream Stream { get; set; }
 
         public JsonObject ExternalObject { get; set; }
 

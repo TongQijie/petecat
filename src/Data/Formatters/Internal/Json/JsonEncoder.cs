@@ -46,6 +46,10 @@ namespace Petecat.Data.Formatters.Internal.Json
         /// </summary>
         public const byte Slash = 0x2F;
         /// <summary>
+        /// ' '
+        /// </summary>
+        public const byte Space = 0x20;
+        /// <summary>
         /// '\b'
         /// </summary>
         public const byte Backspace = 0x08;

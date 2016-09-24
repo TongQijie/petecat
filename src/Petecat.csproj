@@ -111,6 +111,8 @@ MSBuild: msbuild petecat.csproj /p:Configuration=[Debug|Release] /p:OutputPath=.
     <Compile Include="Data\Formatters\Internal\BinaryEncoder.cs" />
     <Compile Include="Data\Formatters\Internal\BinarySerializer.cs" />
     <Compile Include="Data\Formatters\Internal\IniSerializer.cs" />
+    <Compile Include="Data\Formatters\Internal\Json\BufferStream.cs" />
+    <Compile Include="Data\Formatters\Internal\Json\IBufferStream.cs" />
     <Compile Include="Data\Formatters\Internal\Json\JsonEncoder.cs" />
     <Compile Include="Data\Formatters\Internal\Json\JsonProperty.cs" />
     <Compile Include="Data\Formatters\Internal\Json\JsonSerializer.cs" />

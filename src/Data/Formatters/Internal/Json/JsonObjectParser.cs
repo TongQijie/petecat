@@ -2,9 +2,17 @@
 {
     internal static class JsonObjectParser
     {
-        public static void Parse(JsonObjectParseArgs args)
+        public static void Parse(JsonObjectParseArgs args, bool header = false)
         {
-            var b = JsonUtility.Find(args.Stream, x => JsonUtility.IsVisibleChar(x));
+            int b;
+            if (header)
+            {
+                b = args.Stream.FirstOrDefault(x => x > 0x20 && x <= 0x7E);
+            }
+            else
+            {
+                b = args.Stream.Except(JsonEncoder.Space);
+            }
             if (b == -1)
             {
                 return;

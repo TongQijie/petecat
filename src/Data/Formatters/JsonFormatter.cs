@@ -12,10 +12,11 @@ namespace Petecat.Data.Formatters
 
         public override object ReadObject(Type targetType, Stream stream)
         {
-            var now = DateTime.Now;
-            var obj = JsonSerializer.GetSerializer(targetType).Deserialize(stream);
-            LoggerManager.GetLogger().LogEvent("JsonFormatter", LoggerLevel.Info, string.Format("deserialize [{0}] cost: {1}", targetType.FullName, (DateTime.Now - now).TotalMilliseconds));
-            return obj;
+            //var now = DateTime.Now;
+            //var obj = JsonSerializer.GetSerializer(targetType).Deserialize(stream);
+            //LoggerManager.GetLogger().LogEvent("JsonFormatter", LoggerLevel.Info, string.Format("deserialize [{0}] cost: {1}", targetType.FullName, (DateTime.Now - now).TotalMilliseconds));
+            //return obj;
+            return JsonSerializer.GetSerializer(targetType).Deserialize(stream);
         }
 
         public override void WriteObject(object instance, Stream stream)

@@ -52,7 +52,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = inputStream,
+                    Stream = new BufferStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
             }
@@ -65,7 +65,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = inputStream,
+                    Stream = new BufferStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -91,7 +91,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = inputStream,
+                    Stream = new BufferStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -119,7 +119,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = inputStream,
+                    Stream = new BufferStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -149,7 +149,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = inputStream,
+                    Stream = new BufferStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -175,7 +175,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = inputStream,
+                    Stream = new BufferStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -203,7 +203,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = inputStream,
+                    Stream = new BufferStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -233,7 +233,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = inputStream,
+                    Stream = new BufferStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -260,7 +260,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = inputStream,
+                    Stream = new BufferStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -290,7 +290,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = inputStream,
+                    Stream = new BufferStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -320,7 +320,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = inputStream,
+                    Stream = new BufferStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -354,7 +354,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = inputStream,
+                    Stream = new BufferStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -443,9 +443,18 @@ namespace Petecat.Test.Data.Formatters
         [TestMethod]
         public void Parse_15_Test()
         {
-            using (var inputStream = new FileStream("json.txt", FileMode.Open, FileAccess.Read))
+            using (var inputStream = new FileStream("fbktgdhqboo.json", FileMode.Open, FileAccess.Read))
             {
-                var product = new JsonFormatter().ReadObject<Product>(inputStream);
+                var product = new JsonFormatter().ReadObject<ArticleService.RepositoryModel.ArticleInfoSource>(inputStream);
+            }
+        }
+
+        [TestMethod]
+        public void Parse_16_Test()
+        {
+            using (var inputStream = new FileStream("fbktgdhqboo.1.json", FileMode.Open, FileAccess.Read))
+            {
+                var product = new DataContractJsonFormatter().ReadObject<ArticleService.RepositoryModel.ArticleInfoSource>(inputStream);
             }
         }
     }
