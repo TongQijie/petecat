@@ -4,8 +4,6 @@ using System.Net;
 using System.Text;
 using System.Web;
 
-using Petecat.Data.Formatters;
-
 namespace Petecat.Network.Http
 {
     public class HttpClientRequest

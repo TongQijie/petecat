@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-using Petecat.Utility;
+﻿using System.Linq;
 
 namespace Petecat.IoC
 {

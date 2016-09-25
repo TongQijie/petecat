@@ -4,8 +4,6 @@ using System.Xml;
 using System.Text;
 using System.Runtime.Serialization;
 
-using Petecat.Extension;
-
 namespace Petecat.Data.Formatters
 {
     public class DataContractXmlFormatter : AbstractObjectFormatter, IObjectFormatter

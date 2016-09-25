@@ -32,12 +32,12 @@ namespace Petecat.Service.Client
             {
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    return response.GetObject<TResponse>(HttpFormatterSelector.Get(serviceResourceConfig.Accept ?? "application/json"));
+                    return response.GetObject<TResponse>(HttpFormatterSelector.Get(request.Request.Accept));
                 }
                 else
                 {
                     throw new Errors.ServiceClientCallingFailedException(ResourceName, response.StatusCode.ToString(),
-                        ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteString(request.Body, Encoding.UTF8));
+                        HttpFormatterSelector.Get(request.Request.ContentType).WriteString(request.Body, Encoding.UTF8));
                 }
             }
         }
@@ -59,12 +59,12 @@ namespace Petecat.Service.Client
             {
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    return response.GetObject<TResponse>(HttpFormatterSelector.Get(serviceResourceConfig.Accept ?? "application/json"));
+                    return response.GetObject<TResponse>(HttpFormatterSelector.Get(request.Request.Accept));
                 }
                 else
                 {
                     throw new Errors.ServiceClientCallingFailedException(ResourceName, response.StatusCode.ToString(),
-                        ObjectFormatterFactory.GetFormatter(ObjectFormatterType.DataContractJson).WriteString(request.Body, Encoding.UTF8));
+                        HttpFormatterSelector.Get(request.Request.ContentType).WriteString(request.Body, Encoding.UTF8));
                 }
             }
         }

@@ -16,15 +16,5 @@ namespace Petecat.Test.Data.Formatters
 
             Assert.IsTrue(JsonEncoder.GetString(byteValues) == "\"\\n\\b \\\\\\/hello中\"");
         }
-
-        [TestMethod]
-        public void GetPlainValue_2_Test()
-        {
-            var sourceString = "\\n\\b \\\\\\/hello中";
-
-            var targetString = JsonEncoder.GetPlainValue(JsonEncoder.GetBytes(sourceString));
-
-            Assert.IsTrue(targetString == "\n\b \\/hello\u4e2d");
-        }
     }
 }

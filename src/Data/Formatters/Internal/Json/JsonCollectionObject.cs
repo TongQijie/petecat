@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 using Petecat.Extension;
 
@@ -18,8 +17,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                 ;
             }
 
-            var b = stream.Except(JsonEncoder.Space);
-            //var b = JsonUtility.Find(stream, x => JsonUtility.IsVisibleChar(x));
+            var b = stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
             if (b == -1)
             {
                 return true;

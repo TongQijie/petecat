@@ -1,6 +1,4 @@
-﻿using Petecat.Data.Formatters;
-using System.Text.RegularExpressions;
-using System.Xml;
+﻿using System.Xml;
 using System.Xml.Serialization;
 
 namespace Petecat.IoC.Configuration

@@ -1,13 +1,12 @@
-﻿using System.IO;
-using Petecat.Extension;
-using System;
+﻿using System;
+using System.IO;
+
 namespace Petecat.Data.Formatters.Internal.Json
 {
     public class BufferStream : IBufferStream
     {
         public BufferStream(Stream stream, int capacity)
         {
-            Capacity = capacity;
             _InternalStream = stream;
             _InternalBuffer = new byte[capacity];
         }
@@ -15,9 +14,7 @@ namespace Petecat.Data.Formatters.Internal.Json
         private Stream _InternalStream = null;
 
         private byte[] _InternalBuffer = null;
-
-        public int Capacity { get; private set; }
-
+        
         private int _Index = 0;
 
         private int _Count = 0;
@@ -41,14 +38,42 @@ namespace Petecat.Data.Formatters.Internal.Json
             }
         }
 
-        public bool Go(byte targetByte)
+        public byte[] ReadBytes(int count)
         {
-            var index = _InternalBuffer.IndexOf(targetByte, _Index, _Count - _Index);
+            var buf = new byte[count];
+            for (int i = 0; i < count; i++)
+            {
+                var b = ReadByte();
+                if (b != -1)
+                {
+                    buf[i] = (byte)b;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            return buf;
+        }
+
+        public byte[] ReadBytesUntil(byte terminator)
+        {
+            return InternalReadBytesUntil(new byte[0], terminator);
+        }
+
+        public byte[] ReadBytesUntil(byte[] terminators)
+        {
+            return InternalReadBytesUntil(new byte[0], terminators);
+        }
+
+        public bool SeekBytesUntilEqual(byte targetByte)
+        {
+            var index = InternalIndexOf(targetByte, _Index, _Count - _Index);
             if (index == -1)
             {
                 if (Fill())
                 {
-                    return Go(targetByte);
+                    return SeekBytesUntilEqual(targetByte);
                 }
                 else
                 {
@@ -62,7 +87,31 @@ namespace Petecat.Data.Formatters.Internal.Json
             }
         }
 
-        public int FirstOrDefault(Predicate<int> predicate)
+        public int SeekBytesUntilNotEqual(byte targetByte)
+        {
+            while (_Index < _Count)
+            {
+                if (_InternalBuffer[_Index] != targetByte)
+                {
+                    return _InternalBuffer[_Index++];
+                }
+                else
+                {
+                    _Index++;
+                }
+            }
+
+            if (Fill())
+            {
+                return SeekBytesUntilNotEqual(targetByte);
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
+        public int SeekBytesUntilMeets(Predicate<int> predicate)
         {
             while (_Index < _Count)
             {
@@ -78,7 +127,7 @@ namespace Petecat.Data.Formatters.Internal.Json
 
             if (Fill())
             {
-                return FirstOrDefault(predicate);
+                return SeekBytesUntilMeets(predicate);
             }
             else
             {
@@ -86,46 +135,22 @@ namespace Petecat.Data.Formatters.Internal.Json
             }
         }
 
-        public int Except(byte byteValue)
+        private byte[] InternalReadBytesUntil(byte[] byteValues, byte terminator)
         {
-            while (_Index < _Count)
-            {
-                if (_InternalBuffer[_Index] != byteValue)
-                {
-                    return _InternalBuffer[_Index++];
-                }
-                else
-                {
-                    _Index++;
-                }
-            }
-
-            if (Fill())
-            {
-                return Except(byteValue);
-            }
-            else
-            {
-                return -1;
-            }
-        }
-
-        public byte[] GetBytes(byte[] byteValues, byte terminator)
-        {
-            var index = _InternalBuffer.IndexOf(terminator, _Index, _Count - _Index);
+            var index = InternalIndexOf(terminator, _Index, _Count - _Index);
             if (index != -1)
             {
-                byteValues = byteValues.Append(_InternalBuffer.SubArray(_Index, index - _Index));
+                byteValues = ByteUtility.Concat(byteValues, 0, byteValues.Length, _InternalBuffer, _Index, index - _Index);
                 _Index = index + 1;
                 return byteValues;
             }
             else
             {
-                byteValues = byteValues.Append(_InternalBuffer.SubArray(_Index, _Count - _Index));
+                byteValues = ByteUtility.Concat(byteValues, 0, byteValues.Length, _InternalBuffer, _Index, _Count - _Index);
 
                 if (Fill())
                 {
-                    return GetBytes(byteValues, terminator);
+                    return InternalReadBytesUntil(byteValues, terminator);
                 }
                 else
                 {
@@ -134,14 +159,22 @@ namespace Petecat.Data.Formatters.Internal.Json
             }
         }
 
-        public byte[] GetBytes(byte[] byteValues, byte[] terminators)
+        private byte[] InternalReadBytesUntil(byte[] byteValues, byte[] terminators)
         {
             var startIndex = _Index;
             while (_Index < _Count)
             {
-                if (terminators.Exists(x => x == _InternalBuffer[_Index]))
+                var i = 0;
+                for (; i < terminators.Length; i++)
                 {
-                    break; 
+                    if (terminators[i] == _InternalBuffer[_Index])
+                    {
+                        break;
+                    }
+                }
+                if (i < terminators.Length)
+                {
+                    break;
                 }
                 else
                 {
@@ -152,14 +185,14 @@ namespace Petecat.Data.Formatters.Internal.Json
             if (_Index < _Count)
             {
                 _Index += 1;
-                return byteValues.Append(_InternalBuffer.SubArray(startIndex, _Index - startIndex));
+                return ByteUtility.Concat(byteValues, 0, byteValues.Length, _InternalBuffer, startIndex, _Index - startIndex);
             }
             else
             {
-                byteValues = byteValues.Append(_InternalBuffer.SubArray(startIndex, _Count - startIndex));
+                byteValues = ByteUtility.Concat(byteValues, 0, byteValues.Length, _InternalBuffer, startIndex, _Count - startIndex);
                 if (Fill())
                 {
-                    return GetBytes(byteValues, terminators);
+                    return InternalReadBytesUntil(byteValues, terminators);
                 }
                 else
                 {
@@ -167,7 +200,20 @@ namespace Petecat.Data.Formatters.Internal.Json
                 }
             }
         }
+        
+        private int InternalIndexOf(byte targetByte, int startIndex, int count)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                if (_InternalBuffer[i + startIndex] == targetByte)
+                {
+                    return i + startIndex;
+                }
+            }
 
+            return -1;
+        }
+        
         private bool Fill()
         {
             _Count = _InternalStream.Read(_InternalBuffer, 0, _InternalBuffer.Length);

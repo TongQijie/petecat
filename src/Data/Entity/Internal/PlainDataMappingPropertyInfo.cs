@@ -1,6 +1,4 @@
 ﻿using Petecat.Data.Attributes;
-
-using System;
 using System.Reflection;
 
 namespace Petecat.Data.Entity

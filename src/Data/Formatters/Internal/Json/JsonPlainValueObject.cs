@@ -1,6 +1,4 @@
 ﻿using System;
-using System.IO;
-using System.Text;
 
 using Petecat.Extension;
 
@@ -18,7 +16,7 @@ namespace Petecat.Data.Formatters.Internal.Json
         {
             if (Buffer != null)
             {
-                return JsonEncoder.GetPlainValue(Buffer);
+                return JsonEncoder.GetString(Buffer);
             }
             else
             {
@@ -36,13 +34,14 @@ namespace Petecat.Data.Formatters.Internal.Json
 
             if (EncompassedByQuote)
             {
-                Buffer = JsonUtility.GetStringValue(stream);
+                Buffer = GetUnescapeByteValues(stream);
+
                 if (Buffer == null)
                 {
                     throw new Exception("");
                 }
 
-                var b = stream.Except(JsonEncoder.Space);
+                var b = stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
                 if (b == -1)
                 {
                     terminated = true;
@@ -59,50 +58,6 @@ namespace Petecat.Data.Formatters.Internal.Json
                 {
                     throw new Exception("");
                 }
-
-                //int before = -1, after = -1;
-                //JsonUtility.Feed(stream, (a) =>
-                //{
-                //    after = a;
-
-                //    if (after == JsonEncoder.Double_Quotes && before != JsonEncoder.Backslash)
-                //    {
-                //        var b = JsonUtility.Find(stream, x => JsonUtility.IsVisibleChar(x));
-                //        if (b == -1)
-                //        {
-                //            terminated = true;
-                //        }
-                //        else if (seperators != null && seperators.Exists(x => x == b))
-                //        {
-                //            terminated = false;
-                //        }
-                //        else if (terminators != null && terminators.Exists(x => x == b))
-                //        {
-                //            terminated = true;
-                //        }
-                //        else
-                //        {
-                //            throw new Exception("");
-                //        }
-
-                //        return false;
-                //    }
-                //    else
-                //    {
-                //        Buffer = Buffer.Append((byte)a);
-                //    }
-
-                //    if (before == JsonEncoder.Backslash)
-                //    {
-                //        before = -1;
-                //    }
-                //    else
-                //    {
-                //        before = after;
-                //    }
-                    
-                //    return true;
-                //});
             }
             else
             {
@@ -116,7 +71,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                     ends = ends.Append(terminators);
                 }
 
-                var buf = JsonUtility.GetBytes(stream, ends.Append(JsonEncoder.Space));
+                var buf = stream.ReadBytesUntil(ends.Append(JsonEncoder.Whitespace));
                 if (buf == null || buf.Length == 0)
                 {
                     throw new Exception("");
@@ -132,9 +87,9 @@ namespace Petecat.Data.Formatters.Internal.Json
                 }
 
                 var terminator = buf[buf.Length - 1];
-                if (terminator == JsonEncoder.Space)
+                if (terminator == JsonEncoder.Whitespace)
                 {
-                    terminator = (byte)stream.Except(JsonEncoder.Space);
+                    terminator = (byte)stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
                 }
                 if (seperators != null && seperators.Exists(x => x == terminator))
                 {
@@ -148,49 +103,46 @@ namespace Petecat.Data.Formatters.Internal.Json
                 {
                     throw new Exception("");
                 }
-                //var hasTrailingSpace = false;
-                //JsonUtility.Feed(stream, (b) =>
-                //{
-                //    if (!JsonUtility.IsVisibleChar(b))
-                //    {
-                //        if (Buffer.Length == 0 || hasTrailingSpace)
-                //        {
-                //            return true;
-                //        }
-                //        else if(!hasTrailingSpace)
-                //        {
-                //            hasTrailingSpace = true;
-                //            return true;
-                //        }
-                //        else
-                //        {
-                //            throw new Exception("");
-                //        }
-                //    }
-                //    else if (seperators != null && seperators.Exists(x => x == b))
-                //    {
-                //        terminated = false;
-                //        return false;
-                //    }
-                //    else if (terminators != null && terminators.Exists(x => x == b))
-                //    {
-                //        terminated = true;
-                //        return false;
-                //    }
-                //    else
-                //    {
-                //        if (hasTrailingSpace)
-                //        {
-                //            throw new Exception("");
-                //        }
-
-                //        Buffer = Buffer.Append((byte)b);
-                //        return true;
-                //    }
-                //});
             }
 
             return terminated;
+        }
+
+        private byte[] GetUnescapeByteValues(IBufferStream stream)
+        {
+            var buffer = new byte[0];
+
+            var buf = new byte[0];
+            while ((buf = stream.ReadBytesUntil(new byte[] { JsonEncoder.Double_Quotes, JsonEncoder.Backslash })) != null)
+            {
+                if (buf[buf.Length - 1] == JsonEncoder.Double_Quotes)
+                {
+                    return ByteUtility.Concat(buffer, 0, buffer.Length, buf, 0, buf.Length - 1);
+                }
+
+                if (buf[buf.Length - 1] == JsonEncoder.Backslash)
+                {
+                    var b = stream.ReadByte();
+                    if (b == -1)
+                    {
+                        return null;
+                    }
+
+                    if (b == JsonEncoder.U)
+                    {
+                        var escape = JsonEncoder.DoUnescape(stream.ReadBytes(4));
+                        buf = ByteUtility.Concat(buf, 0, buf.Length - 1, escape, 0, escape.Length);
+                    }
+                    else
+                    {
+                        buf[buf.Length - 1] = JsonEncoder.DoUnescape(b);
+                    }
+
+                    buffer = ByteUtility.Concat(buffer, 0, buffer.Length, buf, 0, buf.Length);
+                }
+            }
+
+            return buffer;
         }
     }
 }

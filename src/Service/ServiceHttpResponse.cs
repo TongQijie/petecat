@@ -1,7 +1,4 @@
 ﻿using System.Web;
-using System.Linq;
-
-using Petecat.Data.Formatters;
 
 namespace Petecat.Service
 {

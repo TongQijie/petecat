@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -173,9 +172,9 @@ namespace Petecat.Data.Formatters.Internal.Json
 
         public object Deserialize(Stream stream)
         {
-            var args = new Json.JsonObjectParseArgs()
+            var args = new JsonObjectParseArgs()
             {
-                Stream = new BufferStream(stream, 128 * 1024 ),
+                Stream = new BufferStream(stream, 4 * 1024 ),
             };
 
             JsonObjectParser.Parse(args, true);
@@ -339,17 +338,22 @@ namespace Petecat.Data.Formatters.Internal.Json
 
         public IEnumerable<JsonProperty> JsonProperties { get { return _JsonProperties.Values; } }
 
+        private object _SyncLocker = new object();
+
         public void Initialize()
         {
-            _JsonProperties = new ThreadSafeKeyedObjectCollection<string, JsonProperty>();
-
-            var elementType = GetElementType(Type);
-            if (elementType == JsonElementType.Object)
+            lock (_SyncLocker)
             {
-                foreach (var propertyInfo in Type.GetProperties())
+                _JsonProperties = new ThreadSafeKeyedObjectCollection<string, JsonProperty>();
+
+                var elementType = GetElementType(Type);
+                if (elementType == JsonElementType.Object)
                 {
-                    var attribute = ReflectionUtility.GetCustomAttribute<JsonPropertyAttribute>(propertyInfo);
-                    _JsonProperties.Add(new JsonProperty(propertyInfo, attribute == null ? null : attribute.Alias));
+                    foreach (var propertyInfo in Type.GetProperties())
+                    {
+                        var attribute = ReflectionUtility.GetCustomAttribute<JsonPropertyAttribute>(propertyInfo);
+                        _JsonProperties.Add(new JsonProperty(propertyInfo, attribute == null ? null : attribute.Alias));
+                    }
                 }
             }
         }

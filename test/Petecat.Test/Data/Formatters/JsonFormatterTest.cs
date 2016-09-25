@@ -1,6 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Petecat.Data.Formatters;
 using Petecat.Data.Formatters.Internal.Json;
+using Petecat.Extension;
+using Petecat.Logging;
+using Petecat.Logging.Loggers;
 using System;
 using System.IO;
 using System.Text;
@@ -10,6 +13,11 @@ namespace Petecat.Test.Data.Formatters
     [TestClass]
     public class JsonFormatterTest
     {
+        public JsonFormatterTest()
+        {
+            LoggerManager.SetLogger(new FileLogger(LoggerManager.AppDomainLoggerName, "./log".FullPath()));
+        }
+
         [TestMethod]
         public void WriteString_Test()
         {
@@ -443,18 +451,28 @@ namespace Petecat.Test.Data.Formatters
         [TestMethod]
         public void Parse_15_Test()
         {
-            using (var inputStream = new FileStream("fbktgdhqboo.json", FileMode.Open, FileAccess.Read))
+            var a = 0;
+            while(a < 1000)
             {
-                var product = new JsonFormatter().ReadObject<ArticleService.RepositoryModel.ArticleInfoSource>(inputStream);
+                using (var inputStream = new FileStream("3ixpc1re3x0.json", FileMode.Open, FileAccess.Read))
+                {
+                    var product = new JsonFormatter().ReadObject<ArticleService.RepositoryModel.ArticleInfoSource>(inputStream);
+                }
+                a++;
             }
         }
 
         [TestMethod]
         public void Parse_16_Test()
         {
-            using (var inputStream = new FileStream("fbktgdhqboo.1.json", FileMode.Open, FileAccess.Read))
+            var a = 0;
+            while(a < 1000)
             {
-                var product = new DataContractJsonFormatter().ReadObject<ArticleService.RepositoryModel.ArticleInfoSource>(inputStream);
+                using (var inputStream = new FileStream("3ixpc1re3x0.1.json", FileMode.Open, FileAccess.Read))
+                {
+                    var product = new DataContractJsonFormatter().ReadObject<ArticleService.RepositoryModel.ArticleInfoSource>(inputStream);
+                }
+                a++;
             }
         }
     }

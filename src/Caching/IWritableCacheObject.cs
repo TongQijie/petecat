@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Petecat.Caching
+﻿namespace Petecat.Caching
 {
     public interface IWritableCacheObject : ICacheObject
     {

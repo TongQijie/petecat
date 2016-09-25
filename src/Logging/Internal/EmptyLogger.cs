@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Petecat.Logging
+﻿namespace Petecat.Logging
 {
     internal class EmptyLogger : ILogger
     {

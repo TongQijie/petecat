@@ -1,6 +1,4 @@
 ﻿using Petecat.Utility;
-
-using System;
 using System.Reflection;
 
 namespace Petecat.IoC

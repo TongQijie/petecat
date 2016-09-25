@@ -1,7 +1,5 @@
 ﻿using System.Reflection;
 using System.Linq;
-using System;
-using System.Collections.Generic;
 
 namespace Petecat.IoC
 {

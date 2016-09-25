@@ -7,11 +7,11 @@
             int b;
             if (header)
             {
-                b = args.Stream.FirstOrDefault(x => x > 0x20 && x <= 0x7E);
+                b = args.Stream.SeekBytesUntilMeets(x => x > 0x20 && x <= 0x7E);
             }
             else
             {
-                b = args.Stream.Except(JsonEncoder.Space);
+                b = args.Stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
             }
             if (b == -1)
             {

@@ -132,12 +132,14 @@ namespace Petecat.Extension
 
         public static T[] SubArray<T>(this T[] data, int startIndex)
         {
-            return data.ToList().Skip(startIndex).ToArray();
+            return SubArray(data, startIndex, data.Length - startIndex);
         }
 
         public static T[] SubArray<T>(this T[] data, int startIndex, int count)
         {
-            return data.ToList().Skip(startIndex).Take(count).ToArray();
+            var buf = new T[count];
+            Array.Copy(data, startIndex, buf, 0, buf.Length);
+            return buf;
         }
     }
 }

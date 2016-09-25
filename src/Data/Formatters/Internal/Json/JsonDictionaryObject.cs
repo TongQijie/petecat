@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 
 using Petecat.Extension;
 
@@ -18,8 +17,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                 ;
             }
 
-            //var b = JsonUtility.Find(stream, x => JsonUtility.IsVisibleChar(x));
-            var b = stream.Except(JsonEncoder.Space);
+            var b = stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
             if (b == -1)
             {
                 return true;
@@ -40,25 +38,13 @@ namespace Petecat.Data.Formatters.Internal.Json
 
         private bool Parse(IBufferStream stream)
         {
-            Json.JsonUtility.Seek(stream, JsonEncoder.Double_Quotes);
+            stream.SeekBytesUntilEqual(JsonEncoder.Double_Quotes);
 
-            var buf = JsonUtility.GetBytes(stream, JsonEncoder.Double_Quotes);
+            var buf = stream.ReadBytesUntil(JsonEncoder.Double_Quotes);
             if (buf == null)
             {
                 buf = new byte[0];
             }
-
-            //var buf = new byte[0];
-            //JsonUtility.Feed(stream, (b) =>
-            //{
-            //    if (b != JsonEncoder.Double_Quotes)
-            //    {
-            //        buf = buf.Append((byte)b);
-            //        return true;
-            //    }
-
-            //    return false;
-            //});
 
             var elementName = JsonEncoder.GetString(buf);
             if (!elementName.HasValue())
@@ -66,7 +52,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                 throw new Exception("");
             }
 
-            JsonUtility.Seek(stream, JsonEncoder.Colon);
+            stream.SeekBytesUntilEqual(JsonEncoder.Colon);
 
             var args = new JsonObjectParseArgs()
             {

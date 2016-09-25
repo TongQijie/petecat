@@ -1,6 +1,4 @@
-﻿using System.IO;
-
-namespace Petecat.Data.Formatters.Internal.Json
+﻿namespace Petecat.Data.Formatters.Internal.Json
 {
     internal class JsonObject
     {

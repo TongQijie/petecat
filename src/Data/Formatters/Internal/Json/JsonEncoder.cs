@@ -1,9 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.Text;
 
 using Petecat.Extension;
-using System.Globalization;
 
 namespace Petecat.Data.Formatters.Internal.Json
 {
@@ -48,7 +46,7 @@ namespace Petecat.Data.Formatters.Internal.Json
         /// <summary>
         /// ' '
         /// </summary>
-        public const byte Space = 0x20;
+        public const byte Whitespace = 0x20;
         /// <summary>
         /// '\b'
         /// </summary>
@@ -69,6 +67,30 @@ namespace Petecat.Data.Formatters.Internal.Json
         /// '\t'
         /// </summary>
         public const byte HorizontalTab = 0x09;
+        /// <summary>
+        /// 'b'
+        /// </summary>
+        public const byte B = 0x62;
+        /// <summary>
+        /// 'f'
+        /// </summary>
+        public const byte F = 0x66;
+        /// <summary>
+        /// 'n'
+        /// </summary>
+        public const byte N = 0x6E;
+        /// <summary>
+        /// 'r'
+        /// </summary>
+        public const byte R = 0x72;
+        /// <summary>
+        /// 't'
+        /// </summary>
+        public const byte T = 0x74;
+        /// <summary>
+        /// 'u'
+        /// </summary>
+        public const byte U = 0x75;
         /// <summary>
         /// "null"
         /// </summary>
@@ -99,12 +121,7 @@ namespace Petecat.Data.Formatters.Internal.Json
             dest[dest.Length - 1] = Colon;
             return dest;
         }
-
-        /// <summary>
-        /// convert memory object value to byte array with escape characters.
-        /// </summary>
-        /// <param name="elementValue">object value, it's type could be string, number, boolean, datetime.</param>
-        /// <returns>byte array with escape characters</returns>
+        
         public static byte[] GetPlainValue(object elementValue)
         {
             if (elementValue == null)
@@ -115,7 +132,7 @@ namespace Petecat.Data.Formatters.Internal.Json
             var stringBuilder = new StringBuilder();
             foreach (var c in elementValue.ToString())
             {
-                stringBuilder.Append(ConvertToEscapeCharacter(c));
+                stringBuilder.Append(Doescape(c));
             }
 
             var byteValues = GetBytes(stringBuilder.ToString());
@@ -130,59 +147,6 @@ namespace Petecat.Data.Formatters.Internal.Json
             }
         }
 
-        /// <summary>
-        /// convert byte array with escape characters to byte array without escape characters
-        /// </summary>
-        /// <param name="byteValues">byte array with escape characters</param>
-        /// <returns>byte array without escape characters</returns>
-        public static string GetPlainValue(byte[] byteValues)
-        {
-            if (byteValues == null || byteValues.Length == 0)
-            {
-                return string.Empty;
-            }
-
-            var value = new byte[0];
-
-            for (int i = 0; i < byteValues.Length;)
-            {
-                if (byteValues[i] == Backslash)
-                {
-                    if (i < byteValues.Length - 1)
-                    {
-                        if (Convert.ToChar(byteValues[i + 1]) == 'u')
-                        {
-                            if (i < byteValues.Length - 5)
-                            {
-                                value = value.Append(ConvertFromEscapeCharacter(byteValues.SubArray(i + 1, 5)));
-                                i += 6;
-                            }
-                            else
-                            {
-                                return string.Empty;
-                            }
-                        }
-                        else
-                        {
-                            value = value.Append(ConvertFromEscapeCharacter(byteValues.SubArray(i + 1, 1)));
-                            i += 2;
-                        }
-                    }
-                    else
-                    {
-                        return string.Empty;
-                    }
-                }
-                else
-                {
-                    value = value.Append(byteValues[i]);
-                    i++;
-                }
-            }
-
-            return GetString(value);
-        }
-
         public static byte[] GetNullValue()
         {
             return GetBytes(NullValueMark);
@@ -193,66 +157,90 @@ namespace Petecat.Data.Formatters.Internal.Json
             return string.Equals(value.ToString(), NullValueMark, StringComparison.OrdinalIgnoreCase);
         }
 
-        public static byte[] ConvertFromEscapeCharacter(byte[] source)
+        public static byte DoUnescape(int source)
         {
-            if (source == null || source.Length == 0)
+            switch (source)
+            {
+                case Double_Quotes:
+                    {
+                        return Double_Quotes ;
+                    }
+                case Backslash:
+                    {
+                        return Backslash;
+                    }
+                case Slash:
+                    {
+                        return Slash;
+                    }
+                case B:
+                    {
+                        return Backspace;
+                    }
+                case F:
+                    {
+                        return Formfeed;
+                    }
+                case N:
+                    {
+                        return Newline;
+                    }
+                case R:
+                    {
+                        return CarriageReturn;
+                    }
+                case T:
+                    {
+                        return HorizontalTab;
+                    }
+                default:
+                    {
+                        return 0;
+                    }
+            }
+        }
+
+        public static byte[] DoUnescape(byte[] source)
+        {
+            if (source == null || source.Length != 4)
             {
                 return new byte[0];
             }
 
-            switch (Convert.ToChar(source[0]))
-            {
-                case '"':
-                    {
-                        return new byte[] { Double_Quotes };
-                    }
-                case '\\':
-                    {
-                        return new byte[] { Backslash };
-                    }
-                case '/':
-                    {
-                        return new byte[] { Slash };
-                    }
-                case 'b':
-                    {
-                        return new byte[] { Backspace };
-                    }
-                case 'f':
-                    {
-                        return new byte[] { Formfeed };
-                    }
-                case 'n':
-                    {
-                        return new byte[] { Newline };
-                    }
-                case 'r':
-                    {
-                        return new byte[] { CarriageReturn };
-                    }
-                case 't':
-                    {
-                        return new byte[] { HorizontalTab };
-                    }
-                case 'u':
-                    {
-                        if (source.Length == 5)
-                        {
-                            var number = int.Parse(CurrentEncoding.GetString(source.SubArray(1, 4)), NumberStyles.HexNumber);
-                            return CurrentEncoding.GetBytes(new char[] { Convert.ToChar(number) });
-                        }
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
+            var firstByte = ConvertHexByte(source[0]) * 0x0F + ConvertHexByte(source[1]);
+            var secondByte = ConvertHexByte(source[2]) * 0x0F + ConvertHexByte(source[3]);
 
-            return new byte[0];
+            if (firstByte == 0)
+            {
+                return new byte[] { (byte)secondByte };
+            }
+            else
+            {
+                return new byte[] { (byte)firstByte, (byte)secondByte };
+            }
         }
 
-        public static string ConvertToEscapeCharacter(char source)
+        private static int ConvertHexByte(byte byteValue)
+        {
+            if (byteValue >= 0x30 && byteValue <= 0x39)
+            {
+                return byteValue - 0x30;
+            }
+            else if (byteValue >= 0x41 && byteValue <= 0x46)
+            {
+                return (byteValue - 0x41) + 0x0A;
+            }
+            else if (byteValue >= 0x61 && byteValue <= 0x66)
+            {
+                return (byteValue - 0x61) + 0x0A;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public static string Doescape(char source)
         {
             switch (source)
             {

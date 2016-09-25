@@ -2,9 +2,6 @@
 using System.IO;
 using System.Net;
 using System.Text;
-using System.Linq;
-
-using Petecat.Data.Errors;
 using Petecat.Data.Formatters;
 using Petecat.Extension;
 
