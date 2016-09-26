@@ -128,28 +128,49 @@ namespace Petecat.Data.Formatters.Internal.Json
             {
                 return GetNullValue();
             }
-
-            var stringBuilder = new StringBuilder();
-            foreach (var c in elementValue.ToString())
+            else if (elementValue is bool)
             {
-                stringBuilder.Append(Doescape(c));
+                return GetBooleanValue((bool)elementValue);
             }
-
-            var byteValues = GetBytes(stringBuilder.ToString());
-
-            if (elementValue is string || elementValue is DateTime)
+            else if (elementValue is string)
             {
-                return new byte[0].Append(Double_Quotes).Append(byteValues).Append(Double_Quotes);
+                var byteValues = GetBytes(Doescape(elementValue.ToString()));
+                var buf = new byte[2 + byteValues.Length];
+                buf[0] = Double_Quotes;
+                buf[buf.Length - 1] = Double_Quotes;
+                Array.Copy(byteValues, 0, buf, 1, byteValues.Length);
+                return buf;
+            }
+            else if (elementValue is DateTime)
+            {
+                var byteValues = GetBytes(((DateTime)elementValue).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ"));
+                var buf = new byte[2 + byteValues.Length];
+                buf[0] = Double_Quotes;
+                buf[buf.Length - 1] = Double_Quotes;
+                Array.Copy(byteValues, 0, buf, 1, byteValues.Length);
+                return buf;
             }
             else
             {
-                return byteValues;
+                return GetBytes(elementValue.ToString());
             }
         }
 
         public static byte[] GetNullValue()
         {
-            return GetBytes(NullValueMark);
+            return new byte[] { 0x6E, 0x75, 0x6C, 0x6C };
+        }
+
+        public static byte[] GetBooleanValue(bool boolean)
+        {
+            if (boolean)
+            {
+                return new byte[] { 0x74, 0x72, 0x75, 0x65 };
+            }
+            else
+            {
+                return new byte[] { 0x66, 0x61, 0x6C, 0x73, 0x65 };
+            }
         }
 
         public static bool IsNullValue(object value)
@@ -240,47 +261,10 @@ namespace Petecat.Data.Formatters.Internal.Json
             }
         }
 
-        public static string Doescape(char source)
+        public static string Doescape(string source)
         {
-            switch (source)
-            {
-                case '"':
-                    {
-                        return "\\\"";
-                    }
-                case '\\':
-                    {
-                        return "\\\\";
-                    }
-                case '/':
-                    {
-                        return "\\/";
-                    }
-                case '\b':
-                    {
-                        return "\\b";
-                    }
-                case '\f':
-                    {
-                        return "\\f";
-                    }
-                case '\n':
-                    {
-                        return "\\n";
-                    }
-                case '\r':
-                    {
-                        return "\\r";
-                    }
-                case '\t':
-                    {
-                        return "\\t";
-                    }
-                default:
-                    {
-                        return Convert.ToString(source);
-                    }
-            }
+            return source.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("/", "\\/").Replace("\b", "\\b").Replace("\f", "\\f")
+                .Replace("\n", "\\n").Replace("\r", "\\r").Replace("\t", "\\t");
         }
     }
 }

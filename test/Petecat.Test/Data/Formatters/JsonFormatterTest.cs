@@ -5,6 +5,7 @@ using Petecat.Extension;
 using Petecat.Logging;
 using Petecat.Logging.Loggers;
 using System;
+using System.Globalization;
 using System.IO;
 using System.Text;
 
@@ -16,6 +17,22 @@ namespace Petecat.Test.Data.Formatters
         public JsonFormatterTest()
         {
             LoggerManager.SetLogger(new FileLogger(LoggerManager.AppDomainLoggerName, "./log".FullPath()));
+
+            Article = new ArticleService.RepositoryModel.ArticleInfoSource()
+            {
+                Abstract = "this is an abstract.",
+                CreationDate = DateTime.Now,
+                //ModifiedDate = DateTime.Now,
+                Id = "apple",
+                Deleted = true,
+                Signature = null,
+                Title = "this is title.",
+            };
+
+            using (var inputStream = new StreamReader("article.txt", Encoding.UTF8))
+            {
+                Article.Content = inputStream.ReadToEnd();
+            }
         }
 
         [TestMethod]
@@ -449,12 +466,16 @@ namespace Petecat.Test.Data.Formatters
         }
 
         [TestMethod]
-        public void Parse_15_Test()
+        public void JsonFormatter_ReadObject_Test()
         {
+            var filename = "";
+
+            Assert.IsTrue(File.Exists(filename));
+
             var a = 0;
             while(a < 1000)
             {
-                using (var inputStream = new FileStream("3ixpc1re3x0.json", FileMode.Open, FileAccess.Read))
+                using (var inputStream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
                     var product = new JsonFormatter().ReadObject<ArticleService.RepositoryModel.ArticleInfoSource>(inputStream);
                 }
@@ -463,15 +484,43 @@ namespace Petecat.Test.Data.Formatters
         }
 
         [TestMethod]
-        public void Parse_16_Test()
+        public void DataContractJsonFormatter_ReadObject_Test()
         {
+            var filename = "";
+
+            Assert.IsTrue(File.Exists(filename));
+
             var a = 0;
             while(a < 1000)
             {
-                using (var inputStream = new FileStream("3ixpc1re3x0.1.json", FileMode.Open, FileAccess.Read))
+                using (var inputStream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
                     var product = new DataContractJsonFormatter().ReadObject<ArticleService.RepositoryModel.ArticleInfoSource>(inputStream);
                 }
+                a++;
+            }
+        }
+
+        private ArticleService.RepositoryModel.ArticleInfoSource Article { get; set; }
+
+        [TestMethod]
+        public void JsonFormatter_WriteString_Test()
+        {
+            var a = 0;
+            while (a < 1000)
+            {
+                var article = new JsonFormatter() { OmitDefaultValueProperty = true }.WriteString(Article, Encoding.UTF8);
+                a++;
+            }
+        }
+
+        [TestMethod]
+        public void DataContractJsonFormatter_WriteString_Test()
+        {
+            var a = 0;
+            while (a < 1000)
+            {
+                var article = new DataContractJsonFormatter().WriteString(Article, Encoding.UTF8);
                 a++;
             }
         }

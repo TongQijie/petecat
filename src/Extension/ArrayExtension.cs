@@ -23,12 +23,23 @@ namespace Petecat.Extension
 
         public static T[] Append<T>(this T[] data, T item)
         {
-            return data.Concat(new T[] { item }).ToArray();
+            var buf = new T[data.Length + 1];
+            buf[buf.Length - 1] = item;
+            Array.Copy(data, 0, buf, 0, data.Length);
+            return buf;
         }
 
         public static T[] Append<T>(this T[] data, IEnumerable<T> items)
         {
             return data.Concat(items).ToArray();
+        }
+
+        public static T[] Append<T>(this T[] data, T[] items)
+        {
+            var buf = new T[data.Length + items.Length];
+            Array.Copy(data, 0, buf, 0, data.Length);
+            Array.Copy(items, 0, buf, data.Length, items.Length);
+            return buf;
         }
 
         public static bool Exists<T>(this T[] data, Func<T, bool> predicate)

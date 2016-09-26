@@ -38,6 +38,12 @@
     <Compile Include="PagingSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\petecat.csproj">
+      <Project>{e6cfd007-47f5-4e4d-9185-6d4147f104ce}</Project>
+      <Name>petecat</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
