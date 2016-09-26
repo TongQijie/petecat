@@ -17,22 +17,6 @@ namespace Petecat.Test.Data.Formatters
         public JsonFormatterTest()
         {
             LoggerManager.SetLogger(new FileLogger(LoggerManager.AppDomainLoggerName, "./log".FullPath()));
-
-            Article = new ArticleService.RepositoryModel.ArticleInfoSource()
-            {
-                Abstract = "this is an abstract.",
-                CreationDate = DateTime.Now,
-                //ModifiedDate = DateTime.Now,
-                Id = "apple",
-                Deleted = true,
-                Signature = null,
-                Title = "this is title.",
-            };
-
-            using (var inputStream = new StreamReader("article.txt", Encoding.UTF8))
-            {
-                Article.Content = inputStream.ReadToEnd();
-            }
         }
 
         [TestMethod]
@@ -477,7 +461,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 using (var inputStream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
-                    var product = new JsonFormatter().ReadObject<ArticleService.RepositoryModel.ArticleInfoSource>(inputStream);
+                    //var product = new JsonFormatter().ReadObject<ArticleService.RepositoryModel.ArticleInfoSource>(inputStream);
                 }
                 a++;
             }
@@ -495,13 +479,13 @@ namespace Petecat.Test.Data.Formatters
             {
                 using (var inputStream = new FileStream(filename, FileMode.Open, FileAccess.Read))
                 {
-                    var product = new DataContractJsonFormatter().ReadObject<ArticleService.RepositoryModel.ArticleInfoSource>(inputStream);
+                   //var product = new DataContractJsonFormatter().ReadObject<ArticleService.RepositoryModel.ArticleInfoSource>(inputStream);
                 }
                 a++;
             }
         }
 
-        private ArticleService.RepositoryModel.ArticleInfoSource Article { get; set; }
+        //private ArticleService.RepositoryModel.ArticleInfoSource Article { get; set; }
 
         [TestMethod]
         public void JsonFormatter_WriteString_Test()
@@ -509,7 +493,7 @@ namespace Petecat.Test.Data.Formatters
             var a = 0;
             while (a < 1000)
             {
-                var article = new JsonFormatter() { OmitDefaultValueProperty = true }.WriteString(Article, Encoding.UTF8);
+                //var article = new JsonFormatter() { OmitDefaultValueProperty = true }.WriteString(Article, Encoding.UTF8);
                 a++;
             }
         }
@@ -520,7 +504,7 @@ namespace Petecat.Test.Data.Formatters
             var a = 0;
             while (a < 1000)
             {
-                var article = new DataContractJsonFormatter().WriteString(Article, Encoding.UTF8);
+                //var article = new DataContractJsonFormatter().WriteString(Article, Encoding.UTF8);
                 a++;
             }
         }

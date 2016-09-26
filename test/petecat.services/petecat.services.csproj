@@ -42,9 +42,9 @@
       <Project>{e6cfd007-47f5-4e4d-9185-6d4147f104ce}</Project>
       <Name>petecat</Name>
     </ProjectReference>
-    <ProjectReference Include="..\petecat.test\petecat.test.csproj">
+    <ProjectReference Include="..\petecat.test\petecat.unittest.csproj">
       <Project>{d76409cf-214d-4986-a4dc-840ab852897e}</Project>
-      <Name>petecat.test</Name>
+      <Name>petecat.unittest</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

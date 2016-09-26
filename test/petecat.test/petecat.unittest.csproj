@@ -84,10 +84,6 @@
     <Compile Include="Utility\ValueConverterTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\app\blogservices\repository\articleservice.repositorymodel\articleservice.repositorymodel.csproj">
-      <Project>{f528dd5b-cf70-4740-90ce-28a1a3ed4139}</Project>
-      <Name>articleservice.repositorymodel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\petecat.csproj">
       <Project>{e6cfd007-47f5-4e4d-9185-6d4147f104ce}</Project>
       <Name>petecat</Name>
