@@ -196,10 +196,8 @@ namespace Petecat.Data.Formatters.Internal.Json
             {
                 return DeserializeJsonPlainValueObject(jsonObject as JsonPlainValueObject, Type);
             }
-            else
-            {
-                throw new Exception("");
-            }
+
+            return null;
         }
 
         private object DeserializeJsonDictionaryObject(JsonDictionaryObject dictionaryObject)
@@ -228,7 +226,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                     }
                     else
                     {
-                        throw new Exception("");
+                        throw new Errors.JsonSerializeFailedException(element.Key, ".net runtime type does not match json type.");
                     }
                 }
                 else if (elementType == JsonElementType.Collection)
@@ -245,7 +243,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                     }
                     else
                     {
-                        throw new Exception("");
+                        throw new Errors.JsonSerializeFailedException(element.Key, ".net runtime type does not match json type.");
                     }
                 }
                 else if (elementType == JsonElementType.Simple && element.Value is JsonPlainValueObject)
@@ -255,7 +253,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                 }
                 else
                 {
-                    throw new Exception("");
+                    throw new Errors.JsonSerializeFailedException(element.Key, ".net runtime type does not match json type.");
                 }
             }
 

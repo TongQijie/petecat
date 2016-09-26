@@ -19,6 +19,13 @@ namespace Petecat.Data.Formatters.Internal.Json
 
         private int _Count = 0;
 
+        private int _TotalCount = 0;
+
+        public int TotalIndex
+        {
+            get { return _TotalCount * _InternalBuffer.Length + _Index; }
+        }
+
         public int ReadByte()
         {
             if (_Index < _Count)
@@ -213,9 +220,10 @@ namespace Petecat.Data.Formatters.Internal.Json
 
             return -1;
         }
-        
+
         private bool Fill()
         {
+            _TotalCount += _Count;
             _Count = _InternalStream.Read(_InternalBuffer, 0, _InternalBuffer.Length);
             _Index = 0;
             if (_Count == 0)

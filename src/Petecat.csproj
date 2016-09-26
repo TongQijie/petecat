@@ -101,6 +101,7 @@ MSBuild: msbuild petecat.csproj /p:Configuration=[Debug|Release] /p:OutputPath=.
     <Compile Include="Data\Errors\DbProviderNotFoundException.cs" />
     <Compile Include="Data\Errors\FormatterNotFoundException.cs" />
     <Compile Include="Data\Errors\JsonParseFailedException.cs" />
+    <Compile Include="Data\Errors\JsonSerializeFailedException.cs" />
     <Compile Include="Data\Errors\NotInitializedDatabaseObjectManagerException.cs" />
     <Compile Include="Data\Errors\NotInitializedDataCommandObjectManagerException.cs" />
     <Compile Include="Data\Formatters\AbstractObjectFormatter.cs" />

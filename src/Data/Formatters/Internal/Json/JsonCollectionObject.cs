@@ -33,7 +33,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                 return true;
             }
 
-            throw new Exception("");
+            throw new Errors.JsonParseFailedException(stream.TotalIndex, "collection element has invalid terminal byte.");
         }
 
         private bool Parse(IBufferStream stream)

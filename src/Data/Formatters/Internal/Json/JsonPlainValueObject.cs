@@ -38,7 +38,7 @@ namespace Petecat.Data.Formatters.Internal.Json
 
                 if (Buffer == null)
                 {
-                    throw new Exception("");
+                    throw new Errors.JsonParseFailedException(stream.TotalIndex, "plain value cannot be empty.");
                 }
 
                 var b = stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
@@ -56,7 +56,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                 }
                 else
                 {
-                    throw new Exception("");
+                    throw new Errors.JsonParseFailedException(stream.TotalIndex, "plain value object has invalid terminal byte.");
                 }
             }
             else
@@ -74,7 +74,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                 var buf = stream.ReadBytesUntil(ends.Append(JsonEncoder.Whitespace));
                 if (buf == null || buf.Length == 0)
                 {
-                    throw new Exception("");
+                    throw new Errors.JsonParseFailedException(stream.TotalIndex, "plain value cannot be empty.");
                 }
 
                 if (Buffer != null && Buffer.Length > 0)
@@ -101,7 +101,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                 }
                 else
                 {
-                    throw new Exception("");
+                    throw new Errors.JsonParseFailedException(stream.TotalIndex, "plain value object has invalid terminal byte.");
                 }
             }
 

@@ -33,7 +33,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                 return true;
             }
 
-            throw new Exception("");
+            throw new Errors.JsonParseFailedException(stream.TotalIndex, "dictionary element has invalid terminal byte.");
         }
 
         private bool Parse(IBufferStream stream)
@@ -49,7 +49,7 @@ namespace Petecat.Data.Formatters.Internal.Json
             var elementName = JsonEncoder.GetString(buf);
             if (!elementName.HasValue())
             {
-                throw new Exception("");
+                throw new Errors.JsonParseFailedException(stream.TotalIndex, "dictionary element name is empty.");
             }
 
             stream.SeekBytesUntilEqual(JsonEncoder.Colon);

@@ -5,6 +5,11 @@ namespace Petecat.Data.Formatters.Internal.Json
     public interface IBufferStream
     {
         /// <summary>
+        /// number of bytes that have read.
+        /// </summary>
+        int TotalIndex { get; }
+
+        /// <summary>
         /// reads a byte
         /// </summary>
         /// <returns>if -1, indicate it has no bytes in buffer.</returns>
