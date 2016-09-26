@@ -466,13 +466,23 @@ namespace Petecat.Test.Data.Formatters
             //    a++;
             //}
 
-            var jsonString = "{\"Attributes\":[],\"Name\":\"a\"}";
-
-            //var jsonString = "{\"Attribute\":{},\"Name\":\"a\"}";
-
-            //var jsonString = "[]";
+            var jsonString = "{\"Attributes\":[{\"Id\":1}],\"Name\":\"a\"}";
 
             var entity = new JsonFormatter().ReadObject<Entity>(jsonString, Encoding.UTF8);
+
+            Assert.IsTrue(entity != null && entity.Attributes != null && entity.Attributes.Length == 1 && entity.Attributes[0].Id == 1 && entity.Name == "a");
+
+            jsonString = "{\"Attributes\":[],\"Name\":\"a\"}";
+
+            entity = new JsonFormatter().ReadObject<Entity>(jsonString, Encoding.UTF8);
+
+            Assert.IsTrue(entity != null && entity.Attributes != null && entity.Attributes.Length == 0 && entity.Name == "a");
+
+            jsonString = "{\"Attributes\":[{}],\"Name\":\"a\"}";
+
+            entity = new JsonFormatter().ReadObject<Entity>(jsonString, Encoding.UTF8);
+
+            Assert.IsTrue(entity != null && entity.Attributes != null && entity.Attributes.Length == 1 && entity.Name == "a");
         }
 
         public class Entity

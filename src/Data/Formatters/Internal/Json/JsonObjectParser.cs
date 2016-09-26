@@ -55,6 +55,11 @@
                 //                           Position
                 args.InternalObject = new JsonCollectionObject();
             }
+            else if (b == JsonEncoder.Right_Bracket)
+            {
+                args.Handled = true;
+                return;
+            }
             else
             {
                 // plainvalue

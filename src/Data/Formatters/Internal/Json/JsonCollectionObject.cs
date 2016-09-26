@@ -38,12 +38,6 @@ namespace Petecat.Data.Formatters.Internal.Json
 
         private bool Parse(IBufferStream stream)
         {
-            var b = stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
-            if (b == JsonEncoder.Right_Bracket)
-            {
-                return true;
-            }
-
             var args = new JsonObjectParseArgs()
             {
                 ExternalObject = this,
