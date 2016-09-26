@@ -38,7 +38,15 @@ namespace Petecat.Data.Formatters.Internal.Json
 
         private bool Parse(IBufferStream stream)
         {
-            stream.SeekBytesUntilEqual(JsonEncoder.Double_Quotes);
+            var b = stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
+            if (b == JsonEncoder.Right_Brace)
+            {
+                return true;
+            }
+            else if (b != JsonEncoder.Double_Quotes)
+            {
+                throw new Errors.JsonParseFailedException(stream.TotalIndex, "dictionary name is invalid.");
+            }
 
             var buf = stream.ReadBytesUntil(JsonEncoder.Double_Quotes);
             if (buf == null)

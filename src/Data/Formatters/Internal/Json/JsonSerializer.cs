@@ -47,12 +47,11 @@ namespace Petecat.Data.Formatters.Internal.Json
 
         public void Serialize(object instance, Stream stream, bool omitDefaultValueProperty)
         {
-            var elementType = GetElementType(Type);
-            if (elementType == JsonElementType.Collection)
+            if (CurrentDotNetRuntimeType == DotNetRuntimeType.Collection)
             {
                 stream.WriteByte(JsonEncoder.Left_Bracket);
             }
-            else if (elementType == JsonElementType.Object)
+            else if (CurrentDotNetRuntimeType == DotNetRuntimeType.Object)
             {
                 stream.WriteByte(JsonEncoder.Left_Brace);
             }
@@ -62,7 +61,7 @@ namespace Petecat.Data.Formatters.Internal.Json
             }
 
             var firstElement = true;
-            if (elementType == JsonElementType.Object)
+            if (CurrentDotNetRuntimeType == DotNetRuntimeType.Object)
             {
                 foreach (var property in JsonProperties)
                 {
@@ -84,9 +83,9 @@ namespace Petecat.Data.Formatters.Internal.Json
                     var buf = JsonEncoder.GetElementName(property.Key);
                     stream.Write(buf, 0, buf.Length);
 
-                    switch (GetElementType(property.PropertyInfo.PropertyType))
+                    switch (GetDotNetRuntimeType(property.PropertyInfo.PropertyType))
                     {
-                        case JsonElementType.Simple:
+                        case DotNetRuntimeType.Simple:
                             {
                                 buf = JsonEncoder.GetPlainValue(propertyValue);
                                 stream.Write(buf, 0, buf.Length);
@@ -108,7 +107,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                     }
                 }
             }
-            else if (elementType == JsonElementType.Collection)
+            else if (CurrentDotNetRuntimeType == DotNetRuntimeType.Collection)
             {
                 var array = instance as ICollection;
 
@@ -123,9 +122,9 @@ namespace Petecat.Data.Formatters.Internal.Json
                         stream.WriteByte(JsonEncoder.Comma);
                     }
 
-                    switch (GetElementType(value.GetType()))
+                    switch (GetDotNetRuntimeType(value.GetType()))
                     {
-                        case JsonElementType.Simple:
+                        case DotNetRuntimeType.Simple:
                             {
                                 var buf = JsonEncoder.GetPlainValue(value);
                                 stream.Write(buf, 0, buf.Length);
@@ -152,11 +151,11 @@ namespace Petecat.Data.Formatters.Internal.Json
                 return;
             }
 
-            if (elementType == JsonElementType.Collection)
+            if (CurrentDotNetRuntimeType == DotNetRuntimeType.Collection)
             {
                 stream.WriteByte(JsonEncoder.Right_Bracket);
             }
-            else if (elementType == JsonElementType.Object)
+            else if (CurrentDotNetRuntimeType == DotNetRuntimeType.Object)
             {
                 stream.WriteByte(JsonEncoder.Right_Brace);
             }
@@ -212,8 +211,8 @@ namespace Petecat.Data.Formatters.Internal.Json
                     continue;
                 }
 
-                var elementType = GetElementType(jsonProperty.PropertyInfo.PropertyType);
-                if (elementType == JsonElementType.Object)
+                var dotNetRuntimeType = GetDotNetRuntimeType(jsonProperty.PropertyInfo.PropertyType);
+                if (dotNetRuntimeType == DotNetRuntimeType.Object)
                 {
                     if (element.Value is JsonDictionaryObject)
                     {
@@ -229,7 +228,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                         throw new Errors.JsonSerializeFailedException(element.Key, ".net runtime type does not match json type.");
                     }
                 }
-                else if (elementType == JsonElementType.Collection)
+                else if (dotNetRuntimeType == DotNetRuntimeType.Collection)
                 {
                     if (element.Value is JsonCollectionObject)
                     {
@@ -246,7 +245,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                         throw new Errors.JsonSerializeFailedException(element.Key, ".net runtime type does not match json type.");
                     }
                 }
-                else if (elementType == JsonElementType.Simple && element.Value is JsonPlainValueObject)
+                else if (dotNetRuntimeType == DotNetRuntimeType.Simple && element.Value is JsonPlainValueObject)
                 {
                     var value = DeserializeJsonPlainValueObject(element.Value as JsonPlainValueObject, jsonProperty.PropertyInfo.PropertyType);
                     jsonProperty.PropertyInfo.SetValue(instance, value, null);
@@ -344,8 +343,8 @@ namespace Petecat.Data.Formatters.Internal.Json
             {
                 _JsonProperties = new ThreadSafeKeyedObjectCollection<string, JsonProperty>();
 
-                var elementType = GetElementType(Type);
-                if (elementType == JsonElementType.Object)
+                var dotNetRuntimeType = GetDotNetRuntimeType(Type);
+                if (dotNetRuntimeType == DotNetRuntimeType.Object)
                 {
                     foreach (var propertyInfo in Type.GetProperties())
                     {
@@ -358,26 +357,43 @@ namespace Petecat.Data.Formatters.Internal.Json
 
         #endregion
 
-        #region Json Element Type
+        #region .Net Type
 
-        public JsonElementType GetElementType(Type targetType)
+        private DotNetRuntimeType _CurrentDotNetRuntimeType = DotNetRuntimeType.Unknown;
+
+        public DotNetRuntimeType CurrentDotNetRuntimeType
         {
-            if (typeof(ICollection).IsAssignableFrom(targetType))
+            get
             {
-                return JsonElementType.Collection;
-            }
-            else if (targetType.IsClass && targetType != typeof(String))
-            {
-                return JsonElementType.Object;
-            }
-            else
-            {
-                return JsonElementType.Simple;
+                if (_CurrentDotNetRuntimeType == DotNetRuntimeType.Unknown)
+                {
+                    _CurrentDotNetRuntimeType = GetDotNetRuntimeType(Type);
+                }
+
+                return _CurrentDotNetRuntimeType;
             }
         }
 
-        public enum JsonElementType
+        public DotNetRuntimeType GetDotNetRuntimeType(Type targetType)
         {
+            if (typeof(ICollection).IsAssignableFrom(targetType))
+            {
+                return DotNetRuntimeType.Collection;
+            }
+            else if (targetType.IsClass && targetType != typeof(String))
+            {
+                return DotNetRuntimeType.Object;
+            }
+            else
+            {
+                return DotNetRuntimeType.Simple;
+            }
+        }
+
+        public enum DotNetRuntimeType
+        {
+            Unknown,
+
             Simple,
 
             Collection,

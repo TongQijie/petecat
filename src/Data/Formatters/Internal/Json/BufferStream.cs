@@ -23,7 +23,7 @@ namespace Petecat.Data.Formatters.Internal.Json
 
         public int TotalIndex
         {
-            get { return _TotalCount * _InternalBuffer.Length + _Index; }
+            get { return _TotalCount + _Index; }
         }
 
         public int ReadByte()

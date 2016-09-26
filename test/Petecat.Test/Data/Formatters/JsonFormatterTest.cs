@@ -452,19 +452,39 @@ namespace Petecat.Test.Data.Formatters
         [TestMethod]
         public void JsonFormatter_ReadObject_Test()
         {
-            var filename = "";
+            //var filename = "";
 
-            Assert.IsTrue(File.Exists(filename));
+            //Assert.IsTrue(File.Exists(filename));
 
-            var a = 0;
-            while(a < 1000)
-            {
-                using (var inputStream = new FileStream(filename, FileMode.Open, FileAccess.Read))
-                {
-                    //var product = new JsonFormatter().ReadObject<ArticleService.RepositoryModel.ArticleInfoSource>(inputStream);
-                }
-                a++;
-            }
+            //var a = 0;
+            //while(a < 1000)
+            //{
+            //    using (var inputStream = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            //    {
+            //        //var product = new JsonFormatter().ReadObject<ArticleService.RepositoryModel.ArticleInfoSource>(inputStream);
+            //    }
+            //    a++;
+            //}
+
+            var jsonString = "{\"Attributes\":[],\"Name\":\"a\"}";
+
+            //var jsonString = "{\"Attribute\":{},\"Name\":\"a\"}";
+
+            //var jsonString = "[]";
+
+            var entity = new JsonFormatter().ReadObject<Entity>(jsonString, Encoding.UTF8);
+        }
+
+        public class Entity
+        {
+            public string Name { get; set; }
+
+            public Attribute[] Attributes { get; set; }
+        }
+
+        public class Attribute
+        {
+            public int Id { get; set; }
         }
 
         [TestMethod]
@@ -491,9 +511,9 @@ namespace Petecat.Test.Data.Formatters
         public void JsonFormatter_WriteString_Test()
         {
             var a = 0;
-            while (a < 1000)
+            while (a < 1)
             {
-                //var article = new JsonFormatter() { OmitDefaultValueProperty = true }.WriteString(Article, Encoding.UTF8);
+                var article = new JsonFormatter() { OmitDefaultValueProperty = true }.WriteString(new Entity(), Encoding.UTF8);
                 a++;
             }
         }
