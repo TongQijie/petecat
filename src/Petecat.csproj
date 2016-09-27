@@ -42,6 +42,11 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Aop\DefaultAopInvocation.cs" />
+    <Compile Include="Aop\DefaultAopTypeGenerator.cs" />
+    <Compile Include="Aop\IAopInterceptor.cs" />
+    <Compile Include="Aop\IAopInvocation.cs" />
+    <Compile Include="Aop\IAopTypeGenerator.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Archiving\ArchiveFile.cs" />
     <Compile Include="Archiving\ArchiveFolder.cs" />

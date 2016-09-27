@@ -54,6 +54,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Aop\AopAppleBase.cs" />
+    <Compile Include="Aop\AppleBase.cs" />
+    <Compile Include="Aop\BananaInterceptor.cs" />
+    <Compile Include="Aop\DefaultAopTypeGeneratorTest.cs" />
     <Compile Include="Archiving\ArchiverTest.cs" />
     <Compile Include="Console\Command\TerminalCommandLineUtilityTest.cs" />
     <Compile Include="Data\Access\DataCommandHelperTest.cs" />
