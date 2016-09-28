@@ -16,6 +16,13 @@ namespace Petecat.Test.Aop
 
             result = proxyObject.SayTo("hello", "you");
             Assert.IsTrue(result == "you:hello");
+
+            proxyObject.KeepSilent("nothing");
+
+            proxyObject.DoNothing();
+
+            result = proxyObject.SayTo("hi", "firstOne", "secondOne");
+            Assert.IsTrue(result == "firstOne,secondOne:hi");
         }
     }
 }

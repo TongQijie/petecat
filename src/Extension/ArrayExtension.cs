@@ -1,11 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Petecat.Extension
 {
     public static class ArrayExtension
     {
+        public static bool HasValue<T>(this T[] data)
+        {
+            return data != null && data.Length > 0;
+        }
+
         public static T[] Where<T>(this T[] data, Func<T, bool> predicate)
         {
             return data.ToList().Where(predicate).ToArray();

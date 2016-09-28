@@ -75,6 +75,8 @@ namespace Petecat.Aop
 
             foreach (var method in baseClass.GetMethods().Where(x => x.IsVirtual && !objectMethods.ToList().Exists(y => y.Name == x.Name)))
             {
+                var parameterInfos = method.GetParameters();
+
                 var methodBuilder = typeBuilder.DefineMethod(method.Name, method.Attributes,
                     method.ReturnType, method.GetParameters().Select(x => x.ParameterType).ToArray());
 
@@ -96,13 +98,25 @@ namespace Petecat.Aop
                 mthdIL.Emit(OpCodes.Ldtoken, baseClass);
                 mthdIL.Emit(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) }));
                 mthdIL.Emit(OpCodes.Ldstr, method.Name);
-                mthdIL.Emit(OpCodes.Call, typeof(Type).GetMethod("GetMethod", new Type[] { typeof(string) }));
+
+                mthdIL.Emit(OpCodes.Ldc_I4, parameterInfos.Length);
+                mthdIL.Emit(OpCodes.Newarr, typeof(Type));
+                for (int i = 0; i < parameterInfos.Length; i++)
+                {
+                    mthdIL.Emit(OpCodes.Dup);
+                    mthdIL.Emit(OpCodes.Ldc_I4, i);
+                    mthdIL.Emit(OpCodes.Ldtoken, parameterInfos[i].ParameterType);
+                    mthdIL.Emit(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) }));
+                    mthdIL.Emit(OpCodes.Stelem_Ref);
+                }
+
+                mthdIL.Emit(OpCodes.Call, typeof(Type).GetMethod("GetMethod", new Type[] { typeof(string), typeof(Type[]) }));
                 mthdIL.Emit(OpCodes.Callvirt, typeof(DefaultAopInvocation).GetMethod("set_Method", new Type[] { typeof(MethodInfo) }));
 
                 mthdIL.Emit(OpCodes.Ldloc_0);
-                mthdIL.Emit(OpCodes.Ldc_I4, method.GetParameters().Length);
+                mthdIL.Emit(OpCodes.Ldc_I4, parameterInfos.Length);
                 mthdIL.Emit(OpCodes.Newarr, typeof(object));
-                for (int i = 0; i < method.GetParameters().Length; i++)
+                for (int i = 0; i < parameterInfos.Length; i++)
                 {
                     mthdIL.Emit(OpCodes.Dup);
                     mthdIL.Emit(OpCodes.Ldc_I4, i);
@@ -116,14 +130,16 @@ namespace Petecat.Aop
                 mthdIL.Emit(OpCodes.Ldloc_0);
                 mthdIL.Emit(OpCodes.Callvirt, typeof(IAopInterceptor).GetMethod("Intercept", new Type[] { typeof(IAopInvocation) }));
 
-                mthdIL.DeclareLocal(method.ReturnType);
-                mthdIL.Emit(OpCodes.Ldloc_0);
-                mthdIL.Emit(OpCodes.Callvirt, typeof(DefaultAopInvocation).GetMethod("get_ReturnValue", new Type[0]));
-                mthdIL.Emit(OpCodes.Isinst, method.ReturnType);
+                if (method.ReturnType != typeof(void))
+                {
+                    mthdIL.Emit(OpCodes.Ldloc_0);
+                    mthdIL.Emit(OpCodes.Callvirt, typeof(DefaultAopInvocation).GetMethod("get_ReturnValue", new Type[0]));
+                    mthdIL.Emit(OpCodes.Isinst, method.ReturnType);
+                }
 
                 mthdIL.Emit(OpCodes.Ret);
 
-                typeBuilder.DefineMethodOverride(methodBuilder, baseClass.GetMethod(method.Name));
+                typeBuilder.DefineMethodOverride(methodBuilder, baseClass.GetMethod(method.Name, parameterInfos.Select(x => x.ParameterType).ToArray()));
             }
 
             var targetType = typeBuilder.CreateType();

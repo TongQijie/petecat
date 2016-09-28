@@ -1,4 +1,6 @@
 ﻿using Petecat.Aop;
+using System;
+
 namespace Petecat.Test.Aop
 {
     public class AopAppleBase : AppleBase
@@ -26,10 +28,20 @@ namespace Petecat.Test.Aop
             var aopInvocation = new DefaultAopInvocation();
             var baseClass = new AppleBase();
             aopInvocation.Owner = baseClass;
-            aopInvocation.Method = typeof(AppleBase).GetMethod("SayTo");
+            aopInvocation.Method = typeof(AppleBase).GetMethod("SayTo", new Type[] { typeof(string), typeof(string) });
             aopInvocation.ParameterValues = new object[] { welcome, to };
             _AopInterceptor.Intercept(aopInvocation);
             return aopInvocation.ReturnValue as string;
+        }
+
+        public override void KeepSilent(string welcome)
+        {
+            var aopInvocation = new DefaultAopInvocation();
+            var baseClass = new AppleBase();
+            aopInvocation.Owner = baseClass;
+            aopInvocation.Method = typeof(AppleBase).GetMethod("KeepSilent");
+            aopInvocation.ParameterValues = new object[] { welcome };
+            _AopInterceptor.Intercept(aopInvocation);
         }
     }
 }
