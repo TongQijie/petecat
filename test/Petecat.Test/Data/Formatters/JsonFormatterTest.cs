@@ -483,6 +483,12 @@ namespace Petecat.Test.Data.Formatters
             entity = new JsonFormatter().ReadObject<Entity>(jsonString, Encoding.UTF8);
 
             Assert.IsTrue(entity != null && entity.Attributes != null && entity.Attributes.Length == 1 && entity.Name == "a");
+
+            jsonString = "{\"Attributes\":[{}],\"Name\":\"a\",\"Alias\":\"abc\"}";
+
+            entity = new JsonFormatter().ReadObject<Entity>(jsonString, Encoding.UTF8);
+
+            Assert.IsTrue(entity != null && entity.Attributes != null && entity.Attributes.Length == 1 && entity.Name == "a");
         }
 
         public class Entity
@@ -490,6 +496,11 @@ namespace Petecat.Test.Data.Formatters
             public string Name { get; set; }
 
             public Attribute[] Attributes { get; set; }
+
+            public string Alias
+            {
+                get { return Name; }
+            }
         }
 
         public class Attribute
@@ -523,7 +534,7 @@ namespace Petecat.Test.Data.Formatters
             var a = 0;
             while (a < 1)
             {
-                var article = new JsonFormatter() { OmitDefaultValueProperty = true }.WriteString(new Entity(), Encoding.UTF8);
+                var article = new JsonFormatter() { OmitDefaultValueProperty = true }.WriteString(new Entity() { Name = "abc" }, Encoding.UTF8);
                 a++;
             }
         }

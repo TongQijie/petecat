@@ -346,7 +346,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                 var dotNetRuntimeType = GetDotNetRuntimeType(Type);
                 if (dotNetRuntimeType == DotNetRuntimeType.Object)
                 {
-                    foreach (var propertyInfo in Type.GetProperties())
+                    foreach (var propertyInfo in Type.GetProperties().Where(x => x.CanRead && x.CanWrite))
                     {
                         var attribute = ReflectionUtility.GetCustomAttribute<JsonPropertyAttribute>(propertyInfo);
                         _JsonProperties.Add(new JsonProperty(propertyInfo, attribute == null ? null : attribute.Alias));
