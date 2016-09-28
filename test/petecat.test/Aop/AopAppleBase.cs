@@ -14,9 +14,10 @@ namespace Petecat.Test.Aop
         {
             var aopInvocation = new DefaultAopInvocation();
             var baseClass = new AppleBase();
-            typeof(DefaultAopInvocation).GetMethod("set_Owner").Invoke(aopInvocation, new object[] { baseClass });
-            typeof(DefaultAopInvocation).GetMethod("set_Method").Invoke(aopInvocation, new object[] { baseClass.GetType().GetMethod("SayHi") });
-            typeof(DefaultAopInvocation).GetMethod("set_ParameterValues").Invoke(aopInvocation, new object[] { new object[] { welcome } });
+            var invocationType = typeof(DefaultAopInvocation);
+            invocationType.GetMethod("set_Owner").Invoke(aopInvocation, new object[] { baseClass });
+            invocationType.GetMethod("set_Method").Invoke(aopInvocation, new object[] { baseClass.GetType().GetMethod("SayHi") });
+            invocationType.GetMethod("set_ParameterValues").Invoke(aopInvocation, new object[] { new object[] { welcome } });
             this._AopInterceptor.Intercept(aopInvocation);
             return aopInvocation.ReturnValue;
         }

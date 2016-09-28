@@ -10,12 +10,12 @@ namespace Petecat.Test.Aop
         [TestMethod]
         public void Generate_Test()
         {
-            //var type = new DefaultAopTypeGenerator().Generate(typeof(AppleBase));
-            //var instance = Activator.CreateInstance(type, new BananaInterceptor()) as AppleBase;
-            //instance.SayHi("hi");
+            var type = new DefaultAopTypeGenerator().Generate(typeof(AppleBase));
+            var instance = Activator.CreateInstance(type, new BananaInterceptor()) as AppleBase;
+            instance.SayHi("hi");
 
-            var instance = new AopAppleBase(new BananaInterceptor());
-            Assert.IsTrue(instance.SayHi("aa") == "aa");
+            //var instance = new AopAppleBase(new BananaInterceptor());
+            //Assert.IsTrue(instance.SayHi("aa") == "aa");
         }
     }
 }

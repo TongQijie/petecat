@@ -85,8 +85,17 @@ namespace Petecat.Aop
 
                 ILGenerator mthdIL = methodBuilder.GetILGenerator();
 
+                // var aopInvocation = new DefaultAopInvocation();
+                mthdIL.Emit(OpCodes.Nop);
                 mthdIL.Emit(OpCodes.Newobj, typeof(DefaultAopInvocation).GetConstructor(new Type[0]));
                 mthdIL.Emit(OpCodes.Stloc_0);
+                // var baseClass = new AppleBase();
+                mthdIL.Emit(OpCodes.Newobj, baseClass.GetConstructor(new Type[0]));
+                mthdIL.Emit(OpCodes.Stloc_1);
+                // typeof(DefaultAopInvocation).GetMethod("set_Owner").Invoke(aopInvocation, new object[] { baseClass });
+                mthdIL.Emit(OpCodes.Ldtoken, typeof(DefaultAopInvocation));
+                
+
                 mthdIL.Emit(OpCodes.Ldloc_0);
                 mthdIL.Emit(OpCodes.Ldarg_0);
                 mthdIL.Emit(OpCodes.Callvirt, typeof(DefaultAopInvocation).GetMethod("set_Owner"));
