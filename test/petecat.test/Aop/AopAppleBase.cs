@@ -10,16 +10,26 @@ namespace Petecat.Test.Aop
 
         private IAopInterceptor _AopInterceptor = null;
 
-        public override object SayHi(object welcome)
+        public override string SayHi(string welcome)
         {
             var aopInvocation = new DefaultAopInvocation();
             var baseClass = new AppleBase();
-            var invocationType = typeof(DefaultAopInvocation);
-            invocationType.GetMethod("set_Owner").Invoke(aopInvocation, new object[] { baseClass });
-            invocationType.GetMethod("set_Method").Invoke(aopInvocation, new object[] { baseClass.GetType().GetMethod("SayHi") });
-            invocationType.GetMethod("set_ParameterValues").Invoke(aopInvocation, new object[] { new object[] { welcome } });
-            this._AopInterceptor.Intercept(aopInvocation);
-            return aopInvocation.ReturnValue;
+            aopInvocation.Owner = baseClass;
+            aopInvocation.Method = typeof(AppleBase).GetMethod("SayHi");
+            aopInvocation.ParameterValues = new object[] { welcome };
+            _AopInterceptor.Intercept(aopInvocation);
+            return aopInvocation.ReturnValue as string;
+        }
+
+        public override string SayTo(string welcome, string to)
+        {
+            var aopInvocation = new DefaultAopInvocation();
+            var baseClass = new AppleBase();
+            aopInvocation.Owner = baseClass;
+            aopInvocation.Method = typeof(AppleBase).GetMethod("SayTo");
+            aopInvocation.ParameterValues = new object[] { welcome, to };
+            _AopInterceptor.Intercept(aopInvocation);
+            return aopInvocation.ReturnValue as string;
         }
     }
 }
