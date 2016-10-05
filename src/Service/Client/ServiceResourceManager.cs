@@ -5,6 +5,7 @@ using Petecat.Extension;
 using System;
 using System.Linq;
 using System.Text;
+using Petecat.Service.Configuration;
 
 namespace Petecat.Service.Client
 {
@@ -18,8 +19,10 @@ namespace Petecat.Service.Client
 
         private ServiceResourceManager()
         {
-            CacheObjectManager.Instance.Add<Configuration.ServiceClientConfig>(CacheObjectName, "./Configuration/ServiceResources.config".FullPath(), Encoding.UTF8,
-                ObjectFormatterFactory.GetFormatter(ObjectFormatterType.Xml), true);
+            CacheObjectManager.Instance.Add<ServiceClientConfig>(CacheObjectName, 
+                                                                 "./Configuration/ServiceResources.config".FullPath(),
+                                                                 ObjectFormatterFactory.GetFormatter(ObjectFormatterType.Xml), 
+                                                                 true);
         }
 
         public bool TryGetResource(string name, out Configuration.ServiceResourceConfig serviceResourceConfig, out string fullUrl)

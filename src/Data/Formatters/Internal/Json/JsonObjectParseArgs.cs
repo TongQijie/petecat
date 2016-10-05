@@ -1,8 +1,10 @@
-﻿namespace Petecat.Data.Formatters.Internal.Json
+﻿using Petecat.IO;
+
+namespace Petecat.Data.Formatters.Internal.Json
 {
     internal class JsonObjectParseArgs
     {
-        public IBufferStream Stream { get; set; }
+        public IStream Stream { get; set; }
 
         public JsonObject ExternalObject { get; set; }
 

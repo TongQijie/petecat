@@ -4,15 +4,15 @@ namespace Petecat.Caching
 {
     internal class CacheObjectBase : ICacheObject
     {
-        public CacheObjectBase(string key, Func<object> readCacheHandler)
+        public CacheObjectBase(string key, Func<object, object> readSourceHandler)
         {
             Key = key;
-            _ReadCacheHandler = readCacheHandler;
+            _ReadSourceHandler = readSourceHandler;
         }
 
         public string Key { get; private set; }
 
-        private Func<object> _ReadCacheHandler = null;
+        private Func<object, object> _ReadSourceHandler = null;
 
         protected object _Value = null;
 
@@ -34,7 +34,7 @@ namespace Petecat.Caching
         {
             try
             {
-                _Value = _ReadCacheHandler();
+                _Value = _ReadSourceHandler(_Value);
                 IsDirty = false;
             }
             catch (Exception e)

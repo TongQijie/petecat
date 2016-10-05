@@ -1,10 +1,11 @@
 ﻿using System;
 
+using Petecat.IO;
 using Petecat.Extension;
 
 namespace Petecat.Data.Formatters.Internal.Json
 {
-    internal class JsonPlainValueObject : JsonObject
+    internal class JsonValueObject : JsonObject
     {
         public bool EncompassedByQuote { get; set; }
 
@@ -24,7 +25,7 @@ namespace Petecat.Data.Formatters.Internal.Json
             }
         }
 
-        public override bool Fill(IBufferStream stream, byte[] seperators, byte[] terminators)
+        public override bool Fill(IStream stream, byte[] seperators, byte[] terminators)
         {
             var terminated = true;
             if (Buffer == null)
@@ -38,7 +39,7 @@ namespace Petecat.Data.Formatters.Internal.Json
 
                 if (Buffer == null)
                 {
-                    throw new Errors.JsonParseFailedException(stream.TotalIndex, "plain value cannot be empty.");
+                    throw new Errors.JsonParseFailedException(stream.Position, "plain value cannot be empty.");
                 }
 
                 var b = stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
@@ -56,7 +57,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                 }
                 else
                 {
-                    throw new Errors.JsonParseFailedException(stream.TotalIndex, "plain value object has invalid terminal byte.");
+                    throw new Errors.JsonParseFailedException(stream.Position, "plain value object has invalid terminal byte.");
                 }
             }
             else
@@ -74,7 +75,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                 var buf = stream.ReadBytesUntil(ends.Append(JsonEncoder.Whitespace));
                 if (buf == null || buf.Length == 0)
                 {
-                    throw new Errors.JsonParseFailedException(stream.TotalIndex, "plain value cannot be empty.");
+                    throw new Errors.JsonParseFailedException(stream.Position, "plain value cannot be empty.");
                 }
 
                 if (Buffer != null && Buffer.Length > 0)
@@ -101,14 +102,14 @@ namespace Petecat.Data.Formatters.Internal.Json
                 }
                 else
                 {
-                    throw new Errors.JsonParseFailedException(stream.TotalIndex, "plain value object has invalid terminal byte.");
+                    throw new Errors.JsonParseFailedException(stream.Position, "plain value object has invalid terminal byte.");
                 }
             }
 
             return terminated;
         }
 
-        private byte[] GetUnescapeByteValues(IBufferStream stream)
+        private byte[] GetUnescapeByteValues(IStream stream)
         {
             var buffer = new byte[0];
 
@@ -117,7 +118,7 @@ namespace Petecat.Data.Formatters.Internal.Json
             {
                 if (buf[buf.Length - 1] == JsonEncoder.Double_Quotes)
                 {
-                    return ByteUtility.Concat(buffer, 0, buffer.Length, buf, 0, buf.Length - 1);
+                    return Concat(buffer, 0, buffer.Length, buf, 0, buf.Length - 1);
                 }
 
                 if (buf[buf.Length - 1] == JsonEncoder.Backslash)
@@ -131,18 +132,29 @@ namespace Petecat.Data.Formatters.Internal.Json
                     if (b == JsonEncoder.U)
                     {
                         var escape = JsonEncoder.DoUnescape(stream.ReadBytes(4));
-                        buf = ByteUtility.Concat(buf, 0, buf.Length - 1, escape, 0, escape.Length);
+                        buf = Concat(buf, 0, buf.Length - 1, escape, 0, escape.Length);
                     }
                     else
                     {
                         buf[buf.Length - 1] = JsonEncoder.DoUnescape(b);
                     }
 
-                    buffer = ByteUtility.Concat(buffer, 0, buffer.Length, buf, 0, buf.Length);
+                    buffer = Concat(buffer, 0, buffer.Length, buf, 0, buf.Length);
                 }
             }
 
             return buffer;
+        }
+
+        private byte[] Concat(byte[] firstArray, int firstStart, int firstCount, byte[] secondArray, int secondStart, int secondCount)
+        {
+            var buf = new byte[firstCount + secondCount];
+
+            Array.Copy(firstArray, firstStart, buf, 0, firstCount);
+
+            Array.Copy(secondArray, secondStart, buf, firstCount, secondCount);
+
+            return buf;
         }
     }
 }

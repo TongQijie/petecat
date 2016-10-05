@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿using Petecat.IO;
 using Petecat.Extension;
 
 namespace Petecat.Data.Formatters.Internal.Json
@@ -8,7 +7,7 @@ namespace Petecat.Data.Formatters.Internal.Json
     {
         public JsonCollectionElement[] Elements { get; set; }
 
-        public override bool Fill(IBufferStream stream, byte[] seperators, byte[] terminators)
+        public override bool Fill(IStream stream, byte[] seperators, byte[] terminators)
         {
             Elements = new JsonCollectionElement[0];
 
@@ -33,10 +32,10 @@ namespace Petecat.Data.Formatters.Internal.Json
                 return true;
             }
 
-            throw new Errors.JsonParseFailedException(stream.TotalIndex, "collection element has invalid terminal byte.");
+            throw new Errors.JsonParseFailedException(stream.Position, "collection element has invalid terminal byte.");
         }
 
-        private bool Parse(IBufferStream stream)
+        private bool Parse(IStream stream)
         {
             var args = new JsonObjectParseArgs()
             {

@@ -19,8 +19,10 @@ namespace Petecat.Threading.Tasks
             _Container = container;
             _Container.RegisterContainerObjects(taskObjectConfigFile);
 
-            CacheObjectManager.Instance.Add<Configuration.TaskSwitchContainerConfig>(taskObjectConfigFile, taskSwitchConfigFile, Encoding.UTF8,
-                ObjectFormatterFactory.GetFormatter(ObjectFormatterType.Xml), false);
+            CacheObjectManager.Instance.Add<Configuration.TaskSwitchContainerConfig>(taskObjectConfigFile, 
+                                                                                     taskSwitchConfigFile,
+                                                                                     ObjectFormatterFactory.GetFormatter(ObjectFormatterType.Xml), 
+                                                                                     false);
 
             foreach (var taskSwitchConfig in CacheObjectManager.Instance.GetValue<Configuration.TaskSwitchContainerConfig>(taskObjectConfigFile).Switches)
             {

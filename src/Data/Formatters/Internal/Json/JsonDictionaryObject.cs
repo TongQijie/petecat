@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿using Petecat.IO;
 using Petecat.Extension;
 
 namespace Petecat.Data.Formatters.Internal.Json
@@ -8,7 +7,7 @@ namespace Petecat.Data.Formatters.Internal.Json
     {
         public JsonDictionaryElement[] Elements { get; set; }
 
-        public override bool Fill(IBufferStream stream, byte[] seperators, byte[] terminators)
+        public override bool Fill(IStream stream, byte[] seperators, byte[] terminators)
         {
             Elements = new JsonDictionaryElement[0];
 
@@ -33,10 +32,10 @@ namespace Petecat.Data.Formatters.Internal.Json
                 return true;
             }
 
-            throw new Errors.JsonParseFailedException(stream.TotalIndex, "dictionary element has invalid terminal byte.");
+            throw new Errors.JsonParseFailedException(stream.Position, "dictionary element has invalid terminal byte.");
         }
 
-        private bool Parse(IBufferStream stream)
+        private bool Parse(IStream stream)
         {
             var b = stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
             if (b == JsonEncoder.Right_Brace)
@@ -45,7 +44,7 @@ namespace Petecat.Data.Formatters.Internal.Json
             }
             else if (b != JsonEncoder.Double_Quotes)
             {
-                throw new Errors.JsonParseFailedException(stream.TotalIndex, "dictionary name is invalid.");
+                throw new Errors.JsonParseFailedException(stream.Position, "dictionary name is invalid.");
             }
 
             var buf = stream.ReadBytesUntil(JsonEncoder.Double_Quotes);
@@ -57,7 +56,7 @@ namespace Petecat.Data.Formatters.Internal.Json
             var elementName = JsonEncoder.GetString(buf);
             if (!elementName.HasValue())
             {
-                throw new Errors.JsonParseFailedException(stream.TotalIndex, "dictionary element name is empty.");
+                throw new Errors.JsonParseFailedException(stream.Position, "dictionary element name is empty.");
             }
 
             stream.SeekBytesUntilEqual(JsonEncoder.Colon);

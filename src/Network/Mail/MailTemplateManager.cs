@@ -24,8 +24,10 @@ namespace Petecat.Network.Mail
                 throw new FileNotFoundException(configPath);
             }
 
-            CacheObjectManager.Instance.Add<Configuration.MailTemplateCollectionConfig>(CacheObjectName, configPath, Encoding.UTF8,
-                ObjectFormatterFactory.GetFormatter(ObjectFormatterType.Xml), true);
+            CacheObjectManager.Instance.Add<MailTemplateCollectionConfig>(CacheObjectName, 
+                                                                          configPath,
+                                                                          ObjectFormatterFactory.GetFormatter(ObjectFormatterType.Xml), 
+                                                                          true);
 
             return this;
         }

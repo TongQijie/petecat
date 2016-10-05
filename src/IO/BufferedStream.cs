@@ -1,11 +1,11 @@
 ﻿using System;
 using System.IO;
 
-namespace Petecat.Data.Formatters.Internal.Json
+namespace Petecat.IO
 {
-    public class BufferStream : IBufferStream
+    public class BufferedStream : IStream
     {
-        public BufferStream(Stream stream, int capacity)
+        public BufferedStream(Stream stream, int capacity)
         {
             _InternalStream = stream;
             _InternalBuffer = new byte[capacity];
@@ -14,14 +14,14 @@ namespace Petecat.Data.Formatters.Internal.Json
         private Stream _InternalStream = null;
 
         private byte[] _InternalBuffer = null;
-        
+
         private int _Index = 0;
 
         private int _Count = 0;
 
         private int _TotalCount = 0;
 
-        public int TotalIndex
+        public int Position
         {
             get { return _TotalCount + _Index; }
         }
@@ -147,13 +147,13 @@ namespace Petecat.Data.Formatters.Internal.Json
             var index = InternalIndexOf(terminator, _Index, _Count - _Index);
             if (index != -1)
             {
-                byteValues = ByteUtility.Concat(byteValues, 0, byteValues.Length, _InternalBuffer, _Index, index - _Index);
+                byteValues = Concat(byteValues, 0, byteValues.Length, _InternalBuffer, _Index, index - _Index);
                 _Index = index + 1;
                 return byteValues;
             }
             else
             {
-                byteValues = ByteUtility.Concat(byteValues, 0, byteValues.Length, _InternalBuffer, _Index, _Count - _Index);
+                byteValues = Concat(byteValues, 0, byteValues.Length, _InternalBuffer, _Index, _Count - _Index);
 
                 if (Fill())
                 {
@@ -192,11 +192,11 @@ namespace Petecat.Data.Formatters.Internal.Json
             if (_Index < _Count)
             {
                 _Index += 1;
-                return ByteUtility.Concat(byteValues, 0, byteValues.Length, _InternalBuffer, startIndex, _Index - startIndex);
+                return Concat(byteValues, 0, byteValues.Length, _InternalBuffer, startIndex, _Index - startIndex);
             }
             else
             {
-                byteValues = ByteUtility.Concat(byteValues, 0, byteValues.Length, _InternalBuffer, startIndex, _Count - startIndex);
+                byteValues = Concat(byteValues, 0, byteValues.Length, _InternalBuffer, startIndex, _Count - startIndex);
                 if (Fill())
                 {
                     return InternalReadBytesUntil(byteValues, terminators);
@@ -207,7 +207,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                 }
             }
         }
-        
+
         private int InternalIndexOf(byte targetByte, int startIndex, int count)
         {
             for (int i = 0; i < count; i++)
@@ -233,5 +233,17 @@ namespace Petecat.Data.Formatters.Internal.Json
 
             return true;
         }
+
+        private byte[] Concat(byte[] firstArray, int firstStart, int firstCount, byte[] secondArray, int secondStart, int secondCount)
+        {
+            var buf = new byte[firstCount + secondCount];
+
+            Array.Copy(firstArray, firstStart, buf, 0, firstCount);
+
+            Array.Copy(secondArray, secondStart, buf, firstCount, secondCount);
+
+            return buf;
+        }
     }
 }
+

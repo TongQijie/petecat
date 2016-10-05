@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Petecat.Caching;
 using Petecat.Extension;
 using Petecat.Data.Formatters;
+using Petecat.Data.Configuration;
 
 namespace Petecat.Data.Access
 {
@@ -31,8 +32,10 @@ namespace Petecat.Data.Access
                 throw new FileNotFoundException(configPath);
             }
 
-            CacheObjectManager.Instance.Add<Configuration.DataCommandObjectSectionConfig>(string.Format(CacheObjectNameFormat, configPath), configPath, Encoding.UTF8,
-                ObjectFormatterFactory.GetFormatter(ObjectFormatterType.Xml), true);
+            CacheObjectManager.Instance.Add<DataCommandObjectSectionConfig>(string.Format(CacheObjectNameFormat, configPath),
+                                                                            configPath,
+                                                                            ObjectFormatterFactory.GetFormatter(ObjectFormatterType.Xml),
+                                                                            true);
 
             CacheObjectNames.Add(string.Format(CacheObjectNameFormat, configPath));
         }

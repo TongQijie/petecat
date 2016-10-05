@@ -1,6 +1,7 @@
 ﻿using Petecat.Collection;
 using Petecat.Data.Formatters;
 using Petecat.Threading.Watcher;
+
 using System;
 using System.IO;
 using System.Linq;
@@ -18,16 +19,17 @@ namespace Petecat.Caching
 
         public ICacheObject[] CacheObjects { get { return _CacheObjects.Values.ToArray(); } }
 
-        public ICacheObject Add(string key, Func<object> readCacheHandler)
+        public ICacheObject Add(string key, Func<object, object> readSourceHandler)
         {
-            return _CacheObjects.Add(new CacheObjectBase(key, readCacheHandler));
+            return _CacheObjects.Add(new CacheObjectBase(key, readSourceHandler));
         }
 
-        public ICacheObject Add(string key, Func<object> readCacheHandler, Action<object> writeCacheHandler)
+        public ICacheObject Add(string key, Func<object, object> readSourceHandler, Action<object> updateSourceHandler)
         {
-            return _CacheObjects.Add(new WritableCacheObject(key, readCacheHandler, writeCacheHandler));
+            return _CacheObjects.Add(new WritableCacheObject(key, readSourceHandler, updateSourceHandler));
         }
 
+        [Obsolete("this method is replaced by Add<T>(string key, string path, IObjectFormatter objectFormatter, bool enableWatcher)")]
         public void Add<T>(string key, string path, Encoding encoding, IObjectFormatter objectFormatter, bool enableWatcher)
         {
             if (!File.Exists(path))
@@ -37,7 +39,49 @@ namespace Petecat.Caching
 
             var fileInfo = new FileInfo(path);
 
-            CacheObjectManager.Instance.Add(key, () => objectFormatter.ReadObject<T>(path));
+            CacheObjectManager.Instance.Add(key, (v) => objectFormatter.ReadObject<T>(path));
+
+            if (enableWatcher)
+            {
+                FolderWatcherManager.Instance.GetOrAdd(fileInfo.Directory.FullName)
+                    .SetFileChangedHandler(fileInfo.Name, (w) =>
+                    {
+                        CacheObjectManager.Instance.GetObject(key).IsDirty = true;
+                    }).Start();
+            }
+        }
+
+        public void Add(string key, string path, Type objectType, IObjectFormatter objectFormatter, bool enableWatcher)
+        {
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException(path);
+            }
+
+            var fileInfo = new FileInfo(path);
+
+            CacheObjectManager.Instance.Add(key, (v) => objectFormatter.ReadObject(objectType, path));
+
+            if (enableWatcher)
+            {
+                FolderWatcherManager.Instance.GetOrAdd(fileInfo.Directory.FullName)
+                    .SetFileChangedHandler(fileInfo.Name, (w) =>
+                    {
+                        CacheObjectManager.Instance.GetObject(key).IsDirty = true;
+                    }).Start();
+            }
+        }
+
+        public void Add<T>(string key, string path, IObjectFormatter objectFormatter, bool enableWatcher)
+        {
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException(path);
+            }
+
+            var fileInfo = new FileInfo(path);
+
+            CacheObjectManager.Instance.Add(key, (v) => objectFormatter.ReadObject<T>(path));
 
             if (enableWatcher)
             {
@@ -56,6 +100,11 @@ namespace Petecat.Caching
             {
                 _CacheObjects.Remove(cacheObject);
             }
+        }
+
+        public bool Exists(string key)
+        {
+            return _CacheObjects.ContainsKey(key);
         }
 
         public ICacheObject GetObject(string key)

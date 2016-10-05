@@ -29,7 +29,6 @@ namespace Petecat.Service
 
         private void InternalProcessRequest(ServiceHttpRequest request, ServiceHttpResponse response)
         {
-            var parts = ServiceHttpPathHelper.Get(request.Request.RawUrl);
             if (string.IsNullOrEmpty(request.ServiceName))
             {
                 throw new Errors.ServiceNameNotSpecifiedException();

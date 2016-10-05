@@ -31,7 +31,7 @@ namespace Petecat.Data.Access
                 throw new FileNotFoundException(configPath);
             }
 
-            CacheObjectManager.Instance.Add<Configuration.DatabaseObjectSectionConfig>(CacheObjectName, configPath, Encoding.UTF8, 
+            CacheObjectManager.Instance.Add<Configuration.DatabaseObjectSectionConfig>(CacheObjectName, configPath, 
                 ObjectFormatterFactory.GetFormatter(ObjectFormatterType.Xml), true);
         }
 

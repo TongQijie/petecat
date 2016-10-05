@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace Petecat.Data.Formatters.Internal.Json
+namespace Petecat.IO
 {
-    public interface IBufferStream
+    public interface IStream
     {
         /// <summary>
         /// number of bytes that have read.
         /// </summary>
-        int TotalIndex { get; }
+        int Position { get; }
 
         /// <summary>
         /// reads a byte
@@ -58,3 +58,4 @@ namespace Petecat.Data.Formatters.Internal.Json
         int SeekBytesUntilMeets(Predicate<int> predicate);
     }
 }
+

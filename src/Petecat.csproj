@@ -36,18 +36,11 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Aop\AopProxyTypeFactory.cs" />
-    <Compile Include="Aop\DefaultAopInvocation.cs" />
-    <Compile Include="Aop\DefaultAopProxyTypeGenerator.cs" />
-    <Compile Include="Aop\IAopInterceptor.cs" />
-    <Compile Include="Aop\IAopInvocation.cs" />
-    <Compile Include="Aop\IAopProxyTypeGenerator.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Archiving\ArchiveFile.cs" />
     <Compile Include="Archiving\ArchiveFolder.cs" />
@@ -115,9 +108,6 @@
     <Compile Include="Data\Formatters\Internal\BinaryEncoder.cs" />
     <Compile Include="Data\Formatters\Internal\BinarySerializer.cs" />
     <Compile Include="Data\Formatters\Internal\IniSerializer.cs" />
-    <Compile Include="Data\Formatters\Internal\Json\BufferStream.cs" />
-    <Compile Include="Data\Formatters\Internal\Json\ByteUtility.cs" />
-    <Compile Include="Data\Formatters\Internal\Json\IBufferStream.cs" />
     <Compile Include="Data\Formatters\Internal\Json\JsonEncoder.cs" />
     <Compile Include="Data\Formatters\Internal\Json\JsonProperty.cs" />
     <Compile Include="Data\Formatters\Internal\Json\JsonSerializer.cs" />
@@ -128,7 +118,7 @@
     <Compile Include="Data\Formatters\Internal\Json\JsonObject.cs" />
     <Compile Include="Data\Formatters\Internal\Json\JsonObjectParseArgs.cs" />
     <Compile Include="Data\Formatters\Internal\Json\JsonObjectParser.cs" />
-    <Compile Include="Data\Formatters\Internal\Json\JsonPlainValueObject.cs" />
+    <Compile Include="Data\Formatters\Internal\Json\JsonValueObject.cs" />
     <Compile Include="Data\Formatters\IObjectFormatter.cs" />
     <Compile Include="Data\Formatters\JsonFormatter.cs" />
     <Compile Include="Data\Formatters\ObjectFormatterFactory.cs" />
@@ -273,8 +263,27 @@
     <Compile Include="Utility\HashCalculator.cs" />
     <Compile Include="Utility\ReflectionUtility.cs" />
     <Compile Include="Utility\Converter.cs" />
+    <Compile Include="IO\BufferedStream.cs" />
+    <Compile Include="IO\IStream.cs" />
+    <Compile Include="Aop\AopProxyTypeFactory.cs" />
+    <Compile Include="Aop\DefaultAopInvocation.cs" />
+    <Compile Include="Aop\DefaultAopProxyTypeGenerator.cs" />
+    <Compile Include="Aop\IAopInterceptor.cs" />
+    <Compile Include="Aop\IAopInvocation.cs" />
+    <Compile Include="Aop\IAopProxyTypeGenerator.cs" />
+    <Compile Include="Service\Configuration\ServiceRoutingConfig.cs" />
+    <Compile Include="Service\Configuration\ServiceRoutingRuleConfig.cs" />
+    <Compile Include="Configuring\IConfigurationManager.cs" />
+    <Compile Include="Configuring\ConfigurationFactory.cs" />
+    <Compile Include="Configuring\Internal\ConfigurationManager.cs" />
+    <Compile Include="Configuring\Configuration\ConfigurationItemConfig.cs" />
+    <Compile Include="Configuring\Configuration\ConfigurationItemsConfig.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Configuring\" />
+    <Folder Include="Configuring\Internal\" />
+    <Folder Include="Configuring\Configuration\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

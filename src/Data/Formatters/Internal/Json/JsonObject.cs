@@ -1,4 +1,6 @@
-﻿namespace Petecat.Data.Formatters.Internal.Json
+﻿using Petecat.IO;
+
+namespace Petecat.Data.Formatters.Internal.Json
 {
     internal class JsonObject
     {
@@ -9,7 +11,7 @@
         /// <param name="seperators">bytes that indicate external object can continue to fill next object.</param>
         /// <param name="terminators">bytes that indicate current filling object is the last object in external object.</param>
         /// <returns>if true, indicate current filling object is the last object in external object, else false</returns>
-        public virtual bool Fill(IBufferStream stream, byte[] seperators, byte[] terminators)
+        public virtual bool Fill(IStream stream, byte[] seperators, byte[] terminators)
         {
             return false;
         }

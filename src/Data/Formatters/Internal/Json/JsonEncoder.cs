@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Text;
 
-using Petecat.Extension;
-
 namespace Petecat.Data.Formatters.Internal.Json
 {
     internal static class JsonEncoder

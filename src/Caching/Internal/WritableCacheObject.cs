@@ -4,21 +4,21 @@ namespace Petecat.Caching
 {
     internal class WritableCacheObject : CacheObjectBase, IWritableCacheObject
     {
-        public WritableCacheObject(string key, Func<object> readCacheHandler, Action<object> writeCacheHandler)
-            : base(key, readCacheHandler)
+        public WritableCacheObject(string key, Func<object, object> readSourceHandler, Action<object> updateSourceHandler)
+            : base(key, readSourceHandler)
         {
-            _WriteCacheHandler = writeCacheHandler;
+            _UpdateSourceHandler = updateSourceHandler;
         }
 
-        private Action<object> _WriteCacheHandler = null;
+        private Action<object> _UpdateSourceHandler = null;
 
         public void Flush()
         {
-            if (_WriteCacheHandler != null)
+            if (_UpdateSourceHandler != null)
             {
                 try
                 {
-                    _WriteCacheHandler(_Value);
+                    _UpdateSourceHandler(_Value);
                 }
                 catch (Exception e)
                 {

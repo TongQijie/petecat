@@ -75,7 +75,7 @@
                 // case4: [value01, value02]
                 //                  --------^
                 //                          Position
-                args.InternalObject = new JsonPlainValueObject()
+                args.InternalObject = new JsonValueObject()
                 {
                     EncompassedByQuote = b == JsonEncoder.Double_Quotes,
                     Buffer = b == JsonEncoder.Double_Quotes ? new byte[0] : new byte[1] { (byte)b },

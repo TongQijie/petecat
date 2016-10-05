@@ -65,6 +65,15 @@ namespace Petecat.Threading.Watcher
             return this;
         }
 
+        public void Remove(string filename)
+        {
+            var fileWatcher = _FileWatchers.Get(filename, null);
+            if (fileWatcher != null)
+            {
+                _FileWatchers.Remove(fileWatcher);
+            }
+        }
+
         private FileCreatedHandlerDelegate FileCreated = null;
 
         private FileDeletedHandlerDelegate FileDeleted = null;
