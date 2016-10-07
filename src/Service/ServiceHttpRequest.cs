@@ -1,8 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Web;
-using System;
 using System.Collections.Generic;
-using Petecat.Extension;
 
 namespace Petecat.Service
 {
@@ -12,39 +11,14 @@ namespace Petecat.Service
         {
             Request = httpRequest;
 
-            var fields = ServiceHttpPathHelper.Get(Request.RawUrl);
-            VirtualPath = Utility.AppConfigUtility.GetAppConfig<string>("VirtualPath", null);
-            if (!VirtualPath.HasValue())
+            string serviceName, methodName;
+            if (!ServiceHttpPathHelper.TryParseServiceUri(Request.RawUrl, out serviceName, out methodName))
             {
-                if (fields.Length > 0)
-                {
-                    ServiceName = fields[0];
-                }
-                if (fields.Length > 1)
-                {
-                    MethodName = fields[1];
-                }
+                throw new Errors.ServiceHttpRequestInvalidVirtualPathException(Request.Url.AbsoluteUri);
             }
-            else
-            {
-                var paths = VirtualPath.SplitByChar('/');
-                for (int i = 0; i < paths.Length; i++)
-                {
-                    if (fields.Length <= i || !string.Equals(paths[i], fields[i], StringComparison.OrdinalIgnoreCase))
-                    {
-                        throw new Errors.ServiceHttpRequestInvalidVirtualPathException(Request.Url.AbsoluteUri);
-                    }
-                }
 
-                if (fields.Length > paths.Length)
-                {
-                    ServiceName = fields[paths.Length];
-                }
-                if (fields.Length > (paths.Length + 1))
-                {
-                    MethodName = fields[paths.Length + 1];
-                }
-            }
+            ServiceName = serviceName;
+            MethodName = methodName;
         }
 
         public HttpRequest Request { get; private set; }

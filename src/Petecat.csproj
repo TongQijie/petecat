@@ -34,7 +34,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
@@ -231,6 +230,7 @@
     <Compile Include="Service\ServiceHttpResponse.cs" />
     <Compile Include="Service\ServiceManager.cs" />
     <Compile Include="Service\ServiceMethodDefinition.cs" />
+    <Compile Include="Service\ServiceRoutingManager.cs" />
     <Compile Include="Threading\Configuration\TaskSwitchContainerConfig.cs" />
     <Compile Include="Threading\Configuration\TaskSwitchConfig.cs" />
     <Compile Include="Threading\Errors\TaskExecuteFailedException.cs" />
@@ -256,7 +256,6 @@
     <Compile Include="Threading\Watcher\FileWatcher.cs" />
     <Compile Include="Threading\Watcher\FolderWatcher.cs" />
     <Compile Include="Threading\Watcher\FolderWatcherManager.cs" />
-    <Compile Include="Utility\AppConfigUtility.cs" />
     <Compile Include="Utility\Comparator.cs" />
     <Compile Include="Utility\CompressUtility.cs" />
     <Compile Include="Utility\Errors\ConvertFailedException.cs" />
@@ -279,11 +278,7 @@
     <Compile Include="Configuring\Configuration\ConfigurationItemConfig.cs" />
     <Compile Include="Configuring\Configuration\ConfigurationItemsConfig.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Configuring\" />
-    <Folder Include="Configuring\Internal\" />
-    <Folder Include="Configuring\Configuration\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

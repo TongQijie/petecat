@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 
-using Petecat.Collection;
-using Petecat.Utility;
 using Petecat.IoC;
+using Petecat.Utility;
 using Petecat.Extension;
+using Petecat.Collection;
 
 namespace Petecat.Service
 {

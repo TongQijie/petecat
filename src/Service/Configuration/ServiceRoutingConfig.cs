@@ -2,10 +2,12 @@
 
 namespace Petecat
 {
-    [XmlRoot]
+    [XmlRoot("routing")]
     public class ServiceRoutingConfig
     {
-        
+        [XmlArray("rules")]
+        [XmlArrayItem("rule")]
+        public ServiceRoutingRuleConfig[] Rules { get; set; } 
     }
 }
 

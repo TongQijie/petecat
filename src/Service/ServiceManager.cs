@@ -1,6 +1,6 @@
-﻿using Petecat.Collection;
-using Petecat.IoC;
+﻿using Petecat.IoC;
 using Petecat.Utility;
+using Petecat.Collection;
 
 using System;
 using System.Linq;

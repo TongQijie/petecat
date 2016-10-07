@@ -4,9 +4,9 @@ using Petecat.Data.Formatters.Internal.Json;
 using Petecat.Extension;
 using Petecat.Logging;
 using Petecat.Logging.Loggers;
+using System.IO;
 using System;
 using System.Globalization;
-using System.IO;
 using System.Text;
 
 namespace Petecat.Test.Data.Formatters
@@ -61,7 +61,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = new BufferStream(inputStream, 4 * 1024),
+                    Stream = new IO.BufferedStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
             }
@@ -74,7 +74,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = new BufferStream(inputStream, 4 * 1024),
+                    Stream = new IO.BufferedStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -88,8 +88,8 @@ namespace Petecat.Test.Data.Formatters
                 var col = dict.Elements[0].Value as JsonCollectionObject;
 
                 Assert.IsTrue(col.Elements != null && col.Elements.Length == 1);
-                Assert.IsTrue(col.Elements[0].Value is JsonPlainValueObject
-                    && (col.Elements[0].Value as JsonPlainValueObject).ToString() == "1.2");
+                Assert.IsTrue(col.Elements[0].Value is JsonValueObject
+                    && (col.Elements[0].Value as JsonValueObject).ToString() == "1.2");
             }
         }
 
@@ -100,7 +100,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = new BufferStream(inputStream, 4 * 1024),
+                    Stream = new IO.BufferedStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -114,10 +114,10 @@ namespace Petecat.Test.Data.Formatters
                 var col = dict.Elements[0].Value as JsonCollectionObject;
 
                 Assert.IsTrue(col.Elements != null && col.Elements.Length == 2);
-                Assert.IsTrue(col.Elements[0].Value is JsonPlainValueObject
-                    && (col.Elements[0].Value as JsonPlainValueObject).ToString() == "1.2");
-                Assert.IsTrue(col.Elements[1].Value is JsonPlainValueObject
-                    && (col.Elements[1].Value as JsonPlainValueObject).ToString() == "3.4");
+                Assert.IsTrue(col.Elements[0].Value is JsonValueObject
+                    && (col.Elements[0].Value as JsonValueObject).ToString() == "1.2");
+                Assert.IsTrue(col.Elements[1].Value is JsonValueObject
+                    && (col.Elements[1].Value as JsonValueObject).ToString() == "3.4");
             }
         }
 
@@ -128,7 +128,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = new BufferStream(inputStream, 4 * 1024),
+                    Stream = new IO.BufferedStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -142,12 +142,12 @@ namespace Petecat.Test.Data.Formatters
                 var col = dict.Elements[0].Value as JsonCollectionObject;
 
                 Assert.IsTrue(col.Elements != null && col.Elements.Length == 3);
-                Assert.IsTrue(col.Elements[0].Value is JsonPlainValueObject
-                    && (col.Elements[0].Value as JsonPlainValueObject).ToString() == "1.2");
-                Assert.IsTrue(col.Elements[1].Value is JsonPlainValueObject
-                    && (col.Elements[1].Value as JsonPlainValueObject).ToString() == "3.4");
-                Assert.IsTrue(col.Elements[2].Value is JsonPlainValueObject
-                    && (col.Elements[2].Value as JsonPlainValueObject).ToString() == "5.6");
+                Assert.IsTrue(col.Elements[0].Value is JsonValueObject
+                    && (col.Elements[0].Value as JsonValueObject).ToString() == "1.2");
+                Assert.IsTrue(col.Elements[1].Value is JsonValueObject
+                    && (col.Elements[1].Value as JsonValueObject).ToString() == "3.4");
+                Assert.IsTrue(col.Elements[2].Value is JsonValueObject
+                    && (col.Elements[2].Value as JsonValueObject).ToString() == "5.6");
             }
         }
 
@@ -158,7 +158,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = new BufferStream(inputStream, 4 * 1024),
+                    Stream = new IO.BufferedStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -172,8 +172,8 @@ namespace Petecat.Test.Data.Formatters
                 var col = dict.Elements[0].Value as JsonCollectionObject;
 
                 Assert.IsTrue(col.Elements != null && col.Elements.Length == 1);
-                Assert.IsTrue(col.Elements[0].Value is JsonPlainValueObject
-                    && (col.Elements[0].Value as JsonPlainValueObject).ToString() == "1.2");
+                Assert.IsTrue(col.Elements[0].Value is JsonValueObject
+                    && (col.Elements[0].Value as JsonValueObject).ToString() == "1.2");
             }
         }
 
@@ -184,7 +184,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = new BufferStream(inputStream, 4 * 1024),
+                    Stream = new IO.BufferedStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -198,10 +198,10 @@ namespace Petecat.Test.Data.Formatters
                 var col = dict.Elements[0].Value as JsonCollectionObject;
 
                 Assert.IsTrue(col.Elements != null && col.Elements.Length == 2);
-                Assert.IsTrue(col.Elements[0].Value is JsonPlainValueObject
-                    && (col.Elements[0].Value as JsonPlainValueObject).ToString() == "1.2");
-                Assert.IsTrue(col.Elements[1].Value is JsonPlainValueObject
-                    && (col.Elements[1].Value as JsonPlainValueObject).ToString() == "3.4");
+                Assert.IsTrue(col.Elements[0].Value is JsonValueObject
+                    && (col.Elements[0].Value as JsonValueObject).ToString() == "1.2");
+                Assert.IsTrue(col.Elements[1].Value is JsonValueObject
+                    && (col.Elements[1].Value as JsonValueObject).ToString() == "3.4");
             }
         }
 
@@ -212,7 +212,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = new BufferStream(inputStream, 4 * 1024),
+                    Stream = new IO.BufferedStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -226,12 +226,12 @@ namespace Petecat.Test.Data.Formatters
                 var col = dict.Elements[0].Value as JsonCollectionObject;
 
                 Assert.IsTrue(col.Elements != null && col.Elements.Length == 3);
-                Assert.IsTrue(col.Elements[0].Value is JsonPlainValueObject
-                    && (col.Elements[0].Value as JsonPlainValueObject).ToString() == "1.2");
-                Assert.IsTrue(col.Elements[1].Value is JsonPlainValueObject
-                    && (col.Elements[1].Value as JsonPlainValueObject).ToString() == "3.4");
-                Assert.IsTrue(col.Elements[2].Value is JsonPlainValueObject
-                    && (col.Elements[2].Value as JsonPlainValueObject).ToString() == "5.6");
+                Assert.IsTrue(col.Elements[0].Value is JsonValueObject
+                    && (col.Elements[0].Value as JsonValueObject).ToString() == "1.2");
+                Assert.IsTrue(col.Elements[1].Value is JsonValueObject
+                    && (col.Elements[1].Value as JsonValueObject).ToString() == "3.4");
+                Assert.IsTrue(col.Elements[2].Value is JsonValueObject
+                    && (col.Elements[2].Value as JsonValueObject).ToString() == "5.6");
             }
         }
 
@@ -242,7 +242,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = new BufferStream(inputStream, 4 * 1024),
+                    Stream = new IO.BufferedStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -257,8 +257,8 @@ namespace Petecat.Test.Data.Formatters
 
                 Assert.IsTrue(col.Elements != null && col.Elements.Length == 1);
                 Assert.IsTrue(col.Elements[0].Key == "Name"
-                    && col.Elements[0].Value is JsonPlainValueObject
-                    && (col.Elements[0].Value as JsonPlainValueObject).ToString() == "abc");
+                    && col.Elements[0].Value is JsonValueObject
+                    && (col.Elements[0].Value as JsonValueObject).ToString() == "abc");
             }
         }
 
@@ -269,7 +269,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = new BufferStream(inputStream, 4 * 1024),
+                    Stream = new IO.BufferedStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -284,11 +284,11 @@ namespace Petecat.Test.Data.Formatters
 
                 Assert.IsTrue(col.Elements != null && col.Elements.Length == 2);
                 Assert.IsTrue(col.Elements[0].Key == "Name"
-                    && col.Elements[0].Value is JsonPlainValueObject
-                    && (col.Elements[0].Value as JsonPlainValueObject).ToString() == "abc");
+                    && col.Elements[0].Value is JsonValueObject
+                    && (col.Elements[0].Value as JsonValueObject).ToString() == "abc");
                 Assert.IsTrue(col.Elements[1].Key == "Age"
-                    && col.Elements[1].Value is JsonPlainValueObject
-                    && (col.Elements[1].Value as JsonPlainValueObject).ToString() == "12");
+                    && col.Elements[1].Value is JsonValueObject
+                    && (col.Elements[1].Value as JsonValueObject).ToString() == "12");
             }
         }
 
@@ -299,7 +299,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = new BufferStream(inputStream, 4 * 1024),
+                    Stream = new IO.BufferedStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -314,11 +314,11 @@ namespace Petecat.Test.Data.Formatters
 
                 Assert.IsTrue(col.Elements != null && col.Elements.Length == 2);
                 Assert.IsTrue(col.Elements[0].Key == "Age"
-                    && col.Elements[0].Value is JsonPlainValueObject
-                    && (col.Elements[0].Value as JsonPlainValueObject).ToString() == "12");
+                    && col.Elements[0].Value is JsonValueObject
+                    && (col.Elements[0].Value as JsonValueObject).ToString() == "12");
                 Assert.IsTrue(col.Elements[1].Key == "Name"
-                    && col.Elements[1].Value is JsonPlainValueObject
-                    && (col.Elements[1].Value as JsonPlainValueObject).ToString() == "abc");
+                    && col.Elements[1].Value is JsonValueObject
+                    && (col.Elements[1].Value as JsonValueObject).ToString() == "abc");
             }
         }
 
@@ -329,7 +329,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = new BufferStream(inputStream, 4 * 1024),
+                    Stream = new IO.BufferedStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -348,11 +348,11 @@ namespace Petecat.Test.Data.Formatters
 
                 Assert.IsTrue(d.Elements != null && d.Elements.Length == 2);
                 Assert.IsTrue(d.Elements[0].Key == "Age"
-                    && d.Elements[0].Value is JsonPlainValueObject
-                    && (d.Elements[0].Value as JsonPlainValueObject).ToString() == "12");
+                    && d.Elements[0].Value is JsonValueObject
+                    && (d.Elements[0].Value as JsonValueObject).ToString() == "12");
                 Assert.IsTrue(d.Elements[1].Key == "Name"
-                    && d.Elements[1].Value is JsonPlainValueObject
-                    && (d.Elements[1].Value as JsonPlainValueObject).ToString() == "abc");
+                    && d.Elements[1].Value is JsonValueObject
+                    && (d.Elements[1].Value as JsonValueObject).ToString() == "abc");
             }
         }
 
@@ -363,7 +363,7 @@ namespace Petecat.Test.Data.Formatters
             {
                 var args = new JsonObjectParseArgs()
                 {
-                    Stream = new BufferStream(inputStream, 4 * 1024),
+                    Stream = new IO.BufferedStream(inputStream, 4 * 1024),
                 };
                 JsonObjectParser.Parse(args);
 
@@ -384,21 +384,21 @@ namespace Petecat.Test.Data.Formatters
 
                 Assert.IsTrue(d1.Elements != null && d1.Elements.Length == 2);
                 Assert.IsTrue(d1.Elements[0].Key == "Age"
-                    && d1.Elements[0].Value is JsonPlainValueObject
-                    && (d1.Elements[0].Value as JsonPlainValueObject).ToString() == "12");
+                    && d1.Elements[0].Value is JsonValueObject
+                    && (d1.Elements[0].Value as JsonValueObject).ToString() == "12");
                 Assert.IsTrue(d1.Elements[1].Key == "Name"
-                    && d1.Elements[1].Value is JsonPlainValueObject
-                    && (d1.Elements[1].Value as JsonPlainValueObject).ToString() == "abc");
+                    && d1.Elements[1].Value is JsonValueObject
+                    && (d1.Elements[1].Value as JsonValueObject).ToString() == "abc");
 
                 var d2 = col.Elements[1].Value as JsonDictionaryObject;
 
                 Assert.IsTrue(d2.Elements != null && d2.Elements.Length == 2);
                 Assert.IsTrue(d2.Elements[0].Key == "Age"
-                    && d2.Elements[0].Value is JsonPlainValueObject
-                    && (d2.Elements[0].Value as JsonPlainValueObject).ToString() == "34");
+                    && d2.Elements[0].Value is JsonValueObject
+                    && (d2.Elements[0].Value as JsonValueObject).ToString() == "34");
                 Assert.IsTrue(d2.Elements[1].Key == "Name"
-                    && d2.Elements[1].Value is JsonPlainValueObject
-                    && (d2.Elements[1].Value as JsonPlainValueObject).ToString() == "def");
+                    && d2.Elements[1].Value is JsonValueObject
+                    && (d2.Elements[1].Value as JsonValueObject).ToString() == "def");
             }
         }
 
