@@ -7,37 +7,55 @@ using System.IO;
 
 using Petecat.Network.Http;
 using System.Text.RegularExpressions;
+using Petecat.Console.Outputs;
+using Petecat.Console;
 
 namespace Crawler
 {
     class Program
     {
+        static RegularOutput Out = new RegularOutput();
+
+        static Program()
+        {
+            Out.Columns.Add(new RegularColumn(0, 30));
+            Out.Columns.Add(new RegularColumn(1, 10));
+        }
+
         static List<Playlist> Playlists = new List<Playlist>();
 
         public static void Main(string[] args)
         {
-            for (int i = 1; i < 100; i++)
+            for (int i = 1; i <= 100; i++)
             {
+                Out.OutputColumn(0, string.Format("Getting page {0} ...", i));
+                Out.OutputColumn(1, string.Format("{0}/100", i));
+                Out.Refresh();
                 GetOnePage(i);
-
-                Console.WriteLine();
             }
+
+            Out.OutputNewLine();
+            Out.OutputColumn(0, "Waiting to finish ...");
+            Out.Refresh();
 
             using (var outputStream = new StreamWriter("playlists.html", false, Encoding.UTF8))
             {
+                outputStream.WriteLine("<ul>");
                 foreach (var playlist in Playlists.OrderByDescending(x => x.PlayCount))
                 {
                     outputStream.WriteLine("<li><a href=\"{0}\">{1}</a>。播放次数:{2}</li>", playlist.Url, playlist.Title, playlist.PlayCount);
                 }
+                outputStream.WriteLine("</ul>");
             }
 
-            Console.Write("done.");
+            Out.OutputColumn(1, "done");
+            Out.Refresh();
+
+            ConsoleBridging.ReadAnyKey();
         }
 
         static void GetOnePage(int pageNumber)
         {
-            Console.Write("Getting page {0} ... ", pageNumber);
-
             var queryString = new Dictionary<string, string>();
             queryString.Add("order", "hot");
             queryString.Add("cat", "全部");
@@ -81,8 +99,6 @@ namespace Crawler
                     });
                 }
             }
-
-            Console.Write("success");
         }
 
         class Playlist

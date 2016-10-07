@@ -2,10 +2,6 @@
 {
     public enum ObjectFormatterType
     {
-        DataContractXml,
-
-        DataContractJson,
-
         Xml,
 
         Binary,

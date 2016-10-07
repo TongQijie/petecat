@@ -35,7 +35,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
     <Reference Include="System.XML" />
   </ItemGroup>
@@ -80,6 +79,7 @@
     <Compile Include="Data\Access\IDataCommandObject.cs" />
     <Compile Include="Data\Access\Internal\DatabaseObject.cs" />
     <Compile Include="Data\Access\Internal\DataCommandObject.cs" />
+    <Compile Include="Data\Attributes\BinaryPropertyAttribute.cs" />
     <Compile Include="Data\Attributes\BinarySerializableAttribute.cs" />
     <Compile Include="Data\Attributes\CompositeDataMappingAttribute.cs" />
     <Compile Include="Data\Attributes\DataMappingAttributeBase.cs" />
@@ -101,11 +101,12 @@
     <Compile Include="Data\Errors\NotInitializedDataCommandObjectManagerException.cs" />
     <Compile Include="Data\Formatters\AbstractObjectFormatter.cs" />
     <Compile Include="Data\Formatters\BinaryFormatter.cs" />
-    <Compile Include="Data\Formatters\DataContractJsonFormatter.cs" />
-    <Compile Include="Data\Formatters\DataContractXmlFormatter.cs" />
     <Compile Include="Data\Formatters\IniFormatter.cs" />
     <Compile Include="Data\Formatters\Internal\BinaryEncoder.cs" />
     <Compile Include="Data\Formatters\Internal\BinarySerializer.cs" />
+    <Compile Include="Data\Formatters\Internal\Binary\BinaryEncoder.cs" />
+    <Compile Include="Data\Formatters\Internal\Binary\BinaryProperty.cs" />
+    <Compile Include="Data\Formatters\Internal\Binary\BinarySerializer.cs" />
     <Compile Include="Data\Formatters\Internal\IniSerializer.cs" />
     <Compile Include="Data\Formatters\Internal\Json\JsonEncoder.cs" />
     <Compile Include="Data\Formatters\Internal\Json\JsonProperty.cs" />

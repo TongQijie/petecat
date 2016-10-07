@@ -357,7 +357,7 @@ namespace Petecat.Data.Formatters.Internal.Json
 
         #endregion
 
-        #region .Net Runtime Type
+        #region Runtime Type
 
         private RuntimeType _CurrentRuntimeType = RuntimeType.Unknown;
 
