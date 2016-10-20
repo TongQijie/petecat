@@ -8,7 +8,7 @@ namespace Petecat.Network.Sockets
     {
         public SocketObject(Socket socket)
         {
-            Socket = socket;
+            InternalSocket = socket;
 
             var remoteEndPoint = socket.RemoteEndPoint as IPEndPoint;
             if (remoteEndPoint != null)
@@ -18,7 +18,7 @@ namespace Petecat.Network.Sockets
             }
         }
 
-        public Socket Socket { get; private set; }
+        public Socket InternalSocket { get; private set; }
 
         public IPAddress Address { get; private set; }
 
@@ -30,9 +30,11 @@ namespace Petecat.Network.Sockets
 
         public event SocketDisconnectedHandlerDelegate SocketDisconnected;
 
+        public event SocketDisposedHandlerDelegate SocketDisposed;
+
         public void Connect(IPAddress address, int port)
         {
-            Socket.Connect(address, port);
+            InternalSocket.Connect(address, port);
 
             Address = address;
             Port = port;
@@ -42,24 +44,33 @@ namespace Petecat.Network.Sockets
 
         public void Disconnect()
         {
-            if (Socket.Connected)
+            if (InternalSocket.Connected)
             {
-                Socket.Disconnect(false);
+                InternalSocket.Disconnect(false);
             }
         }
 
         public void Listen(IPEndPoint hostEndPoint)
         {
-            Socket.Bind(hostEndPoint);
+            InternalSocket.Bind(hostEndPoint);
 
-            Socket.Listen(100);
+            InternalSocket.Listen(100);
 
-            Socket.BeginAccept(AcceptCallback, this);
+            InternalSocket.BeginAccept(AcceptCallback, this);
+        }
+
+        public void Listen(int port)
+        {
+            InternalSocket.Bind(new IPEndPoint(IPAddress.Any, port));
+
+            InternalSocket.Listen(100);
+
+            InternalSocket.BeginAccept(AcceptCallback, this);
         }
 
         private void AcceptCallback(IAsyncResult ar)
         {
-            var socketObject = new SocketObject(Socket.EndAccept(ar));
+            var socketObject = new SocketObject(InternalSocket.EndAccept(ar));
 
             if (SocketConnected != null)
             {
@@ -68,16 +79,24 @@ namespace Petecat.Network.Sockets
 
             socketObject.BeginReceive(this);
 
-            Socket.BeginAccept(AcceptCallback, this);
+            InternalSocket.BeginAccept(AcceptCallback, this);
         }
 
         private byte[] _ReceiveBuffer = new byte[1024 * 4];
 
+        public void Receive()
+        {
+            if (InternalSocket.Connected)
+            {
+                InternalSocket.Receive(_ReceiveBuffer, 0, _ReceiveBuffer.Length, SocketFlags.None);
+            }
+        }
+
         public void BeginReceive(ISocketObject listener = null)
         {
-            if (Socket.Connected)
+            if (InternalSocket.Connected)
             {
-                Socket.BeginReceive(_ReceiveBuffer, 0, _ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, listener ?? this);
+                InternalSocket.BeginReceive(_ReceiveBuffer, 0, _ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, listener ?? this);
             }
         }
 
@@ -88,7 +107,7 @@ namespace Petecat.Network.Sockets
             var count = 0;
             try
             {
-                count = Socket.EndReceive(ar);
+                count = InternalSocket.EndReceive(ar);
             }
             catch (Exception)
             {
@@ -117,25 +136,38 @@ namespace Petecat.Network.Sockets
                 owner.ReceivedData.Invoke(this, _ReceiveBuffer, 0, count);
             }
 
-            Socket.BeginReceive(_ReceiveBuffer, 0, _ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, ar.AsyncState);
+            InternalSocket.BeginReceive(_ReceiveBuffer, 0, _ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, ar.AsyncState);
         }
 
         public void Send(byte[] data, int offset, int count)
         {
-            if (Socket.Connected)
+            if (InternalSocket.Connected)
             {
-                Socket.BeginSend(data, offset, count, SocketFlags.None, SendCallback, this);
+                InternalSocket.Send(data, offset, count, SocketFlags.None);
+            }
+        }
+
+        public void BeginSend(byte[] data, int offset, int count)
+        {
+            if (InternalSocket.Connected)
+            {
+                InternalSocket.BeginSend(data, offset, count, SocketFlags.None, SendCallback, this);
             }
         }
 
         private void SendCallback(IAsyncResult ar)
         {
-            Socket.EndSend(ar);
+            InternalSocket.EndSend(ar);
         }
 
         public void Dispose()
         {
-            Socket.Close();
+            InternalSocket.Close();
+
+            if (SocketDisposed != null)
+            {
+                SocketDisposed.Invoke(this);
+            }
         }
     }
 }

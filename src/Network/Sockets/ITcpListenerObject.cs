@@ -6,6 +6,8 @@ namespace Petecat.Network.Sockets
     {
         void Listen(IPEndPoint hostEndPoint);
 
+        void Listen(int port);
+
         event SocketConnectedHandlerDelegate SocketConnected;
 
         event SocketDisconnectedHandlerDelegate SocketDisconnected;

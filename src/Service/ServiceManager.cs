@@ -116,5 +116,44 @@ namespace Petecat.Service
             var requestBodyType = (method.ServiceMethod.Info as MethodInfo).GetParameters()[0].ParameterType;
             response.WriteObject(method.ServiceMethod.Invoke(serviceDefinition.Singleton, request.ReadObject(requestBodyType)));
         }
+
+        public void InvokeTcp(ServiceTcpRequest request, ServiceTcpResponse response)
+        {
+            var serviceDefinition = _LoadedServiceDefinitions.Get(request.ServiceName, null);
+            if (serviceDefinition == null)
+            {
+                throw new Errors.ServiceDefinitionNotFoundException(request.ServiceName);
+            }
+
+            ServiceMethodDefinition method = null;
+            if (string.IsNullOrEmpty(request.MethodName))
+            {
+                method = serviceDefinition.Methods.FirstOrDefault(x => x.IsDefaultMethod
+                    && (x.ServiceMethod.Info as MethodInfo).GetParameters().Length == 1);
+            }
+            else
+            {
+                method = serviceDefinition.Methods.FirstOrDefault(x => x.MethodName.Equals(request.MethodName, StringComparison.OrdinalIgnoreCase)
+                    && (x.ServiceMethod.Info as MethodInfo).GetParameters().Length == 1);
+            }
+
+            if (method == null)
+            {
+                throw new Errors.ServiceMethodNotMatchedException(request.MethodName);
+            }
+
+            if (serviceDefinition.Singleton == null)
+            {
+                serviceDefinition.Singleton = _Container.Resolve(serviceDefinition.ServiceType.Info as Type);
+            }
+
+            if (serviceDefinition.Singleton == null)
+            {
+                throw new Errors.ServiceImplementNotFoundException(serviceDefinition.Key);
+            }
+
+            var requestBodyType = (method.ServiceMethod.Info as MethodInfo).GetParameters()[0].ParameterType;
+            response.WriteObject(method.ServiceMethod.Invoke(serviceDefinition.Singleton, request.ReadObject(requestBodyType)));
+        }
     }
 }

@@ -6,11 +6,13 @@ namespace Petecat.Network.Sockets
 {
     public interface ISocketObject : IDisposable
     {
-        Socket Socket { get; }
+        Socket InternalSocket { get; }
 
         event SocketReceivedDataHandlerDelegate ReceivedData;
+
+        event SocketDisposedHandlerDelegate SocketDisposed;
         
-        void Send(byte[] data, int offset, int count);
+        void BeginSend(byte[] data, int offset, int count);
 
         IPAddress Address { get; }
 

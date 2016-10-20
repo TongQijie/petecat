@@ -199,6 +199,7 @@
     <Compile Include="Network\Sockets\ITcpListenerObject.cs" />
     <Compile Include="Network\Sockets\SocketConnectedHandlerDelegate.cs" />
     <Compile Include="Network\Sockets\SocketDisconnectedHandlerDelegate.cs" />
+    <Compile Include="Network\Sockets\SocketDisposedHandlerDelegate.cs" />
     <Compile Include="Network\Sockets\SocketFactory.cs" />
     <Compile Include="Network\Sockets\Internal\SocketObject.cs" />
     <Compile Include="Network\Sockets\SocketReceivedDataHandlerDelegate.cs" />
@@ -206,11 +207,16 @@
     <Compile Include="Service\Attributes\ServiceImplementAttribute.cs" />
     <Compile Include="Service\Attributes\ServiceInterfaceAttribute.cs" />
     <Compile Include="Service\Attributes\ServiceMethodAttribute.cs" />
+    <Compile Include="Service\Client\AbstractServiceClient.cs" />
     <Compile Include="Service\Client\ServiceClientBase.cs" />
     <Compile Include="Service\Client\ServiceResourceManager.cs" />
     <Compile Include="Service\Configuration\ServiceClientConfig.cs" />
     <Compile Include="Service\Configuration\ServiceHostConfig.cs" />
     <Compile Include="Service\Configuration\ServiceResourceConfig.cs" />
+    <Compile Include="Service\Datagram\ServiceTcpRequestDatagram.cs" />
+    <Compile Include="Service\Datagram\ServiceTcpResponseDatagram.cs" />
+    <Compile Include="Service\Datagram\StackArray.cs" />
+    <Compile Include="Service\Delegates\ServiceRequestArrivalHandlerDelegate.cs" />
     <Compile Include="Service\Errors\ServiceClientCalledException.cs" />
     <Compile Include="Service\Errors\ServiceHttpMethodNotSupportException.cs" />
     <Compile Include="Service\Errors\ServiceHttpRequestInvalidVirtualPathException.cs" />
@@ -232,6 +238,10 @@
     <Compile Include="Service\ServiceManager.cs" />
     <Compile Include="Service\ServiceMethodDefinition.cs" />
     <Compile Include="Service\ServiceRoutingManager.cs" />
+    <Compile Include="Service\ServiceTcpApplication.cs" />
+    <Compile Include="Service\ServiceTcpConnection.cs" />
+    <Compile Include="Service\ServiceTcpRequest.cs" />
+    <Compile Include="Service\ServiceTcpResponse.cs" />
     <Compile Include="Threading\Configuration\TaskSwitchContainerConfig.cs" />
     <Compile Include="Threading\Configuration\TaskSwitchConfig.cs" />
     <Compile Include="Threading\Errors\TaskExecuteFailedException.cs" />
