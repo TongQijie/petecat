@@ -1,22 +1,25 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Petecat.Console;
 using Petecat.Threading.Process;
-using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace Petecat.Test.Threading.Process
+namespace GitDiff
 {
-    [TestClass]
-    public class ProcessObjectTest
+    class Program
     {
-        [TestMethod]
-        public void ExecuteTest()
+        static void Main(string[] args)
         {
-            string branchName = "project_13400";
+            if (args == null || args.Length != 3)
+            {
+                ConsoleBridging.WriteLine("args error: gitdiff [BranchName] [LocalRepo] [CompareTool]");
+                return;
+            }
 
-            string localLocation = @"d:\git\shoppingservice";
+            string branchName = args[0];
 
-            string compareTool = @"E:\Tools\BeyondCompare\BCompare.exe";
+            string localLocation = args[1];
+
+            string compareTool = args[2];
 
             var changeFiles = new List<ChangeFile>();
 
@@ -71,14 +74,41 @@ namespace Petecat.Test.Threading.Process
 
                 changeFile.LatestFullPath = Path.Combine("latest", changeFile.Path.Replace('/', '\\'));
                 WriteFile(latestContent, changeFile.LatestFullPath);
+            }
 
-                new ProcessObject(compareTool)
-                    .Add(changeFile.InitialFullPath).Add(changeFile.LatestFullPath)
-                    .Execute();
+            for (var i = 1; i <= changeFiles.Count; i++)
+            {
+                ConsoleBridging.WriteLine("{0,-5}{1}", i, changeFiles[i - 1].Path);
+            }
+
+            var command = "";
+            while ((command = ConsoleBridging.ReadLine()) != "quit")
+            {
+                if (command.Trim().Equals("list", System.StringComparison.OrdinalIgnoreCase))
+                {
+                    for (var i = 1; i <= changeFiles.Count; i++)
+                    {
+                        ConsoleBridging.WriteLine("{0,-5}{1}", i, changeFiles[i - 1].Path);
+                    }
+                }
+                else
+                {
+                    int index;
+                    if (!int.TryParse(command.Trim(), out index) || index <= 0 || index > changeFiles.Count)
+                    {
+                        ConsoleBridging.WriteLine("error index.");
+                    }
+                    else
+                    {
+                        new ProcessObject(compareTool)
+                            .Add(changeFiles[index - 1].InitialFullPath).Add(changeFiles[index - 1].LatestFullPath)
+                            .Execute();
+                    }
+                }
             }
         }
 
-        private void WriteFile(string content, string path)
+        private static void WriteFile(string content, string path)
         {
             var folder = path.Substring(0, path.LastIndexOf('\\'));
             if (!Directory.Exists(folder))

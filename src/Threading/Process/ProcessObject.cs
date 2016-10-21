@@ -46,5 +46,15 @@ namespace Petecat.Threading.Process
 
             return process.StandardOutput;
         }
+
+        public void Execute(string workingDirectory = null)
+        {
+            var process = new System.Diagnostics.Process();
+            process.StartInfo.FileName = Executable;
+            process.StartInfo.UseShellExecute = false;
+            process.StartInfo.Arguments = Arguments;
+            process.StartInfo.WorkingDirectory = workingDirectory;
+            process.Start();
+        }
     }
 }

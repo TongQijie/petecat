@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "petecat.unittest", "test\pe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "formatter", "app\formatter\formatter.csproj", "{FDE551B2-43F1-455D-AB1E-0E271181CC27}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "gitdiff", "app\gitdiff\gitdiff.csproj", "{FB475375-3C26-4455-A4C8-77A81BF81179}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{FDE551B2-43F1-455D-AB1E-0E271181CC27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDE551B2-43F1-455D-AB1E-0E271181CC27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDE551B2-43F1-455D-AB1E-0E271181CC27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB475375-3C26-4455-A4C8-77A81BF81179}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB475375-3C26-4455-A4C8-77A81BF81179}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB475375-3C26-4455-A4C8-77A81BF81179}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB475375-3C26-4455-A4C8-77A81BF81179}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -62,5 +68,6 @@ Global
 		{F5E4A3D5-835C-4AE6-9765-C3BEC4A672F1} = {43DC8785-CBF8-454B-858A-03C0D590375B}
 		{E73D3198-EEFE-42AD-87BD-13DF4E9A6453} = {43DC8785-CBF8-454B-858A-03C0D590375B}
 		{FDE551B2-43F1-455D-AB1E-0E271181CC27} = {43DC8785-CBF8-454B-858A-03C0D590375B}
+		{FB475375-3C26-4455-A4C8-77A81BF81179} = {43DC8785-CBF8-454B-858A-03C0D590375B}
 	EndGlobalSection
 EndGlobal
