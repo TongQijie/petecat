@@ -1,4 +1,5 @@
-﻿using Petecat.Service.Datagram;
+﻿using Petecat.Data.Formatters;
+using Petecat.Service.Datagram;
 using System;
 using System.Text;
 
@@ -6,6 +7,13 @@ namespace Petecat.Service
 {
     public class ServiceTcpResponse
     {
+        static ServiceTcpResponse()
+        {
+            _Formatter = new JsonFormatter();
+        }
+
+        static IObjectFormatter _Formatter = null;
+
         public ServiceTcpResponse(ServiceTcpConnection connection)
         {
             _Connection = connection;
@@ -17,10 +25,28 @@ namespace Petecat.Service
 
         public string ContentType { get; set; }
 
-        public void WriteObject(object instance)
+        public void Flush(object instance)
         {
-            var data = new ServiceTcpResponseDatagram(instance, Status, ContentType).Wrap();
-            _Connection.TcpClientObject.BeginSend(data, 0, data.Length);
+            var datagram = new ServiceTcpResponseDatagram(EncodeObject(instance), Status, EncodeString(ContentType));
+            datagram.Wrap();
+            _Connection.SocketObject.BeginSend(datagram.Bytes, 0, datagram.Bytes.Length);
+        }
+
+        public byte[] EncodeString(string stringValue)
+        {
+            return Encoding.UTF8.GetBytes(stringValue);
+        }
+
+        public byte[] EncodeObject(object objectValue)
+        {
+            if (objectValue is string)
+            {
+                return EncodeString(objectValue as string);
+            }
+            else
+            {
+                return _Formatter.WriteBytes(objectValue);
+            }
         }
     }
 }

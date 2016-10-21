@@ -47,6 +47,14 @@ namespace Petecat.Extension
             return buf;
         }
 
+        public static T[] Append<T>(this T[] data, T[] items, int offset, int count)
+        {
+            var buf = new T[data.Length + count];
+            Array.Copy(data, 0, buf, 0, data.Length);
+            Array.Copy(items, offset, buf, data.Length, count);
+            return buf;
+        }
+
         public static bool Exists<T>(this T[] data, Func<T, bool> predicate)
         {
             return data.ToList().Exists(x => predicate(x));

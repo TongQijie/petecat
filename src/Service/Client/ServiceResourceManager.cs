@@ -52,5 +52,25 @@ namespace Petecat.Service.Client
             fullUrl = host.Url.TrimEnd('/') + "/" + resource.Url.TrimStart('/');
             return true;
         }
+
+        public bool TryGetResource(string name, out Configuration.ServiceResourceConfig serviceResourceConfig)
+        {
+            serviceResourceConfig = null;
+
+            var resources = CacheObjectManager.Instance.GetValue<Configuration.ServiceClientConfig>(CacheObjectName);
+            if (resources == null || resources.Resources == null || resources.Hosts == null || resources.Resources.Length == 0 || resources.Hosts.Length == 0)
+            {
+                return false;
+            }
+
+            var resource = resources.Resources.FirstOrDefault(x => x.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
+            if (resource == null)
+            {
+                return false;
+            }
+
+            serviceResourceConfig = resource;
+            return true;
+        }
     }
 }

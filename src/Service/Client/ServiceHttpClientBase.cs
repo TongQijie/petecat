@@ -7,9 +7,9 @@ using System.Text;
 
 namespace Petecat.Service.Client
 {
-    public class ServiceClientBase
+    public class ServiceHttpClientBase
     {
-        public ServiceClientBase(string resourceName)
+        public ServiceHttpClientBase(string resourceName)
         {
             ResourceName = resourceName;
         }

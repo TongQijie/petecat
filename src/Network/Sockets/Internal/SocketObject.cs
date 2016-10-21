@@ -30,8 +30,6 @@ namespace Petecat.Network.Sockets
 
         public event SocketDisconnectedHandlerDelegate SocketDisconnected;
 
-        public event SocketDisposedHandlerDelegate SocketDisposed;
-
         public void Connect(IPAddress address, int port)
         {
             InternalSocket.Connect(address, port);
@@ -84,14 +82,6 @@ namespace Petecat.Network.Sockets
 
         private byte[] _ReceiveBuffer = new byte[1024 * 4];
 
-        public void Receive()
-        {
-            if (InternalSocket.Connected)
-            {
-                InternalSocket.Receive(_ReceiveBuffer, 0, _ReceiveBuffer.Length, SocketFlags.None);
-            }
-        }
-
         public void BeginReceive(ISocketObject listener = null)
         {
             if (InternalSocket.Connected)
@@ -136,7 +126,10 @@ namespace Petecat.Network.Sockets
                 owner.ReceivedData.Invoke(this, _ReceiveBuffer, 0, count);
             }
 
-            InternalSocket.BeginReceive(_ReceiveBuffer, 0, _ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, ar.AsyncState);
+            if (InternalSocket.Connected)
+            {
+                InternalSocket.BeginReceive(_ReceiveBuffer, 0, _ReceiveBuffer.Length, SocketFlags.None, ReceiveCallback, ar.AsyncState);
+            }
         }
 
         public void Send(byte[] data, int offset, int count)
@@ -163,11 +156,6 @@ namespace Petecat.Network.Sockets
         public void Dispose()
         {
             InternalSocket.Close();
-
-            if (SocketDisposed != null)
-            {
-                SocketDisposed.Invoke(this);
-            }
         }
     }
 }

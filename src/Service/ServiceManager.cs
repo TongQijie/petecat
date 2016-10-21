@@ -117,7 +117,7 @@ namespace Petecat.Service
             response.WriteObject(method.ServiceMethod.Invoke(serviceDefinition.Singleton, request.ReadObject(requestBodyType)));
         }
 
-        public void InvokeTcp(ServiceTcpRequest request, ServiceTcpResponse response)
+        public object InvokeTcp(ServiceTcpRequest request)
         {
             var serviceDefinition = _LoadedServiceDefinitions.Get(request.ServiceName, null);
             if (serviceDefinition == null)
@@ -153,7 +153,7 @@ namespace Petecat.Service
             }
 
             var requestBodyType = (method.ServiceMethod.Info as MethodInfo).GetParameters()[0].ParameterType;
-            response.WriteObject(method.ServiceMethod.Invoke(serviceDefinition.Singleton, request.ReadObject(requestBodyType)));
+            return method.ServiceMethod.Invoke(serviceDefinition.Singleton, request.ReadObject(requestBodyType));
         }
     }
 }

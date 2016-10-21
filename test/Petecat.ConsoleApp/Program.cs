@@ -27,6 +27,17 @@ namespace Petecat.ConsoleApp
     {
         static void Main(string[] args)
         {
+            if (args != null && args.Length > 0 && args[0].StartsWith("s", StringComparison.OrdinalIgnoreCase))
+            {
+                new ServiceTcpApplicationTest().Run();
+                ConsoleBridging.ReadAnyKey();
+            }
+            else
+            {
+                new ServiceTcpClientBaseTest().Run();
+                ConsoleBridging.ReadAnyKey();
+            }
+
             //var container = new DefaultContainer();
             //container.Register("./configuration/container.config");
 
@@ -51,23 +62,23 @@ namespace Petecat.ConsoleApp
             //    return new XmlFormatter().ReadObject<AppSettings>("./configuration/AppSettings.config".FullPath());
             //});
 
-            FolderWatcherManager.Instance.GetOrAdd("./configuration".FullPath())
-                .SetFileCreatedHandler((f, n) =>
-                {
-                    ConsoleBridging.WriteLine("created " + n);
-                })
-                .SetFileDeletedHandler((f, n) =>
-                {
-                    ConsoleBridging.WriteLine("deleted " + n);
-                })
-                .SetFileRenamedHandler((f, o, n) =>
-                {
-                    ConsoleBridging.WriteLine("renamed from " + o + " to " + n);
-                }).Start();
+            //FolderWatcherManager.Instance.GetOrAdd("./configuration".FullPath())
+            //    .SetFileCreatedHandler((f, n) =>
+            //    {
+            //        ConsoleBridging.WriteLine("created " + n);
+            //    })
+            //    .SetFileDeletedHandler((f, n) =>
+            //    {
+            //        ConsoleBridging.WriteLine("deleted " + n);
+            //    })
+            //    .SetFileRenamedHandler((f, o, n) =>
+            //    {
+            //        ConsoleBridging.WriteLine("renamed from " + o + " to " + n);
+            //    }).Start();
 
-            ConsoleBridging.ReadAnyKey();
+            //ConsoleBridging.ReadAnyKey();
 
-            FolderWatcherManager.Instance.GetOrAdd("./configuration".FullPath()).Stop();
+            //FolderWatcherManager.Instance.GetOrAdd("./configuration".FullPath()).Stop();
 
             //CacheObjectManager.Instance.AddXml<AppSettings>("AppSettings", "./configuration/AppSettings.config".FullPath(), true);
 
@@ -171,9 +182,6 @@ namespace Petecat.ConsoleApp
             //}
 
 #endif
-
-
-            
         }
 
         static void tcpListener_SocketConnected(ISocketObject socketObject)

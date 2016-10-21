@@ -207,12 +207,14 @@
     <Compile Include="Service\Attributes\ServiceImplementAttribute.cs" />
     <Compile Include="Service\Attributes\ServiceInterfaceAttribute.cs" />
     <Compile Include="Service\Attributes\ServiceMethodAttribute.cs" />
-    <Compile Include="Service\Client\AbstractServiceClient.cs" />
-    <Compile Include="Service\Client\ServiceClientBase.cs" />
+    <Compile Include="Service\Client\ServiceHttpClientBase.cs" />
     <Compile Include="Service\Client\ServiceResourceManager.cs" />
+    <Compile Include="Service\Client\ServiceTcpClientBase.cs" />
+    <Compile Include="Service\Client\ServiceTcpClientObject.cs" />
     <Compile Include="Service\Configuration\ServiceClientConfig.cs" />
     <Compile Include="Service\Configuration\ServiceHostConfig.cs" />
     <Compile Include="Service\Configuration\ServiceResourceConfig.cs" />
+    <Compile Include="Service\Datagram\ServiceTcpDatagram.cs" />
     <Compile Include="Service\Datagram\ServiceTcpRequestDatagram.cs" />
     <Compile Include="Service\Datagram\ServiceTcpResponseDatagram.cs" />
     <Compile Include="Service\Datagram\StackArray.cs" />
