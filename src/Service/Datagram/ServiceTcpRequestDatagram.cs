@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Text;
-namespace Petecat.Service.Datagram
+﻿namespace Petecat.Service.Datagram
 {
     public class ServiceTcpRequestDatagram : ServiceTcpDatagram
     {

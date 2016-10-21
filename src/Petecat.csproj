@@ -219,6 +219,7 @@
     <Compile Include="Service\Datagram\ServiceTcpResponseDatagram.cs" />
     <Compile Include="Service\Datagram\StackArray.cs" />
     <Compile Include="Service\Delegates\ServiceRequestArrivalHandlerDelegate.cs" />
+    <Compile Include="Service\Enums\ServiceTcpResponseStatus.cs" />
     <Compile Include="Service\Errors\ServiceClientCalledException.cs" />
     <Compile Include="Service\Errors\ServiceHttpMethodNotSupportException.cs" />
     <Compile Include="Service\Errors\ServiceHttpRequestInvalidVirtualPathException.cs" />

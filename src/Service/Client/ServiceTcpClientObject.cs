@@ -1,12 +1,12 @@
-﻿using Petecat.Extension;
-using Petecat.Network.Sockets;
+﻿using Petecat.Network.Sockets;
 using Petecat.Service.Datagram;
+
 using System;
 using System.Net;
 
 namespace Petecat.Service.Client
 {
-    public class ServiceTcpClientObject : IDisposable
+    internal class ServiceTcpClientObject : IDisposable
     {
         public ServiceTcpClientObject(string address, int port)
         {
@@ -28,15 +28,15 @@ namespace Petecat.Service.Client
         public byte[] GetResponse(byte[] request, int timeout = 30000)
         {
             TcpClientObject = SocketFactory.CreateTcpClientObject();
+            TcpClientObject.ReceivedData += TcpClientObject_ReceivedData;
             TcpClientObject.Connect(_Address, _Port);
             TcpClientObject.Send(request, 0, request.Length);
-            TcpClientObject.ReceivedData += TcpClientObject_ReceivedData;
 
             int costTime = 0;
             while (!_IsGotDatagram && costTime < timeout)
             {
-                Threading.ThreadBridging.Sleep(50);
-                costTime += 50;
+                Threading.ThreadBridging.Sleep(5);
+                costTime += 5;
             }
 
             if (costTime >= timeout)

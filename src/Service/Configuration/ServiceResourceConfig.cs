@@ -22,6 +22,9 @@ namespace Petecat.Service.Configuration
         [XmlElement("accept")]
         public string Accept { get; set; }
 
+        [XmlAttribute("address")]
+        public string Address { get; set; }
+
         [XmlAttribute("port")]
         public int Port { get; set; }
 

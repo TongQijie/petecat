@@ -13,69 +13,95 @@ namespace Petecat.Service
     {
         private ITcpListenerObject _TcpListenerObject = null;
 
-        public void Start(int port)
+        public ServiceTcpApplication()
         {
             Initialize();
-
-            _TcpListenerObject = SocketFactory.CreateTcpListenerObject();
-            _TcpListenerObject.SocketConnected += _TcpListenerObject_SocketConnected;
-            _TcpListenerObject.SocketDisconnected += _TcpListenerObject_SocketDisconnected;
-            _TcpListenerObject.ReceivedData += _TcpListenerObject_ReceivedData;
-            _TcpListenerObject.Listen(port);
         }
 
-        private void _TcpListenerObject_SocketDisconnected(ISocketObject socketObject)
+        public void Start(int port)
         {
-            Connections = Connections.Remove(x => x.SocketObject.Equals(socketObject));
-
-            foreach (var con in Connections)
+            if (_TcpListenerObject == null)
             {
-                ConsoleBridging.WriteLine("{0}:{1}", con.SocketObject.Address.ToString(), con.SocketObject.Port);
+                _TcpListenerObject = SocketFactory.CreateTcpListenerObject();
+                _TcpListenerObject.SocketConnected += _TcpListenerObject_SocketConnected;
+                _TcpListenerObject.SocketDisconnected += _TcpListenerObject_SocketDisconnected;
+                _TcpListenerObject.ReceivedData += _TcpListenerObject_ReceivedData;
+                _TcpListenerObject.Listen(port);
             }
         }
 
-        private void _TcpListenerObject_ReceivedData(ISocketObject socketObject, byte[] data, int offset, int count)
+        public void Stop()
         {
-            var connection = Connections.FirstOrDefault(x => x.SocketObject.Equals(socketObject));
-            if (connection != null)
+            if (_TcpListenerObject != null)
             {
-                connection.ReceiveData(data, offset, count);
+                _TcpListenerObject.SocketConnected -= _TcpListenerObject_SocketConnected;
+                _TcpListenerObject.SocketDisconnected -= _TcpListenerObject_SocketDisconnected;
+                _TcpListenerObject.ReceivedData -= _TcpListenerObject_ReceivedData;
+                _TcpListenerObject.Dispose();
+                _TcpListenerObject = null;
+
+                Connections = new ServiceTcpConnection[0];
             }
         }
 
         private void _TcpListenerObject_SocketConnected(ISocketObject socketObject)
         {
-            var connection = new ServiceTcpConnection(socketObject as ITcpClientObject);
-            connection.ServiceRequestArrival += connection_ServiceRequestArrival;
-            Connections = Connections.Append(connection);
-
-            foreach (var con in Connections)
+            var connection = Connections.FirstOrDefault(x => x.IsDisposed);
+            if (connection != null)
             {
-                ConsoleBridging.WriteLine("{0}:{1}", con.SocketObject.Address.ToString(), con.SocketObject.Port);
+                connection.Reset(socketObject);
+            }
+            else
+            {
+                Connections = Connections.Append(new ServiceTcpConnection(socketObject));
+            }
+        }
+
+        private void _TcpListenerObject_SocketDisconnected(ISocketObject socketObject)
+        {
+            var connection = Connections.FirstOrDefault(x => x.SocketObject != null && x.SocketObject.Equals(socketObject));
+            if (connection != null)
+            {
+                connection.IsDisposed = true;
+            }
+        }
+
+        private void _TcpListenerObject_ReceivedData(ISocketObject socketObject, byte[] data, int offset, int count)
+        {
+            var connection = Connections.FirstOrDefault(x => !x.IsDisposed && x.SocketObject != null && x.SocketObject.Equals(socketObject));
+            if (connection != null)
+            {
+                connection.ReceiveData(data, offset, count);
+            }
+            else
+            {
+                ConsoleBridging.WriteLine("connection not found.");
             }
         }
 
         private void connection_ServiceRequestArrival(ServiceTcpRequest request)
         {
-            ConsoleBridging.WriteLine("Get data from {0}:{1}", request.Connection.SocketObject.Address.ToString(), request.Connection.SocketObject.Port);
-
             var response = new ServiceTcpResponse(request.Connection);
 
             try
             {
-                response.Status = 0x66;
+                response.Status = (byte)ServiceTcpResponseStatus.Succeeded;
                 response.ContentType = request.ContentType;
                 response.Flush(ServiceManager.Instance.InvokeTcp(request));
+
+                ConsoleBridging.WriteLine("execute succeeded.");
             }
             catch (Exception e)
             {
-                response.Status = 0x99;
+                response.Status = (byte)ServiceTcpResponseStatus.Failed;
                 response.ContentType = null;
                 response.Flush(e.Message);
+
+                ConsoleBridging.WriteLine("execute failed.");
             }
         }
 
-        private ServiceTcpConnection[] Connections = new ServiceTcpConnection[0];
+        private ServiceTcpConnection[] Connections = new ServiceTcpConnection[100];
 
         private void Initialize()
         {
@@ -90,6 +116,12 @@ namespace Petecat.Service
             {
                 LoggerManager.GetLogger().LogEvent("ServiceHttpApplication", LoggerLevel.Fatal, e);
                 return;
+            }
+
+            for (int i = 0; i < Connections.Length; i++)
+            {
+                Connections[i] = new ServiceTcpConnection() { IsDisposed = true };
+                Connections[i].ServiceRequestArrival += connection_ServiceRequestArrival;
             }
         }
     }

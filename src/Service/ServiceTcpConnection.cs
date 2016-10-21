@@ -1,16 +1,17 @@
-﻿using System;
-
-using Petecat.Network.Sockets;
-using Petecat.Extension;
+﻿using Petecat.Network.Sockets;
 using Petecat.Service.Datagram;
 
 namespace Petecat.Service
 {
     public class ServiceTcpConnection
     {
-        public ServiceTcpConnection(ISocketObject socketObject)
+        public ServiceTcpConnection()
         {
             Datagram = new ServiceTcpRequestDatagram(new byte[0]);
+        }
+
+        public ServiceTcpConnection(ISocketObject socketObject) : base()
+        {
             SocketObject = socketObject;
         }
 
@@ -35,5 +36,14 @@ namespace Petecat.Service
                 Datagram.Clear();
             }
         }
+
+        public void Reset(ISocketObject socketObject)
+        {
+            SocketObject = socketObject;
+            Datagram.Clear();
+            IsDisposed = false;
+        }
+
+        public bool IsDisposed { get; set; }
     }
 }

@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Text;
 
-using Petecat.Extension;
-using Petecat.Service.Datagram;
 using Petecat.Data.Formatters;
+using Petecat.Service.Datagram;
 
 namespace Petecat.Service
 {

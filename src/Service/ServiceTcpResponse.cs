@@ -1,6 +1,6 @@
 ﻿using Petecat.Data.Formatters;
 using Petecat.Service.Datagram;
-using System;
+
 using System.Text;
 
 namespace Petecat.Service
@@ -34,7 +34,7 @@ namespace Petecat.Service
 
         public byte[] EncodeString(string stringValue)
         {
-            return Encoding.UTF8.GetBytes(stringValue);
+            return Encoding.UTF8.GetBytes(stringValue ?? string.Empty);
         }
 
         public byte[] EncodeObject(object objectValue)

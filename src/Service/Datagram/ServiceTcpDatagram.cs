@@ -1,6 +1,6 @@
-﻿using Petecat.Extension;
+﻿using System;
 
-using System;
+using Petecat.Extension;
 
 namespace Petecat.Service.Datagram
 {
@@ -78,7 +78,7 @@ namespace Petecat.Service.Datagram
             return true;
         }
 
-        public void Wrap()
+        public ServiceTcpDatagram Wrap()
         {
             var stackArray = new StackArray(_ContentSize + 8);
             stackArray.Push((byte)0xFF);
@@ -88,15 +88,19 @@ namespace Petecat.Service.Datagram
             stackArray.Push((byte)0xEF);
             stackArray.Push((byte)0xFF);
             _Bytes = stackArray.Bytes;
+
+            return this;
         }
 
         protected virtual void Wrap(StackArray stackArray) { }
 
-        public void Unwrap()
+        public ServiceTcpDatagram Unwrap()
         {
             var stackArray = new StackArray(_Bytes);
             stackArray.Seek(6, StackArray.SeekOrigin.Start);
             Unwrap(stackArray);
+
+            return this;
         }
 
         protected virtual void Unwrap(StackArray stackArray) { }

@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Petecat")]
-[assembly: AssemblyCopyright("Copyright ©  2016")]
+[assembly: AssemblyCopyright("Copyright © Petecat 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -37,4 +37,5 @@ using System.Runtime.InteropServices;
 
 #if DEBUG
 [assembly: InternalsVisibleTo("petecat.test")]
+[assembly: InternalsVisibleTo("petecat.consoleapp")]
 #endif

@@ -1,6 +1,8 @@
 ﻿using Petecat.Data.Formatters;
 using Petecat.Service.Datagram;
+
 using System.Text;
+
 namespace Petecat.Service.Client
 {
     public class ServiceTcpClientBase
@@ -19,38 +21,12 @@ namespace Petecat.Service.Client
 
         public string ResourceName { get; private set; }
 
-        public TResponse Call<TResponse>()
+        public TResponse Call<TResponse>(object requestBody = null)
         {
-            Configuration.ServiceResourceConfig serviceResourceConfig;
-            if (!ServiceResourceManager.Instance.TryGetResource(ResourceName, out serviceResourceConfig))
-            {
-                throw new Errors.ServiceResourceNotFoundException(ResourceName);
-            }
-
-            using(var client = new ServiceTcpClientObject(serviceResourceConfig.Host, serviceResourceConfig.Port))
-            {
-                var request = new ServiceTcpRequestDatagram(null,
-                    EncodeString(serviceResourceConfig.ServiceName ?? string.Empty),
-                    EncodeString(serviceResourceConfig.MethodName ?? string.Empty),
-                    EncodeString(serviceResourceConfig.ContentType ?? string.Empty));
-                request.Wrap();
-
-                var response = new ServiceTcpResponseDatagram(client.GetResponse(request.Bytes));
-                response.Unwrap();
-
-                if (response.Status == 0x66)
-                {
-                    return _Formatter.ReadObject<TResponse>(response.Body, 0, response.Body.Length);
-                }
-                else
-                {
-                    throw new Errors.ServiceClientCallingFailedException(ResourceName, response.Status.ToString(), 
-                        Encoding.UTF8.GetString(response.Body, 0, response.Body.Length));
-                }
-            }
+            return InternalCall<TResponse>(requestBody, Encoding.UTF8);
         }
 
-        public TResponse Call<TResponse>(object requestBody)
+        private TResponse InternalCall<TResponse>(object requestBody, Encoding encoding)
         {
             Configuration.ServiceResourceConfig serviceResourceConfig;
             if (!ServiceResourceManager.Instance.TryGetResource(ResourceName, out serviceResourceConfig))
@@ -58,37 +34,25 @@ namespace Petecat.Service.Client
                 throw new Errors.ServiceResourceNotFoundException(ResourceName);
             }
 
-            using (var client = new ServiceTcpClientObject(serviceResourceConfig.Host, serviceResourceConfig.Port))
+            using (var client = new ServiceTcpClientObject(serviceResourceConfig.Address, serviceResourceConfig.Port))
             {
-                var request = new ServiceTcpRequestDatagram(EncodeObject(requestBody),
-                    EncodeString(serviceResourceConfig.ServiceName ?? string.Empty),
-                    EncodeString(serviceResourceConfig.MethodName ?? string.Empty),
-                    EncodeString(serviceResourceConfig.ContentType ?? string.Empty));
-                request.Wrap();
+                var request = new ServiceTcpRequestDatagram(requestBody == null ? null : _Formatter.WriteBytes(requestBody),
+                    encoding.GetBytes(serviceResourceConfig.ServiceName ?? string.Empty),
+                    encoding.GetBytes(serviceResourceConfig.MethodName ?? string.Empty),
+                    encoding.GetBytes(serviceResourceConfig.ContentType ?? string.Empty)).Wrap();
 
-                var response = new ServiceTcpResponseDatagram(client.GetResponse(request.Bytes));
-                response.Unwrap();
+                var response = new ServiceTcpResponseDatagram(client.GetResponse(request.Bytes)).Unwrap() as ServiceTcpResponseDatagram;
 
-                if (response.Status == 0x66)
+                if (response.Status == (byte)ServiceTcpResponseStatus.Succeeded)
                 {
                     return _Formatter.ReadObject<TResponse>(response.Body, 0, response.Body.Length);
                 }
                 else
                 {
                     throw new Errors.ServiceClientCallingFailedException(ResourceName, response.Status.ToString(),
-                        Encoding.UTF8.GetString(response.Body, 0, response.Body.Length));
+                        encoding.GetString(response.Body, 0, response.Body.Length));
                 }
             }
-        }
-
-        public byte[] EncodeString(string stringValue)
-        {
-            return Encoding.UTF8.GetBytes(stringValue);
-        }
-
-        public byte[] EncodeObject(object objectValue)
-        {
-            return _Formatter.WriteBytes(objectValue);
         }
     }
 }
