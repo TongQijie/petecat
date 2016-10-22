@@ -88,16 +88,12 @@ namespace Petecat.Service
                 response.Status = (byte)ServiceTcpResponseStatus.Succeeded;
                 response.ContentType = request.ContentType;
                 response.Flush(ServiceManager.Instance.InvokeTcp(request));
-
-                ConsoleBridging.WriteLine("execute succeeded.");
             }
             catch (Exception e)
             {
                 response.Status = (byte)ServiceTcpResponseStatus.Failed;
                 response.ContentType = null;
                 response.Flush(e.Message);
-
-                ConsoleBridging.WriteLine("execute failed.");
             }
         }
 

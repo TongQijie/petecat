@@ -32,11 +32,12 @@ namespace Petecat.Service.Client
             TcpClientObject.Connect(_Address, _Port);
             TcpClientObject.Send(request, 0, request.Length);
 
-            int costTime = 0;
+            int costTime = 0, sleepTime = 4;
             while (!_IsGotDatagram && costTime < timeout)
             {
-                Threading.ThreadBridging.Sleep(5);
-                costTime += 5;
+                Threading.ThreadBridging.Sleep(sleepTime);
+                costTime += sleepTime;
+                sleepTime = sleepTime << 1;
             }
 
             if (costTime >= timeout)
