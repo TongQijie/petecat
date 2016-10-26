@@ -1,5 +1,6 @@
 ﻿using Petecat.Extension;
 using Petecat.Configuring;
+using Petecat.Service.Configuration;
 
 using System;
 

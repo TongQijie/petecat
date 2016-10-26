@@ -113,8 +113,8 @@ namespace Petecat.Configuring
                 throw new Exception();
             }
 
-            CacheObjectManager.Instance.Add(item.Key, 
-                                            item.Path, 
+            CacheObjectManager.Instance.Add(item.Key,
+                                            item.Path.FullPath(), 
                                             configurationType,
                                             ObjectFormatterFactory.GetFormatter(ObjectFormatterType.Xml), 
                                             true);

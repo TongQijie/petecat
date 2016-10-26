@@ -30,6 +30,12 @@ namespace Petecat.Service
 
         private void InternalProcessRequest(StaticResourceHttpRequest request, StaticResourceHttpResponse response)
         {
+            var types = ServiceRoutingManager.Instance.GetRoutingRule("SupportedStaticResource");
+            if (types.HasValue() && !types.SplitByChar(';').Exists(x => string.Equals(request.ResourceType, x, StringComparison.OrdinalIgnoreCase)))
+            {
+                throw new Exception(string.Format("resource type '{0}' does not support.", request.ResourceType));
+            }
+
             if (string.Equals(request.ResourceType, "html", StringComparison.OrdinalIgnoreCase))
             {
                 response.Write(("./" + request.RelativePath).FullPath(), "text/html");

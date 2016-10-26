@@ -1,6 +1,6 @@
 ﻿using System.Xml.Serialization;
 
-namespace Petecat
+namespace Petecat.Service.Configuration
 {
     [XmlRoot("routing")]
     public class ServiceRoutingConfig
@@ -10,4 +10,3 @@ namespace Petecat
         public ServiceRoutingRuleConfig[] Rules { get; set; } 
     }
 }
-
