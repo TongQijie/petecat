@@ -245,6 +245,10 @@
     <Compile Include="Service\ServiceTcpConnection.cs" />
     <Compile Include="Service\ServiceTcpRequest.cs" />
     <Compile Include="Service\ServiceTcpResponse.cs" />
+    <Compile Include="Service\StaticResourceHttpHandler.cs" />
+    <Compile Include="Service\StaticResourceHttpPathHelper.cs" />
+    <Compile Include="Service\StaticResourceHttpRequest.cs" />
+    <Compile Include="Service\StaticResourceHttpResponse.cs" />
     <Compile Include="Threading\Configuration\TaskSwitchContainerConfig.cs" />
     <Compile Include="Threading\Configuration\TaskSwitchConfig.cs" />
     <Compile Include="Threading\Errors\TaskExecuteFailedException.cs" />

@@ -7,7 +7,7 @@ namespace Petecat.Service
 {
     public class ServiceHttpHandler : IHttpHandler
     {
-        public bool IsReusable { get { return false; } }
+        public bool IsReusable { get { return true; } }
 
         public void ProcessRequest(HttpContext context)
         {

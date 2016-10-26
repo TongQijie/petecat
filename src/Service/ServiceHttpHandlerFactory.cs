@@ -6,13 +6,31 @@ namespace Petecat.Service
     {
         public IHttpHandler GetHandler(HttpContext context, string requestType, string url, string pathTranslated)
         {
-            return new ServiceHttpHandler();
+            if (IsStaticResourceHandler(context.Request.RawUrl))
+            {
+                return new StaticResourceHttpHandler();
+            }
+            else
+            {
+                return new ServiceHttpHandler();
+            }
         }
 
         public void ReleaseHandler(IHttpHandler handler)
         {
         }
 
-        public bool IsReusable { get { return false; } }
+        public bool IsReusable { get { return true; } }
+
+        public bool IsStaticResourceHandler(string url)
+        {
+            url = url.TrimStart('/');
+            if (url.Contains("?"))
+            {
+                url = url.Remove(url.IndexOf('?'));
+            }
+
+            return url.Contains(".");
+        }
     }
 }

@@ -23,8 +23,6 @@ namespace Petecat.Service
 
         public HttpRequest Request { get; private set; }
 
-        public string VirtualPath { get; private set; }
-
         public string ServiceName { get; private set; }
 
         public string MethodName { get; private set; }

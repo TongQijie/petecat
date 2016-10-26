@@ -43,7 +43,6 @@ namespace Petecat.Service
                 {
                     if (fields.Length <= i || !string.Equals(paths[i], fields[i], StringComparison.OrdinalIgnoreCase))
                     {
-                        
                         return false;
                     }
                 }
