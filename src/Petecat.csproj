@@ -211,9 +211,12 @@
     <Compile Include="Service\Client\ServiceResourceManager.cs" />
     <Compile Include="Service\Client\ServiceTcpClientBase.cs" />
     <Compile Include="Service\Client\ServiceTcpClientObject.cs" />
+    <Compile Include="Service\Configuration\KeyValueConfig.cs" />
     <Compile Include="Service\Configuration\ServiceClientConfig.cs" />
     <Compile Include="Service\Configuration\ServiceHostConfig.cs" />
+    <Compile Include="Service\Configuration\ServiceHttpApplicationConfig.cs" />
     <Compile Include="Service\Configuration\ServiceResourceConfig.cs" />
+    <Compile Include="Service\Configuration\StaticResourceContentMapping.cs" />
     <Compile Include="Service\Datagram\ServiceTcpDatagram.cs" />
     <Compile Include="Service\Datagram\ServiceTcpRequestDatagram.cs" />
     <Compile Include="Service\Datagram\ServiceTcpResponseDatagram.cs" />
@@ -232,6 +235,7 @@
     <Compile Include="Service\ServiceAccessMethod.cs" />
     <Compile Include="Service\ServiceDefinition.cs" />
     <Compile Include="Service\ServiceHttpApplication.cs" />
+    <Compile Include="Service\ServiceHttpApplicationConfigManager.cs" />
     <Compile Include="Service\ServiceHttpFormatter.cs" />
     <Compile Include="Service\ServiceHttpHandler.cs" />
     <Compile Include="Service\ServiceHttpHandlerFactory.cs" />
@@ -249,6 +253,7 @@
     <Compile Include="Service\StaticResourceHttpPathHelper.cs" />
     <Compile Include="Service\StaticResourceHttpRequest.cs" />
     <Compile Include="Service\StaticResourceHttpResponse.cs" />
+    <Compile Include="Terminal\TerminalManager.cs" />
     <Compile Include="Threading\Configuration\TaskSwitchContainerConfig.cs" />
     <Compile Include="Threading\Configuration\TaskSwitchConfig.cs" />
     <Compile Include="Threading\Errors\TaskExecuteFailedException.cs" />

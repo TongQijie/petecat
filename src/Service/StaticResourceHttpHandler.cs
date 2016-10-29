@@ -36,14 +36,13 @@ namespace Petecat.Service
                 throw new Exception(string.Format("resource type '{0}' does not support.", request.ResourceType));
             }
 
-            if (string.Equals(request.ResourceType, "html", StringComparison.OrdinalIgnoreCase))
+            var contentType = ServiceHttpApplicationConfigManager.Instance.GetStaticResourceContentMapping(request.ResourceType);
+            if (contentType == null)
             {
-                response.Write(("./" + request.RelativePath).FullPath(), "text/html");
+                contentType = "application/octet-stream";
             }
-            else
-            {
-                response.Write(("./" + request.RelativePath).FullPath(), "application/octet-stream");
-            }
+
+            response.Write(("./" + request.RelativePath).FullPath(), contentType);
         }
     }
 }

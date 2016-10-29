@@ -5,7 +5,12 @@ angular.module('articleList').
     controller: function ArticleListController($http) {
       var self = this;
 
-      $http.get('article-service/get-articles?pageNumber=1').then(function(response) {
+      $http.get('article-service/get-articles?pageNumber=1', {
+          headers: {
+            'Content-Type': 'application/json', 
+            'ACCEPT': 'application/json'
+          }
+        }).then(function(response) {
         self.articles = response.data;
       });
     }

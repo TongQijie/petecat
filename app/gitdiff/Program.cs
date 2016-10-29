@@ -76,20 +76,14 @@ namespace GitDiff
                 WriteFile(latestContent, changeFile.LatestFullPath);
             }
 
-            for (var i = 1; i <= changeFiles.Count; i++)
-            {
-                ConsoleBridging.WriteLine("{0,-5}{1}", i, changeFiles[i - 1].Path);
-            }
+            WriteChangeFiles(changeFiles);
 
             var command = "";
             while ((command = ConsoleBridging.ReadLine()) != "quit")
             {
                 if (command.Trim().Equals("list", System.StringComparison.OrdinalIgnoreCase))
                 {
-                    for (var i = 1; i <= changeFiles.Count; i++)
-                    {
-                        ConsoleBridging.WriteLine("{0,-5}{1}", i, changeFiles[i - 1].Path);
-                    }
+                    WriteChangeFiles(changeFiles);
                 }
                 else
                 {
@@ -119,6 +113,15 @@ namespace GitDiff
             using (var outputStream = new StreamWriter(path))
             {
                 outputStream.Write(content);
+            }
+        }
+
+        private static void WriteChangeFiles(List<ChangeFile> changeFiles)
+        {
+            // output changes
+            for (var i = 1; i <= changeFiles.Count; i++)
+            {
+                ConsoleBridging.WriteLine("{0,-4}{1,-3}{2}", i, changeFiles[i - 1].Action, changeFiles[i - 1].Path);
             }
         }
 
