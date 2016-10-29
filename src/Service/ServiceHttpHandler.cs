@@ -5,7 +5,7 @@ using Petecat.Logging;
 
 namespace Petecat.Service
 {
-    public class ServiceHttpHandler : IHttpHandler
+    public class ServiceHttpHandler : IHttpHandler, IHttpRoutingHandler
     {
         public bool IsReusable { get { return true; } }
 
@@ -51,6 +51,11 @@ namespace Petecat.Service
             {
                 throw new Errors.ServiceHttpMethodNotSupportException(request.Request.HttpMethod);
             }
+        }
+
+        public HttpRoutingData GetHttpRoutingData(string url)
+        {
+            throw new NotImplementedException();
         }
     }
 }

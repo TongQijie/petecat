@@ -6,5 +6,8 @@ namespace Petecat.Service.Configuration
     {
         [XmlElement("staticResourceContentMapping")]
         public StaticResourceContentMapping StaticResourceContentMapping { get; set; }
+
+        [XmlElement("serviceHttpRouting")]
+        public ServiceHttpRoutingConfig ServiceHttpRouting { get; set; }
     }
 }

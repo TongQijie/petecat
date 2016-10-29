@@ -215,6 +215,7 @@
     <Compile Include="Service\Configuration\ServiceClientConfig.cs" />
     <Compile Include="Service\Configuration\ServiceHostConfig.cs" />
     <Compile Include="Service\Configuration\ServiceHttpApplicationConfig.cs" />
+    <Compile Include="Service\Configuration\ServiceHttpRoutingConfig.cs" />
     <Compile Include="Service\Configuration\ServiceResourceConfig.cs" />
     <Compile Include="Service\Configuration\StaticResourceContentMapping.cs" />
     <Compile Include="Service\Datagram\ServiceTcpDatagram.cs" />
@@ -232,6 +233,9 @@
     <Compile Include="Service\Errors\ServiceMethodNotMatchedException.cs" />
     <Compile Include="Service\Errors\ServiceNameNotSpecifiedException.cs" />
     <Compile Include="Service\Errors\ServiceResourceNotFoundException.cs" />
+    <Compile Include="Service\HttpHandlerBase.cs" />
+    <Compile Include="Service\HttpRoutingData.cs" />
+    <Compile Include="Service\IHttpRoutingHandler.cs" />
     <Compile Include="Service\ServiceAccessMethod.cs" />
     <Compile Include="Service\ServiceDefinition.cs" />
     <Compile Include="Service\ServiceHttpApplication.cs" />

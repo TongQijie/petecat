@@ -29,5 +29,25 @@ namespace Petecat.Service
 
             return contentMapping.Value;
         }
+
+        public string GetServiceHttpRouting(string key)
+        {
+            var serviceHttpApplicationConfig = ConfigurationFactory.GetManager().GetValue<ServiceHttpApplicationConfig>("Global_ServiceHttpApplication");
+            if (serviceHttpApplicationConfig == null
+                || serviceHttpApplicationConfig.StaticResourceContentMapping == null
+                || serviceHttpApplicationConfig.StaticResourceContentMapping.KeyValues == null
+                || serviceHttpApplicationConfig.StaticResourceContentMapping.KeyValues.Length == 0)
+            {
+                return null;
+            }
+
+            var httpRouting = serviceHttpApplicationConfig.ServiceHttpRouting.KeyValues.FirstOrDefault(x => string.Equals(key, x.Key, StringComparison.OrdinalIgnoreCase));
+            if (httpRouting == null)
+            {
+                return null;
+            }
+
+            return httpRouting.Value;
+        }
     }
 }
