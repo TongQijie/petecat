@@ -8,7 +8,7 @@ using System.Web;
 
 namespace Petecat.Service
 {
-    public class ServiceHttpApplication : HttpApplication
+    public class HttpApplicationBase : HttpApplication
     {
         protected void Application_Start(object sender, EventArgs e)
         {
@@ -26,7 +26,7 @@ namespace Petecat.Service
             }
             catch (Exception e)
             {
-                LoggerManager.GetLogger().LogEvent("ServiceHttpApplication", LoggerLevel.Fatal, e);
+                LoggerManager.GetLogger().LogEvent("HttpApplicationBase", LoggerLevel.Fatal, e);
                 return;
             }
         }

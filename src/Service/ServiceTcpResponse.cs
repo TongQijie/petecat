@@ -14,12 +14,12 @@ namespace Petecat.Service
 
         static IObjectFormatter _Formatter = null;
 
-        public ServiceTcpResponse(ServiceTcpConnection connection)
+        public ServiceTcpResponse(TcpConnectionBase connection)
         {
             _Connection = connection;
         }
 
-        private ServiceTcpConnection _Connection = null;
+        private TcpConnectionBase _Connection = null;
 
         public byte Status { get; set; }
 

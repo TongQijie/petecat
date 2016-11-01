@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Web;
 
+using Petecat.Extension;
 using Petecat.Logging;
 
 namespace Petecat.Service
 {
-    public class ServiceHttpHandler : IHttpHandler, IHttpRoutingHandler
+    public class ServiceHttpHandler : HttpHandlerBase, IHttpHandler
     {
+        public ServiceHttpHandler(string handledUrl)
+            : base(handledUrl)
+        {
+        }
+
         public bool IsReusable { get { return true; } }
 
         public void ProcessRequest(HttpContext context)
@@ -15,7 +21,10 @@ namespace Petecat.Service
 
             try
             {
-                var request = new ServiceHttpRequest(context.Request);
+                var fields = HandledUrl.SplitByChar('/');
+                var request = new ServiceHttpRequest(context.Request, 
+                    fields.Length > 0 ? fields[0] : null, 
+                    fields.Length > 1 ? fields[1] : null);
                 InternalProcessRequest(request, response);
                 response.SetStatusCode(200);
             }
@@ -51,11 +60,6 @@ namespace Petecat.Service
             {
                 throw new Errors.ServiceHttpMethodNotSupportException(request.Request.HttpMethod);
             }
-        }
-
-        public HttpRoutingData GetHttpRoutingData(string url)
-        {
-            throw new NotImplementedException();
         }
     }
 }

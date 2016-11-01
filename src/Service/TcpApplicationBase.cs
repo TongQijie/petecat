@@ -9,11 +9,11 @@ using Petecat.Console;
 
 namespace Petecat.Service
 {
-    public class ServiceTcpApplication
+    public class TcpApplicationBase
     {
         private ITcpListenerObject _TcpListenerObject = null;
 
-        public ServiceTcpApplication()
+        public TcpApplicationBase()
         {
             Initialize();
         }
@@ -40,7 +40,7 @@ namespace Petecat.Service
                 _TcpListenerObject.Dispose();
                 _TcpListenerObject = null;
 
-                Connections = new ServiceTcpConnection[0];
+                Connections = new TcpConnectionBase[0];
             }
         }
 
@@ -53,7 +53,7 @@ namespace Petecat.Service
             }
             else
             {
-                Connections = Connections.Append(new ServiceTcpConnection(socketObject));
+                Connections = Connections.Append(new TcpConnectionBase(socketObject));
             }
         }
 
@@ -97,7 +97,7 @@ namespace Petecat.Service
             }
         }
 
-        private ServiceTcpConnection[] Connections = new ServiceTcpConnection[100];
+        private TcpConnectionBase[] Connections = new TcpConnectionBase[100];
 
         private void Initialize()
         {
@@ -116,7 +116,7 @@ namespace Petecat.Service
 
             for (int i = 0; i < Connections.Length; i++)
             {
-                Connections[i] = new ServiceTcpConnection() { IsDisposed = true };
+                Connections[i] = new TcpConnectionBase() { IsDisposed = true };
                 Connections[i].ServiceRequestArrival += connection_ServiceRequestArrival;
             }
         }

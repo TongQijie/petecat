@@ -7,16 +7,9 @@ namespace Petecat.Service
 {
     public class ServiceHttpRequest
     {
-        public ServiceHttpRequest(HttpRequest httpRequest)
+        public ServiceHttpRequest(HttpRequest httpRequest, string serviceName, string methodName)
         {
             Request = httpRequest;
-
-            string serviceName, methodName;
-            if (!ServiceHttpPathHelper.TryParseServiceUri(Request.RawUrl, out serviceName, out methodName))
-            {
-                throw new Errors.ServiceHttpRequestInvalidVirtualPathException(Request.Url.AbsoluteUri);
-            }
-
             ServiceName = serviceName;
             MethodName = methodName;
         }

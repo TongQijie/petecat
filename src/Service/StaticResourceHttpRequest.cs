@@ -4,16 +4,9 @@ namespace Petecat.Service
 {
     public class StaticResourceHttpRequest
     {
-        public StaticResourceHttpRequest(HttpRequest httpRequest)
+        public StaticResourceHttpRequest(HttpRequest httpRequest, string relativePath, string resourceType)
         {
             Request = httpRequest;
-
-            string relativePath, resourceType;
-            if (!StaticResourceHttpPathHelper.TryParseStaticResourcePath(Request.RawUrl, out relativePath, out resourceType))
-            {
-                throw new Errors.ServiceHttpRequestInvalidVirtualPathException(Request.Url.AbsoluteUri);
-            }
-
             RelativePath = relativePath;
             ResourceType = resourceType;
         }

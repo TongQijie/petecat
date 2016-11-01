@@ -2,12 +2,12 @@
 namespace Petecat.Service.Configuration
 {
     [XmlRoot("application")]
-    public class ServiceHttpApplicationConfig
+    public class HttpApplicationConfig
     {
         [XmlElement("staticResourceContentMapping")]
         public StaticResourceContentMapping StaticResourceContentMapping { get; set; }
 
-        [XmlElement("serviceHttpRouting")]
-        public ServiceHttpRoutingConfig ServiceHttpRouting { get; set; }
+        [XmlElement("httpRouting")]
+        public HttpRoutingConfig HttpRoutings { get; set; }
     }
 }

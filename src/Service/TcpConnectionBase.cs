@@ -3,14 +3,14 @@ using Petecat.Service.Datagram;
 
 namespace Petecat.Service
 {
-    public class ServiceTcpConnection
+    public class TcpConnectionBase
     {
-        public ServiceTcpConnection()
+        public TcpConnectionBase()
         {
             Datagram = new ServiceTcpRequestDatagram(new byte[0]);
         }
 
-        public ServiceTcpConnection(ISocketObject socketObject) : base()
+        public TcpConnectionBase(ISocketObject socketObject) : base()
         {
             SocketObject = socketObject;
         }

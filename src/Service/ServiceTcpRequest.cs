@@ -15,7 +15,7 @@ namespace Petecat.Service
 
         static IObjectFormatter _Formatter = null;
 
-        public ServiceTcpRequest(ServiceTcpRequestDatagram datagram, ServiceTcpConnection connection)
+        public ServiceTcpRequest(ServiceTcpRequestDatagram datagram, TcpConnectionBase connection)
         {
             _Datagram = datagram;
             Connection = connection;
@@ -23,7 +23,7 @@ namespace Petecat.Service
 
         private ServiceTcpRequestDatagram _Datagram = null;
 
-        public ServiceTcpConnection Connection { get; private set; }
+        public TcpConnectionBase Connection { get; private set; }
 
         public string ServiceName
         {

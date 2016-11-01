@@ -3,11 +3,11 @@ namespace Petecat.ConsoleApp
 {
     public class ServiceTcpApplicationTest
     {
-        private ServiceTcpApplication _App = null;
+        private TcpApplicationBase _App = null;
 
         public void Run()
         {
-            _App = new ServiceTcpApplication();
+            _App = new TcpApplicationBase();
             _App.Start(12000);
         }
     }

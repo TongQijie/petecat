@@ -6,8 +6,13 @@ using System.Web;
 
 namespace Petecat.Service
 {
-    public class StaticResourceHttpHandler : IHttpHandler
+    public class StaticResourceHttpHandler : HttpHandlerBase, IHttpHandler
     {
+        public StaticResourceHttpHandler(string handledUrl)
+            : base(handledUrl)
+        {
+        }
+
         public bool IsReusable { get { return true; } }
 
         public void ProcessRequest(HttpContext context)
@@ -16,7 +21,9 @@ namespace Petecat.Service
 
             try
             {
-                var request = new StaticResourceHttpRequest(context.Request);
+                var request = new StaticResourceHttpRequest(context.Request, 
+                    HandledUrl, 
+                    HandledUrl.Substring(HandledUrl.LastIndexOf('.') + 1));
                 InternalProcessRequest(request, response);
                 response.SetStatusCode(200);
             }
@@ -30,14 +37,12 @@ namespace Petecat.Service
 
         private void InternalProcessRequest(StaticResourceHttpRequest request, StaticResourceHttpResponse response)
         {
-            var types = ServiceRoutingManager.Instance.GetRoutingRule("SupportedStaticResource");
-            if (types.HasValue() && !types.SplitByChar(';').Exists(x => string.Equals(request.ResourceType, x, StringComparison.OrdinalIgnoreCase)))
-            {
-                throw new Exception(string.Format("resource type '{0}' does not support.", request.ResourceType));
-            }
-
-            var contentType = ServiceHttpApplicationConfigManager.Instance.GetStaticResourceContentMapping(request.ResourceType);
+            var contentType = HttpApplicationConfigManager.Instance.GetStaticResourceContentMapping(request.ResourceType);
             if (contentType == null)
+            {
+                throw new Errors.StaticResourceNotSupportedException(request.ResourceType);
+            }
+            else if (contentType == string.Empty)
             {
                 contentType = "application/octet-stream";
             }
