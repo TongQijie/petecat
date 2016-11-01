@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -77,6 +78,16 @@ namespace Petecat.Extension
         {
             DateTime datetime;
             return DateTime.TryParse(stringValue, out datetime);
+        }
+
+        public static bool IsFile(this string stringValue)
+        {
+            return File.Exists(stringValue);
+        }
+
+        public static bool IsFolder(this string stringValue)
+        {
+            return Directory.Exists(stringValue);
         }
     }
 }

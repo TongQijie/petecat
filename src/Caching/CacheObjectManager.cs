@@ -1,7 +1,7 @@
 ﻿using Petecat.Collection;
 using Petecat.Data.Formatters;
+using Petecat.Monitor;
 using Petecat.Threading.Watcher;
-
 using System;
 using System.IO;
 using System.Linq;
@@ -93,12 +93,28 @@ namespace Petecat.Caching
             }
         }
 
+        public void Add<T>(string key, string path, IObjectFormatter objectFormatter)
+        {
+            CacheObjectManager.Instance.Add(key, (v) => objectFormatter.ReadObject<T>(path)).Path = path;
+            FileSystemMonitor.Instance.Add(this, path, OnFileChanged, null, null, null);
+        }
+
+        private void OnFileChanged(string path)
+        {
+            var cacheObject = CacheObjectManager.Instance.CacheObjects.FirstOrDefault(x => string.Equals(path, x.Path, StringComparison.OrdinalIgnoreCase));
+            if (cacheObject != null)
+            {
+                cacheObject.IsDirty = true;
+            }
+        }
+
         public void Remove(string key)
         {
             var cacheObject = _CacheObjects.Get(key, null);
             if (cacheObject != null)
             {
                 _CacheObjects.Remove(cacheObject);
+                FileSystemMonitor.Instance.Remove(this, cacheObject.Path, OnFileChanged, null, null, null);
             }
         }
 

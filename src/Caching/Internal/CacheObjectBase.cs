@@ -12,6 +12,8 @@ namespace Petecat.Caching
 
         public string Key { get; private set; }
 
+        public string Path { get; set; }
+
         private Func<object, object> _ReadSourceHandler = null;
 
         protected object _Value = null;

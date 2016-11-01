@@ -21,22 +21,19 @@ namespace Petecat.IoC
 
                 try
                 {
-                    foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
-                    {
-                        _Instance.RegisterContainerAssembly(assembly);
-                    }
-
                     var directory = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
 
-                    foreach (var assembly in directory.GetFiles("*.dll", SearchOption.AllDirectories).Select(x => Assembly.LoadFile(x.FullName)))
+                    foreach (var assembly in directory.GetFiles("*.dll", SearchOption.TopDirectoryOnly).Select(x => Assembly.LoadFile(x.FullName)))
                     {
                         _Instance.RegisterContainerAssembly(assembly);
                     }
 
-                    foreach (var assembly in directory.GetFiles("*.exe", SearchOption.AllDirectories).Select(x => Assembly.LoadFile(x.FullName)))
+                    foreach (var assembly in directory.GetFiles("*.exe", SearchOption.TopDirectoryOnly).Select(x => Assembly.LoadFile(x.FullName)))
                     {
                         _Instance.RegisterContainerAssembly(assembly);
                     }
+
+                    // 
                 }
                 catch (Exception e)
                 {
