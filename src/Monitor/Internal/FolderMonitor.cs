@@ -92,7 +92,19 @@ namespace Petecat.Monitor
         {
             if (FileCreated != null)
             {
+                DateTime lastWriteTime = new DateTime();
+                if (e.FullPath.IsFile())
+                {
+                    lastWriteTime = new FileInfo(e.FullPath).LastWriteTime;
+                }
+                else if (e.FullPath.IsFolder())
+                {
+                    lastWriteTime = new DirectoryInfo(e.FullPath).LastWriteTime;
+                }
+
                 FileCreated.Invoke(e.FullPath);
+
+                ChangeTimes[e.FullPath] = lastWriteTime;
             }
         }
 

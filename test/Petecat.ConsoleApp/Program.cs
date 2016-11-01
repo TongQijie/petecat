@@ -20,6 +20,7 @@ namespace Petecat.ConsoleApp
             else if (args != null && args.Length > 0 && args[0].StartsWith("m", StringComparison.OrdinalIgnoreCase))
             {
                 new FileSystemMonitorTest().Run();
+                new FileSystemMonitorAnotherTest().Run();
                 ConsoleBridging.ReadAnyKey();
             }
         }
