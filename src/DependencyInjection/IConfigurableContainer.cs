@@ -5,5 +5,7 @@
         object GetObject(string objectName);
 
         T GetObject<T>(string objectName);
+
+        void RegisterConfigurationFile(string path);
     }
 }

@@ -7,5 +7,7 @@ namespace Petecat.DependencyInjection
         object GetObject(Type targetType);
 
         T GetObject<T>();
+
+        void RegisterAssembly(IAssemblyInfo assemblyInfo);
     }
 }

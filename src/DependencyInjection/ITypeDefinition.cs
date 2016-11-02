@@ -9,5 +9,7 @@
         IPropertyDefinition[] Properties { get; }
 
         IAssemblyInfo AssemblyInfo { get; }
+
+        object GetInstance(params object[] parameters);
     }
 }

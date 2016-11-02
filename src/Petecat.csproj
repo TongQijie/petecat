@@ -133,7 +133,12 @@
     <Compile Include="Data\Entity\Internal\IDataMappingPropertyInfo.cs" />
     <Compile Include="Data\Entity\Internal\IEntityDataSource.cs" />
     <Compile Include="Data\Entity\Internal\PlainDataMappingPropertyInfo.cs" />
+    <Compile Include="DependencyInjection\AssemblyContainerBase.cs" />
     <Compile Include="DependencyInjection\Attributes\DependencyInjectableAttribute.cs" />
+    <Compile Include="DependencyInjection\ContainerBase.cs" />
+    <Compile Include="DependencyInjection\ConfigurableContainerBase.cs" />
+    <Compile Include="DependencyInjection\DefaultAssemblyInfo.cs" />
+    <Compile Include="DependencyInjection\DefaultTypeDefinition.cs" />
     <Compile Include="DependencyInjection\IAssemblyContainer.cs" />
     <Compile Include="DependencyInjection\IAssemblyInfo.cs" />
     <Compile Include="DependencyInjection\IConfigurableContainer.cs" />
