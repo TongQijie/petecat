@@ -1,10 +1,14 @@
-﻿namespace Petecat.DependencyInjection
+﻿using System;
+
+namespace Petecat.DependencyInjection
 {
     public interface ITypeDefinition : IDefinition
     {
-        IConstructorMethodDefinition[] ConstructorMethods { get; }
+        Type Inference { get; }
 
-        IInstanceMethodDefinition[] InstanceMethods { get; }
+        IConstructorMethodInfo[] ConstructorMethods { get; }
+
+        IInstanceMethodInfo[] InstanceMethods { get; }
 
         IPropertyDefinition[] Properties { get; }
 

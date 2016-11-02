@@ -7,5 +7,7 @@
         string ParameterName { get; }
 
         object ParameterValue { get; }
+
+        void SetValue(object value);
     }
 }

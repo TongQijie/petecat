@@ -1,7 +1,9 @@
 ﻿namespace Petecat.DependencyInjection
 {
-    public interface IMethodDefinition : IDefinition
+    public interface IMethodInfo : IInfo
     {
         IParameterInfo[] ParameterInfos { get; }
+
+        bool Match(object[] parameterValues);
     }
 }

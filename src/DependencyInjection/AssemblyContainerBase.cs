@@ -1,5 +1,7 @@
 ﻿using System;
-using System.Collections.Concurrent;
+using System.Linq;
+
+using Petecat.Extension;
 
 namespace Petecat.DependencyInjection
 {
@@ -29,7 +31,45 @@ namespace Petecat.DependencyInjection
 
         private object InternalResolve(Type targetType)
         {
-            throw new NotImplementedException();
+            if (targetType.IsClass)
+            {
+                ITypeDefinition typeDefinition;
+                if (RegisteredTypes.TryGetValue(targetType, out typeDefinition))
+                {
+                    var defaultConstructor = typeDefinition.ConstructorMethods[0];
+
+                    var parameterValues = new object[defaultConstructor.ParameterInfos.Length];
+                    for (int i = 0; i < parameterValues.Length; i++)
+                    {
+                        var parameterInfo = defaultConstructor.ParameterInfos.FirstOrDefault(x => x.Index == i);
+                        if (parameterInfo == null)
+                        {
+                            // TODO: throw
+                        }
+
+                        parameterValues[i] = InternalResolve(parameterInfo.TypeDefinition.Info as Type);
+                    }
+
+                    return typeDefinition.GetInstance(parameterValues);
+                }
+
+                return null;
+            }
+            else if (targetType.IsInterface)
+            {
+                var typeDefinition = RegisteredTypes.Values.ToArray().FirstOrDefault(x => x.Inference.Equals(targetType));
+                if (typeDefinition == null)
+                {
+                    // TODO: throw
+                }
+
+                return InternalResolve(typeDefinition.Info as Type);
+            }
+            else
+            {
+                // TODO: throw
+                return null;
+            }
         }
     }
 }
