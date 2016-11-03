@@ -348,7 +348,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                 {
                     foreach (var propertyInfo in Type.GetProperties().Where(x => x.CanRead && x.CanWrite))
                     {
-                        var attribute = ReflectionUtility.GetCustomAttribute<JsonPropertyAttribute>(propertyInfo);
+                        var attribute = Reflector.GetCustomAttribute<JsonPropertyAttribute>(propertyInfo);
                         _JsonProperties.Add(new JsonProperty(propertyInfo, attribute == null ? null : attribute.Alias));
                     }
                 }

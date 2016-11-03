@@ -10,7 +10,7 @@ namespace Petecat.DependencyInjection
 
         IInstanceMethodInfo[] InstanceMethods { get; }
 
-        IPropertyDefinition[] Properties { get; }
+        IPropertyInfo[] Properties { get; }
 
         IAssemblyInfo AssemblyInfo { get; }
 

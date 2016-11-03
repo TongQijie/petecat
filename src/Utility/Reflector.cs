@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace Petecat.Utility
 {
-    public static class ReflectionUtility
+    public static class Reflector
     {
         public static bool TryGetType(string typeName, out Type targetType)
         {

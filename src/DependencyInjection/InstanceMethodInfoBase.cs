@@ -5,18 +5,20 @@ using Petecat.Extension;
 
 namespace Petecat.DependencyInjection
 {
-    public class DefaultInstanceMethodInfo : DefaultMethodInfoBase, IInstanceMethodInfo
+    public class InstanceMethodInfoBase : MethodInfoBase, IInstanceMethodInfo
     {
-        public DefaultInstanceMethodInfo(ITypeDefinition typeDefinition, MethodInfo methodInfo)
+        public InstanceMethodInfoBase(ITypeDefinition typeDefinition, MethodInfo methodInfo)
         {
             TypeDefinition = typeDefinition;
 
             MethodName = methodInfo.Name;
 
-            ParameterInfos = new DefaultParameterInfo[0];
+            MethodDefinition = new InstanceMethodDefinitionBase(methodInfo);
+
+            ParameterInfos = new ParameterInfoBase[0];
             foreach (var parameterInfo in methodInfo.GetParameters())
             {
-                ParameterInfos = ParameterInfos.Append(new DefaultParameterInfo(parameterInfo));
+                ParameterInfos = ParameterInfos.Append(new ParameterInfoBase(parameterInfo));
             }
         }
 

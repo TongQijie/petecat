@@ -2,13 +2,13 @@
 
 namespace Petecat.DependencyInjection
 {
-    public class DefaultParameterInfo : IParameterInfo
+    public class ParameterInfoBase : IParameterInfo
     {
-        public DefaultParameterInfo(ParameterInfo parameterInfo)
+        public ParameterInfoBase(ParameterInfo parameterInfo)
         {
             Index = parameterInfo.Position;
             ParameterName = parameterInfo.Name;
-            TypeDefinition = new DefaultTypeDefinition(parameterInfo.ParameterType);
+            TypeDefinition = new TypeDefinitionBase(parameterInfo.ParameterType);
         }
 
         public int Index { get; private set; }

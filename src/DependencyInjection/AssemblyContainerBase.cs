@@ -7,14 +7,9 @@ namespace Petecat.DependencyInjection
 {
     public class AssemblyContainerBase : ContainerBase, IAssemblyContainer
     {
-        public object GetObject(Type targetType)
+        public override object GetObject(Type targetType)
         {
-            throw new NotImplementedException();
-        }
-
-        public T GetObject<T>()
-        {
-            throw new NotImplementedException();
+            return InternalResolve(targetType);
         }
 
         public void RegisterAssembly(IAssemblyInfo assemblyInfo)
@@ -57,7 +52,7 @@ namespace Petecat.DependencyInjection
             }
             else if (targetType.IsInterface)
             {
-                var typeDefinition = RegisteredTypes.Values.ToArray().FirstOrDefault(x => x.Inference.Equals(targetType));
+                var typeDefinition = RegisteredTypes.Values.ToArray().FirstOrDefault(x => x.Inference != null && x.Inference.Equals(targetType));
                 if (typeDefinition == null)
                 {
                     // TODO: throw

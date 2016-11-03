@@ -40,7 +40,7 @@ namespace Petecat.Console.Command
                 terminalCommandType = assembly.GetTypes().FirstOrDefault(x =>
                 {
                     TerminalCommandAttribute terminalCommandAttribute;
-                    if (ReflectionUtility.TryGetCustomAttribute(x, y => y.SupportedCommandCodes.Contains(terminalCommandLine.CommandCode), out terminalCommandAttribute))
+                    if (Reflector.TryGetCustomAttribute(x, y => y.SupportedCommandCodes.Contains(terminalCommandLine.CommandCode), out terminalCommandAttribute))
                     {
                         TerminalCommandInfos.Add(new TerminalCommandInfo(x, terminalCommandAttribute.SupportedCommandCodes));
                         return true;

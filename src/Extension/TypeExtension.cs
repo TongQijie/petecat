@@ -31,7 +31,7 @@ namespace Petecat.Extension
             foreach (var field in fields)
             {
                 EnumValueAttribute attribute;
-                if (ReflectionUtility.TryGetCustomAttribute<EnumValueAttribute>(field, x => x.Value.Equals(enumValue, StringComparison.OrdinalIgnoreCase), out attribute)
+                if (Reflector.TryGetCustomAttribute<EnumValueAttribute>(field, x => x.Value.Equals(enumValue, StringComparison.OrdinalIgnoreCase), out attribute)
                     || field.Name.Equals(enumValue, StringComparison.OrdinalIgnoreCase))
                 {
                     return (Enum)Enum.Parse(sourceType, field.Name);
@@ -50,7 +50,7 @@ namespace Petecat.Extension
 
             var field = sourceType.GetFields().First(x => x.Name == enumInstance.ToString());
             EnumValueAttribute attribute;
-            if (ReflectionUtility.TryGetCustomAttribute<EnumValueAttribute>(field, x => !string.IsNullOrEmpty(x.Value), out attribute))
+            if (Reflector.TryGetCustomAttribute<EnumValueAttribute>(field, x => !string.IsNullOrEmpty(x.Value), out attribute))
             {
                 return attribute.Value;
             }

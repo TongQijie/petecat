@@ -13,14 +13,14 @@ namespace Petecat.Service
         {
             ServiceType = typeDefinition;
 
-            if (ReflectionUtility.ContainsCustomAttribute<Attributes.ServiceImplementAttribute>(typeDefinition.Info))
+            if (Reflector.ContainsCustomAttribute<Attributes.ServiceImplementAttribute>(typeDefinition.Info))
             {
-                var attribute = ReflectionUtility.GetCustomAttribute<Attributes.ServiceImplementAttribute>(typeDefinition.Info);
+                var attribute = Reflector.GetCustomAttribute<Attributes.ServiceImplementAttribute>(typeDefinition.Info);
                 ServiceName = attribute.ServiceName;
             }
-            else if (ReflectionUtility.ContainsCustomAttribute<Attributes.ServiceInterfaceAttribute>(typeDefinition.Info))
+            else if (Reflector.ContainsCustomAttribute<Attributes.ServiceInterfaceAttribute>(typeDefinition.Info))
             {
-                var attribute = ReflectionUtility.GetCustomAttribute<Attributes.ServiceInterfaceAttribute>(typeDefinition.Info);
+                var attribute = Reflector.GetCustomAttribute<Attributes.ServiceInterfaceAttribute>(typeDefinition.Info);
                 ServiceName = attribute.ServiceName;
             }
 
@@ -32,7 +32,7 @@ namespace Petecat.Service
             Methods = new ServiceMethodDefinition[0];
             typeDefinition.InstanceMethods.ToList().ForEach(x =>
             {
-                if (ReflectionUtility.ContainsCustomAttribute<Attributes.ServiceMethodAttribute>(x.Info))
+                if (Reflector.ContainsCustomAttribute<Attributes.ServiceMethodAttribute>(x.Info))
                 {
                     Methods = Methods.Append(new ServiceMethodDefinition(x));
                 }

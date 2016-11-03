@@ -1,6 +1,6 @@
 ﻿namespace Petecat.DependencyInjection
 {
-    public interface IPropertyDefinition : IDefinition
+    public interface IMethodDefinition : IDefinition
     {
     }
 }

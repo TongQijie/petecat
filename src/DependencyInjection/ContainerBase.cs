@@ -40,5 +40,25 @@ namespace Petecat.DependencyInjection
 
             RegisteredTypes.AddOrUpdate(typeDefinition.Info as Type, typeDefinition, (a, b) => typeDefinition);
         }
+
+        public virtual object GetObject(Type objectType)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual T GetObject<T>()
+        {
+            return (T)GetObject(typeof(T));
+        }
+
+        public virtual object GetObject(string objectName)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual T GetObject<T>(string objectName)
+        {
+            return (T)GetObject(objectName);
+        }
     }
 }

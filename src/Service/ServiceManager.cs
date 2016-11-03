@@ -27,12 +27,12 @@ namespace Petecat.Service
         {
             _Container.LoadedTypeDefinitions.ToList().ForEach(x =>
             {
-                if (ReflectionUtility.ContainsCustomAttribute<Attributes.ServiceImplementAttribute>(x.Info))
+                if (Reflector.ContainsCustomAttribute<Attributes.ServiceImplementAttribute>(x.Info))
                 {
                     _LoadedServiceDefinitions.Add(new ServiceDefinition(x));
                 }
 
-                if (ReflectionUtility.ContainsCustomAttribute<Attributes.ServiceInterfaceAttribute>(x.Info))
+                if (Reflector.ContainsCustomAttribute<Attributes.ServiceInterfaceAttribute>(x.Info))
                 {
                     _LoadedServiceDefinitions.Add(new ServiceDefinition(x));
                 }

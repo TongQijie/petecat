@@ -88,7 +88,7 @@ namespace Petecat.Data.Access
         private DbProviderFactory GetDbProviderFactory(string providerString)
         {
             Type providerType;
-            if (!ReflectionUtility.TryGetType(providerString, out providerType))
+            if (!Reflector.TryGetType(providerString, out providerType))
             {
                 LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, LoggerLevel.Error, 
                     string.Format("provider type not found. providerString={0}", providerString));

@@ -38,6 +38,15 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DependencyInjection\AppleClass.cs" />
+    <Compile Include="DependencyInjection\BananaClass.cs" />
+    <Compile Include="DependencyInjection\CherryClass.cs" />
+    <Compile Include="DependencyInjection\DurianClass.cs" />
+    <Compile Include="DependencyInjection\IAppleInterface.cs" />
+    <Compile Include="DependencyInjection\BaseDirectoryAssemblyContainerTest.cs" />
+    <Compile Include="DependencyInjection\IBananaInterface.cs" />
+    <Compile Include="DependencyInjection\ICherryInterface.cs" />
+    <Compile Include="DependencyInjection\IDurianInterface.cs" />
     <Compile Include="FileSystemMonitorTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

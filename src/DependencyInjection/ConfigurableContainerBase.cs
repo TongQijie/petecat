@@ -2,12 +2,7 @@
 {
     public class ConfigurableContainerBase : ContainerBase, IConfigurableContainer
     {
-        public object GetObject(string objectName)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public T GetObject<T>(string objectName)
+        public override object GetObject(string objectName)
         {
             throw new System.NotImplementedException();
         }

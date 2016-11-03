@@ -10,7 +10,7 @@ namespace Petecat.Service
         public ServiceMethodDefinition(IInstanceMethodDefinition instanceMethodDefinition)
         {
             Attributes.ServiceMethodAttribute attribute;
-            if (!ReflectionUtility.TryGetCustomAttribute<Attributes.ServiceMethodAttribute>(instanceMethodDefinition.Info, null, out attribute))
+            if (!Reflector.TryGetCustomAttribute<Attributes.ServiceMethodAttribute>(instanceMethodDefinition.Info, null, out attribute))
             {
                 throw new Exception("methods without ServiceMethodAttribute cannot be defined into ServiceMethod.");
             }

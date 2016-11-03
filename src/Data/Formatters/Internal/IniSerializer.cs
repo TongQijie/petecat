@@ -22,7 +22,7 @@ namespace Petecat.Data.Formatters
                     foreach (var propertyInfo in targetType.GetProperties())
                     {
                         Attributes.IniSerializableAttribute attribute;
-                        if (!Utility.ReflectionUtility.TryGetCustomAttribute<Attributes.IniSerializableAttribute>(propertyInfo,
+                        if (!Utility.Reflector.TryGetCustomAttribute<Attributes.IniSerializableAttribute>(propertyInfo,
                             x => !x.NonSerialized && x.Name.Equals(section, StringComparison.OrdinalIgnoreCase), out attribute))
                         {
                             continue;
@@ -63,7 +63,7 @@ namespace Petecat.Data.Formatters
                     foreach (var propertyInfo in targetType.GetProperties())
                     {
                         Attributes.IniSerializableAttribute attribute;
-                        if (!Utility.ReflectionUtility.TryGetCustomAttribute(propertyInfo, 
+                        if (!Utility.Reflector.TryGetCustomAttribute(propertyInfo, 
                             x => !x.NonSerialized && x.Name.Equals(stringKey, StringComparison.OrdinalIgnoreCase), out attribute))
                         {
                             continue;

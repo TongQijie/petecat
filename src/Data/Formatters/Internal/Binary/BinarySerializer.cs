@@ -62,7 +62,7 @@ namespace Petecat.Data.Formatters.Internal.Binary
                 {
                     foreach (var propertyInfo in Type.GetProperties().Where(x => x.CanRead && x.CanWrite))
                     {
-                        var attribute = ReflectionUtility.GetCustomAttribute<BinaryPropertyAttribute>(propertyInfo);
+                        var attribute = Reflector.GetCustomAttribute<BinaryPropertyAttribute>(propertyInfo);
                         _JsonProperties.Add(new BinaryProperty(propertyInfo, attribute == null ? null : attribute.Alias, attribute.Index));
                     }
                 }

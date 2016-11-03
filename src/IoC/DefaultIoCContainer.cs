@@ -91,7 +91,7 @@ namespace Petecat.IoC
                 var typeDefinition = _LoadedTypeDefinitions.Values.Where(x => x.Info is Type && targetType.IsAssignableFrom(x.Info as Type)).FirstOrDefault(x =>
                 {
                     Attributes.AutoResolvableAttribute attribute;
-                    return ReflectionUtility.TryGetCustomAttribute(x.Info, y => y.SpecifiedType.FullName == targetType.FullName, out attribute);
+                    return Reflector.TryGetCustomAttribute(x.Info, y => y.SpecifiedType.FullName == targetType.FullName, out attribute);
                 });
 
                 if (typeDefinition == null)
@@ -162,7 +162,7 @@ namespace Petecat.IoC
         {
             try
             {
-                assembly.GetTypes().Where(x => ReflectionUtility.ContainsCustomAttribute<Attributes.ResolvableAttribute>(x)).ToList().ForEach(x => RegisterContainerType(x));
+                assembly.GetTypes().Where(x => Reflector.ContainsCustomAttribute<Attributes.ResolvableAttribute>(x)).ToList().ForEach(x => RegisterContainerType(x));
             }
             catch (Exception e)
             {

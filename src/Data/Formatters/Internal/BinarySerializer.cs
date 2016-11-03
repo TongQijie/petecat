@@ -50,7 +50,7 @@ namespace Petecat.Data.Formatters
                 foreach (var propertyInfo in type.GetProperties())
                 {
                     Attributes.BinarySerializableAttribute attribute = null;
-                    if (!ReflectionUtility.TryGetCustomAttribute<Attributes.BinarySerializableAttribute>(propertyInfo, null, out attribute) || attribute.NonSerialized)
+                    if (!Reflector.TryGetCustomAttribute<Attributes.BinarySerializableAttribute>(propertyInfo, null, out attribute) || attribute.NonSerialized)
                     {
                         continue;
                     }
@@ -88,7 +88,7 @@ namespace Petecat.Data.Formatters
                 foreach (var propertyInfo in type.GetProperties())
                 {
                     Attributes.BinarySerializableAttribute attribute = null;
-                    if (!ReflectionUtility.TryGetCustomAttribute<Attributes.BinarySerializableAttribute>(propertyInfo, null, out attribute) || attribute.NonSerialized)
+                    if (!Reflector.TryGetCustomAttribute<Attributes.BinarySerializableAttribute>(propertyInfo, null, out attribute) || attribute.NonSerialized)
                     {
                         continue;
                     }
@@ -346,7 +346,7 @@ namespace Petecat.Data.Formatters
                         foreach (var propertyInfo in targetType.GetProperties())
                         {
                             Attributes.BinarySerializableAttribute attribute = null;
-                            if (!ReflectionUtility.TryGetCustomAttribute<Attributes.BinarySerializableAttribute>(propertyInfo, x => x.Name == propertyName, out attribute))
+                            if (!Reflector.TryGetCustomAttribute<Attributes.BinarySerializableAttribute>(propertyInfo, x => x.Name == propertyName, out attribute))
                             {
                                 continue;
                             }

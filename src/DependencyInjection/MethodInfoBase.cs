@@ -4,8 +4,10 @@ using System;
 
 namespace Petecat.DependencyInjection
 {
-    public class DefaultMethodInfoBase : IMethodInfo
+    public abstract class MethodInfoBase : IMethodInfo
     {
+        public IMethodDefinition MethodDefinition { get; protected set; }
+
         public IParameterInfo[] ParameterInfos { get; protected set; }
 
         public ITypeDefinition TypeDefinition { get; protected set; }
@@ -39,5 +41,7 @@ namespace Petecat.DependencyInjection
 
             return true;
         }
+
+        
     }
 }

@@ -140,7 +140,7 @@ namespace Petecat.Configuring
                 return false;
             }
 
-            return Utility.ReflectionUtility.TryGetType(item.Type, out configurationType);
+            return Utility.Reflector.TryGetType(item.Type, out configurationType);
         }
     }
 }
