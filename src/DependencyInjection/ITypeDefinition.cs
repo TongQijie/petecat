@@ -6,6 +6,8 @@ namespace Petecat.DependencyInjection
     {
         Type Inference { get; }
 
+        bool Sington { get; }
+
         IConstructorMethodInfo[] ConstructorMethods { get; }
 
         IInstanceMethodInfo[] InstanceMethods { get; }

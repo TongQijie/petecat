@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Collections.Generic;
 
 using Petecat.Extension;
 
-namespace Petecat.Monitor
+namespace Petecat.Monitor.Internal
 {
     internal class FolderMonitor
     {

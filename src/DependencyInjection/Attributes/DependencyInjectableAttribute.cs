@@ -6,5 +6,7 @@ namespace Petecat.DependencyInjection.Attributes
     public class DependencyInjectableAttribute : Attribute
     {
         public Type Inference { get; set; }
+
+        public bool Sington { get; set; }
     }
 }

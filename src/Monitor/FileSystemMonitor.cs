@@ -2,6 +2,7 @@
 using System.Collections.Concurrent;
 
 using Petecat.Extension;
+using Petecat.Monitor.Internal;
 
 namespace Petecat.Monitor
 {
@@ -38,7 +39,11 @@ namespace Petecat.Monitor
             else
             {
                 folderMonitor = new FolderMonitor(path);
-                _FolderMonitors.TryAdd(path, folderMonitor);
+
+                if (!_FolderMonitors.TryAdd(path, folderMonitor))
+                {
+                    // TODO: throw
+                }
             }
 
             folderMonitor.ReferencedObjects = folderMonitor.ReferencedObjects.Append(referenceObject);
@@ -112,7 +117,10 @@ namespace Petecat.Monitor
             if (folderMonitor.ReferencedObjects.Length == 0)
             {
                 folderMonitor.Stop();
-                _FolderMonitors.TryRemove(path, out folderMonitor);
+                if (!_FolderMonitors.TryRemove(path, out folderMonitor))
+                {
+                    // TODO: throw
+                }
             }
         }
     }

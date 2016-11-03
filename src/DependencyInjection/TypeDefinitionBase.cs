@@ -17,6 +17,7 @@ namespace Petecat.DependencyInjection
             if (Reflector.TryGetCustomAttribute(type, null, out attribute))
             {
                 Inference = attribute.Inference;
+                Sington = attribute.Sington;
             }
             AssemblyInfo = new AssemblyInfoBase(type.Assembly);
         }
@@ -93,9 +94,25 @@ namespace Petecat.DependencyInjection
 
         public Type Inference { get; protected set; }
 
+        public bool Sington { get; protected set; }
+
+        private object _SingtonInstance = null;
+
         public object GetInstance(params object[] parameters)
         {
-            return Activator.CreateInstance(Info as Type, parameters);
+            if (Sington)
+            {
+                if (_SingtonInstance == null)
+                {
+                    _SingtonInstance = Activator.CreateInstance(Info as Type, parameters);
+                }
+
+                return _SingtonInstance;
+            }
+            else
+            {
+                return Activator.CreateInstance(Info as Type, parameters);
+            }
         }
     }
 }
