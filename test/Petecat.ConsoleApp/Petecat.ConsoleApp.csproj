@@ -55,6 +55,9 @@
     <Compile Include="DependencyInjection\ICherryInterface.cs" />
     <Compile Include="DependencyInjection\IDurianInterface.cs" />
     <Compile Include="DependencyInjection\IFilbertInterface.cs" />
+    <Compile Include="DynamicProxy\AppleClass.cs" />
+    <Compile Include="DynamicProxy\BananaClass.cs" />
+    <Compile Include="DynamicProxy\DynamicProxyGeneratorTest.cs" />
     <Compile Include="FileSystemMonitorTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

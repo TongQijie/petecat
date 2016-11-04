@@ -180,7 +180,7 @@
     <Compile Include="DynamicProxy\IInvocation.cs" />
     <Compile Include="DynamicProxy\InvocationBase.cs" />
     <Compile Include="DynamicProxy\IDynamicProxyGenerator.cs" />
-    <Compile Include="DynamicProxy\DynamicProxyGeneratorBase.cs" />
+    <Compile Include="DynamicProxy\DynamicProxyGenerator.cs" />
     <Compile Include="Extension\ArrayExtension.cs" />
     <Compile Include="Extension\Attributes\EnumValueAttribute.cs" />
     <Compile Include="Extension\ByteArrayExtension.cs" />
@@ -368,7 +368,9 @@
     <Compile Include="Configuring\Configuration\ConfigurationItemConfig.cs" />
     <Compile Include="Configuring\Configuration\ConfigurationItemsConfig.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DynamicProxy\Interceptors\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

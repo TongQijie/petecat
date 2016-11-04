@@ -43,6 +43,11 @@ namespace Petecat.ConsoleApp
                 new Configuring.StaticFileConfigurerTest().Run1();
                 ConsoleBridging.ReadAnyKey();
             }
+            else if (args != null && args.Length > 0 && args[0].StartsWith("dpgt", StringComparison.OrdinalIgnoreCase))
+            {
+                new DynamicProxy.DynamicProxyGeneratorTest().Run();
+                ConsoleBridging.ReadAnyKey();
+            }
         }
     }
 }
