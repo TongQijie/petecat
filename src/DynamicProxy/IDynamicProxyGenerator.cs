@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Petecat.DynamicProxy
 {
-    public interface ITypeGenerator
+    public interface IDynamicProxyGenerator
     {
         object CreateProxyObject(Type baseClass, IInterceptor interceptor);
 

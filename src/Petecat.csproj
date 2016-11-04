@@ -179,8 +179,8 @@
     <Compile Include="DynamicProxy\IInterceptor.cs" />
     <Compile Include="DynamicProxy\IInvocation.cs" />
     <Compile Include="DynamicProxy\InvocationBase.cs" />
-    <Compile Include="DynamicProxy\ITypeGenerator.cs" />
-    <Compile Include="DynamicProxy\TypeGeneratorBase.cs" />
+    <Compile Include="DynamicProxy\IDynamicProxyGenerator.cs" />
+    <Compile Include="DynamicProxy\DynamicProxyGeneratorBase.cs" />
     <Compile Include="Extension\ArrayExtension.cs" />
     <Compile Include="Extension\Attributes\EnumValueAttribute.cs" />
     <Compile Include="Extension\ByteArrayExtension.cs" />
