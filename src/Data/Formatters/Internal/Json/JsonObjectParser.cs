@@ -4,15 +4,15 @@
     {
         public static void Parse(JsonObjectParseArgs args, bool header = false)
         {
-            int b;
-            if (header)
-            {
-                b = args.Stream.SeekBytesUntilMeets(x => x > 0x20 && x <= 0x7E);
-            }
-            else
-            {
-                b = args.Stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
-            }
+            int b = args.Stream.SeekBytesUntilVisiableChar();
+            //if (header)
+            //{
+            //    b = args.Stream.SeekBytesUntilMeets(x => x > 0x20 && x <= 0x7E);
+            //}
+            //else
+            //{
+            //    b = args.Stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
+            //}
             if (b == -1)
             {
                 return;

@@ -42,7 +42,8 @@ namespace Petecat.Data.Formatters.Internal.Json
                     throw new Errors.JsonParseFailedException(stream.Position, "plain value cannot be empty.");
                 }
 
-                var b = stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
+                //var b = stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
+                var b = stream.SeekBytesUntilVisiableChar();
                 if (b == -1)
                 {
                     terminated = true;

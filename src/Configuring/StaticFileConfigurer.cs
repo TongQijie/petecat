@@ -35,7 +35,8 @@ namespace Petecat.Configuring
 
         private void OnFileChanged(string path)
         {
-            var item = Container.Get(x => x is IFileCacheItem && string.Equals(path, (x as IFileCacheItem).Path, StringComparison.OrdinalIgnoreCase));
+            var item = Container.Get(x => x is IFileCacheItem 
+                && string.Equals(path.Replace("\\", "/"), (x as IFileCacheItem).Path.Replace("\\", "/"), StringComparison.OrdinalIgnoreCase));
             if (item != null)
             {
                 item.IsDirty = true;

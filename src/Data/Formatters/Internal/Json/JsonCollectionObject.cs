@@ -16,7 +16,8 @@ namespace Petecat.Data.Formatters.Internal.Json
                 ;
             }
 
-            var b = stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
+            //var b = stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
+            var b = stream.SeekBytesUntilVisiableChar();
             if (b == -1)
             {
                 return true;

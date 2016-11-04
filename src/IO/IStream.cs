@@ -51,6 +51,12 @@ namespace Petecat.IO
         int SeekBytesUntilNotEqual(byte targetByte);
 
         /// <summary>
+        /// seeks to byte that is visiable excluding whitespace.
+        /// </summary>
+        /// <returns>return byte that is visiable excluding whitespace. if -1, indicate buffer have no bytes that is not equal to target byte.</returns>
+        int SeekBytesUntilVisiableChar();
+
+        /// <summary>
         /// seeks to byte that meets the specified condition.
         /// </summary>
         /// <param name="predicate">the specified condition</param>

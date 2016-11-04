@@ -32,6 +32,18 @@ namespace Petecat.ConsoleApp.DependencyInjection
             {
                 durianInterface.SayHi("public DurianClass(ICherryInterface cherry)");
             }
+
+            var filbertInterface1 = DependencyInjector.GetObject(typeof(IFilbertInterface)) as IFilbertInterface;
+            if (filbertInterface1 != null)
+            {
+                filbertInterface1.SayHi("filbertInterface1");
+            }
+
+            var filbertInterface2 = DependencyInjector.GetObject(typeof(IFilbertInterface)) as IFilbertInterface;
+            if (filbertInterface2 != null)
+            {
+                filbertInterface2.SayHi("filbertInterface2");
+            }
         }
     }
 }

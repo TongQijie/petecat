@@ -118,6 +118,30 @@ namespace Petecat.IO
             }
         }
 
+        public int SeekBytesUntilVisiableChar()
+        {
+            while (_Index < _Count)
+            {
+                if (_InternalBuffer[_Index] > 0x20 && _InternalBuffer[_Index] <= 0x7E)
+                {
+                    return _InternalBuffer[_Index++];
+                }
+                else
+                {
+                    _Index++;
+                }
+            }
+
+            if (Fill())
+            {
+                return SeekBytesUntilVisiableChar();
+            }
+            else
+            {
+                return -1;
+            }
+        }
+
         public int SeekBytesUntilMeets(Predicate<int> predicate)
         {
             while (_Index < _Count)
