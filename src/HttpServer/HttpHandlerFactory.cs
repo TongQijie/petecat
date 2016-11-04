@@ -1,6 +1,8 @@
 ﻿using System.Web;
 
 using Petecat.Extension;
+using Petecat.DependencyInjection;
+using Petecat.HttpServer.Configuration;
 
 namespace Petecat.HttpServer
 {
@@ -22,7 +24,7 @@ namespace Petecat.HttpServer
             url = url.Trim('/');
 
             // remove virtual path
-            var virtualPath = HttpApplicationConfigurer.GetHttpApplicationRouting("VirtualPath");
+            var virtualPath = DependencyInjector.GetObject<IHttpApplicationConfigurer>().GetHttpApplicationRouting("VirtualPath");
             if (virtualPath.HasValue())
             {
                 if (url.StartsWith(virtualPath.Trim('/')))
@@ -48,7 +50,7 @@ namespace Petecat.HttpServer
             // default routing
             if (!url.HasValue())
             {
-                var defaultRouting = HttpApplicationConfigurer.GetHttpApplicationRouting("DefaultRouting");
+                var defaultRouting = DependencyInjector.GetObject<IHttpApplicationConfigurer>().GetHttpApplicationRouting("DefaultRouting");
                 if (defaultRouting.HasValue())
                 {
                     url = url + '/' + defaultRouting.Trim('/');

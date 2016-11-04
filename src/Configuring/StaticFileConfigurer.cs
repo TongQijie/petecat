@@ -4,7 +4,6 @@ using Petecat.DependencyInjection.Attributes;
 
 using System;
 using Petecat.DependencyInjection;
-using Petecat.Configuring.DependencyInjection;
 
 namespace Petecat.Configuring
 {
@@ -17,7 +16,6 @@ namespace Petecat.Configuring
 
         public StaticFileConfigurer()
         {
-            DependencyInjector.Setup(new StaticFileConfigAssemblyContainer());
         }
 
         public void Append(string key, string path, string fileFormat, Type configurationType)
@@ -88,7 +86,7 @@ namespace Petecat.Configuring
             }
 
             // load from DI container
-            var obj = DependencyInjector.GetObject<StaticFileConfigAssemblyContainer>(configurationType) as IStaticFileConfigInstance;
+            var obj = DependencyInjector.GetObject(configurationType) as IStaticFileConfigInstance;
             if (obj == null)
             {
                 // TODO: throw

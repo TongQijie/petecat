@@ -13,7 +13,7 @@ namespace Petecat.Configuring
                 // TODO: throw
             }
 
-            configurer.Append(attribute.Key, attribute.Path.FullPath(), attribute.FileFormat, attribute.ConfigurationType);
+            configurer.Append(attribute.Key, attribute.Path.FullPath(), attribute.FileFormat, this.GetType());
         }
     }
 }

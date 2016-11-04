@@ -1,6 +1,13 @@
-﻿using Petecat.Data.Attributes;
+﻿using Petecat.Configuring.Attributes;
+using Petecat.Data.Attributes;
+
 namespace Petecat.HttpServer.Configuration
 {
+    [StaticFileConfigElement(
+        Key = "Global_HttpApplicationConfiguration",
+        Path = "./httpApplicationConfiguration.json",
+        FileFormat = "json",
+        Inference = typeof(IHttpApplicationConfiguration))]
     public class HttpApplicationConfiguration
     {
         [JsonProperty(Alias = "httpApplicationRouting")]

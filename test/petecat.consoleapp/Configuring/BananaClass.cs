@@ -3,7 +3,10 @@ using Petecat.Configuring.Attributes;
 using Petecat.Data.Attributes;
 namespace Petecat.ConsoleApp.Configuring
 {
-    [StaticFileConfigElement(Key = "banana", Path = "./banana.json", FileFormat = "json", ConfigurationType = typeof(BananaClass),
+    [StaticFileConfigElement(
+        Key = "banana", 
+        Path = "./banana.json", 
+        FileFormat = "json", 
         Inference = typeof(IBananaInterface))]
     public class BananaClass : StaticFileConfigInstanceBase, IBananaInterface
     {

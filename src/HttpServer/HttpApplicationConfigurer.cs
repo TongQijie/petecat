@@ -2,21 +2,31 @@
 using Petecat.HttpServer.Configuration;
 using Petecat.Extension;
 using System;
+using Petecat.DependencyInjection;
+using Petecat.DependencyInjection.Attributes;
 namespace Petecat.HttpServer
 {
-    public static class HttpApplicationConfigurer
+    [DependencyInjectable(Inference = typeof(IHttpApplicationConfigurer), Sington = true)]
+    public class HttpApplicationConfigurer : IHttpApplicationConfigurer
     {
-        public static string GetStaticResourceMapping(string key)
+        private const string CacheKey = "Global_HttpApplicationConfiguration";
+
+        private IStaticFileConfigurer _StaticFileConfigurer = null;
+
+        public HttpApplicationConfigurer(IStaticFileConfigurer staticFileConfigurer)
         {
-            var httpApplicationConfig = ConfigurationFactory.GetManager().GetValue<HttpApplicationConfiguration>("Global_HttpApplication");
-            if (httpApplicationConfig == null
-                || httpApplicationConfig.StaticResourceMappingConfiguration == null
-                || httpApplicationConfig.StaticResourceMappingConfiguration.Length == 0)
+            _StaticFileConfigurer = staticFileConfigurer;
+        }
+
+        public string GetStaticResourceMapping(string key)
+        {
+            var httpApplicationConfiguration = _StaticFileConfigurer.GetValue<IHttpApplicationConfiguration>(CacheKey);
+            if (httpApplicationConfiguration == null)
             {
                 return null;
             }
 
-            var config = httpApplicationConfig.StaticResourceMappingConfiguration.FirstOrDefault(x => string.Equals(key, x.Key, StringComparison.OrdinalIgnoreCase));
+            var config = httpApplicationConfiguration.StaticResourceMappingConfiguration.FirstOrDefault(x => string.Equals(key, x.Key, StringComparison.OrdinalIgnoreCase));
             if (config == null)
             {
                 return null;
@@ -25,17 +35,15 @@ namespace Petecat.HttpServer
             return config.Value;
         }
 
-        public static string GetHttpApplicationRouting(string key)
+        public string GetHttpApplicationRouting(string key)
         {
-            var httpApplicationConfig = ConfigurationFactory.GetManager().GetValue<HttpApplicationConfiguration>("Global_HttpApplication");
-            if (httpApplicationConfig == null
-                || httpApplicationConfig.HttpApplicationRoutingConfiguration == null
-                || httpApplicationConfig.HttpApplicationRoutingConfiguration.Length == 0)
+            var httpApplicationConfiguration = _StaticFileConfigurer.GetValue<IHttpApplicationConfiguration>(CacheKey);
+            if (httpApplicationConfiguration == null)
             {
                 return null;
             }
 
-            var config = httpApplicationConfig.HttpApplicationRoutingConfiguration.FirstOrDefault(x => string.Equals(key, x.Key, StringComparison.OrdinalIgnoreCase));
+            var config = httpApplicationConfiguration.HttpApplicationRoutingConfiguration.FirstOrDefault(x => string.Equals(key, x.Key, StringComparison.OrdinalIgnoreCase));
             if (config == null)
             {
                 return null;

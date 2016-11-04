@@ -16,7 +16,5 @@ namespace Petecat.Configuring.Attributes
         public string Path { get; set; }
 
         public string FileFormat { get; set; }
-
-        public Type ConfigurationType { get; set; }
     }
 }
