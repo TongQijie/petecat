@@ -1,14 +1,24 @@
 ﻿using Petecat.Caching;
 using Petecat.Monitor;
+using Petecat.DependencyInjection.Attributes;
+
 using System;
+using Petecat.DependencyInjection;
+using Petecat.Configuring.DependencyInjection;
 
 namespace Petecat.Configuring
 {
-    public class StaticFileConfigurer
+    [DependencyInjectable(Inference = typeof(IStaticFileConfigurer), Sington = true)]
+    public class StaticFileConfigurer : IStaticFileConfigurer
     {
         private ICacheContainer _Container = null;
 
         public ICacheContainer Container { get { return _Container ?? (_Container = new CacheContainerBase()); } }
+
+        public StaticFileConfigurer()
+        {
+            DependencyInjector.Setup(new StaticFileConfigAssemblyContainer());
+        }
 
         public void Append(string key, string path, string fileFormat, Type configurationType)
         {
@@ -65,7 +75,26 @@ namespace Petecat.Configuring
 
         public T GetValue<T>(string key)
         {
+            EnsureExists(key, typeof(T));
+
             return (T)Container.Get(key).GetValue();
+        }
+
+        private void EnsureExists(string key, Type configurationType)
+        {
+            if (Container.Contains(key))
+            {
+                return;
+            }
+
+            // load from DI container
+            var obj = DependencyInjector.GetObject<StaticFileConfigAssemblyContainer>(configurationType) as IStaticFileConfigInstance;
+            if (obj == null)
+            {
+                // TODO: throw
+            }
+
+            obj.Append(this);
         }
     }
 }

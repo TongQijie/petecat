@@ -86,7 +86,7 @@ namespace Petecat.Monitor
             }
 
             FolderMonitor folderMonitor = null;
-            if (_FolderMonitors.ContainsKey(path) && folderMonitor.ReferencedObjects.Exists(x => x.Equals(referenceObject)))
+            if (_FolderMonitors.ContainsKey(path) && _FolderMonitors[path].ReferencedObjects.Exists(x => x.Equals(referenceObject)))
             {
                 folderMonitor = _FolderMonitors[path];
             }

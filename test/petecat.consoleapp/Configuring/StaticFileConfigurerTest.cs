@@ -1,5 +1,6 @@
 ﻿using Petecat.Configuring;
 using Petecat.Data.Formatters;
+using Petecat.DependencyInjection;
 using Petecat.Extension;
 using System.Text;
 namespace Petecat.ConsoleApp.Configuring
@@ -8,7 +9,7 @@ namespace Petecat.ConsoleApp.Configuring
     {
         public void Run()
         {
-            var configurer = new StaticFileConfigurer();
+            var configurer = DependencyInjector.GetObject<IStaticFileConfigurer>();
             configurer.Append("apple", "./apple.json".FullPath(), "json", typeof(AppleClass));
 
             while (Console.ConsoleBridging.ReadLine() != "quit")
@@ -17,6 +18,18 @@ namespace Petecat.ConsoleApp.Configuring
             }
 
             configurer.Remove("apple");
+        }
+
+        public void Run1()
+        {
+            var configurer = DependencyInjector.GetObject<IStaticFileConfigurer>();
+
+            while (Console.ConsoleBridging.ReadLine() != "quit")
+            {
+                Console.ConsoleBridging.WriteLine(new JsonFormatter().WriteString(configurer.GetValue<IBananaInterface>("banana"), Encoding.UTF8));
+            }
+
+            configurer.Remove("banana");
         }
     }
 }

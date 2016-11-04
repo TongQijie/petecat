@@ -1,4 +1,7 @@
 ﻿using Petecat.Console;
+using Petecat.DependencyInjection;
+using Petecat.DependencyInjection.Containers;
+
 using System;
 
 namespace Petecat.ConsoleApp
@@ -7,6 +10,8 @@ namespace Petecat.ConsoleApp
     {
         static void Main(string[] args)
         {
+            DependencyInjector.Setup(new BaseDirectoryAssemblyContainer());
+
             if (args != null && args.Length > 0 && args[0].StartsWith("tcpapplication", StringComparison.OrdinalIgnoreCase))
             {
                 new ServiceTcpApplicationTest().Run();
@@ -35,7 +40,7 @@ namespace Petecat.ConsoleApp
             }
             else if (args != null && args.Length > 0 && args[0].StartsWith("sfct", StringComparison.OrdinalIgnoreCase))
             {
-                new Configuring.StaticFileConfigurerTest().Run();
+                new Configuring.StaticFileConfigurerTest().Run1();
                 ConsoleBridging.ReadAnyKey();
             }
         }

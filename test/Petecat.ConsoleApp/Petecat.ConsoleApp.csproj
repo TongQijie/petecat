@@ -41,6 +41,8 @@
     <Compile Include="Caching\AppleClass.cs" />
     <Compile Include="Caching\CacheContainerBaseTest.cs" />
     <Compile Include="Configuring\AppleClass.cs" />
+    <Compile Include="Configuring\BananaClass.cs" />
+    <Compile Include="Configuring\IBananaInterface.cs" />
     <Compile Include="Configuring\StaticFileConfigurerTest.cs" />
     <Compile Include="DependencyInjection\AppleClass.cs" />
     <Compile Include="DependencyInjection\BananaClass.cs" />
