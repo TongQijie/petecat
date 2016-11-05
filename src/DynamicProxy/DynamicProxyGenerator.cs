@@ -5,6 +5,10 @@ using System.Reflection;
 using System.Reflection.Emit;
 
 using Petecat.DependencyInjection.Attributes;
+using Petecat.Utility;
+using Petecat.DynamicProxy.Attributes;
+using Petecat.DependencyInjection;
+using Petecat.DynamicProxy.Errors;
 
 namespace Petecat.DynamicProxy
 {
@@ -250,6 +254,245 @@ namespace Petecat.DynamicProxy
             return targetType;
         }
 
-        
+        private Type GenerateProxyType(Type baseClass)
+        {
+            var typeBuilder = _ModuleBuilder.DefineType("DynamicProxy_" + baseClass.Name, TypeAttributes.Public, baseClass);
+
+            //var fieldBuilder = typeBuilder.DefineField("_Interceptor", typeof(IInterceptor), FieldAttributes.Private);
+
+            foreach (var constructorMethod in baseClass.GetConstructors())
+            {
+                var parameterInfos = constructorMethod.GetParameters();
+
+                var builder = typeBuilder.DefineConstructor(MethodAttributes.Public, CallingConventions.Standard, parameterInfos.Select(x => x.ParameterType).ToArray());
+
+                var il = builder.GetILGenerator();
+                il.Emit(OpCodes.Ldarg_0);
+
+                for (var i = 0; i < parameterInfos.Length; i++)
+                {
+                    il.Emit(OpCodes.Ldarg, i + 1);
+                }
+
+                il.Emit(OpCodes.Call, constructorMethod);
+
+                il.Emit(OpCodes.Ret);
+            }
+
+            foreach (var instanceMethod in baseClass.GetMethods())
+            {
+                MethodInterceptorAttribute attribute;
+                if (!Reflector.TryGetCustomAttribute(instanceMethod, null, out attribute))
+                {
+                    continue;
+                }
+
+                var parameterInfos = instanceMethod.GetParameters();
+                var hasParameters = parameterInfos.Length > 0;
+                var hasReturnValue = instanceMethod.ReturnType != typeof(void);
+
+                var methodBuilder = typeBuilder.DefineMethod(instanceMethod.Name, instanceMethod.Attributes,
+                    instanceMethod.ReturnType, parameterInfos.Select(x => x.ParameterType).ToArray());
+
+                var il = methodBuilder.GetILGenerator();
+
+                il.DeclareLocal(typeof(InvocationBase));
+                il.DeclareLocal(typeof(IInterceptor));
+                if (hasReturnValue)
+                {
+                    il.DeclareLocal(instanceMethod.ReturnType);
+                }
+                if (hasParameters)
+                {
+                    il.DeclareLocal(typeof(object[]));
+                    il.DeclareLocal(typeof(Type[]));
+                }
+                il.DeclareLocal(typeof(bool));
+
+                // new InvocationBase()
+                il.Emit(OpCodes.Newobj, typeof(InvocationBase).GetConstructor(new Type[] { }));
+                il.Emit(OpCodes.Stloc_0);
+
+                // get type of baseClass
+                il.Emit(OpCodes.Ldloc_0);
+                il.Emit(OpCodes.Ldtoken, baseClass);
+                il.Emit(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) }));
+
+                // set invocationBase.TargetType
+                il.Emit(OpCodes.Callvirt, typeof(InvocationBase).GetMethod("set_TargetType", new Type[] { typeof(Type) }));
+
+                // define array: object[]
+                il.Emit(OpCodes.Ldc_I4, parameterInfos.Length);
+                il.Emit(OpCodes.Newarr, typeof(object));
+
+                if (parameterInfos.Length > 0)
+                {
+                    if (hasReturnValue)
+                    {
+                        il.Emit(OpCodes.Stloc_S, 3);
+                    }
+                    else
+                    {
+                        il.Emit(OpCodes.Stloc_2);
+                    }
+
+                    // set elements
+                    for (int i = 0; i < parameterInfos.Length; i++)
+                    {
+                        if (hasReturnValue)
+                        {
+                            il.Emit(OpCodes.Ldloc_S, 3);
+                        }
+                        else
+                        {
+                            il.Emit(OpCodes.Ldloc_2);
+                        }
+
+                        //mthdIL.Emit(OpCodes.Dup);
+                        il.Emit(OpCodes.Ldc_I4, i);
+                        il.Emit(OpCodes.Ldarg, i + 1);
+                        il.Emit(OpCodes.Box, parameterInfos[i].ParameterType);
+                        il.Emit(OpCodes.Stelem_Ref);
+                    }
+
+                    if (hasReturnValue)
+                    {
+                        il.Emit(OpCodes.Ldloc_S, 3);
+                    }
+                    else
+                    {
+                        il.Emit(OpCodes.Ldloc_2);
+                    }
+                }
+
+                // set InvocationBase.ParameterValues
+                il.Emit(OpCodes.Callvirt, typeof(InvocationBase).GetMethod("set_ParameterValues", new Type[] { typeof(object[]) }));
+
+                // get type of baseClass
+                il.Emit(OpCodes.Ldloc_0);
+                il.Emit(OpCodes.Ldtoken, baseClass);
+                il.Emit(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) }));
+
+                // load Method Name
+                il.Emit(OpCodes.Ldstr, instanceMethod.Name);
+
+                // define array Type[parameterInfos.Length]
+                il.Emit(OpCodes.Ldc_I4, parameterInfos.Length);
+                il.Emit(OpCodes.Newarr, typeof(Type));
+
+                if (hasParameters)
+                {
+                    if (hasReturnValue)
+                    {
+                        il.Emit(OpCodes.Stloc_S, 4);
+                    }
+                    else
+                    {
+                        il.Emit(OpCodes.Stloc_3);
+                    }
+
+                    // set elements
+                    for (int i = 0; i < parameterInfos.Length; i++)
+                    {
+                        if (hasReturnValue)
+                        {
+                            il.Emit(OpCodes.Ldloc_S, 4);
+                        }
+                        else
+                        {
+                            il.Emit(OpCodes.Ldloc_3);
+                        }
+
+                        il.Emit(OpCodes.Ldc_I4, i);
+                        il.Emit(OpCodes.Ldtoken, parameterInfos[i].ParameterType);
+                        il.Emit(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) }));
+                        il.Emit(OpCodes.Stelem_Ref);
+                    }
+
+                    if (hasReturnValue)
+                    {
+                        il.Emit(OpCodes.Ldloc_S, 4);
+                    }
+                    else
+                    {
+                        il.Emit(OpCodes.Ldloc_3);
+                    }
+                }
+
+                // call method: GetMethod(string, Type[])
+                il.Emit(OpCodes.Call, typeof(Type).GetMethod("GetMethod", new Type[] { typeof(string), typeof(Type[]) }));
+
+                // set InvocationBase.MethodInfo
+                il.Emit(OpCodes.Callvirt, typeof(InvocationBase).GetMethod("set_MethodInfo", new Type[] { typeof(MethodInfo) }));
+
+                // get interceptor type
+                il.Emit(OpCodes.Ldloc_0);
+                il.Emit(OpCodes.Ldtoken, attribute.Type);
+                il.Emit(OpCodes.Call, typeof(Type).GetMethod("GetTypeFromHandle", new Type[] { typeof(RuntimeTypeHandle) }));
+
+                // set invocationBase.InterceptorType
+                il.Emit(OpCodes.Callvirt, typeof(InvocationBase).GetMethod("set_InterceptorType", new Type[] { typeof(Type) }));
+
+                //
+                il.Emit(OpCodes.Ldloc_0);
+                il.Emit(OpCodes.Callvirt, typeof(InvocationBase).GetMethod("get_InterceptorType", new Type[] { }));
+                il.Emit(OpCodes.Call, typeof(DependencyInjector).GetMethod("GetObject", new Type[] { typeof(Type) }));
+                il.Emit(OpCodes.Isinst, typeof(IInterceptor));
+
+                //
+                il.Emit(OpCodes.Stloc_1);
+                il.Emit(OpCodes.Ldloc_1);
+                il.Emit(OpCodes.Ldnull);
+                il.Emit(OpCodes.Ceq);
+
+                if (hasParameters && hasReturnValue)
+	            {
+                    il.Emit(OpCodes.Stloc_S, 5);
+                    il.Emit(OpCodes.Ldloc_S, 5);
+	            }
+                else if (hasReturnValue)
+                {
+                    il.Emit(OpCodes.Stloc_S, 3);
+                    il.Emit(OpCodes.Ldloc_S, 3);
+                }
+                else if (hasParameters)
+                {
+                    il.Emit(OpCodes.Stloc_S, 4);
+                    il.Emit(OpCodes.Ldloc_S, 4);
+                }
+                else
+                {
+                    il.Emit(OpCodes.Stloc_S, 2);
+                    il.Emit(OpCodes.Ldloc_S, 2);
+                }
+
+                il.Emit(OpCodes.Brtrue_S, 10); // TODO
+
+                il.Emit(OpCodes.Ldloc_0);
+                il.Emit(OpCodes.Callvirt, typeof(InvocationBase).GetMethod("get_InterceptorType", new Type[] { }));
+                il.Emit(OpCodes.Newobj, typeof(InterceptorNotFoundException).GetConstructor(new Type[] { attribute.Type }));
+                il.Emit(OpCodes.Throw);
+
+                il.Emit(OpCodes.Ldloc_1);
+                il.Emit(OpCodes.Ldloc_0);
+                il.Emit(OpCodes.Callvirt, typeof(IInterceptor).GetMethod("Intercept", new Type[] { typeof(IInvocation) }));
+                
+                il.Emit(OpCodes.Ldloc_0);
+                il.Emit(OpCodes.Callvirt, typeof(InvocationBase).GetMethod("get_ReturnValue", new Type[] { }));
+                il.Emit(OpCodes.Unbox_Any, instanceMethod.ReturnType);
+                il.Emit(OpCodes.Stloc_2);
+                il.Emit(OpCodes.Ldloc_2);
+                il.Emit(OpCodes.Ret);
+
+                typeBuilder.DefineMethodOverride(methodBuilder, baseClass.GetMethod(instanceMethod.Name, parameterInfos.Select(x => x.ParameterType).ToArray()));
+            }
+
+            var targetType = typeBuilder.CreateType();
+
+            // DEBUG
+            //_AssemblyBuilder.Save("auto.dll");
+
+            return targetType;
+        }
     }
 }

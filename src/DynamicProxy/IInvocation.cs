@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 namespace Petecat.DynamicProxy
 {
@@ -13,5 +14,9 @@ namespace Petecat.DynamicProxy
         object[] ParameterValues { get; }
 
         object ReturnValue { get; }
+
+        Type TargetType { get; }
+
+        Type InterceptorType { get; }
     }
 }

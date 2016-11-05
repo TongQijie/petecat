@@ -57,6 +57,7 @@
     <Compile Include="DependencyInjection\IFilbertInterface.cs" />
     <Compile Include="DynamicProxy\AppleClass.cs" />
     <Compile Include="DynamicProxy\BananaClass.cs" />
+    <Compile Include="DynamicProxy\CherryClass.cs" />
     <Compile Include="DynamicProxy\DurianClass.cs" />
     <Compile Include="DynamicProxy\DynamicProxyGeneratorTest.cs" />
     <Compile Include="FileSystemMonitorTest.cs" />

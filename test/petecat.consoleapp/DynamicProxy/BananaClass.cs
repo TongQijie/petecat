@@ -1,35 +1,16 @@
-﻿namespace Petecat.ConsoleApp.DynamicProxy
+﻿using Petecat.DependencyInjection.Attributes;
+using Petecat.DynamicProxy.Attributes;
+namespace Petecat.ConsoleApp.DynamicProxy
 {
+    [DependencyInjectable(Sington = true)]
     public class BananaClass
     {
-        public virtual void A()
+        public BananaClass(AppleClass apple)
         {
-            Console.ConsoleBridging.WriteLine("run in A");
         }
 
-        public virtual void B(int a)
-        {
-            Console.ConsoleBridging.WriteLine("run in B with " + a);
-        }
-
-        public virtual void C(int a, int b)
-        {
-            Console.ConsoleBridging.WriteLine("run in C with " + (int)(a + b));
-        }
-
-        public virtual int D()
-        {
-            Console.ConsoleBridging.WriteLine("run in D");
-            return 1;
-        }
-
-        public virtual int E(int a)
-        {
-            Console.ConsoleBridging.WriteLine("run in E with " + a);
-            return a + 1;
-        }
-
-        public virtual int F(int a, int b)
+        [MethodInterceptor(Type = typeof(AppleClass))]
+        public int F(int a, int b)
         {
             Console.ConsoleBridging.WriteLine("run in F with " + (int)(a + b));
             return a + b;

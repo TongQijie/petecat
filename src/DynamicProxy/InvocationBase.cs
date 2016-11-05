@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using Petecat.DependencyInjection;
+using System;
+using System.Reflection;
 
 namespace Petecat.DynamicProxy
 {
@@ -6,7 +8,7 @@ namespace Petecat.DynamicProxy
     {
         public void Process()
         {
-            ReturnValue = MethodInfo.Invoke(Owner, ParameterValues);
+            ReturnValue = MethodInfo.Invoke(DependencyInjector.GetObject(TargetType), ParameterValues);
         }
 
         public MethodInfo MethodInfo { get; set; }
@@ -16,5 +18,9 @@ namespace Petecat.DynamicProxy
         public object ReturnValue { get; set; }
 
         public object Owner { get; set; }
+
+        public Type TargetType { get; set; }
+
+        public Type InterceptorType { get; set; }
     }
 }

@@ -176,6 +176,8 @@
     <Compile Include="DependencyInjection\IPropertyInfo.cs" />
     <Compile Include="DependencyInjection\ITypeDefinition.cs" />
     <Compile Include="DependencyInjection\MethodInfoBase.cs" />
+    <Compile Include="DynamicProxy\Attributes\MethodInterceptorAttribute.cs" />
+    <Compile Include="DynamicProxy\Errors\InterceptorNotFoundException.cs" />
     <Compile Include="DynamicProxy\IInterceptor.cs" />
     <Compile Include="DynamicProxy\IInvocation.cs" />
     <Compile Include="DynamicProxy\InvocationBase.cs" />
@@ -368,9 +370,7 @@
     <Compile Include="Configuring\Configuration\ConfigurationItemConfig.cs" />
     <Compile Include="Configuring\Configuration\ConfigurationItemsConfig.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DynamicProxy\Interceptors\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
