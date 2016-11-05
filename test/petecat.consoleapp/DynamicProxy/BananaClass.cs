@@ -12,10 +12,27 @@
             Console.ConsoleBridging.WriteLine("run in B with " + a);
         }
 
-        public virtual int C(int a)
+        public virtual void C(int a, int b)
         {
-            Console.ConsoleBridging.WriteLine("run in C with " + a);
+            Console.ConsoleBridging.WriteLine("run in C with " + (int)(a + b));
+        }
+
+        public virtual int D()
+        {
+            Console.ConsoleBridging.WriteLine("run in D");
+            return 1;
+        }
+
+        public virtual int E(int a)
+        {
+            Console.ConsoleBridging.WriteLine("run in E with " + a);
             return a + 1;
+        }
+
+        public virtual int F(int a, int b)
+        {
+            Console.ConsoleBridging.WriteLine("run in F with " + (int)(a + b));
+            return a + b;
         }
     }
 }
