@@ -5,12 +5,12 @@ namespace Petecat.ConsoleApp.DynamicProxy
     [DependencyInjectable(Sington = true)]
     public class BananaClass
     {
-        public BananaClass(AppleClass apple)
-        {
-        }
+        //public BananaClass(AppleClass apple)
+        //{
+        //}
 
-        [MethodInterceptor(Type = typeof(AppleClass))]
-        public int F(int a, int b)
+        [MethodInterceptor(Type = typeof(IAppleInterface))]
+        public virtual int F(int a, int b)
         {
             Console.ConsoleBridging.WriteLine("run in F with " + (int)(a + b));
             return a + b;

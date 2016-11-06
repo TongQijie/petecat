@@ -3,6 +3,7 @@ using Petecat.Utility;
 
 using System;
 using System.Linq;
+using System.Reflection;
 
 namespace Petecat.Extension
 {
@@ -58,6 +59,33 @@ namespace Petecat.Extension
             {
                 return field.Name;
             }
+        }
+
+        public static MethodInfo GetNonGenericMethod(this Type sourceType, string name, Type[] parameterTypes)
+        {
+            foreach (var methodInfo in sourceType.GetMethods().Where(x => x.Name == name && !x.IsGenericMethod))
+            {
+                if (methodInfo.GetParameters().Select(x => x.ParameterType).ToArray().EqualsWith(parameterTypes))
+                {
+                    return methodInfo;
+                }
+            }
+
+            return null;
+        }
+
+        public static MethodInfo GetGenericMethod(this Type sourceType, string name, Type[] parameterTypes, string[] genericArguments)
+        {
+            foreach (var methodInfo in sourceType.GetMethods().Where(x => x.Name == name && x.IsGenericMethod))
+            {
+                if (methodInfo.GetParameters().Select(x => x.ParameterType).ToArray().EqualsWith(parameterTypes)
+                    && methodInfo.GetGenericArguments().Select(x => x.Name).ToArray().EqualsWith(genericArguments))
+                {
+                    return methodInfo;
+                }
+            }
+
+            return null;
         }
     }
 }

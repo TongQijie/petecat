@@ -1,6 +1,9 @@
 ﻿using Petecat.Aop;
 using Petecat.DependencyInjection;
 using Petecat.DynamicProxy;
+using System;
+using System.Linq;
+using Petecat.Extension;
 
 namespace Petecat.ConsoleApp.DynamicProxy
 {
@@ -10,16 +13,19 @@ namespace Petecat.ConsoleApp.DynamicProxy
         {
             var result = -1;
 
-            var durianClass = new DurianClass(new AppleClass());
-            result = durianClass.F(1, 2);
+            //var bananaClass = new BananaClass();
+            //bananaClass.F(1, 2);
+            
+            //var durianClass = new DurianClass(new AppleClass());
+            //result = durianClass.F(1, 2);
 
-            //var bananaClass = DependencyInjector.GetObject<IDynamicProxyGenerator>().CreateProxyObject<BananaClass>(new AppleClass());
+            var childBananaClass = DependencyInjector.GetObject<IDynamicProxyGenerator>().CreateProxyObject<BananaClass>();
             //bananaClass.A();
             //bananaClass.B(1);
             //bananaClass.C(2, 2);
             //result = bananaClass.D();
             //result = bananaClass.E(1);
-            //result = bananaClass.F(1, 2);
+            result = childBananaClass.F(1, 2);
         }
     }
 }

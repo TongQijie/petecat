@@ -8,11 +8,11 @@ namespace Petecat.ConsoleApp.DynamicProxy
 {
     public class DurianClass : BananaClass
     {
-        public DurianClass(AppleClass apple) : base(apple)
-        {
-        }
+        //public DurianClass(AppleClass apple) : base(apple)
+        //{
+        //}
 
-        public int F(int a, int b)
+        public override int F(int a, int b)
         {
             var invocationBase = new InvocationBase();
             invocationBase.TargetType = typeof(BananaClass);

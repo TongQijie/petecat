@@ -17,8 +17,6 @@ namespace Petecat.DynamicProxy
 
         public object ReturnValue { get; set; }
 
-        public object Owner { get; set; }
-
         public Type TargetType { get; set; }
 
         public Type InterceptorType { get; set; }

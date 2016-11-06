@@ -3,9 +3,9 @@ namespace Petecat.DynamicProxy
 {
     public interface IDynamicProxyGenerator
     {
-        object CreateProxyObject(Type baseClass, IInterceptor interceptor);
+        object CreateProxyObject(Type baseClass, object[] parameters = null);
 
-        T CreateProxyObject<T>(IInterceptor interceptor);
+        T CreateProxyObject<T>(object[] parameters = null);
 
         Type CreateProxyType(Type baseClass);
     }

@@ -7,8 +7,6 @@ namespace Petecat.DynamicProxy
     {
         void Process();
 
-        object Owner { get; }
-
         MethodInfo MethodInfo { get; }
 
         object[] ParameterValues { get; }

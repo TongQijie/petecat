@@ -60,6 +60,7 @@
     <Compile Include="DynamicProxy\CherryClass.cs" />
     <Compile Include="DynamicProxy\DurianClass.cs" />
     <Compile Include="DynamicProxy\DynamicProxyGeneratorTest.cs" />
+    <Compile Include="DynamicProxy\IAppleInterface.cs" />
     <Compile Include="FileSystemMonitorTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
