@@ -24,6 +24,16 @@ namespace Petecat.DependencyInjection
             }
         }
 
+        public bool CanInfer(Type targetType)
+        {
+            if (targetType.IsClass)
+            {
+                return RegisteredTypes.ContainsKey(targetType);
+            }
+
+            return RegisteredTypes.Values.ToArray().Exists(x => x.Inference != null && x.Inference.Equals(targetType));
+        }
+
         private object InternalResolve(Type targetType)
         {
             if (targetType.IsClass)

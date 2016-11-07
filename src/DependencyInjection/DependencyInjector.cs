@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Linq;
 
 using Petecat.Extension;
-using Petecat.DependencyInjection.Containers;
 
 namespace Petecat.DependencyInjection
 {
@@ -21,18 +21,20 @@ namespace Petecat.DependencyInjection
             _Containers = _Containers.Append(container);
         }
 
-        public static object GetObject<TContainer>(Type targetType) where TContainer : IContainer
+        public static object GetObject<TContainer>(Type targetType) where TContainer : IAssemblyContainer
         {
-            var assemblyContainer = Containers.FirstOrDefault(x => x is TContainer);
-            if (assemblyContainer == null)
+            foreach (TContainer assemblyContainer in Containers.Where(x => x is TContainer).ToArray())
             {
-                // TODO: throw
+                if (assemblyContainer.CanInfer(targetType))
+                {
+                    return assemblyContainer.GetObject(targetType);
+                }
             }
 
-            return ((TContainer)assemblyContainer).GetObject(targetType);
+            return null;
         }
 
-        public static TObject GetObject<TContainer, TObject>() where TContainer : IContainer
+        public static TObject GetObject<TContainer, TObject>() where TContainer : IAssemblyContainer
         {
             return (TObject)GetObject<TContainer>(typeof(TObject));
         }

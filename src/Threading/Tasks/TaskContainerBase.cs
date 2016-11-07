@@ -4,7 +4,6 @@ using Petecat.Data.Formatters;
 using Petecat.IoC;
 using Petecat.Threading.Watcher;
 using System.IO;
-using System.Text;
 
 namespace Petecat.Threading.Tasks
 {

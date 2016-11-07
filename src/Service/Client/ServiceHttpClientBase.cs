@@ -1,5 +1,4 @@
 ﻿using Petecat.Network.Http;
-using Petecat.Data.Formatters;
 
 using System;
 using System.Net;

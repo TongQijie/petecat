@@ -1,8 +1,8 @@
 ﻿using Petecat.Utility;
 using Petecat.Extension;
+using Petecat.DependencyInjection.Attributes;
 
 using System.Reflection;
-using System;
 
 namespace Petecat.DependencyInjection
 {
@@ -19,11 +19,24 @@ namespace Petecat.DependencyInjection
         {
             var typeDefinitions = new ITypeDefinition[0];
 
-            foreach (var type in Assembly.GetTypes())
+            foreach (var type in Assembly.GetTypes().Where(x => x.IsClass))
             {
-                if (type.IsClass && Reflector.ContainsCustomAttribute<Attributes.DependencyInjectableAttribute>(type))
+                DependencyInjectableAttribute attribute;
+                if (Reflector.TryGetCustomAttribute(type, null, out attribute))
                 {
-                    typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(type));
+                    if (attribute.TypeMatch && !attribute.GetType().Equals(typeof(DependencyInjectableAttribute)))
+                    {
+                        continue;
+                    }
+
+                    if (attribute.GetType().Equals(typeof(DependencyInjectableAttribute)) || !attribute.OverridedInference)
+                    {
+                        typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(type, attribute.Inference, attribute.Sington, this));
+                    }
+                    else
+                    {
+                        typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(type, null, attribute.Sington, this));
+                    }
                 }
             }
 

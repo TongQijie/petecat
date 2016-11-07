@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using Petecat.Caching;
 using Petecat.Utility;
 using Petecat.Logging;
-using System.Text;
 using Petecat.Data.Formatters;
 
 namespace Petecat.Data.Access

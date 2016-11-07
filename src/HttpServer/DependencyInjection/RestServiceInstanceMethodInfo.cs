@@ -1,5 +1,4 @@
 ﻿using Petecat.DependencyInjection;
-using Petecat.Utility;
 using System.Reflection;
 
 namespace Petecat.HttpServer.DependencyInjection

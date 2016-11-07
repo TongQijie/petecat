@@ -1,14 +1,10 @@
-﻿using Petecat.DependencyInjection.Attributes;
-using Petecat.DynamicProxy.Attributes;
+﻿using Petecat.DynamicProxy.Attributes;
+
 namespace Petecat.ConsoleApp.DynamicProxy
 {
-    [DependencyInjectable(Sington = true)]
-    public class BananaClass
+    [DynamicProxyInjectable(Inference = typeof(IBananaInterface), Sington = true)]
+    public class BananaClass : IBananaInterface
     {
-        //public BananaClass(AppleClass apple)
-        //{
-        //}
-
         [MethodInterceptor(Type = typeof(IAppleInterface))]
         public virtual int F(int a, int b)
         {

@@ -2,7 +2,6 @@
 
 using Petecat.Extension;
 using Petecat.DependencyInjection;
-using Petecat.HttpServer.Configuration;
 
 namespace Petecat.HttpServer
 {

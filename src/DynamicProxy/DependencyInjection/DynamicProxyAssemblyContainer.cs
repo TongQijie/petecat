@@ -2,11 +2,13 @@
 using System.IO;
 using System.Reflection;
 
-namespace Petecat.DependencyInjection.Containers
+using Petecat.DependencyInjection;
+
+namespace Petecat.DynamicProxy.DependencyInjection
 {
-    public class BaseDirectoryAssemblyContainer : AssemblyContainerBase
+    public class DynamicProxyAssemblyContainer : AssemblyContainerBase
     {
-        public BaseDirectoryAssemblyContainer()
+        public DynamicProxyAssemblyContainer()
         {
             RegisterAssemblies();
         }
@@ -19,7 +21,7 @@ namespace Petecat.DependencyInjection.Containers
             {
                 try
                 {
-                    RegisterAssembly(new AssemblyInfoBase(Assembly.LoadFile(fileInfo.FullName)));
+                    RegisterAssembly(new DynamicProxyAssemblyInfo(Assembly.LoadFile(fileInfo.FullName)));
                 }
                 catch (Exception e)
                 {
@@ -31,7 +33,7 @@ namespace Petecat.DependencyInjection.Containers
             {
                 try
                 {
-                    RegisterAssembly(new AssemblyInfoBase(Assembly.LoadFile(fileInfo.FullName)));
+                    RegisterAssembly(new DynamicProxyAssemblyInfo(Assembly.LoadFile(fileInfo.FullName)));
                 }
                 catch (Exception e)
                 {

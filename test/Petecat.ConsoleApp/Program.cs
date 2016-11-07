@@ -28,7 +28,7 @@ namespace Petecat.ConsoleApp
                 new FileSystemMonitorAnotherTest().Run();
                 ConsoleBridging.ReadAnyKey();
             }
-            else if (args != null && args.Length > 0 && args[0].StartsWith("container", StringComparison.OrdinalIgnoreCase))
+            else if (args != null && args.Length > 0 && args[0].StartsWith("bdact", StringComparison.OrdinalIgnoreCase))
             {
                 new DependencyInjection.BaseDirectoryAssemblyContainerTest().Run();
                 ConsoleBridging.ReadAnyKey();

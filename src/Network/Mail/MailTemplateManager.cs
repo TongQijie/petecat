@@ -4,7 +4,6 @@ using Petecat.Network.Configuration;
 
 using System.Linq;
 using System.IO;
-using System.Text;
 using System;
 
 namespace Petecat.Network.Mail

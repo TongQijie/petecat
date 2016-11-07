@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Petecat.DynamicProxy.Errors
 {
     public class InterceptorNotFoundException : Exception

@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Petecat.DynamicProxy.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]

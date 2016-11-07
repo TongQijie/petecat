@@ -1,6 +1,4 @@
-﻿using System.Web;
-
-namespace Petecat.Service
+﻿namespace Petecat.Service
 {
     public class HttpHandlerBase
     {

@@ -1,5 +1,4 @@
-﻿using System;
-using Petecat.DynamicProxy;
+﻿using Petecat.DynamicProxy;
 using Petecat.DependencyInjection.Attributes;
 
 namespace Petecat.ConsoleApp.DynamicProxy

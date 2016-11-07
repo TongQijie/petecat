@@ -4,7 +4,6 @@ using Petecat.Extension;
 
 using System;
 using System.Linq;
-using System.Text;
 using Petecat.Service.Configuration;
 
 namespace Petecat.Service.Client

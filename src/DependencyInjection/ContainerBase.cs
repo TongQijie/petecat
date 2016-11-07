@@ -28,6 +28,11 @@ namespace Petecat.DependencyInjection
                 // TODO: throw
             }
 
+            if (ContainsInstance(instanceInfo.Name))
+            {
+                return;
+            }
+
             RegisterInstances.AddOrUpdate(instanceInfo.Name, instanceInfo, (a, b) => instanceInfo);
         }
 
@@ -36,6 +41,11 @@ namespace Petecat.DependencyInjection
             if (!(typeDefinition.Info is Type))
             {
                 // TODO: throw
+            }
+
+            if (ContainsType(typeDefinition.Info as Type))
+            {
+                return;
             }
 
             RegisteredTypes.AddOrUpdate(typeDefinition.Info as Type, typeDefinition, (a, b) => typeDefinition);
@@ -59,6 +69,16 @@ namespace Petecat.DependencyInjection
         public virtual T GetObject<T>(string objectName)
         {
             return (T)GetObject(objectName);
+        }
+
+        public bool ContainsType(Type objectType)
+        {
+            return RegisteredTypes.ContainsKey(objectType);
+        }
+
+        public bool ContainsInstance(string objectName)
+        {
+            return RegisterInstances.ContainsKey(objectName);
         }
     }
 }

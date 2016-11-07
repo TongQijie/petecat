@@ -61,6 +61,7 @@
     <Compile Include="DynamicProxy\DurianClass.cs" />
     <Compile Include="DynamicProxy\DynamicProxyGeneratorTest.cs" />
     <Compile Include="DynamicProxy\IAppleInterface.cs" />
+    <Compile Include="DynamicProxy\IBananaInterface.cs" />
     <Compile Include="FileSystemMonitorTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

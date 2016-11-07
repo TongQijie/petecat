@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Petecat.Terminal
+﻿namespace Petecat.Terminal
 {
     public static class TerminalManager
     {

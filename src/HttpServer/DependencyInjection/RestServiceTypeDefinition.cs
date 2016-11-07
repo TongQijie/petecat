@@ -1,10 +1,9 @@
-﻿using Petecat.DependencyInjection;
-using Petecat.HttpServer.Attributes;
-using Petecat.Utility;
-using System;
-using System.Reflection;
-
+﻿using Petecat.Utility;
 using Petecat.Extension;
+using Petecat.DependencyInjection;
+using Petecat.HttpServer.Attributes;
+
+using System;
 
 namespace Petecat.HttpServer.DependencyInjection
 {
@@ -13,7 +12,7 @@ namespace Petecat.HttpServer.DependencyInjection
         public RestServiceTypeDefinition(Type type)
         {
             Info = type;
-            Attributes.RestServiceInjectableAttribute attribute;
+            RestServiceInjectableAttribute attribute;
             if (Reflector.TryGetCustomAttribute(type, null, out attribute))
             {
                 Inference = attribute.Inference;

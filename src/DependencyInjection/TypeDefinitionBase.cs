@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Reflection;
 
-using Petecat.Utility;
 using Petecat.Extension;
 
 namespace Petecat.DependencyInjection
@@ -13,13 +12,13 @@ namespace Petecat.DependencyInjection
         public TypeDefinitionBase(Type type)
         {
             Info = type;
-            Attributes.DependencyInjectableAttribute attribute;
-            if (Reflector.TryGetCustomAttribute(type, null, out attribute))
-            {
-                Inference = attribute.Inference;
-                Sington = attribute.Sington;
-            }
-            AssemblyInfo = new AssemblyInfoBase(type.Assembly);
+        }
+
+        public TypeDefinitionBase(Type type, Type inference, bool sington, IAssemblyInfo assemblyInfo) : this(type)
+        {
+            Inference = inference;
+            Sington = sington;
+            AssemblyInfo = assemblyInfo;
         }
 
         public MemberInfo Info { get; protected set; }

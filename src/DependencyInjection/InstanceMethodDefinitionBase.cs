@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+
 namespace Petecat.DependencyInjection
 {
     public class InstanceMethodDefinitionBase : IMethodDefinition

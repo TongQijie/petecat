@@ -1,6 +1,7 @@
-﻿using Petecat.Extension;
+﻿using System;
+
 using Petecat.Utility;
-using System;
+using Petecat.Extension;
 
 namespace Petecat.DependencyInjection
 {
