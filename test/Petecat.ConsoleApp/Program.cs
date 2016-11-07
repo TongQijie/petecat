@@ -22,10 +22,10 @@ namespace Petecat.ConsoleApp
                 new ServiceTcpClientBaseTest().Run();
                 ConsoleBridging.ReadAnyKey();
             }
-            else if (args != null && args.Length > 0 && args[0].StartsWith("filesystemmonitor", StringComparison.OrdinalIgnoreCase))
+            else if (args != null && args.Length > 0 && args[0].StartsWith("fsmt", StringComparison.OrdinalIgnoreCase))
             {
-                new FileSystemMonitorTest().Run();
-                new FileSystemMonitorAnotherTest().Run();
+                new Monitor.FileSystemMonitorTest().Run();
+                new Monitor.FileSystemMonitorAnotherTest().Run();
                 ConsoleBridging.ReadAnyKey();
             }
             else if (args != null && args.Length > 0 && args[0].StartsWith("bdact", StringComparison.OrdinalIgnoreCase))

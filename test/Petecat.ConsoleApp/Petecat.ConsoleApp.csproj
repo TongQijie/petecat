@@ -62,7 +62,7 @@
     <Compile Include="DynamicProxy\DynamicProxyGeneratorTest.cs" />
     <Compile Include="DynamicProxy\IAppleInterface.cs" />
     <Compile Include="DynamicProxy\IBananaInterface.cs" />
-    <Compile Include="FileSystemMonitorTest.cs" />
+    <Compile Include="Monitor\FileSystemMonitorTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceTcpApplicationTest.cs" />

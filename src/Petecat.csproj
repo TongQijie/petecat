@@ -250,6 +250,7 @@
     <Compile Include="Monitor\Delegates\FileRenamedHandlerDelegate.cs" />
     <Compile Include="Monitor\Errors\InvalidFolderPathException.cs" />
     <Compile Include="Monitor\FileSystemMonitor.cs" />
+    <Compile Include="Monitor\IFileSystemMonitor.cs" />
     <Compile Include="Monitor\Internal\FolderMonitor.cs" />
     <Compile Include="Network\Configuration\MailTemplateConfig.cs" />
     <Compile Include="Network\Configuration\MailTemplateCollectionConfig.cs" />

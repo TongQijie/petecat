@@ -29,28 +29,6 @@ namespace Petecat.Caching
             return _CacheObjects.Add(new WritableCacheObject(key, readSourceHandler, updateSourceHandler));
         }
 
-        [Obsolete("this method is replaced by Add<T>(string key, string path, IObjectFormatter objectFormatter, bool enableWatcher)")]
-        public void Add<T>(string key, string path, Encoding encoding, IObjectFormatter objectFormatter, bool enableWatcher)
-        {
-            if (!File.Exists(path))
-            {
-                throw new FileNotFoundException(path);
-            }
-
-            var fileInfo = new FileInfo(path);
-
-            CacheObjectManager.Instance.Add(key, (v) => objectFormatter.ReadObject<T>(path));
-
-            if (enableWatcher)
-            {
-                FolderWatcherManager.Instance.GetOrAdd(fileInfo.Directory.FullName)
-                    .SetFileChangedHandler(fileInfo.Name, (w) =>
-                    {
-                        CacheObjectManager.Instance.GetObject(key).IsDirty = true;
-                    }).Start();
-            }
-        }
-
         public void Add(string key, string path, Type objectType, IObjectFormatter objectFormatter, bool enableWatcher)
         {
             if (!File.Exists(path))

@@ -3,10 +3,12 @@ using System.Collections.Concurrent;
 
 using Petecat.Extension;
 using Petecat.Monitor.Internal;
+using Petecat.DependencyInjection.Attributes;
 
 namespace Petecat.Monitor
 {
-    public class FileSystemMonitor
+    [DependencyInjectable(Inference = typeof(IFileSystemMonitor), Sington = true)]
+    public class FileSystemMonitor : IFileSystemMonitor
     {
         private static FileSystemMonitor _Instance = null;
 
