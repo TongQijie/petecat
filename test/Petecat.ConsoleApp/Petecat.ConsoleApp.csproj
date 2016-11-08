@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
@@ -62,6 +66,14 @@
     <Compile Include="DynamicProxy\DynamicProxyGeneratorTest.cs" />
     <Compile Include="DynamicProxy\IAppleInterface.cs" />
     <Compile Include="DynamicProxy\IBananaInterface.cs" />
+    <Compile Include="Formatter\AppleClass.cs" />
+    <Compile Include="Formatter\BananaClass.cs" />
+    <Compile Include="Formatter\CherryClass.cs" />
+    <Compile Include="Formatter\DurianClass.cs" />
+    <Compile Include="Formatter\FilbertClass.cs" />
+    <Compile Include="Formatter\GrapeClass.cs" />
+    <Compile Include="Formatter\JsonDeserializationPerformanceTest.cs" />
+    <Compile Include="Formatter\JsonFormatterTest.cs" />
     <Compile Include="Monitor\FileSystemMonitorTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -83,7 +95,18 @@
     <None Include="Configuration\ServiceResources.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Formatter\3ixpc1re3x0.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Formatter\fbktgdhqboo.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Formatter\example.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

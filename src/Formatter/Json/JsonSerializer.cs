@@ -1,9 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Collections;
-using System.Collections.Generic;
 using System.Collections.Concurrent;
 
 using Petecat.Utility;
@@ -44,10 +42,24 @@ namespace Petecat.Formatter.Json
                         var runtimeType = GetRuntimeType(Type);
                         if (runtimeType == RuntimeType.Object)
                         {
-                            foreach (var propertyInfo in Type.GetProperties().Where(x => x.CanRead && x.CanWrite))
+                            foreach (var propertyInfo in Type.GetProperties().Where(x => x.CanRead && x.CanWrite 
+                                && !Reflector.ContainsCustomAttribute<JsonIngoreAttribute>(x)))
                             {
+                                JsonProperty jsonProperty = null;
+
                                 var attribute = Reflector.GetCustomAttribute<JsonPropertyAttribute>(propertyInfo);
-                                var jsonProperty = new JsonProperty(propertyInfo, attribute == null ? null : attribute.Alias);
+                                if (attribute == null)
+                                {
+                                    jsonProperty = new JsonProperty(propertyInfo, null, false);
+                                }
+                                else if (attribute is JsonObjectAttribute)
+                                {
+                                    jsonProperty = new JsonProperty(propertyInfo, attribute.Alias, true); 
+                                }
+                                else
+                                {
+                                    jsonProperty = new JsonProperty(propertyInfo, attribute.Alias, false);
+                                }
                                 JsonProperties.TryAdd(jsonProperty.Key, jsonProperty);
                             }
                         }
@@ -215,7 +227,7 @@ namespace Petecat.Formatter.Json
         {
             var args = new JsonObjectParseArgs()
             {
-                Stream = new Petecat.IO.BufferedStream(stream, 4 * 1024),
+                Stream = new IO.BufferedStream(stream, 4 * 1024),
             };
 
             JsonObjectParser.Parse(args);
@@ -256,6 +268,12 @@ namespace Petecat.Formatter.Json
                 JsonProperties.TryGetValue(element.Key, out jsonProperty);
                 if (jsonProperty == null)
                 {
+                    continue;
+                }
+
+                if (jsonProperty.IsJsonObject)
+                {
+                    jsonProperty.PropertyInfo.SetValue(instance, element.Value, null);
                     continue;
                 }
 

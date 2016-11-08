@@ -19,6 +19,11 @@ namespace Petecat.Formatter
             return JsonSerializer.GetSerializer(targetType).Deserialize(jsonObject);
         }
 
+        public object ReadObject<T>(JsonObject jsonObject)
+        {
+            return ReadObject(typeof(T), jsonObject);
+        }
+
         public override void WriteObject(object instance, Stream stream)
         {
             JsonSerializer.GetSerializer(instance.GetType()).Serialize(instance, stream, OmitDefaultValueProperty);

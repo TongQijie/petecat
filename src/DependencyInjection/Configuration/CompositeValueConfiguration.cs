@@ -4,7 +4,6 @@ namespace Petecat.DependencyInjection.Configuration
 {
     public class CompositeValueConfiguration
     {
-        
         public JsonObject Value { get; set; }
     }
 }

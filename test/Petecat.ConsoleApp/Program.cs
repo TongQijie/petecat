@@ -48,6 +48,11 @@ namespace Petecat.ConsoleApp
                 new DynamicProxy.DynamicProxyGeneratorTest().Run();
                 ConsoleBridging.ReadAnyKey();
             }
+            else if (args != null && args.Length > 0 && args[0].StartsWith("jft", StringComparison.OrdinalIgnoreCase))
+            {
+                new Formatter.JsonFormatterTest().Run();
+                ConsoleBridging.ReadAnyKey();
+            }
         }
     }
 }

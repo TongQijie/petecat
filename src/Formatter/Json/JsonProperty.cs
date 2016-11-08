@@ -6,11 +6,12 @@ namespace Petecat.Formatter.Json
 {
     internal class JsonProperty
     {
-        public JsonProperty(PropertyInfo propertyInfo, string alias)
+        public JsonProperty(PropertyInfo propertyInfo, string alias, bool isJsonObject)
         {
             PropertyInfo = propertyInfo;
             Alias = alias;
             DefaultValue = propertyInfo.PropertyType.GetDefaultValue();
+            IsJsonObject = isJsonObject;
         }
 
         public string Key { get { return Alias.HasValue() ? Alias : PropertyInfo.Name; } }
@@ -19,8 +20,8 @@ namespace Petecat.Formatter.Json
 
         public string Alias { get; set; }
 
-        public object DefaultValue { get; set; }
+        public object DefaultValue { get; private set; }
 
-
+        public bool IsJsonObject { get; set; }
     }
 }

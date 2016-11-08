@@ -195,6 +195,7 @@
     <Compile Include="Extension\ByteArrayExtension.cs" />
     <Compile Include="Extension\StringExtension.cs" />
     <Compile Include="Extension\TypeExtension.cs" />
+    <Compile Include="Formatter\Attributes\JsonIngoreAttribute.cs" />
     <Compile Include="Formatter\Attributes\JsonObjectAttribute.cs" />
     <Compile Include="Formatter\Attributes\JsonPropertyAttribute.cs" />
     <Compile Include="Formatter\Errors\FormatterNotFoundException.cs" />

@@ -1,0 +1,26 @@
+﻿{
+  "name": "Jerry",
+  "age": 26,
+  "gender": "male",  
+  "habbit":
+  [
+    "programming",
+    "reading"
+  ],
+  "job": {
+    "name": "software engineer",
+    "location": "shanghai"
+  },
+  "career": [
+    {
+      "from": "2013-07-01",
+      "to": "2015-07-01",
+      "company": "Shanghai Dade Information Service Co., Ltd"
+    },
+    {
+      "from": "2016-03-01",
+      "to": "present",
+      "company": "Newegg Inc."
+    }
+  ]
+}
