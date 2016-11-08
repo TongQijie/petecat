@@ -1,9 +1,9 @@
 ﻿using Petecat.IO;
 using Petecat.Extension;
 
-namespace Petecat.Data.Formatters.Internal.Json
+namespace Petecat.Formatter.Json
 {
-    internal class JsonCollectionObject : JsonObject
+    public class JsonCollectionObject : JsonObject
     {
         public JsonCollectionElement[] Elements { get; set; }
 

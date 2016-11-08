@@ -3,9 +3,9 @@
 using Petecat.IO;
 using Petecat.Extension;
 
-namespace Petecat.Data.Formatters.Internal.Json
+namespace Petecat.Formatter.Json
 {
-    internal class JsonValueObject : JsonObject
+    public class JsonValueObject : JsonObject
     {
         public bool EncompassedByQuote { get; set; }
 

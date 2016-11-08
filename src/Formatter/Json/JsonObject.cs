@@ -1,8 +1,8 @@
 ﻿using Petecat.IO;
 
-namespace Petecat.Data.Formatters.Internal.Json
+namespace Petecat.Formatter.Json
 {
-    internal abstract class JsonObject
+    public abstract class JsonObject
     {
         /// <summary>
         /// fill object content, including internal elements or value

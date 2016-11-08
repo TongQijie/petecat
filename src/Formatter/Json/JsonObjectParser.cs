@@ -1,8 +1,8 @@
-﻿namespace Petecat.Data.Formatters.Internal.Json
+﻿namespace Petecat.Formatter.Json
 {
     internal static class JsonObjectParser
     {
-        public static void Parse(JsonObjectParseArgs args, bool header = false)
+        public static void Parse(JsonObjectParseArgs args)
         {
             int b = args.Stream.SeekBytesUntilVisiableChar();
             if (b == -1)
