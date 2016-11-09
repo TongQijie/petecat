@@ -37,7 +37,7 @@ namespace Petecat.IoC
                 }
                 catch (Exception e)
                 {
-                    LoggerManager.GetLogger().LogEvent("AppDomainIoCContainer", LoggerLevel.Warn, e);
+                    //LoggerManager.GetLogger().LogEvent("AppDomainIoCContainer", LoggerLevel.Warn, e);
                 }
             }
 

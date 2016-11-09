@@ -5,7 +5,7 @@ using System;
 using Petecat.DependencyInjection.Attributes;
 namespace Petecat.HttpServer
 {
-    [DependencyInjectable(Inference = typeof(IHttpApplicationConfigurer), Sington = true)]
+    [DependencyInjectable(Inference = typeof(IHttpApplicationConfigurer), Singleton = true)]
     public class HttpApplicationConfigurer : IHttpApplicationConfigurer
     {
         private const string CacheKey = "Global_HttpApplicationConfiguration";

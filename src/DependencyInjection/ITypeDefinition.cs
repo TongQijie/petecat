@@ -6,7 +6,9 @@ namespace Petecat.DependencyInjection
     {
         Type Inference { get; }
 
-        bool Sington { get; }
+        bool Singleton { get; }
+
+        int Priority { get; }
 
         IConstructorMethodInfo[] ConstructorMethods { get; }
 

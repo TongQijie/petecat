@@ -13,7 +13,7 @@ using Petecat.DependencyInjection.Attributes;
 
 namespace Petecat.DynamicProxy
 {
-    [DependencyInjectable(Inference = typeof(IDynamicProxyGenerator), Sington = true)]
+    [DependencyInjectable(Inference = typeof(IDynamicProxyGenerator), Singleton = true)]
     public class DynamicProxyGenerator : IDynamicProxyGenerator
     {
         private AssemblyBuilder _AssemblyBuilder = null;

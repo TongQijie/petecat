@@ -8,7 +8,7 @@ namespace Petecat.Configuring.Attributes
     {
         public StaticFileConfigElementAttribute()
         {
-            Sington = true;
+            Singleton = true;
         }
 
         public string Key { get; set; }

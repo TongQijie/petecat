@@ -9,30 +9,59 @@ namespace Petecat.Caching
             Key = key;
             CreationDate = DateTime.Now;
             ModifiedDate = DateTime.Now;
-            IsDirty = true;
         }
 
         public string Key { get; private set; }
 
         public DateTime CreationDate { get; protected set; }
 
-        public bool IsDirty { get; set; }
+        private bool _IsDirty = true;
+
+        public bool IsDirty
+        {
+            get
+            {
+                return _IsDirty;
+            }
+            set
+            {
+                if (_IsDirty != value)
+                {
+                    _IsDirty = value;
+
+                    if (DirtyChanged != null)
+                    {
+                        DirtyChanged.Invoke(this, value);
+                    }
+                }
+            }
+        }
+
+        public event Delegates.CacheItemDirtyChangedHandlerDelegate DirtyChanged;
 
         public DateTime ModifiedDate { get; protected set; }
 
         protected object Value { get; set; }
 
+        private object _SetValueLocker = new object();
+
         public virtual object GetValue()
         {
             if (IsDirty)
             {
-                try
+                lock (_SetValueLocker)
                 {
-                    IsDirty = !SetValue();
-                }
-                catch (Exception e)
-                {
-                    // TODO: throw
+                    if (IsDirty)
+                    {
+                        try
+                        {
+                            IsDirty = !SetValue();
+                        }
+                        catch (Exception e)
+                        {
+                            // TODO: throw
+                        }
+                    }
                 }
             }
 

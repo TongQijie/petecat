@@ -10,6 +10,7 @@ using Petecat.Caching;
 using Petecat.Utility;
 using Petecat.Logging;
 using Petecat.Data.Formatters;
+using Petecat.DependencyInjection;
 
 namespace Petecat.Data.Access
 {
@@ -89,7 +90,7 @@ namespace Petecat.Data.Access
             Type providerType;
             if (!Reflector.TryGetType(providerString, out providerType))
             {
-                LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, LoggerLevel.Error, 
+                DependencyInjector.GetObject<IFileLogger>().LogEvent(Assembly.GetExecutingAssembly().FullName, Severity.Error, 
                     string.Format("provider type not found. providerString={0}", providerString));
                 return null;
             }
@@ -97,14 +98,14 @@ namespace Petecat.Data.Access
             var providerInstance = providerType.GetField("Instance", BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Static);
             if (providerInstance == null)
             {
-                LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, LoggerLevel.Error, 
+                DependencyInjector.GetObject<IFileLogger>().LogEvent(Assembly.GetExecutingAssembly().FullName, Severity.Error, 
                     string.Format("provider instance not found. providerString={0}", providerString));
                 return null;
             }
 
             if (!providerInstance.FieldType.IsSubclassOf(typeof(DbProviderFactory)))
             {
-                LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, LoggerLevel.Error, 
+                DependencyInjector.GetObject<IFileLogger>().LogEvent(Assembly.GetExecutingAssembly().FullName, Severity.Error, 
                     string.Format("provider instance is not subclass of DbProviderFactory. providerString={0}", providerString));
                 return null;
             }
@@ -112,7 +113,7 @@ namespace Petecat.Data.Access
             var providerFactory = providerInstance.GetValue(null) as DbProviderFactory;
             if (providerFactory == null)
             {
-                LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, LoggerLevel.Error, 
+                DependencyInjector.GetObject<IFileLogger>().LogEvent(Assembly.GetExecutingAssembly().FullName, Severity.Error, 
                     string.Format("provider instance is null. providerString={0}", providerString));
                 return null;
             }

@@ -62,7 +62,8 @@ namespace Petecat.DependencyInjection
             }
             else if (targetType.IsInterface)
             {
-                var typeDefinition = RegisteredTypes.Values.ToArray().FirstOrDefault(x => x.Inference != null && x.Inference.Equals(targetType));
+                var typeDefinition = RegisteredTypes.Values.ToArray().Where(x => x.Inference != null && x.Inference.Equals(targetType))
+                    .OrderByDescending(x => x.Priority).FirstOrDefault();
                 if (typeDefinition == null)
                 {
                     // TODO: throw

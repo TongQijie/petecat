@@ -4,10 +4,11 @@ using Petecat.DependencyInjection.Attributes;
 
 using System;
 using Petecat.DependencyInjection;
+using Petecat.Caching.Delegates;
 
 namespace Petecat.Configuring
 {
-    [DependencyInjectable(Inference = typeof(IStaticFileConfigurer), Sington = true)]
+    [DependencyInjectable(Inference = typeof(IStaticFileConfigurer), Singleton = true)]
     public class StaticFileConfigurer : IStaticFileConfigurer
     {
         private ICacheContainer _Container = null;
@@ -18,7 +19,8 @@ namespace Petecat.Configuring
         {
         }
 
-        public void Append(string key, string path, string fileFormat, Type configurationType)
+        public void Append(string key, string path, string fileFormat, Type configurationType, 
+            CacheItemDirtyChangedHandlerDelegate dirtyChanged = null)
         {
             // build a CacheItem and add to container
             ICacheItem item = null;
@@ -33,6 +35,11 @@ namespace Petecat.Configuring
             else
             {
                 // TODO: throw
+            }
+
+            if (dirtyChanged != null)
+            {
+                item.DirtyChanged += dirtyChanged;
             }
 
             Container.Add(item);
@@ -51,12 +58,17 @@ namespace Petecat.Configuring
             }
         }
 
-        public void Remove(string key)
+        public void Remove(string key, CacheItemDirtyChangedHandlerDelegate dirtyChanged = null)
         {
             var item = Container.Get(key) as IFileCacheItem;
             if (item == null)
             {
                 // TODO: throw
+            }
+
+            if (dirtyChanged != null)
+            {
+                item.DirtyChanged -= dirtyChanged;
             }
 
             // stop file monitor

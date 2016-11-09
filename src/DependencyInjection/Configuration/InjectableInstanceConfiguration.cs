@@ -9,8 +9,8 @@ namespace Petecat.DependencyInjection.Configuration
         [JsonProperty(Alias = "type")]
         public string Type { get; set; }
 
-        [JsonProperty(Alias = "sington")]
-        public bool Sington { get; set; }
+        [JsonProperty(Alias = "singleton")]
+        public bool Singleton { get; set; }
 
         [JsonProperty(Alias = "parameters")]
         public InstanceParameterConfiguration[] Parameters { get; set; }

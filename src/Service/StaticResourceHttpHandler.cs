@@ -1,5 +1,6 @@
 ﻿using Petecat.Logging;
 using Petecat.Extension;
+using Petecat.DependencyInjection;
 
 using System;
 using System.Web;
@@ -29,7 +30,7 @@ namespace Petecat.Service
             }
             catch (Exception e)
             {
-                LoggerManager.GetLogger().LogEvent("StaticResourceHttpHandler", LoggerLevel.Error, e);
+                DependencyInjector.GetObject<IFileLogger>().LogEvent("StaticResourceHttpHandler", Severity.Error, e);
                 response.WriteString(e.Message);
                 response.SetStatusCode(400);
             }

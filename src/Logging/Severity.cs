@@ -1,6 +1,6 @@
 ﻿namespace Petecat.Logging
 {
-    public enum LoggerLevel 
+    public enum Severity
     {
         /// <summary>
         /// 调试级别，用于调试模式下的日志级别

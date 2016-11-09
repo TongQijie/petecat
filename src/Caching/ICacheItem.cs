@@ -13,5 +13,7 @@ namespace Petecat.Caching
         DateTime ModifiedDate { get; }
 
         object GetValue();
+
+        event Delegates.CacheItemDirtyChangedHandlerDelegate DirtyChanged;
     }
 }

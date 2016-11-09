@@ -3,7 +3,6 @@ using Petecat.Data.Formatters;
 using Petecat.Data.Formatters.Internal.Json;
 using Petecat.Extension;
 using Petecat.Logging;
-using Petecat.Logging.Loggers;
 using System.IO;
 using System;
 using System.Globalization;
@@ -16,7 +15,6 @@ namespace Petecat.Test.Data.Formatters
     {
         public JsonFormatterTest()
         {
-            LoggerManager.SetLogger(new FileLogger(LoggerManager.AppDomainLoggerName, "./log".FullPath()));
         }
 
         [TestMethod]

@@ -31,11 +31,11 @@ namespace Petecat.DependencyInjection
 
                     if (attribute.GetType().Equals(typeof(DependencyInjectableAttribute)) || !attribute.OverridedInference)
                     {
-                        typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(type, attribute.Inference, attribute.Sington, this));
+                        typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(type, attribute.Inference, attribute.Singleton, attribute.Priority, this));
                     }
                     else
                     {
-                        typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(type, null, attribute.Sington, this));
+                        typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(type, null, attribute.Singleton, attribute.Priority, this));
                     }
                 }
             }

@@ -46,7 +46,7 @@ namespace Petecat.Threading.Watcher
             }
             catch (Exception e)
             {
-                Logging.LoggerManager.GetLogger().LogEvent("FileWatcher", Logging.LoggerLevel.Error, FullPath, e);
+                //Logging.LoggerManager.GetLogger().LogEvent("FileWatcher", Logging.LoggerLevel.Error, FullPath, e);
             }
         }
 

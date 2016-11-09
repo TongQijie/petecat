@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Petecat.Caching.Delegates;
+using System;
 
 namespace Petecat.Configuring
 {
@@ -11,13 +12,14 @@ namespace Petecat.Configuring
         /// <param name="path">static file path</param>
         /// <param name="fileFormat">static file format, supporting 'xml' and 'json'</param>
         /// <param name="configurationType">type of configuration value</param>
-        void Append(string key, string path, string fileFormat, Type configurationType);
+        void Append(string key, string path, string fileFormat, Type configurationType,
+            CacheItemDirtyChangedHandlerDelegate dirtyChanged = null);
 
         /// <summary>
         /// removes configuration source from cache
         /// </summary>
         /// <param name="key">configuration key</param>
-        void Remove(string key);
+        void Remove(string key, CacheItemDirtyChangedHandlerDelegate dirtyChanged = null);
 
         /// <summary>
         /// gets configuration value

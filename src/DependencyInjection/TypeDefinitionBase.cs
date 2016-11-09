@@ -14,10 +14,11 @@ namespace Petecat.DependencyInjection
             Info = type;
         }
 
-        public TypeDefinitionBase(Type type, Type inference, bool sington, IAssemblyInfo assemblyInfo) : this(type)
+        public TypeDefinitionBase(Type type, Type inference, bool singleton, int priority, IAssemblyInfo assemblyInfo) : this(type)
         {
             Inference = inference;
-            Sington = sington;
+            Singleton = singleton;
+            Priority = priority;
             AssemblyInfo = assemblyInfo;
         }
 
@@ -93,20 +94,22 @@ namespace Petecat.DependencyInjection
 
         public Type Inference { get; protected set; }
 
-        public bool Sington { get; protected set; }
+        public bool Singleton { get; protected set; }
 
-        private object _SingtonInstance = null;
+        public int Priority { get; protected set; }
+
+        private object _SingletonInstance = null;
 
         public object GetInstance(params object[] parameters)
         {
-            if (Sington)
+            if (Singleton)
             {
-                if (_SingtonInstance == null)
+                if (_SingletonInstance == null)
                 {
-                    _SingtonInstance = Activator.CreateInstance(Info as Type, parameters);
+                    _SingletonInstance = Activator.CreateInstance(Info as Type, parameters);
                 }
 
-                return _SingtonInstance;
+                return _SingletonInstance;
             }
             else
             {

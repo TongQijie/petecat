@@ -7,7 +7,7 @@ using Petecat.DependencyInjection.Attributes;
 
 namespace Petecat.Monitor
 {
-    [DependencyInjectable(Inference = typeof(IFileSystemMonitor), Sington = true)]
+    [DependencyInjectable(Inference = typeof(IFileSystemMonitor), Singleton = true)]
     public class FileSystemMonitor : IFileSystemMonitor
     {
         private static FileSystemMonitor _Instance = null;

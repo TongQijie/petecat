@@ -1,11 +1,10 @@
-﻿using Petecat.IoC;
+﻿using System;
+using Petecat.IoC;
+using Petecat.Console;
 using Petecat.Logging;
 using Petecat.Extension;
-using Petecat.Logging.Loggers;
 using Petecat.Network.Sockets;
-
-using System;
-using Petecat.Console;
+using Petecat.DependencyInjection;
 
 namespace Petecat.Service
 {
@@ -101,8 +100,6 @@ namespace Petecat.Service
 
         private void Initialize()
         {
-            LoggerManager.SetLogger(new FileLogger(LoggerManager.AppDomainLoggerName, "./log".FullPath()));
-
             try
             {
                 AppDomainIoCContainer.Initialize();
@@ -110,7 +107,7 @@ namespace Petecat.Service
             }
             catch (Exception e)
             {
-                LoggerManager.GetLogger().LogEvent("ServiceHttpApplication", LoggerLevel.Fatal, e);
+                DependencyInjector.GetObject<IFileLogger>().LogEvent("ServiceHttpApplication", Severity.Fatal, e);
                 return;
             }
 

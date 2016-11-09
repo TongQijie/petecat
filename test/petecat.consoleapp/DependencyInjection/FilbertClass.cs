@@ -1,7 +1,7 @@
 ﻿using Petecat.DependencyInjection.Attributes;
 namespace Petecat.ConsoleApp.DependencyInjection
 {
-    [DependencyInjectable(Inference = typeof(IFilbertInterface), Sington = true)]
+    [DependencyInjectable(Inference = typeof(IFilbertInterface), Singleton = true)]
     public class FilbertClass : IFilbertInterface
     {
         public void SayHi(string hi)

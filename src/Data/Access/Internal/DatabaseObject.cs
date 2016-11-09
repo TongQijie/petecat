@@ -1,8 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Reflection;
 using System.Data;
+using System.Reflection;
+using System.Data.Common;
+using System.Collections.Generic;
+
+using Petecat.Logging;
+using Petecat.DependencyInjection;
 
 namespace Petecat.Data.Access
 {
@@ -20,13 +23,13 @@ namespace Petecat.Data.Access
         {
             if (string.IsNullOrEmpty(connectionString))
             {
-                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "ConnectionString is empty.");
+                //Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "ConnectionString is empty.");
                 throw new ArgumentNullException("connectionString");
             }
 
             if (dbProviderFactory == null)
             {
-                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "dbProviderFactory is null.");
+                //Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "dbProviderFactory is null.");
                 throw new ArgumentNullException("dbProviderFactory");
             }
 
@@ -83,7 +86,7 @@ namespace Petecat.Data.Access
             }
             catch (Exception e)
             {
-                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, "failed to execute transaction.", e);
+                DependencyInjector.GetObject<IFileLogger>().LogEvent(Assembly.GetExecutingAssembly().FullName, Severity.Error, "failed to execute transaction.", e);
             }
             finally
             {

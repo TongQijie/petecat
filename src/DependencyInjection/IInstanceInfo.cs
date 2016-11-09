@@ -4,6 +4,8 @@
     {
         string Name { get; }
 
+        bool Singleton { get; }
+
         IParameterInfo[] ParameterInfos { get; }
 
         IPropertyInfo[] PropertyInfos { get; }

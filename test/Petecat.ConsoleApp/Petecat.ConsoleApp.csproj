@@ -74,6 +74,7 @@
     <Compile Include="Formatter\GrapeClass.cs" />
     <Compile Include="Formatter\JsonDeserializationPerformanceTest.cs" />
     <Compile Include="Formatter\JsonFormatterTest.cs" />
+    <Compile Include="Logging\FileLoggerTest.cs" />
     <Compile Include="Monitor\FileSystemMonitorTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

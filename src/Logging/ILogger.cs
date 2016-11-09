@@ -1,7 +1,7 @@
 ﻿namespace Petecat.Logging
 {
-    public interface ILogger : Collection.IKeyedObject<string>
+    public interface ILogger
     {
-        void LogEvent(string category, LoggerLevel loggerLevel, params object[] parameters);
+        void LogEvent(string category, Severity severity, params object[] parameters);
     }
 }

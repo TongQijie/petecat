@@ -73,7 +73,6 @@
     <Compile Include="IoC\DefaultContainerTest.cs" />
     <Compile Include="IoC\IPearClass.cs" />
     <Compile Include="IoC\PearClass.cs" />
-    <Compile Include="Logging\Loggers\FileLoggerTest.cs" />
     <Compile Include="Network\Ftp\FtpClientTest.cs" />
     <Compile Include="Network\Http\GlobalSession.cs" />
     <Compile Include="Network\Http\HttpClientBaseTest.cs" />

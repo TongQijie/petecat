@@ -2,6 +2,6 @@
 {
     public interface IConfigurableContainer : IContainer
     {
-        void RegisterConfigurationFile(string path);
+        void RegisterConfigurableFile(IConfigurableFileInfo configurableFileInfo);
     }
 }

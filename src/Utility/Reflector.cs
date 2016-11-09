@@ -17,9 +17,9 @@ namespace Petecat.Utility
                     return true;
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("target type not found. type name={0}", typeName), e);
+                throw;
             }
 
             targetType = null;
@@ -33,10 +33,9 @@ namespace Petecat.Utility
                 var targetType = Type.GetType(typeName);
                 return Activator.CreateInstance(targetType, parameters) as T;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Logging.LoggerManager.GetLogger().LogEvent(Assembly.GetExecutingAssembly().FullName, Logging.LoggerLevel.Error, string.Format("target type not found. type name={0}", typeName), e);
-                return null;
+                throw;
             }
         }
 

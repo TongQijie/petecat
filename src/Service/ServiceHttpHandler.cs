@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Web;
 
-using Petecat.Extension;
 using Petecat.Logging;
+using Petecat.Extension;
+using Petecat.DependencyInjection;
 
 namespace Petecat.Service
 {
@@ -30,7 +31,7 @@ namespace Petecat.Service
             }
             catch (Exception e)
             {
-                LoggerManager.GetLogger().LogEvent("ServiceHttpHandler", LoggerLevel.Error, e);
+                DependencyInjector.GetObject<IFileLogger>().LogEvent("ServiceHttpHandler", Severity.Error, e);
                 response.WriteString(e.Message);
                 response.SetStatusCode(400);
             }

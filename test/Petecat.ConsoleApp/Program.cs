@@ -53,6 +53,11 @@ namespace Petecat.ConsoleApp
                 new Formatter.JsonFormatterTest().Run();
                 ConsoleBridging.ReadAnyKey();
             }
+            else if (args != null && args.Length > 0 && args[0].StartsWith("flt", StringComparison.OrdinalIgnoreCase))
+            {
+                new Logging.FileLoggerTest().Run();
+                ConsoleBridging.ReadAnyKey();
+            }
         }
     }
 }

@@ -3,7 +3,7 @@ using Petecat.DependencyInjection.Attributes;
 
 namespace Petecat.ConsoleApp.DynamicProxy
 {
-    [DependencyInjectable(Inference = typeof(IAppleInterface), Sington = true)]
+    [DependencyInjectable(Inference = typeof(IAppleInterface), Singleton = true)]
     public class AppleClass : IAppleInterface
     {
         public void Intercept(IInvocation invocation)

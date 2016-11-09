@@ -14,7 +14,7 @@ namespace Petecat.Logging
 
         public override string ToString()
         {
-            var stringBuilder = new StringBuilder(Environment.NewLine);
+            var stringBuilder = new StringBuilder();
 
             var e = _Exception;
             while (e != null)

@@ -36,11 +36,11 @@ namespace Petecat.DynamicProxy.DependencyInjection
 
                     if (attribute.GetType().Equals(typeof(DynamicProxyInjectableAttribute)) || !attribute.OverridedInference)
                     {
-                        typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(proxyType, attribute.Inference, attribute.Sington, this));
+                        typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(proxyType, attribute.Inference, attribute.Singleton, attribute.Priority, this));
                     }
                     else
                     {
-                        typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(proxyType, null, attribute.Sington, this));
+                        typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(proxyType, null, attribute.Singleton, attribute.Priority, this));
                     }
                 }
             }

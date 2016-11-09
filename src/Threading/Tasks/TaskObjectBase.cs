@@ -1,6 +1,7 @@
 ﻿using System;
 
 using Petecat.Logging;
+using Petecat.DependencyInjection;
 
 namespace Petecat.Threading.Tasks
 {
@@ -69,7 +70,7 @@ namespace Petecat.Threading.Tasks
 
             if (Implement == null)
             {
-                LoggerManager.GetLogger().LogEvent("TaskObjectBase", LoggerLevel.Error, new Errors.TaskNotImplementException(Name));
+                DependencyInjector.GetObject<IFileLogger>().LogEvent("TaskObjectBase", Severity.Error, new Errors.TaskNotImplementException(Name));
                 return;
             }
 
@@ -84,12 +85,12 @@ namespace Petecat.Threading.Tasks
                 }
                 catch (Exception e)
                 {
-                    LoggerManager.GetLogger().LogEvent("TaskObjectBase", LoggerLevel.Error, e);
+                    DependencyInjector.GetObject<IFileLogger>().LogEvent("TaskObjectBase", Severity.Error, e);
                 }
 
                 if (!result)
                 {
-                    LoggerManager.GetLogger().LogEvent("TaskObjectBase", LoggerLevel.Error, new Errors.TaskExecuteFailedException(Name));
+                    DependencyInjector.GetObject<IFileLogger>().LogEvent("TaskObjectBase", Severity.Error, new Errors.TaskExecuteFailedException(Name));
                 }
 
                 ChangeStatusTo(TaskObjectStatus.Sleep);
@@ -106,7 +107,7 @@ namespace Petecat.Threading.Tasks
 
             if (Status != to)
             {
-                LoggerManager.GetLogger().LogEvent("TaskObjectBase", LoggerLevel.Warn, new Errors.TaskStatusChangeFailedException(Name, from, to));
+                DependencyInjector.GetObject<IFileLogger>().LogEvent("TaskObjectBase", Severity.Warn, new Errors.TaskStatusChangeFailedException(Name, from, to));
 
                 if (Status == from)
                 {
