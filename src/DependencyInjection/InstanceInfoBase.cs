@@ -1,4 +1,8 @@
-﻿namespace Petecat.DependencyInjection
+﻿using System;
+using System.Linq;
+using System.Reflection;
+
+namespace Petecat.DependencyInjection
 {
     public class InstanceInfoBase : IInstanceInfo
     {
@@ -15,9 +19,9 @@
 
         public ITypeDefinition TypeDefinition { get; private set; }
 
-        public IParameterInfo[] ParameterInfos { get; protected set; }
+        public IParameterInfo[] ParameterInfos { get; set; }
 
-        public IPropertyInfo[] PropertyInfos { get; protected set; }
+        public IPropertyInfo[] PropertyInfos { get; set; }
 
         private object _SingletonInstance = null;
 
@@ -27,17 +31,31 @@
             {
                 if (_SingletonInstance == null)
                 {
-                    // TODO
+                    _SingletonInstance = CreateInstance();
                 }
 
                 return _SingletonInstance;
             }
             else
             {
-                // TODO
+                return CreateInstance();
+            }
+        }
+
+        private object CreateInstance()
+        {
+            var instance = Activator.CreateInstance(TypeDefinition.Info as Type,
+                ParameterInfos == null ? new object[0] : ParameterInfos.OrderBy(x => x.Index).Select(x => x.ParameterValue).ToArray());
+
+            if (PropertyInfos != null && PropertyInfos.Length > 0)
+            {
+                foreach (var propertyInfo in PropertyInfos)
+                {
+                    (propertyInfo.PropertyDefinition.Info as PropertyInfo).SetValue(instance, propertyInfo.PropertyValue);
+                }
             }
 
-            return null;
+            return instance;
         }
     }
 }

@@ -150,7 +150,7 @@
     <Compile Include="DependencyInjection\Attributes\DependencyInjectableAttribute.cs" />
     <Compile Include="DependencyInjection\ConfigurableFileInfoBase.cs" />
     <Compile Include="DependencyInjection\Configuration\ConfigurableContainerConfiguration.cs" />
-    <Compile Include="DependencyInjection\Configuration\InjectableInstanceConfiguration.cs" />
+    <Compile Include="DependencyInjection\Configuration\ConfigurableInstanceConfiguration.cs" />
     <Compile Include="DependencyInjection\Configuration\InstanceParameterConfiguration.cs" />
     <Compile Include="DependencyInjection\Configuration\InstancePropertyConfiguration.cs" />
     <Compile Include="DependencyInjection\ConstructorMethodDefinitionBase.cs" />

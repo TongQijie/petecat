@@ -5,6 +5,6 @@ namespace Petecat.DependencyInjection.Configuration
     public class ConfigurableContainerConfiguration
     {
         [JsonProperty(Alias = "instances")]
-        public InjectableInstanceConfiguration[] Instances { get; set; }
+        public ConfigurableInstanceConfiguration[] Instances { get; set; }
     }
 }

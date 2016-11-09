@@ -11,13 +11,13 @@ namespace Petecat.DependencyInjection
             PropertyName = propertyInfo.Name;
         }
 
-        public ITypeDefinition TypeDefinition { get; private set; }
+        public ITypeDefinition TypeDefinition { get; set; }
 
-        public IPropertyDefinition PropertyDefinition { get; private set; }
+        public IPropertyDefinition PropertyDefinition { get; set; }
 
-        public string PropertyName { get; private set; }
+        public string PropertyName { get; set; }
 
-        public object PropertyValue { get; private set; }
+        public object PropertyValue { get; set; }
 
         public void SetValue(object value)
         {

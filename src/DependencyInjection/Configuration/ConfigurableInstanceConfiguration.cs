@@ -1,7 +1,7 @@
 ﻿using Petecat.Data.Attributes;
 namespace Petecat.DependencyInjection.Configuration
 {
-    public class InjectableInstanceConfiguration
+    public class ConfigurableInstanceConfiguration
     {
         [JsonProperty(Alias = "name")]
         public string Name { get; set; }

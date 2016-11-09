@@ -4,6 +4,10 @@ namespace Petecat.DependencyInjection
 {
     public class ParameterInfoBase : IParameterInfo
     {
+        public ParameterInfoBase()
+        {
+        }
+
         public ParameterInfoBase(ParameterInfo parameterInfo)
         {
             Index = parameterInfo.Position;
@@ -11,13 +15,13 @@ namespace Petecat.DependencyInjection
             TypeDefinition = new TypeDefinitionBase(parameterInfo.ParameterType);
         }
 
-        public int Index { get; private set; }
+        public int Index { get; set; }
 
-        public string ParameterName { get; private set; }
+        public string ParameterName { get; set; }
 
-        public object ParameterValue { get; private set; }
+        public object ParameterValue { get; set; }
 
-        public ITypeDefinition TypeDefinition { get; private set; }
+        public ITypeDefinition TypeDefinition { get; set; }
 
         public void SetValue(object value)
         {
