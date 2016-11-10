@@ -2,6 +2,7 @@
 using Petecat.Utility;
 using System.Reflection;
 using Petecat.Extension;
+using Petecat.HttpServer.Attributes;
 
 namespace Petecat.HttpServer.DependencyInjection
 {
@@ -16,15 +17,21 @@ namespace Petecat.HttpServer.DependencyInjection
         {
             var typeDefinitions = new ITypeDefinition[0];
 
-            foreach (var type in Assembly.GetTypes())
+            foreach (var type in Assembly.GetTypes().Where(x => x.IsClass))
             {
-                if (type.IsClass && Reflector.ContainsCustomAttribute<Attributes.RestServiceInjectableAttribute>(type))
+                RestServiceInjectableAttribute attribute;
+                if (Reflector.TryGetCustomAttribute(type, null, out attribute))
                 {
-                    typeDefinitions = typeDefinitions.Append(new RestServiceTypeDefinition(type));
+                    if (attribute.TypeMatch && !attribute.GetType().Equals(typeof(RestServiceInjectableAttribute)))
+                    {
+                        continue;
+                    }
+
+                    typeDefinitions = typeDefinitions.Append(new RestServiceTypeDefinition(type, attribute.ServiceName));
                 }
             }
 
-            return typeDefinitions;
+            return typeDefinitions.Append(base.GetTypeDefinitions());
         }
     }
 }

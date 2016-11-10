@@ -9,26 +9,15 @@ namespace Petecat.HttpServer
     {
         public IHttpHandler GetHandler(HttpContext context, string requestType, string url, string pathTranslated)
         {
-            return GetHttpHandler(context.Request.RawUrl);
-        }
-
-        public void ReleaseHandler(IHttpHandler handler)
-        {
-        }
-
-        public bool IsReusable { get { return true; } }
-
-        public IHttpHandler GetHttpHandler(string url)
-        {
-            url = url.Trim('/');
+            var rawUrl = context.Request.RawUrl.Trim('/');
 
             // remove virtual path
             var virtualPath = DependencyInjector.GetObject<IHttpApplicationConfigurer>().GetHttpApplicationRouting("VirtualPath");
             if (virtualPath.HasValue())
             {
-                if (url.StartsWith(virtualPath.Trim('/')))
+                if (rawUrl.StartsWith(virtualPath.Trim('/')))
                 {
-                    url = url.Remove(0, virtualPath.Trim('/').Length);
+                    rawUrl = rawUrl.Remove(0, virtualPath.Trim('/').Length);
                 }
                 else
                 {
@@ -36,44 +25,52 @@ namespace Petecat.HttpServer
                 }
             }
 
-            url = url.TrimStart('/');
+            rawUrl = rawUrl.TrimStart('/');
 
             // remove query string
-            if (url.Contains("?"))
+            if (rawUrl.Contains("?"))
             {
-                url = url.Remove(url.IndexOf('?'));
+                rawUrl = rawUrl.Remove(rawUrl.IndexOf('?'));
             }
 
-            url = url.TrimEnd('/');
+            rawUrl = rawUrl.TrimEnd('/');
 
             // default routing
-            if (!url.HasValue())
+            if (!rawUrl.HasValue())
             {
                 var defaultRouting = DependencyInjector.GetObject<IHttpApplicationConfigurer>().GetHttpApplicationRouting("DefaultRouting");
                 if (defaultRouting.HasValue())
                 {
-                    url = url + '/' + defaultRouting.Trim('/');
+                    rawUrl = rawUrl + '/' + defaultRouting.Trim('/');
                 }
             }
 
             // last field in url
-            var lastField = url;
-            if (url.HasValue() && url.Contains("/"))
+            var lastField = rawUrl;
+            if (rawUrl.HasValue() && rawUrl.Contains("/"))
             {
-                lastField = url.Substring(url.LastIndexOf('/') + 1);
+                lastField = rawUrl.Substring(rawUrl.LastIndexOf('/') + 1);
             }
 
-            // static resource
             if (lastField.HasValue() && lastField.Contains("."))
             {
-                //return new StaticResourceHttpHandler(url);
+                return new StaticResourceHttpHandler(
+                    new StaticResourceHttpRequest(context.Request, rawUrl, lastField.Substring(rawUrl.LastIndexOf('.') + 1)),
+                    new StaticResourceHttpResponse(context.Response));
             }
             else
             {
-                //return new ServiceHttpHandler(url);
+                var fields = rawUrl.SplitByChar('/');
+                return new RestServiceHttpHandler(
+                    new RestServiceHttpRequest(context.Request, fields.Length > 0 ? fields[0] : null, fields.Length > 1 ? fields[1] : null),
+                    new RestServiceHttpResponse(context.Response));
             }
-
-            return null;
         }
+
+        public void ReleaseHandler(IHttpHandler handler)
+        {
+        }
+
+        public bool IsReusable { get { return true; } }
     }
 }

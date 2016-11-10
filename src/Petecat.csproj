@@ -233,7 +233,15 @@
     <Compile Include="HttpServer\HttpApplicationBase.cs" />
     <Compile Include="HttpServer\HttpApplicationConfigurer.cs" />
     <Compile Include="HttpServer\HttpHandlerFactory.cs" />
+    <Compile Include="HttpServer\HttpRequestBase.cs" />
+    <Compile Include="HttpServer\HttpResponseBase.cs" />
     <Compile Include="HttpServer\IHttpApplicationConfigurer.cs" />
+    <Compile Include="HttpServer\RestServiceHttpHandler.cs" />
+    <Compile Include="HttpServer\RestServiceHttpRequest.cs" />
+    <Compile Include="HttpServer\RestServiceHttpResponse.cs" />
+    <Compile Include="HttpServer\StaticResourceHttpHandler.cs" />
+    <Compile Include="HttpServer\StaticResourceHttpRequest.cs" />
+    <Compile Include="HttpServer\StaticResourceHttpResponse.cs" />
     <Compile Include="IoC\AbstractMethodDefinition.cs" />
     <Compile Include="IoC\AppDomainIoCContainer.cs" />
     <Compile Include="IoC\ContainerAssemblyInfo.cs" />

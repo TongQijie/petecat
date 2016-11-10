@@ -30,13 +30,7 @@ namespace Petecat.DependencyInjection
                 // TODO: throw
             }
 
-            var methodInfo = instance.GetType().GetMethod(MethodName);
-            if (methodInfo == null)
-            {
-                // TODO: throw
-            }
-
-            return methodInfo.Invoke(instance, parameters);
+            return (MethodDefinition.Info as MethodInfo).Invoke(instance, parameters);
         }
     }
 }

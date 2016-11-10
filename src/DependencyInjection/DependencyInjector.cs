@@ -21,6 +21,11 @@ namespace Petecat.DependencyInjection
             _Containers = _Containers.Append(container);
         }
 
+        public static TContainer GetContainer<TContainer>() where TContainer : IContainer
+        {
+            return (TContainer)Containers.ToArray().FirstOrDefault(x => x is TContainer);
+        }
+
         public static object GetObject<TContainer>(Type targetType) where TContainer : IAssemblyContainer
         {
             foreach (TContainer assemblyContainer in Containers.Where(x => x is TContainer).ToArray())

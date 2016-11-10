@@ -3,7 +3,6 @@ using Petecat.HttpServer.DependencyInjection;
 using Petecat.Logging;
 using System;
 using System.Web;
-using Petecat.Extension;
 
 namespace Petecat.HttpServer
 {

@@ -9,6 +9,7 @@ namespace Petecat.HttpServer.Attributes
         public RestServiceInjectableAttribute()
         {
             TypeMatch = true;
+            Singleton = true;
         }
 
         public string ServiceName { get; set; }
