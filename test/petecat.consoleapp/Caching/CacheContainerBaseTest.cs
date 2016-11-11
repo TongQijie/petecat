@@ -1,5 +1,5 @@
 ﻿using Petecat.Caching;
-using Petecat.Data.Formatters;
+using Petecat.Formatter;
 using Petecat.Extension;
 using System.Text;
 namespace Petecat.ConsoleApp.Caching

@@ -1,4 +1,4 @@
-﻿using Petecat.Data.Attributes;
+﻿using Petecat.Formatter.Attributes;
 
 namespace Petecat.HttpServer.Configuration
 {

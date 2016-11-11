@@ -13,12 +13,14 @@ namespace Petecat.DependencyInjection
 
         public ITypeDefinition TypeDefinition { get; protected set; }
 
-        public bool Match(object[] parameterValues)
+        public bool TryMatchParameters(object[] parameterValues, out object[] result)
         {
             if (parameterValues == null || ParameterInfos == null)
             {
                 // TODO: throw
             }
+
+            result = new object[parameterValues.Length];
 
             if (parameterValues.Length != ParameterInfos.Length)
             {
@@ -38,11 +40,11 @@ namespace Petecat.DependencyInjection
                 {
                     return false;
                 }
+
+                result[i] = o;
             }
 
             return true;
         }
-
-        
     }
 }

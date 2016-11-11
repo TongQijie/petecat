@@ -1,7 +1,8 @@
-﻿using Petecat.DependencyInjection;
+﻿using System.Reflection;
+
 using Petecat.Utility;
-using System.Reflection;
 using Petecat.Extension;
+using Petecat.DependencyInjection;
 using Petecat.HttpServer.Attributes;
 
 namespace Petecat.HttpServer.DependencyInjection

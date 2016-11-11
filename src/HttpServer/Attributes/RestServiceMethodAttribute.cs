@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Petecat.HttpServer.Attributes
 {
     [AttributeUsage(AttributeTargets.Method)]

@@ -1,4 +1,5 @@
 ﻿using Petecat.Formatter;
+
 using System.Web;
 
 namespace Petecat.HttpServer
@@ -19,7 +20,7 @@ namespace Petecat.HttpServer
 
         public void Error()
         {
-            Response.StatusCode = 400;
+            Response.StatusCode = 500;
         }
     }
 }

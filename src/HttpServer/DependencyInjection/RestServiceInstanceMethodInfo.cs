@@ -1,5 +1,6 @@
-﻿using Petecat.DependencyInjection;
-using System.Reflection;
+﻿using System.Reflection;
+
+using Petecat.DependencyInjection;
 
 namespace Petecat.HttpServer.DependencyInjection
 {

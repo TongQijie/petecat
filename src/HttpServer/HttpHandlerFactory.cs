@@ -38,7 +38,7 @@ namespace Petecat.HttpServer
             // default routing
             if (!rawUrl.HasValue())
             {
-                var defaultRouting = DependencyInjector.GetObject<IHttpApplicationConfigurer>().GetHttpApplicationRouting("DefaultRouting");
+                var defaultRouting = DependencyInjector.GetObject<IHttpApplicationConfigurer>().GetHttpApplicationRouting("Default");
                 if (defaultRouting.HasValue())
                 {
                     rawUrl = rawUrl + '/' + defaultRouting.Trim('/');

@@ -1,6 +1,6 @@
 ﻿using Petecat.Configuring;
+using Petecat.Formatter.Attributes;
 using Petecat.Configuring.Attributes;
-using Petecat.Data.Attributes;
 
 namespace Petecat.HttpServer.Configuration
 {

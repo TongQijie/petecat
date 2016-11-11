@@ -25,12 +25,13 @@ namespace Petecat.DependencyInjection
 
         public object Invoke(object instance, params object[] parameters)
         {
-            if (!Match(parameters ?? new object[0]))
+            object[] result;
+            if (!TryMatchParameters(parameters ?? new object[0], out result))
             {
                 // TODO: throw
             }
 
-            return (MethodDefinition.Info as MethodInfo).Invoke(instance, parameters);
+            return (MethodDefinition.Info as MethodInfo).Invoke(instance, result);
         }
     }
 }

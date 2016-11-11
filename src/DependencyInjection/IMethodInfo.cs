@@ -6,6 +6,6 @@
 
         IParameterInfo[] ParameterInfos { get; }
 
-        bool Match(object[] parameterValues);
+        bool TryMatchParameters(object[] parameterValues, out object[] result);
     }
 }

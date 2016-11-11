@@ -1,5 +1,5 @@
 ﻿using Petecat.Configuring;
-using Petecat.Data.Formatters;
+using Petecat.Formatter;
 using Petecat.DependencyInjection;
 using Petecat.Extension;
 using System.Text;

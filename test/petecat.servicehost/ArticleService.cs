@@ -1,9 +1,11 @@
-﻿using Petecat.Service.Attributes;
+﻿using Petecat.HttpServer.Attributes;
+
 namespace Petecat.ServiceHost
 {
-    [AutoService(typeof(IArticleService))]
-    public class ArticleService : IArticleService
+    [RestServiceInjectable(ServiceName = "article", Singleton = true)]
+    public class ArticleService
     {
+        [RestServiceMethod(MethodName = "get-articles-by-page")]
         public Article[] GetArticles(int pageNumber)
         {
             return new Article[]
@@ -14,9 +16,16 @@ namespace Petecat.ServiceHost
             };
         }
 
+        [RestServiceMethod(MethodName = "get-article-by-id")]
         public Article FetchArticle(string id)
         {
             return new Article() { Name = id, Snippet = "this is item detail...." };
+        }
+
+        [RestServiceMethod(MethodName = "post-article")]
+        public Article PostArticle(Article article)
+        {
+            return article;
         }
     }
 }

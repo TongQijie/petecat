@@ -1,8 +1,22 @@
 ﻿{
   "routing": [
+    {
+      "key": "default",
+      "value":  "index.html"
+    }
   ],
   "resource": [
-    {"key": "js", "value": "application/x-javascript"},
-	{"key": "css", "value": "text/css"}
+    {
+      "key": "js",
+      "value": "application/x-javascript"
+    },
+    {
+      "key": "css",
+      "value": "text/css"
+    },
+    {
+      "key": "html",
+      "value": "text/html"
+    }
   ]
 }

@@ -1,10 +1,10 @@
-﻿using Petecat.DependencyInjection;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 
 using Petecat.Extension;
+using Petecat.DependencyInjection;
 
 namespace Petecat.HttpServer.DependencyInjection
 {
@@ -93,7 +93,7 @@ namespace Petecat.HttpServer.DependencyInjection
                 }
                 else
                 {
-                    var queryStringValues = request.ReadQueryString().Values;
+                    var dict = request.ReadQueryString();
 
                     var values = new string[methodInfo.ParameterInfos.Length];
 
@@ -101,13 +101,12 @@ namespace Petecat.HttpServer.DependencyInjection
                     {
                         var parameterInfo = methodInfo.ParameterInfos.FirstOrDefault(x => x.Index == i);
 
-                        var value = queryStringValues.FirstOrDefault(x => string.Equals(x, parameterInfo.ParameterName, StringComparison.OrdinalIgnoreCase));
-                        if (value == null)
+                        if (!dict.Keys.ToArray().Exists(x => string.Equals(x, parameterInfo.ParameterName, StringComparison.OrdinalIgnoreCase)))
                         {
                             // TODO: throw
                         }
 
-                        values[i] = value;
+                        values[i] = dict.FirstOrDefault(x => string.Equals(x.Key, parameterInfo.ParameterName, StringComparison.OrdinalIgnoreCase)).Value;
                     }
 
                     return methodInfo.Invoke(obj, values);
