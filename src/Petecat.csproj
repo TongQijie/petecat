@@ -159,6 +159,7 @@
     <Compile Include="DependencyInjection\Containers\BaseDirectoryAssemblyContainer.cs" />
     <Compile Include="DependencyInjection\AssemblyInfoBase.cs" />
     <Compile Include="DependencyInjection\ConstructorMethodInfoBase.cs" />
+    <Compile Include="DependencyInjection\Containers\BaseDirectoryConfigurableContainer.cs" />
     <Compile Include="DependencyInjection\IConfigurableFileInfo.cs" />
     <Compile Include="DependencyInjection\IMethodDefinition.cs" />
     <Compile Include="DependencyInjection\InstanceInfoBase.cs" />

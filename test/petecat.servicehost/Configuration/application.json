@@ -1,0 +1,8 @@
+﻿{
+  "routing": [
+  ],
+  "resource": [
+    {"key": "js", "value": "application/x-javascript"},
+	{"key": "css", "value": "text/css"}
+  ]
+}

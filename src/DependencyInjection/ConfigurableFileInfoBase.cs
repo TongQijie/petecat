@@ -11,6 +11,11 @@ namespace Petecat.DependencyInjection
 {
     public class ConfigurableFileInfoBase : IConfigurableFileInfo
     {
+        public ConfigurableFileInfoBase(string path)
+        {
+            Path = path;
+        }
+
         public string Path { get; private set; }
 
         private IInstanceInfo[] _InstanceInfos = new IInstanceInfo[0];

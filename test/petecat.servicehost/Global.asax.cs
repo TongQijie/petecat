@@ -1,6 +1,6 @@
 ﻿namespace Petecat.ServiceHost
 {
-    public class Global : Petecat.Service.HttpApplicationBase
+    public class Global : Petecat.HttpServer.HttpApplicationBase
     {
     }
 }

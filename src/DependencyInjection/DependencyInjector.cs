@@ -53,5 +53,23 @@ namespace Petecat.DependencyInjection
         {
             return (TObject)GetObject(typeof(TObject));
         }
+
+        public static object GetObject<TContainer>(string objectName) where TContainer : IConfigurableContainer
+        {
+            foreach (TContainer configurableContainer in Containers.Where(x => x is TContainer).ToArray())
+            {
+                if (configurableContainer.ContainsInstance(objectName))
+                {
+                    return configurableContainer.GetObject(objectName);
+                }
+            }
+
+            return null;
+        }
+
+        public static object GetObject(string objectName)
+        {
+            return GetObject<IConfigurableContainer>(objectName);
+        }
     }
 }

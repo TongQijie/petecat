@@ -55,7 +55,7 @@ namespace Petecat.HttpServer
             if (lastField.HasValue() && lastField.Contains("."))
             {
                 return new StaticResourceHttpHandler(
-                    new StaticResourceHttpRequest(context.Request, rawUrl, lastField.Substring(rawUrl.LastIndexOf('.') + 1)),
+                    new StaticResourceHttpRequest(context.Request, "./" + rawUrl, lastField.Substring(lastField.LastIndexOf('.') + 1)),
                     new StaticResourceHttpResponse(context.Response));
             }
             else

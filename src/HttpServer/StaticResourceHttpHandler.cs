@@ -1,6 +1,7 @@
 ﻿using Petecat.DependencyInjection;
 using Petecat.Extension;
 using System;
+using System.IO;
 using System.Web;
 
 namespace Petecat.HttpServer
@@ -28,12 +29,20 @@ namespace Petecat.HttpServer
                 {
                     Response.ContentType = contentType;
                 }
-                Response.Write(Request.ResourcePath);
+
+                if (!File.Exists(Request.ResourcePath.FullPath()))
+                {
+                    Response.Error(403);
+                    return;
+                }
+
+                Response.StatusCode = 200;
+                Response.Write(Request.ResourcePath.FullPath());
             }
             catch (Exception e)
             {
                 // TODO: log
-                Response.Error();
+                Response.Error(400);
             }
         }
     }

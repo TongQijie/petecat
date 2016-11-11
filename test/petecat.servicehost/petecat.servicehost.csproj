@@ -42,8 +42,7 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Configuration\petecat.config" />
-    <Content Include="Configuration\ServiceRouting.config" />
+    <Content Include="Configuration\application.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

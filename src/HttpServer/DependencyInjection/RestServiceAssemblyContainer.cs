@@ -17,31 +17,41 @@ namespace Petecat.HttpServer.DependencyInjection
 
         private void RegisterAssemblies()
         {
-            var directoryInfo = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+            var directoryInfo = GetRootAssemblyDirectory(Assembly.GetExecutingAssembly().Location);
 
-            foreach (var fileInfo in directoryInfo.GetFiles("*.dll", SearchOption.TopDirectoryOnly))
+            System.Diagnostics.Debug.Print(directoryInfo.FullName);
+
+            foreach (var df in directoryInfo.GetDirectories())
             {
-                try
+                var i = df.GetDirectories().OrderByDescending(x => x.LastWriteTime).FirstOrDefault();
+                if (i != null)
                 {
-                    RegisterAssembly(new RestServiceAssemblyInfo(Assembly.LoadFile(fileInfo.FullName)));
-                }
-                catch (Exception e)
-                {
-                    // TODO: throw
+                    foreach (var fileInfo in i.GetFiles("*.dll", SearchOption.TopDirectoryOnly))
+                    {
+                        try
+                        {
+                            RegisterAssembly(new RestServiceAssemblyInfo(Assembly.LoadFile(fileInfo.FullName)));
+                        }
+                        catch (Exception e)
+                        {
+                            // TODO: throw
+                        }
+
+                        System.Diagnostics.Debug.Print("register dll: " + fileInfo.FullName);
+                    }
                 }
             }
+        }
 
-            foreach (var fileInfo in directoryInfo.GetFiles("*.exe", SearchOption.TopDirectoryOnly))
+        private DirectoryInfo GetRootAssemblyDirectory(string currentAssemblyPath)
+        {
+            var directoryInfo = new FileInfo(currentAssemblyPath).Directory;
+            while (directoryInfo.Name != "dl3")
             {
-                try
-                {
-                    RegisterAssembly(new RestServiceAssemblyInfo(Assembly.LoadFile(fileInfo.FullName)));
-                }
-                catch (Exception e)
-                {
-                    // TODO: throw
-                }
+                directoryInfo = directoryInfo.Parent;
             }
+
+            return directoryInfo;
         }
 
         public object Execute(RestServiceHttpRequest request)
