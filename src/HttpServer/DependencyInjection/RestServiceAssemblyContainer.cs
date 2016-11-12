@@ -19,8 +19,6 @@ namespace Petecat.HttpServer.DependencyInjection
         {
             var directoryInfo = GetRootAssemblyDirectory(Assembly.GetExecutingAssembly().Location);
 
-            System.Diagnostics.Debug.Print(directoryInfo.FullName);
-
             foreach (var df in directoryInfo.GetDirectories())
             {
                 var i = df.GetDirectories().OrderByDescending(x => x.LastWriteTime).FirstOrDefault();
@@ -36,8 +34,6 @@ namespace Petecat.HttpServer.DependencyInjection
                         {
                             // TODO: throw
                         }
-
-                        System.Diagnostics.Debug.Print("register dll: " + fileInfo.FullName);
                     }
                 }
             }
@@ -46,7 +42,10 @@ namespace Petecat.HttpServer.DependencyInjection
         private DirectoryInfo GetRootAssemblyDirectory(string currentAssemblyPath)
         {
             var directoryInfo = new FileInfo(currentAssemblyPath).Directory;
-            while (directoryInfo.Name != "dl3")
+            // ASP.NET temperary folder.
+            // iis: dl3
+            // xsp: shadow
+            while (directoryInfo.Name != "dl3" && directoryInfo.Name != "shadow")
             {
                 directoryInfo = directoryInfo.Parent;
             }
