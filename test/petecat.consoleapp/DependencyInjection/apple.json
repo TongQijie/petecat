@@ -1,0 +1,90 @@
+﻿{
+  "instances": [
+    {
+      "name": "apple",
+      "type": "Petecat.ConsoleApp.DependencyInjection.GrapeClass, petecat.consoleapp",
+      "singleton": false
+    },
+    {
+      "name": "banana",
+      "type": "Petecat.ConsoleApp.DependencyInjection.GrapeClass, petecat.consoleapp",
+      "singleton": true
+    },
+    {
+      "name": "cherry",
+      "type": "Petecat.ConsoleApp.DependencyInjection.GrapeClass, petecat.consoleapp",
+      "singleton": true,
+      "parameters": 
+      [
+        {
+          "name": "count",
+          "value": 100
+        }
+      ]
+    },
+    {
+      "name": "durian",
+      "type": "Petecat.ConsoleApp.DependencyInjection.GrapeClass, petecat.consoleapp",
+      "singleton": true,
+      "properties": 
+      [
+        {
+          "name": "Count",
+          "value": 200
+        }
+      ]
+    },
+    {
+      "name": "filbert",
+      "type": "Petecat.ConsoleApp.DependencyInjection.HawClass, petecat.consoleapp",
+      "singleton": true,
+      "parameters": 
+      [
+        {
+          "name": "grapeClass",
+          "value": "${cherry}"
+        }
+      ]
+    },
+    {
+      "name": "grape",
+      "type": "Petecat.ConsoleApp.DependencyInjection.HawClass, petecat.consoleapp",
+      "singleton": true,
+      "properties": 
+      [
+        {
+          "name": "GrapeClass",
+          "value": "${durian}"
+        }
+      ]
+    },
+    {
+      "name": "haw",
+      "type": "Petecat.ConsoleApp.DependencyInjection.HawClass, petecat.consoleapp",
+      "singleton": true,
+      "parameters": 
+      [
+        {
+          "name": "grapeClass",
+          "value": {
+            "count": "300"
+          }
+        }
+      ]
+    },
+    {
+      "name": "kiwifruit",
+      "type": "Petecat.ConsoleApp.DependencyInjection.HawClass, petecat.consoleapp",
+      "singleton": true,
+      "properties": 
+      [
+        {
+          "name": "GrapeClass",
+          "value": {
+            "count": 500
+          }
+        }
+      ]
+    }
+  ]
+}

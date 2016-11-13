@@ -6,6 +6,7 @@ using Petecat.DependencyInjection.Configuration;
 
 using System;
 using System.Text.RegularExpressions;
+using Petecat.Configuring;
 
 namespace Petecat.DependencyInjection
 {
@@ -26,7 +27,7 @@ namespace Petecat.DependencyInjection
         {
             _InstanceInfos = new IInstanceInfo[0];
 
-            var container = new JsonFormatter().ReadObject<ConfigurableContainerConfiguration>(Path);
+            var container = DependencyInjector.GetObject<IStaticFileConfigurer>().GetValue<ConfigurableContainerConfiguration>(Path);
             if (container == null)
             {
                 // TODO: throw

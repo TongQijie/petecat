@@ -1,6 +1,6 @@
 ﻿using Petecat.Utility;
 using Petecat.Extension;
-using Petecat.DependencyInjection.Attributes;
+using Petecat.DependencyInjection.Attribute;
 
 using System.Reflection;
 

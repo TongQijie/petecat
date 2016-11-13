@@ -1,7 +1,7 @@
 ﻿using Petecat.Utility;
 using Petecat.Extension;
 using Petecat.DependencyInjection;
-using Petecat.HttpServer.Attributes;
+using Petecat.HttpServer.Attribute;
 
 using System;
 

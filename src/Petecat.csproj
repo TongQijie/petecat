@@ -67,7 +67,7 @@
     <Compile Include="Collection\IKeyedObject`.cs" />
     <Compile Include="Collection\KeyedObjectCollectionBase`.cs" />
     <Compile Include="Collection\ThreadSafeKeyedObjectCollection`.cs" />
-    <Compile Include="Configuring\Attributes\StaticFileConfigElementAttribute.cs" />
+    <Compile Include="Configuring\Attribute\StaticFileConfigElementAttribute.cs" />
     <Compile Include="Configuring\IStaticFileConfigInstance.cs" />
     <Compile Include="Configuring\IStaticFileConfigurer.cs" />
     <Compile Include="Configuring\StaticFileConfigInstanceBase.cs" />
@@ -147,7 +147,7 @@
     <Compile Include="Data\Entity\Internal\IEntityDataSource.cs" />
     <Compile Include="Data\Entity\Internal\PlainDataMappingPropertyInfo.cs" />
     <Compile Include="DependencyInjection\AssemblyContainerBase.cs" />
-    <Compile Include="DependencyInjection\Attributes\DependencyInjectableAttribute.cs" />
+    <Compile Include="DependencyInjection\Attribute\DependencyInjectableAttribute.cs" />
     <Compile Include="DependencyInjection\ConfigurableFileInfoBase.cs" />
     <Compile Include="DependencyInjection\Configuration\ConfigurableContainerConfiguration.cs" />
     <Compile Include="DependencyInjection\Configuration\ConfigurableInstanceConfiguration.cs" />
@@ -185,8 +185,8 @@
     <Compile Include="DependencyInjection\IPropertyInfo.cs" />
     <Compile Include="DependencyInjection\ITypeDefinition.cs" />
     <Compile Include="DependencyInjection\MethodInfoBase.cs" />
-    <Compile Include="DynamicProxy\Attributes\DynamicProxyInjectableAttribute.cs" />
-    <Compile Include="DynamicProxy\Attributes\MethodInterceptorAttribute.cs" />
+    <Compile Include="DynamicProxy\Attribute\DynamicProxyInjectableAttribute.cs" />
+    <Compile Include="DynamicProxy\Attribute\MethodInterceptorAttribute.cs" />
     <Compile Include="DynamicProxy\DependencyInjection\DynamicProxyAssemblyContainer.cs" />
     <Compile Include="DynamicProxy\DependencyInjection\DynamicProxyAssemblyInfo.cs" />
     <Compile Include="DynamicProxy\Errors\InterceptorNotFoundException.cs" />
@@ -202,9 +202,9 @@
     <Compile Include="Extension\ByteArrayExtension.cs" />
     <Compile Include="Extension\StringExtension.cs" />
     <Compile Include="Extension\TypeExtension.cs" />
-    <Compile Include="Formatter\Attributes\JsonIngoreAttribute.cs" />
-    <Compile Include="Formatter\Attributes\JsonObjectAttribute.cs" />
-    <Compile Include="Formatter\Attributes\JsonPropertyAttribute.cs" />
+    <Compile Include="Formatter\Attribute\JsonIngoreAttribute.cs" />
+    <Compile Include="Formatter\Attribute\JsonObjectAttribute.cs" />
+    <Compile Include="Formatter\Attribute\JsonPropertyAttribute.cs" />
     <Compile Include="Formatter\Errors\FormatterNotFoundException.cs" />
     <Compile Include="Formatter\Errors\JsonParseFailedException.cs" />
     <Compile Include="Formatter\Errors\JsonSerializeFailedException.cs" />
@@ -403,11 +403,6 @@
     <Compile Include="Aop\IAopInterceptor.cs" />
     <Compile Include="Aop\IAopInvocation.cs" />
     <Compile Include="Aop\IAopProxyTypeGenerator.cs" />
-    <Compile Include="Configuring\IConfigurationManager.cs" />
-    <Compile Include="Configuring\ConfigurationFactory.cs" />
-    <Compile Include="Configuring\Internal\ConfigurationManager.cs" />
-    <Compile Include="Configuring\Configuration\ConfigurationItemConfig.cs" />
-    <Compile Include="Configuring\Configuration\ConfigurationItemsConfig.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

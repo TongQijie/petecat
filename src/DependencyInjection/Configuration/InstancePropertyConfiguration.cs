@@ -1,5 +1,5 @@
 ﻿using Petecat.Formatter.Json;
-using Petecat.Formatter.Attributes;
+using Petecat.Formatter.Attribute;
 
 namespace Petecat.DependencyInjection.Configuration
 {

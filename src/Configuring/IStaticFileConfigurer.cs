@@ -22,6 +22,13 @@ namespace Petecat.Configuring
         void Remove(string key, CacheItemDirtyChangedHandlerDelegate dirtyChanged = null);
 
         /// <summary>
+        /// indicates whether cache container has specified key. 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        bool ContainsKey(string key);
+
+        /// <summary>
         /// gets configuration value
         /// </summary>
         /// <param name="key">configuration key</param>

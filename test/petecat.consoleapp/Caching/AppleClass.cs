@@ -1,4 +1,4 @@
-﻿using Petecat.Data.Attributes;
+﻿using Petecat.Formatter.Attribute;
 namespace Petecat.ConsoleApp.Caching
 {
     public class AppleClass

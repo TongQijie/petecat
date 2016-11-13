@@ -1,6 +1,7 @@
-﻿using Petecat.Configuring.Attributes;
-using Petecat.Utility;
+﻿using Petecat.Utility;
 using Petecat.Extension;
+using Petecat.Configuring.Attribute;
+
 namespace Petecat.Configuring
 {
     public class StaticFileConfigInstanceBase : IStaticFileConfigInstance

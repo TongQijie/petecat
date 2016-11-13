@@ -15,7 +15,14 @@ namespace Petecat.Formatter.Json
         {
             if (Buffer != null)
             {
-                return JsonEncoder.GetString(Buffer);
+                if (EncompassedByQuote)
+                {
+                    return JsonEncoder.GetString(Buffer);
+                }
+                else
+                {
+                    return JsonEncoder.GetString(Buffer).Trim();
+                }
             }
             else
             {
@@ -69,8 +76,8 @@ namespace Petecat.Formatter.Json
                 {
                     ends = ends.Append(terminators);
                 }
-
-                var buf = stream.ReadBytesUntil(ends.Append(JsonEncoder.Whitespace));
+                
+                var buf = stream.ReadBytesUntil(ends);
                 if (buf == null || buf.Length == 0)
                 {
                     throw new Errors.JsonParseFailedException(stream.Position, "plain value cannot be empty.");
@@ -86,10 +93,6 @@ namespace Petecat.Formatter.Json
                 }
 
                 var terminator = buf[buf.Length - 1];
-                if (terminator == JsonEncoder.Whitespace)
-                {
-                    terminator = (byte)stream.SeekBytesUntilNotEqual(JsonEncoder.Whitespace);
-                }
                 if (seperators != null && seperators.Exists(x => x == terminator))
                 {
                     terminated = false;

@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Petecat.HttpServer.Attributes
+﻿namespace Petecat.HttpServer.Attribute
 {
+    using System;
+
     [AttributeUsage(AttributeTargets.Method)]
     public class RestServiceMethodAttribute : Attribute
     {

@@ -1,4 +1,4 @@
-﻿using Petecat.HttpServer.Attributes;
+﻿using Petecat.HttpServer.Attribute;
 
 namespace Petecat.ServiceHost
 {

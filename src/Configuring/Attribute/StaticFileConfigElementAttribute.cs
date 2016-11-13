@@ -1,7 +1,7 @@
-﻿using Petecat.DependencyInjection.Attributes;
+﻿using Petecat.DependencyInjection.Attribute;
 using System;
 
-namespace Petecat.Configuring.Attributes
+namespace Petecat.Configuring.Attribute
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class StaticFileConfigElementAttribute : DependencyInjectableAttribute

@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 
 using Petecat.Extension;
 using Petecat.Monitor.Internal;
-using Petecat.DependencyInjection.Attributes;
+using Petecat.DependencyInjection.Attribute;
 
 namespace Petecat.Monitor
 {

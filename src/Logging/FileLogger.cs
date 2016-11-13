@@ -1,6 +1,6 @@
 ﻿using Petecat.Extension;
 using Petecat.Threading;
-using Petecat.DependencyInjection.Attributes;
+using Petecat.DependencyInjection.Attribute;
 
 using System;
 using System.IO;
@@ -14,7 +14,7 @@ namespace Petecat.Logging
     {
         public FileLogger()
         {
-            Folder = "./".FullPath();
+            Folder = "./log".FullPath();
         }
 
         public string Folder { get; private set; }
@@ -105,7 +105,7 @@ namespace Petecat.Logging
             public override string ToString()
             {
                 var stringBuilder = new StringBuilder();
-                stringBuilder.AppendFormat("{0}|{1,-6}|{2}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"), Severity, Category);
+                stringBuilder.AppendFormat("{0}|{1,-12}|{2}", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"), Severity, Category);
                 stringBuilder.AppendLine();
                 if (Parameters != null)
                 {

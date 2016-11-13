@@ -1,6 +1,6 @@
 ﻿using Petecat.Caching;
 using Petecat.Monitor;
-using Petecat.DependencyInjection.Attributes;
+using Petecat.DependencyInjection.Attribute;
 
 using System;
 using Petecat.DependencyInjection;
@@ -105,6 +105,11 @@ namespace Petecat.Configuring
             }
 
             obj.Append(this);
+        }
+
+        public bool ContainsKey(string key)
+        {
+            return Container.Contains(key);
         }
     }
 }

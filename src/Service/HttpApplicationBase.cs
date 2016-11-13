@@ -1,6 +1,5 @@
 ﻿using Petecat.IoC;
 using Petecat.Logging;
-using Petecat.Extension;
 
 using System;
 using System.Web;

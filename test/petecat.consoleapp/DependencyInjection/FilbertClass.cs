@@ -1,4 +1,4 @@
-﻿using Petecat.DependencyInjection.Attributes;
+﻿using Petecat.DependencyInjection.Attribute;
 namespace Petecat.ConsoleApp.DependencyInjection
 {
     [DependencyInjectable(Inference = typeof(IFilbertInterface), Singleton = true)]

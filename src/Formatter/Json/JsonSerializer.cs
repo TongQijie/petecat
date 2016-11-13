@@ -6,7 +6,7 @@ using System.Collections.Concurrent;
 
 using Petecat.Utility;
 using Petecat.Extension;
-using Petecat.Formatter.Attributes;
+using Petecat.Formatter.Attribute;
 
 namespace Petecat.Formatter.Json
 {

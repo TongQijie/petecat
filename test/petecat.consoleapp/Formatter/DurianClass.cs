@@ -1,4 +1,4 @@
-﻿using Petecat.Formatter.Attributes;
+﻿using Petecat.Formatter.Attribute;
 using Petecat.Formatter.Json;
 
 namespace Petecat.ConsoleApp.Formatter

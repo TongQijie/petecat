@@ -33,6 +33,11 @@ namespace Petecat.ConsoleApp
                 new DependencyInjection.BaseDirectoryAssemblyContainerTest().Run();
                 ConsoleBridging.ReadAnyKey();
             }
+            else if (args != null && args.Length > 0 && args[0].StartsWith("bdcct", StringComparison.OrdinalIgnoreCase))
+            {
+                new DependencyInjection.BaseDirectoryConfigurableContainerTest().Run();
+                ConsoleBridging.ReadAnyKey();
+            }
             else if (args != null && args.Length > 0 && args[0].StartsWith("cache", StringComparison.OrdinalIgnoreCase))
             {
                 new Caching.CacheContainerBaseTest().Run();
@@ -56,6 +61,11 @@ namespace Petecat.ConsoleApp
             else if (args != null && args.Length > 0 && args[0].StartsWith("flt", StringComparison.OrdinalIgnoreCase))
             {
                 new Logging.FileLoggerTest().Run();
+                ConsoleBridging.ReadAnyKey();
+            }
+            else if (args != null && args.Length > 0 && args[0].StartsWith("tcplot", StringComparison.OrdinalIgnoreCase))
+            {
+                new Network.Socket.TcpListenerObjectTest().Run();
                 ConsoleBridging.ReadAnyKey();
             }
         }

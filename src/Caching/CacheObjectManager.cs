@@ -5,7 +5,6 @@ using Petecat.Threading.Watcher;
 using System;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Petecat.Caching
 {

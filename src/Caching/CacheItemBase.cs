@@ -28,7 +28,7 @@ namespace Petecat.Caching
                 if (_IsDirty != value)
                 {
                     _IsDirty = value;
-
+                    
                     if (DirtyChanged != null)
                     {
                         DirtyChanged.Invoke(this, value);
@@ -53,13 +53,20 @@ namespace Petecat.Caching
                 {
                     if (IsDirty)
                     {
-                        try
+                        var retries = 3;
+                        while(IsDirty && retries > 0)
                         {
-                            IsDirty = !SetValue();
-                        }
-                        catch (Exception e)
-                        {
-                            // TODO: throw
+                            try
+                            {
+                                IsDirty = !SetValue();
+                            }
+                            catch (Exception e)
+                            {
+                                // TODO: throw
+                                Threading.ThreadBridging.Sleep(100);
+                            }
+
+                            retries--;
                         }
                     }
                 }

@@ -2,7 +2,7 @@
 {
     public class BaseDirectoryConfigurableContainer : ConfigurableContainerBase
     {
-        public BaseDirectoryConfigurableContainer(string[] paths)
+        public BaseDirectoryConfigurableContainer(params string[] paths)
         {
             if (paths != null && paths.Length > 0)
             {
@@ -14,6 +14,8 @@
         {
             foreach (var path in paths)
             {
+
+
                 RegisterConfigurableFile(new ConfigurableFileInfoBase(path));
             }
         }

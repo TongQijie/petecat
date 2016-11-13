@@ -1,4 +1,4 @@
-﻿namespace Petecat.Formatter.Attributes
+﻿namespace Petecat.Formatter.Attribute
 {
     public class JsonObjectAttribute : JsonPropertyAttribute
     {

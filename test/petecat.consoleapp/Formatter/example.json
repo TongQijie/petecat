@@ -1,9 +1,7 @@
 ﻿{
   "name": "Jerry",
-  "age": 26,
-  "gender": "male",  
-  "habbit":
-  [
+  "gender": "male",
+  "habbit": [
     "programming",
     "reading"
   ],
@@ -22,5 +20,6 @@
       "to": "present",
       "company": "Newegg Inc."
     }
-  ]
+  ],
+  "age": 26
 }

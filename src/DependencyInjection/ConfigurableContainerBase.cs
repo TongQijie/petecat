@@ -1,5 +1,4 @@
 ﻿using Petecat.Caching;
-using Petecat.Formatter;
 using Petecat.Extension;
 using Petecat.Configuring;
 using Petecat.DependencyInjection.Configuration;
@@ -24,6 +23,18 @@ namespace Petecat.DependencyInjection
 
         public void RegisterConfigurableFile(IConfigurableFileInfo configurableFileInfo)
         {
+            var configurer = DependencyInjector.GetObject<IStaticFileConfigurer>();
+            if (configurer == null)
+            {
+                // TODO: throw
+            }
+
+            if (!configurer.ContainsKey(configurableFileInfo.Path))
+            {
+                configurer.Append(configurableFileInfo.Path, configurableFileInfo.Path, "json", 
+                    typeof(ConfigurableContainerConfiguration), OnConfigurableFileChanged);
+            }
+
             var instanceInfos = configurableFileInfo.GetInstanceInfos();
             if (instanceInfos != null && instanceInfos.Length > 0)
             {
@@ -33,14 +44,6 @@ namespace Petecat.DependencyInjection
                     RegisterInstance(instanceInfo);
                 }
             }
-
-            var configurer = DependencyInjector.GetObject<IStaticFileConfigurer>();
-            if (configurer == null)
-            {
-                // TODO: throw
-            }
-
-            configurer.Append(configurableFileInfo.Path, configurableFileInfo.Path, "json", typeof(ConfigurableContainerConfiguration), OnConfigurableFileChanged);
         }
 
         private ConcurrentDictionary<string, IConfigurableFileInfo> _ObjectMappings = null;

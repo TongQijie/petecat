@@ -1,8 +1,8 @@
 ﻿using System;
 
-using Petecat.DependencyInjection.Attributes;
+using Petecat.DependencyInjection.Attribute;
 
-namespace Petecat.HttpServer.Attributes
+namespace Petecat.HttpServer.Attribute
 {
     [AttributeUsage(AttributeTargets.Class)]
     public class RestServiceInjectableAttribute : DependencyInjectableAttribute

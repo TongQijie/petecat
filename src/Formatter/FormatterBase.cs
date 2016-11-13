@@ -2,8 +2,8 @@
 using System.IO;
 using System.Text;
 
-using Petecat.Extension;
 using Petecat.Utility;
+using Petecat.Extension;
 
 namespace Petecat.Formatter
 {

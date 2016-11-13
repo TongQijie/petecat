@@ -1,7 +1,7 @@
 ﻿using Petecat.Utility;
 using Petecat.Extension;
 using Petecat.DependencyInjection;
-using Petecat.DynamicProxy.Attributes;
+using Petecat.DynamicProxy.Attribute;
 
 using System.Reflection;
 

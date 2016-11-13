@@ -107,7 +107,7 @@ namespace Petecat.Threading.Tasks
 
             if (Status != to)
             {
-                DependencyInjector.GetObject<IFileLogger>().LogEvent("TaskObjectBase", Severity.Warn, new Errors.TaskStatusChangeFailedException(Name, from, to));
+                DependencyInjector.GetObject<IFileLogger>().LogEvent("TaskObjectBase", Severity.Warning, new Errors.TaskStatusChangeFailedException(Name, from, to));
 
                 if (Status == from)
                 {

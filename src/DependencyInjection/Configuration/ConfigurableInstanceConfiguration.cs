@@ -1,4 +1,5 @@
-﻿using Petecat.Data.Attributes;
+﻿using Petecat.Formatter.Attribute;
+
 namespace Petecat.DependencyInjection.Configuration
 {
     public class ConfigurableInstanceConfiguration

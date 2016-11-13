@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Petecat.DependencyInjection.Attributes
+﻿namespace Petecat.DependencyInjection.Attribute
 {
+    using System;
+
     [AttributeUsage(AttributeTargets.Class, Inherited = true)]
     public class DependencyInjectableAttribute : Attribute
     {

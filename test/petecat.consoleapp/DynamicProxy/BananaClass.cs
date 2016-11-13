@@ -1,4 +1,4 @@
-﻿using Petecat.DynamicProxy.Attributes;
+﻿using Petecat.DynamicProxy.Attribute;
 using Petecat.DynamicProxy.Interceptor;
 
 namespace Petecat.ConsoleApp.DynamicProxy

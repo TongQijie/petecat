@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Petecat.DynamicProxy.Attributes
+﻿namespace Petecat.DynamicProxy.Attribute
 {
+    using System;
+
     [AttributeUsage(AttributeTargets.Method)]
     public class MethodInterceptorAttribute : Attribute
     {

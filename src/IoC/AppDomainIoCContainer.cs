@@ -3,8 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-using Petecat.Logging;
-
 namespace Petecat.IoC
 {
     public class AppDomainIoCContainer : DefaultIoCContainer

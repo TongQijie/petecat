@@ -8,8 +8,8 @@ using Petecat.Utility;
 using Petecat.Extension;
 using Petecat.DependencyInjection;
 using Petecat.DynamicProxy.Errors;
-using Petecat.DynamicProxy.Attributes;
-using Petecat.DependencyInjection.Attributes;
+using Petecat.DynamicProxy.Attribute;
+using Petecat.DependencyInjection.Attribute;
 
 namespace Petecat.DynamicProxy
 {

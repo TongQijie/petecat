@@ -50,9 +50,12 @@
     <Compile Include="Configuring\StaticFileConfigurerTest.cs" />
     <Compile Include="DependencyInjection\AppleClass.cs" />
     <Compile Include="DependencyInjection\BananaClass.cs" />
+    <Compile Include="DependencyInjection\BaseDirectoryConfigurableContainerTest.cs" />
     <Compile Include="DependencyInjection\CherryClass.cs" />
     <Compile Include="DependencyInjection\DurianClass.cs" />
     <Compile Include="DependencyInjection\FilbertClass.cs" />
+    <Compile Include="DependencyInjection\GrapeClass.cs" />
+    <Compile Include="DependencyInjection\HawClass.cs" />
     <Compile Include="DependencyInjection\IAppleInterface.cs" />
     <Compile Include="DependencyInjection\BaseDirectoryAssemblyContainerTest.cs" />
     <Compile Include="DependencyInjection\IBananaInterface.cs" />
@@ -76,6 +79,7 @@
     <Compile Include="Formatter\JsonFormatterTest.cs" />
     <Compile Include="Logging\FileLoggerTest.cs" />
     <Compile Include="Monitor\FileSystemMonitorTest.cs" />
+    <Compile Include="Network\Socket\TcpListenerObjectTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ServiceTcpApplicationTest.cs" />
@@ -94,6 +98,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Configuration\ServiceResources.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="DependencyInjection\apple.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Formatter\3ixpc1re3x0.json">

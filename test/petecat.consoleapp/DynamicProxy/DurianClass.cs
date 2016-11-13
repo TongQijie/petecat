@@ -1,6 +1,6 @@
 ﻿using Petecat.DependencyInjection;
 using Petecat.DynamicProxy;
-using Petecat.DynamicProxy.Attributes;
+using Petecat.DynamicProxy.Attribute;
 using Petecat.DynamicProxy.Errors;
 using Petecat.Utility;
 using System;

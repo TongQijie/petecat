@@ -7,8 +7,6 @@ namespace Petecat.ConsoleApp.DependencyInjection
     {
         public void Run()
         {
-            DependencyInjector.Setup(new BaseDirectoryAssemblyContainer());
-
             var appleClass = DependencyInjector.GetObject(typeof(AppleClass)) as AppleClass;
             if (appleClass != null)
             {

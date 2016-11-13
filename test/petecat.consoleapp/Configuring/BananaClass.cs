@@ -1,6 +1,7 @@
 ﻿using Petecat.Configuring;
-using Petecat.Configuring.Attributes;
-using Petecat.Data.Attributes;
+using Petecat.Formatter.Attribute;
+using Petecat.Configuring.Attribute;
+
 namespace Petecat.ConsoleApp.Configuring
 {
     [StaticFileConfigElement(
