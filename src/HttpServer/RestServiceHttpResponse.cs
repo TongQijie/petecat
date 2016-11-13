@@ -1,4 +1,5 @@
 ﻿using Petecat.Formatter;
+using Petecat.DependencyInjection;
 
 using System.Web;
 
@@ -15,7 +16,7 @@ namespace Petecat.HttpServer
             Response.ContentType = "application/json";
             Response.StatusCode = StatusCode;
 
-            new JsonFormatter().WriteObject(obj, Response.OutputStream);
+            DependencyInjector.GetObject<IJsonFormatter>().WriteObject(obj, Response.OutputStream);
         }
 
         public void Error()

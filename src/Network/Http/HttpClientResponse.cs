@@ -4,6 +4,8 @@ using System.Net;
 using System.Text;
 using Petecat.Data.Formatters;
 using Petecat.Extension;
+using Petecat.Formatter;
+using Petecat.DependencyInjection;
 
 namespace Petecat.Network.Http
 {
@@ -91,23 +93,14 @@ namespace Petecat.Network.Http
 
         public TResponse GetObject<TResponse>()
         {
-            var objectFormatter = HttpFormatterSelector.Get(Response.ContentType);
-            if (objectFormatter == null)
-            {
-                throw new Exception(string.Format("cannot find object formatter for contenttype {0}", Response.ContentType));
-            }
-
-            using (var responseStream = Response.GetResponseStream())
-            {
-                return objectFormatter.ReadObject<TResponse>(responseStream);
-            }
+            return GetObject<TResponse>(DependencyInjector.GetObject<IJsonFormatter>());
         }
 
-        public TResponse GetObject<TResponse>(IObjectFormatter objectFormatter)
+        public TResponse GetObject<TResponse>(IFormatter formatter)
         {
             using (var responseStream = Response.GetResponseStream())
             {
-                return objectFormatter.ReadObject<TResponse>(responseStream);
+                return formatter.ReadObject<TResponse>(responseStream);
             }
         }
 

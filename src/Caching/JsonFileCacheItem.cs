@@ -1,4 +1,5 @@
-﻿using Petecat.Formatter;
+﻿using Petecat.DependencyInjection;
+using Petecat.Formatter;
 
 using System;
 using System.IO;
@@ -24,7 +25,7 @@ namespace Petecat.Caching
                 // TODO: throw
             }
 
-            Value = new JsonFormatter().ReadObject(ItemType, Path);
+            Value = DependencyInjector.GetObject<IJsonFormatter>().ReadObject(ItemType, Path);
 
             return base.SetValue();
         }

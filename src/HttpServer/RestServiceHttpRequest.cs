@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Web;
 using System.Collections.Generic;
+using Petecat.DependencyInjection;
 
 namespace Petecat.HttpServer
 {
@@ -37,7 +38,7 @@ namespace Petecat.HttpServer
             var inputStream = Request.InputStream;
             inputStream.Seek(0, SeekOrigin.Begin);
 
-            return new JsonFormatter().ReadObject(targetType, inputStream);
+            return DependencyInjector.GetObject<IJsonFormatter>().ReadObject(targetType, inputStream);
         }
 
         public object ReadInputStream<T>()
@@ -45,7 +46,7 @@ namespace Petecat.HttpServer
             var inputStream = Request.InputStream;
             inputStream.Seek(0, SeekOrigin.Begin);
 
-            return new JsonFormatter().ReadObject<T>(inputStream);
+            return DependencyInjector.GetObject<IJsonFormatter>().ReadObject<T>(inputStream);
         }
     }
 }

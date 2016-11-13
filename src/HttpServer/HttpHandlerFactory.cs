@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 
 using Petecat.Extension;
 using Petecat.DependencyInjection;
@@ -15,7 +16,7 @@ namespace Petecat.HttpServer
             var virtualPath = DependencyInjector.GetObject<IHttpApplicationConfigurer>().GetHttpApplicationRouting("VirtualPath");
             if (virtualPath.HasValue())
             {
-                if (rawUrl.StartsWith(virtualPath.Trim('/')))
+                if (rawUrl.StartsWith(virtualPath.Trim('/'), StringComparison.OrdinalIgnoreCase))
                 {
                     rawUrl = rawUrl.Remove(0, virtualPath.Trim('/').Length);
                 }

@@ -210,6 +210,7 @@
     <Compile Include="Formatter\Errors\JsonSerializeFailedException.cs" />
     <Compile Include="Formatter\FormatterBase.cs" />
     <Compile Include="Formatter\IFormatter.cs" />
+    <Compile Include="Formatter\IJsonFormatter.cs" />
     <Compile Include="Formatter\JsonFormatter.cs" />
     <Compile Include="Formatter\Json\JsonCollectionElement.cs" />
     <Compile Include="Formatter\Json\JsonCollectionObject.cs" />
@@ -297,10 +298,14 @@
     <Compile Include="Network\Ftp\FtpClientRequest.cs" />
     <Compile Include="Network\Ftp\FtpClientResponse.cs" />
     <Compile Include="Network\Ftp\FtpVerb.cs" />
+    <Compile Include="Network\Http\Configuration\IRestServiceConfiguration.cs" />
+    <Compile Include="Network\Http\Configuration\RestServiceConfiguration.cs" />
+    <Compile Include="Network\Http\Configuration\RestServiceResourceConfiguration.cs" />
     <Compile Include="Network\Http\HttpClientRequest.cs" />
     <Compile Include="Network\Http\HttpClientResponse.cs" />
-    <Compile Include="Network\Http\HttpFormatterSelector.cs" />
     <Compile Include="Network\Http\HttpVerb.cs" />
+    <Compile Include="Network\Http\IRestServiceHttpClient.cs" />
+    <Compile Include="Network\Http\RestServiceHttpClient.cs" />
     <Compile Include="Network\Mail\MailSimpleClient.cs" />
     <Compile Include="Network\Mail\MailTemplateManager.cs" />
     <Compile Include="Network\Sockets\ISocketObject.cs" />

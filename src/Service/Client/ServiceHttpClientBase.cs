@@ -1,4 +1,6 @@
-﻿using Petecat.Network.Http;
+﻿using Petecat.DependencyInjection;
+using Petecat.Formatter;
+using Petecat.Network.Http;
 
 using System;
 using System.Net;
@@ -31,12 +33,12 @@ namespace Petecat.Service.Client
             {
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    return response.GetObject<TResponse>(HttpFormatterSelector.Get(request.Request.Accept));
+                    return response.GetObject<TResponse>();
                 }
                 else
                 {
                     throw new Errors.ServiceClientCallingFailedException(ResourceName, response.StatusCode.ToString(),
-                        HttpFormatterSelector.Get(request.Request.ContentType).WriteString(request.Body, Encoding.UTF8));
+                        DependencyInjector.GetObject<IJsonFormatter>().WriteString(request.Body, Encoding.UTF8));
                 }
             }
         }
@@ -58,12 +60,12 @@ namespace Petecat.Service.Client
             {
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
-                    return response.GetObject<TResponse>(HttpFormatterSelector.Get(request.Request.Accept));
+                    return response.GetObject<TResponse>();
                 }
                 else
                 {
                     throw new Errors.ServiceClientCallingFailedException(ResourceName, response.StatusCode.ToString(),
-                        HttpFormatterSelector.Get(request.Request.ContentType).WriteString(request.Body, Encoding.UTF8));
+                        DependencyInjector.GetObject<IJsonFormatter>().WriteString(request.Body, Encoding.UTF8));
                 }
             }
         }

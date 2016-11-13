@@ -150,7 +150,7 @@ namespace Petecat.DependencyInjection
         {
             if (jsonObject is JsonDictionaryObject && targetType.IsClass)
             {
-                return new JsonFormatter().ReadObject(targetType, jsonObject);
+                return DependencyInjector.GetObject<IJsonFormatter>().ReadObject(targetType, jsonObject);
             }
             else if (jsonObject is JsonCollectionObject && targetType.IsArray)
             {

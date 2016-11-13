@@ -101,6 +101,32 @@ namespace Petecat.Extension
             return data.ToList().IndexOf(flag, startIndex, count);
         }
 
+        public static int IndexOf<T>(this T[] data, Predicate<T> predicate)
+        {
+            for(var i = 0; i < data.Length; i++)
+            {
+                if (predicate(data[i]))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        public static int LastIndexOf<T>(this T[] data, Predicate<T> predicate)
+        {
+            for (var i = data.Length - 1; i >= 0; i--)
+            {
+                if (predicate(data[i]))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
         public static int IndexOfEx<T>(this T[] data, T[] findBytes, int startIndex, int count)
         {
             for (int i = startIndex; i < data.Length && i < (startIndex + count); i++)

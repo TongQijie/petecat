@@ -45,7 +45,7 @@ namespace Petecat.Configuring
             Container.Add(item);
 
             // start file monitor
-            FileSystemMonitor.Instance.Add(this, path, OnFileChanged, null, null, null);
+            DependencyInjector.GetObject<IFileSystemMonitor>().Add(this, path, OnFileChanged, null, null, null);
         }
 
         private void OnFileChanged(string path)
@@ -72,7 +72,7 @@ namespace Petecat.Configuring
             }
 
             // stop file monitor
-            FileSystemMonitor.Instance.Remove(this, item.Path, OnFileChanged, null, null, null);
+            DependencyInjector.GetObject<IFileSystemMonitor>().Remove(this, item.Path, OnFileChanged, null, null, null);
 
             // remove CacheItem from container
             Container.Remove(key);

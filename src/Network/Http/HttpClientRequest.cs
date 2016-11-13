@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Petecat.DependencyInjection;
+using Petecat.Formatter;
+using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
@@ -43,17 +45,11 @@ namespace Petecat.Network.Http
 
         public void SetRequestBody(object requestBody)
         {
-            var objectFormatter = HttpFormatterSelector.Get(Request.ContentType);
-            if (objectFormatter == null)
-            {
-                throw new Exception(string.Format("cannot find object formatter for contenttype '{0}'", Request.ContentType));
-            }
-
             Body = requestBody;
 
             using (var requestStream = Request.GetRequestStream())
             {
-                objectFormatter.WriteObject(requestBody, requestStream);
+                DependencyInjector.GetObject<IJsonFormatter>().WriteObject(requestBody, requestStream);
             }
         }
 

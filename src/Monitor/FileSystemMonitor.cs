@@ -10,10 +10,6 @@ namespace Petecat.Monitor
     [DependencyInjectable(Inference = typeof(IFileSystemMonitor), Singleton = true)]
     public class FileSystemMonitor : IFileSystemMonitor
     {
-        private static FileSystemMonitor _Instance = null;
-
-        public static FileSystemMonitor Instance { get { return _Instance ?? (_Instance = new FileSystemMonitor()); } }
-
         private ConcurrentDictionary<string, FolderMonitor> _FolderMonitors = new ConcurrentDictionary<string, FolderMonitor>();
 
         public void Add(object referenceObject, string path, 

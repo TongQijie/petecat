@@ -25,6 +25,7 @@ namespace Petecat.HttpServer
             try
             {
                 var obj = DependencyInjector.GetContainer<RestServiceAssemblyContainer>().Execute(Request);
+                Response.StatusCode = 200;
                 Response.Write(obj);
             }
             catch (Exception e)

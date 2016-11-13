@@ -73,7 +73,6 @@ namespace Petecat.Caching
         public void Add<T>(string key, string path, IObjectFormatter objectFormatter)
         {
             CacheObjectManager.Instance.Add(key, (v) => objectFormatter.ReadObject<T>(path)).Path = path;
-            FileSystemMonitor.Instance.Add(this, path, OnFileChanged, null, null, null);
         }
 
         private void OnFileChanged(string path)
@@ -91,7 +90,7 @@ namespace Petecat.Caching
             if (cacheObject != null)
             {
                 _CacheObjects.Remove(cacheObject);
-                FileSystemMonitor.Instance.Remove(this, cacheObject.Path, OnFileChanged, null, null, null);
+                //FileSystemMonitor.Instance.Remove(this, cacheObject.Path, OnFileChanged, null, null, null);
             }
         }
 
