@@ -1,4 +1,6 @@
-﻿namespace Petecat.DependencyInjection.Containers
+﻿using Petecat.Extension;
+
+namespace Petecat.DependencyInjection.Containers
 {
     public class BaseDirectoryConfigurableContainer : ConfigurableContainerBase
     {
@@ -14,7 +16,11 @@
         {
             foreach (var path in paths)
             {
-
+                var fullPath = path.FullPath();
+                if (!fullPath.IsFile())
+                {
+                    // TODO: throw
+                }
 
                 RegisterConfigurableFile(new ConfigurableFileInfoBase(path));
             }

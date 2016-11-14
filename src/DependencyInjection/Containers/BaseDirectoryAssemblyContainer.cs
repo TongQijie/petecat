@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Petecat.Extension;
+using System;
 using System.IO;
 using System.Reflection;
 
@@ -13,7 +14,7 @@ namespace Petecat.DependencyInjection.Containers
 
         private void RegisterAssemblies()
         {
-            var directoryInfo = new DirectoryInfo(AppDomain.CurrentDomain.BaseDirectory);
+            var directoryInfo = new DirectoryInfo("./".FullPath());
 
             foreach (var fileInfo in directoryInfo.GetFiles("*.dll", SearchOption.TopDirectoryOnly))
             {

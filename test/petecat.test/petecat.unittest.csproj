@@ -66,6 +66,7 @@
     <Compile Include="Data\Formatters\TestEntities.cs" />
     <Compile Include="Extension\ArrayExtensionTest.cs" />
     <Compile Include="Extension\ByteArrayExtensionTest.cs" />
+    <Compile Include="Extension\StringExtensionTest.cs" />
     <Compile Include="Extension\TypeExtensionTest.cs" />
     <Compile Include="IoC\AppleClass.cs" />
     <Compile Include="IoC\BananaClass.cs" />

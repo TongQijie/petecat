@@ -9,7 +9,7 @@ namespace Petecat.ConsoleApp.DependencyInjection
     {
         public void Run()
         {
-            DependencyInjector.Setup(new BaseDirectoryConfigurableContainer("./DependencyInjection/apple.json".FullPath()));
+            DependencyInjector.Setup(new BaseDirectoryConfigurableContainer("./DependencyInjection/apple.json"));
 
             while (Console.ConsoleBridging.ReadLine() != "quit")
             {

@@ -9,22 +9,41 @@ namespace Petecat.Extension
     public static class StringExtension
     {
         /// <summary>
-        /// . -> current directory
-        /// .. --> last directory
+        /// Gets the full path relative to current base directory
         /// </summary>
+        /// <param name="stringValue">relative path value</param>
+        /// <returns>return full path with slash '/' as path seperator</returns>
         public static string FullPath(this string stringValue)
         {
-            var fields = stringValue.SplitByChar('/');
+            return stringValue.FullPath(null);
+        }
+
+        /// <summary>
+        /// Gets the full path relative to the specified path
+        /// </summary>
+        /// <param name="stringValue">relative path value</param>
+        /// <param name="relativePath">specified path value</param>
+        /// <returns>return full path with slash '/' as path seperator</returns>
+        public static string FullPath(this string stringValue, string specifiedPath)
+        {
+            var fields = stringValue.Replace('\\', '/').SplitByChar('/');
             if (fields.Length == 0)
             {
                 return string.Empty;
             }
 
-            var pathStack = new List<string>();
+            var pathParts = new List<string>();
 
             if (fields[0].Equals(".", StringComparison.OrdinalIgnoreCase) || fields[0].Equals("..", StringComparison.OrdinalIgnoreCase))
             {
-                pathStack.AddRange(AppDomain.CurrentDomain.BaseDirectory.Replace('\\', '/').SplitByChar('/'));
+                if (specifiedPath.HasValue())
+                {
+                    pathParts.AddRange(specifiedPath.Replace('\\', '/').SplitByChar('/'));
+                }
+                else
+                {
+                    pathParts.AddRange(AppDomain.CurrentDomain.BaseDirectory.Replace('\\', '/').SplitByChar('/'));
+                }
             }
 
             for (int i = 0; i < fields.Length; i++)
@@ -34,27 +53,28 @@ namespace Petecat.Extension
                 }
                 else if (fields[i].Equals("..", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (pathStack.Count == 0)
+                    if (pathParts.Count == 0)
                     {
-                        throw new Exception("path is invalid.");
+                        throw new Exception(string.Format("path '{0}' and '{1}' is not valid.", stringValue, specifiedPath ?? string.Empty));
                     }
 
-                    pathStack.RemoveAt(pathStack.Count - 1);
+                    pathParts.RemoveAt(pathParts.Count - 1);
                 }
                 else
                 {
-                    pathStack.Add(fields[i]);
+                    pathParts.Add(fields[i]);
                 }
             }
 
-            var fullPath = string.Join("/", pathStack.ToArray());
-
+            var fullPath = string.Join("/", pathParts.ToArray());
             if (Regex.IsMatch(fullPath, "^[A-Z]\x3A\x2F", RegexOptions.IgnoreCase))
             {
+                // for Windows
                 return fullPath;
             }
             else
             {
+                // for linux
                 return "/" + fullPath;
             }
         }
@@ -72,12 +92,6 @@ namespace Petecat.Extension
         public static bool HasValue(this string stringValue)
         {
             return !string.IsNullOrEmpty(stringValue) && !string.IsNullOrWhiteSpace(stringValue);
-        }
-
-        public static bool IsDateTime(this string stringValue)
-        {
-            DateTime datetime;
-            return DateTime.TryParse(stringValue, out datetime);
         }
 
         public static bool IsFile(this string stringValue)

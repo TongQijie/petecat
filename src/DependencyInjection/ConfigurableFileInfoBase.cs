@@ -33,6 +33,14 @@ namespace Petecat.DependencyInjection
                 // TODO: throw
             }
 
+            if (container.Containers != null && container.Containers.Length > 0)
+            {
+                foreach (var includedContainer in container.Containers)
+                {
+                    _InstanceInfos = _InstanceInfos.Append(new ConfigurableFileInfoBase(includedContainer.RelativePath).GetInstanceInfos());
+                }
+            }
+
             if (container.Instances != null && container.Instances.Length > 0)
             {
                 foreach (var instance in container.Instances)
@@ -48,7 +56,7 @@ namespace Petecat.DependencyInjection
                             {
                                 foreach (var constructorMethod in instanceInfo.TypeDefinition.ConstructorMethods)
                                 {
-                                    var parameterInfos = Match(constructorMethod, instance.Parameters);
+                                    var parameterInfos = MatchParameter(constructorMethod, instance.Parameters);
                                     if (parameterInfos != null)
                                     {
                                         instanceInfo.ParameterInfos = parameterInfos;
@@ -64,7 +72,7 @@ namespace Petecat.DependencyInjection
 
                             if (instance.Properties != null && instance.Properties.Length > 0)
                             {
-                                var propertyInfos = Match(instanceInfo, instance.Properties);
+                                var propertyInfos = MatchProperty(instanceInfo, instance.Properties);
                                 if (propertyInfos == null)
                                 {
                                     // TODO: throw
@@ -86,7 +94,7 @@ namespace Petecat.DependencyInjection
             return _InstanceInfos;
         }
 
-        private IPropertyInfo[] Match(IInstanceInfo instanceInfo, InstancePropertyConfiguration[] properties)
+        private IPropertyInfo[] MatchProperty(IInstanceInfo instanceInfo, InstancePropertyConfiguration[] properties)
         {
             var propertyInfos = new IPropertyInfo[properties.Length];
 
@@ -107,7 +115,7 @@ namespace Petecat.DependencyInjection
             return propertyInfos;
         }
 
-        private IParameterInfo[] Match(IMethodInfo methodInfo, InstanceParameterConfiguration[] parameters)
+        private IParameterInfo[] MatchParameter(IMethodInfo methodInfo, InstanceParameterConfiguration[] parameters)
         {
             if (methodInfo.ParameterInfos.Length != parameters.Length)
             {
