@@ -201,6 +201,7 @@
     <Compile Include="Extension\ArrayExtension.cs" />
     <Compile Include="Extension\Attributes\EnumValueAttribute.cs" />
     <Compile Include="Extension\ByteArrayExtension.cs" />
+    <Compile Include="Extension\ObjectExtension.cs" />
     <Compile Include="Extension\StringExtension.cs" />
     <Compile Include="Extension\TypeExtension.cs" />
     <Compile Include="Formatter\Attribute\JsonIngoreAttribute.cs" />
