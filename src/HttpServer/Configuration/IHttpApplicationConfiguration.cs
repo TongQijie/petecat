@@ -5,5 +5,7 @@
         KeyValueConfigurationItem[] HttpApplicationRoutingConfiguration { get; }
 
         KeyValueConfigurationItem[] StaticResourceMappingConfiguration { get; }
+
+        KeyValueConfigurationItem[] RewriteRuleConfiguration { get; }
     }
 }

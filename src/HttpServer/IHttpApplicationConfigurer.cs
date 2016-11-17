@@ -5,5 +5,7 @@
         string GetStaticResourceMapping(string key);
 
         string GetHttpApplicationRouting(string key);
+
+        string ApplyRewriteRule(string url);
     }
 }

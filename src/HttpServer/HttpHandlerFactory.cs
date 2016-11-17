@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Web;
 
+using Petecat.Logging;
 using Petecat.Extension;
 using Petecat.DependencyInjection;
 
@@ -22,7 +23,8 @@ namespace Petecat.HttpServer
                 }
                 else
                 {
-                    // throw exception
+                    DependencyInjector.GetObject<IFileLogger>().LogEvent("HttpHandlerFactory", Severity.Error, 
+                        string.Format("url '{0}' is not valid.", context.Request.RawUrl));
                 }
             }
 
@@ -33,6 +35,9 @@ namespace Petecat.HttpServer
             {
                 rawUrl = rawUrl.Remove(rawUrl.IndexOf('?'));
             }
+
+            // rewrite rule
+            rawUrl = DependencyInjector.GetObject<IHttpApplicationConfigurer>().ApplyRewriteRule(rawUrl);
 
             rawUrl = rawUrl.TrimEnd('/');
 

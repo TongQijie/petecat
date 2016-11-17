@@ -1,6 +1,6 @@
 ﻿using Petecat.DependencyInjection;
 using Petecat.HttpServer.DependencyInjection;
-
+using Petecat.Logging;
 using System;
 using System.Web;
 
@@ -30,7 +30,7 @@ namespace Petecat.HttpServer
             }
             catch (Exception e)
             {
-                // TODO: log
+                DependencyInjector.GetObject<IFileLogger>().LogEvent("RestServiceHttpHandler", Severity.Error, "failed to process restservice request.", e);
                 Response.Error();
             }
         }

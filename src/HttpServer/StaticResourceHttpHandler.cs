@@ -4,6 +4,7 @@ using Petecat.DependencyInjection;
 using System;
 using System.IO;
 using System.Web;
+using Petecat.Logging;
 
 namespace Petecat.HttpServer
 {
@@ -42,7 +43,7 @@ namespace Petecat.HttpServer
             }
             catch (Exception e)
             {
-                // TODO: log
+                DependencyInjector.GetObject<IFileLogger>().LogEvent("StaticResourceHttpHandler", Severity.Error, "failed to process static resource request.", e);
                 Response.Error(400);
             }
         }

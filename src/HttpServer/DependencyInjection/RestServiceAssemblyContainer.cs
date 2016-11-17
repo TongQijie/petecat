@@ -59,7 +59,7 @@ namespace Petecat.HttpServer.DependencyInjection
                 .FirstOrDefault(x => string.Equals(x.ServiceName, request.ServiceName, StringComparison.OrdinalIgnoreCase));
             if (typeDefinition == null)
             {
-                // TODO: throw
+                throw new Exception(string.Format("service '{0}' cannot be found.", request.ServiceName));
             }
 
             RestServiceInstanceMethodInfo methodInfo = null;
@@ -75,13 +75,13 @@ namespace Petecat.HttpServer.DependencyInjection
             }
             if (methodInfo == null)
             {
-                // TODO: throw
+                throw new Exception(string.Format("method '{0}' cannot be found.", request.MethodName));
             }
 
             var obj = DependencyInjector.GetObject(typeDefinition.Info as Type);
             if (obj == null)
             {
-                // TODO: throw
+                throw new Exception(string.Format("failed to create object '{0}'.", (typeDefinition.Info as Type).FullName));
             }
 
             if (request.Request.HttpMethod == "GET")
@@ -102,7 +102,7 @@ namespace Petecat.HttpServer.DependencyInjection
 
                         if (!dict.Keys.ToArray().Exists(x => string.Equals(x, parameterInfo.ParameterName, StringComparison.OrdinalIgnoreCase)))
                         {
-                            // TODO: throw
+                            throw new Exception(string.Format("parameter '{0}' does not exist.", parameterInfo.ParameterName));
                         }
 
                         values[i] = dict.FirstOrDefault(x => string.Equals(x.Key, parameterInfo.ParameterName, StringComparison.OrdinalIgnoreCase)).Value;
@@ -115,7 +115,7 @@ namespace Petecat.HttpServer.DependencyInjection
             {
                 if (methodInfo.ParameterInfos == null || methodInfo.ParameterInfos.Length != 1)
                 {
-                    // TODO: throw
+                    throw new Exception(string.Format("method '{0}' must have one parameter.", methodInfo.MethodName));
                 }
 
                 return methodInfo.Invoke(obj, request.ReadInputStream(methodInfo.ParameterInfos[0].TypeDefinition.Info as Type));

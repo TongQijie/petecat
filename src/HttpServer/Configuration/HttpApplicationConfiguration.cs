@@ -16,5 +16,8 @@ namespace Petecat.HttpServer.Configuration
 
         [JsonProperty(Alias = "resource")]
         public KeyValueConfigurationItem[] StaticResourceMappingConfiguration { get; set; }
+
+        [JsonProperty(Alias = "rewrite")]
+        public KeyValueConfigurationItem[] RewriteRuleConfiguration { get; set; }
     }
 }

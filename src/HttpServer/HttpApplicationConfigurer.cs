@@ -4,6 +4,7 @@ using Petecat.Extension;
 using Petecat.Configuring;
 using Petecat.HttpServer.Configuration;
 using Petecat.DependencyInjection.Attribute;
+using System.Text.RegularExpressions;
 
 namespace Petecat.HttpServer
 {
@@ -63,6 +64,31 @@ namespace Petecat.HttpServer
             }
 
             return config.Value;
+        }
+
+        public string ApplyRewriteRule(string url)
+        {
+            var httpApplicationConfiguration = _StaticFileConfigurer.GetValue<IHttpApplicationConfiguration>(CacheKey);
+            if (httpApplicationConfiguration == null)
+            {
+                return url;
+            }
+
+            if (httpApplicationConfiguration.RewriteRuleConfiguration == null
+                || httpApplicationConfiguration.RewriteRuleConfiguration.Length == 0)
+            {
+                return url;
+            }
+
+            foreach (var rewriteRule in httpApplicationConfiguration.RewriteRuleConfiguration)
+            {
+                if (Regex.IsMatch(url, rewriteRule.Key, RegexOptions.IgnoreCase))
+                {
+                    return rewriteRule.Value;
+                }
+            }
+
+            return url;
         }
     }
 }
