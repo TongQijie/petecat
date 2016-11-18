@@ -1,5 +1,4 @@
 ﻿using Petecat.DependencyInjection;
-using Petecat.DependencyInjection.Containers;
 
 namespace Petecat.ConsoleApp.DependencyInjection
 {
