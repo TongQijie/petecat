@@ -21,27 +21,19 @@ namespace Petecat.DynamicProxy.DependencyInjection
             foreach (var type in Assembly.GetTypes().Where(x => x.IsClass))
             {
                 DynamicProxyInjectableAttribute attribute;
-                if (Reflector.TryGetCustomAttribute(type, null, out attribute))
+                if (Reflector.TryGetCustomAttribute(type, x => x.GetType().Equals(typeof(DynamicProxyInjectableAttribute)), out attribute))
                 {
-                    if (attribute.TypeMatch && !attribute.GetType().Equals(typeof(DynamicProxyInjectableAttribute)))
-                    {
-                        continue;
-                    }
-
                     var proxyType = DependencyInjector.GetObject<IDynamicProxyGenerator>().CreateProxyType(type);
                     if (proxyType == null)
                     {
                         continue;
                     }
 
-                    if (attribute.GetType().Equals(typeof(DynamicProxyInjectableAttribute)) || !attribute.OverridedInference)
+                    typeDefinitions = typeDefinitions.Append(new ITypeDefinition[]
                     {
-                        typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(proxyType, attribute.Inference, attribute.Singleton, attribute.Priority, this));
-                    }
-                    else
-                    {
-                        typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(proxyType, null, attribute.Singleton, attribute.Priority, this));
-                    }
+                        new TypeDefinitionBase(proxyType, attribute.Inference, attribute.Singleton, attribute.Priority, this),
+                        new TypeDefinitionBase(type, null, attribute.Singleton, attribute.Priority, this),
+                    });
                 }
             }
 

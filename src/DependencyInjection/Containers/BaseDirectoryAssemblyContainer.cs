@@ -1,4 +1,5 @@
 ﻿using Petecat.Extension;
+using Petecat.Utility;
 using System;
 using System.IO;
 using System.Reflection;
@@ -9,10 +10,10 @@ namespace Petecat.DependencyInjection.Containers
     {
         public BaseDirectoryAssemblyContainer()
         {
-            RegisterAssemblies();
+            RegisterAssemblies<AssemblyInfoBase>();
         }
 
-        private void RegisterAssemblies()
+        public void RegisterAssemblies<T>() where T : IAssemblyInfo
         {
             var directoryInfo = new DirectoryInfo("./".FullPath());
 
@@ -20,7 +21,7 @@ namespace Petecat.DependencyInjection.Containers
             {
                 try
                 {
-                    RegisterAssembly(new AssemblyInfoBase(Assembly.LoadFile(fileInfo.FullName)));
+                    RegisterAssembly(typeof(T).CreateInstance<T>(Assembly.LoadFile(fileInfo.FullName)));
                 }
                 catch (Exception e)
                 {
@@ -32,7 +33,7 @@ namespace Petecat.DependencyInjection.Containers
             {
                 try
                 {
-                    RegisterAssembly(new AssemblyInfoBase(Assembly.LoadFile(fileInfo.FullName)));
+                    RegisterAssembly(typeof(T).CreateInstance<T>(Assembly.LoadFile(fileInfo.FullName)));
                 }
                 catch (Exception e)
                 {

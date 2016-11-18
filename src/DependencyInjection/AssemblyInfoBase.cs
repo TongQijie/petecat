@@ -22,21 +22,9 @@ namespace Petecat.DependencyInjection
             foreach (var type in Assembly.GetTypes().Where(x => x.IsClass))
             {
                 DependencyInjectableAttribute attribute;
-                if (Reflector.TryGetCustomAttribute(type, null, out attribute))
+                if (Reflector.TryGetCustomAttribute(type, x => x.GetType().Equals(typeof(DependencyInjectableAttribute)), out attribute))
                 {
-                    if (attribute.TypeMatch && !attribute.GetType().Equals(typeof(DependencyInjectableAttribute)))
-                    {
-                        continue;
-                    }
-
-                    if (attribute.GetType().Equals(typeof(DependencyInjectableAttribute)) || !attribute.OverridedInference)
-                    {
-                        typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(type, attribute.Inference, attribute.Singleton, attribute.Priority, this));
-                    }
-                    else
-                    {
-                        typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(type, null, attribute.Singleton, attribute.Priority, this));
-                    }
+                    typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(type, attribute.Inference, attribute.Singleton, attribute.Priority, this));
                 }
             }
 

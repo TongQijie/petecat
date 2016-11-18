@@ -188,7 +188,6 @@
     <Compile Include="DependencyInjection\MethodInfoBase.cs" />
     <Compile Include="DynamicProxy\Attribute\DynamicProxyInjectableAttribute.cs" />
     <Compile Include="DynamicProxy\Attribute\MethodInterceptorAttribute.cs" />
-    <Compile Include="DynamicProxy\DependencyInjection\DynamicProxyAssemblyContainer.cs" />
     <Compile Include="DynamicProxy\DependencyInjection\DynamicProxyAssemblyInfo.cs" />
     <Compile Include="DynamicProxy\Errors\InterceptorNotFoundException.cs" />
     <Compile Include="DynamicProxy\IInterceptor.cs" />
@@ -225,8 +224,8 @@
     <Compile Include="Formatter\Json\JsonProperty.cs" />
     <Compile Include="Formatter\Json\JsonSerializer.cs" />
     <Compile Include="Formatter\Json\JsonValueObject.cs" />
-    <Compile Include="HttpServer\Attributes\RestServiceInjectableAttribute.cs" />
-    <Compile Include="HttpServer\Attributes\RestServiceMethodAttribute.cs" />
+    <Compile Include="HttpServer\Attribute\RestServiceInjectableAttribute.cs" />
+    <Compile Include="HttpServer\Attribute\RestServiceMethodAttribute.cs" />
     <Compile Include="HttpServer\Configuration\HttpApplicationConfiguration.cs" />
     <Compile Include="HttpServer\Configuration\IHttpApplicationConfiguration.cs" />
     <Compile Include="HttpServer\Configuration\KeyValueConfigurationItem.cs" />

@@ -21,13 +21,8 @@ namespace Petecat.HttpServer.DependencyInjection
             foreach (var type in Assembly.GetTypes().Where(x => x.IsClass))
             {
                 RestServiceInjectableAttribute attribute;
-                if (Reflector.TryGetCustomAttribute(type, null, out attribute))
+                if (Reflector.TryGetCustomAttribute(type, x => x.GetType().Equals(typeof(RestServiceInjectableAttribute)), out attribute))
                 {
-                    if (attribute.TypeMatch && !attribute.GetType().Equals(typeof(RestServiceInjectableAttribute)))
-                    {
-                        continue;
-                    }
-
                     typeDefinitions = typeDefinitions.Append(new RestServiceTypeDefinition(type, attribute.ServiceName));
                 }
             }

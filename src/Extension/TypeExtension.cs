@@ -87,5 +87,10 @@ namespace Petecat.Extension
 
             return null;
         }
+
+        public static T CreateInstance<T>(this Type sourceType, params object[] parameters)
+        {
+            return (T)Activator.CreateInstance(sourceType, parameters);
+        }
     }
 }

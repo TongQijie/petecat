@@ -1,4 +1,5 @@
 ﻿using Petecat.DependencyInjection;
+using Petecat.DependencyInjection.Containers;
 using Petecat.DynamicProxy;
 using Petecat.DynamicProxy.DependencyInjection;
 
@@ -8,7 +9,7 @@ namespace Petecat.ConsoleApp.DynamicProxy
     {
         public void Run()
         {
-            DependencyInjector.Setup(new DynamicProxyAssemblyContainer());
+            DependencyInjector.GetContainer<BaseDirectoryAssemblyContainer>().RegisterAssemblies<DynamicProxyAssemblyInfo>();
 
             var result = -1;
 
