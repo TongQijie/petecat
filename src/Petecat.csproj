@@ -403,12 +403,6 @@
     <Compile Include="Utility\Converter.cs" />
     <Compile Include="IO\BufferedStream.cs" />
     <Compile Include="IO\IStream.cs" />
-    <Compile Include="Aop\AopProxyTypeFactory.cs" />
-    <Compile Include="Aop\DefaultAopInvocation.cs" />
-    <Compile Include="Aop\DefaultAopProxyTypeGenerator.cs" />
-    <Compile Include="Aop\IAopInterceptor.cs" />
-    <Compile Include="Aop\IAopInvocation.cs" />
-    <Compile Include="Aop\IAopProxyTypeGenerator.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
