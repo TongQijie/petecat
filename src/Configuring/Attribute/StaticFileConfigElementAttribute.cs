@@ -1,5 +1,4 @@
 ﻿using Petecat.DependencyInjection.Attribute;
-using System;
 
 namespace Petecat.Configuring.Attribute
 {

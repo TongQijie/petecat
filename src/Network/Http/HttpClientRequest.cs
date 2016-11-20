@@ -1,10 +1,9 @@
 ﻿using Petecat.DependencyInjection;
 using Petecat.Formatter;
-using System;
-using System.Collections.Generic;
 using System.Net;
-using System.Text;
 using System.Web;
+using System.Text;
+using System.Collections.Generic;
 
 namespace Petecat.Network.Http
 {
