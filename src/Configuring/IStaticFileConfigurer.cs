@@ -12,6 +12,7 @@ namespace Petecat.Configuring
         /// <param name="path">static file path</param>
         /// <param name="fileFormat">static file format, supporting 'xml' and 'json'</param>
         /// <param name="configurationType">type of configuration value</param>
+        /// 
         void Append(string key, string path, string fileFormat, Type configurationType,
             CacheItemDirtyChangedHandlerDelegate dirtyChanged = null);
 
@@ -42,5 +43,13 @@ namespace Petecat.Configuring
         /// <param name="key">configuration key</param>
         /// <returns>configuration value</returns>
         T GetValue<T>(string key);
+
+        /// <summary>
+        /// Gets group configuration values
+        /// </summary>
+        /// <typeparam name="T">type of configuration value</typeparam>
+        /// <param name="key">configuration key</param>
+        /// <returns>configuration values</returns>
+        T[] GetValues<T>(string key);
     }
 }

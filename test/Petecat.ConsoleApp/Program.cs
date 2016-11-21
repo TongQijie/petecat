@@ -68,6 +68,11 @@ namespace Petecat.ConsoleApp
                 new Network.Socket.TcpListenerObjectTest().Run();
                 ConsoleBridging.ReadAnyKey();
             }
+            else if (args != null && args.Length > 0 && args[0].StartsWith("dcct", StringComparison.OrdinalIgnoreCase))
+            {
+                new EntityFramework.DatabaseCommandConfigurationTest().Run();
+                ConsoleBridging.ReadAnyKey();
+            }
         }
     }
 }

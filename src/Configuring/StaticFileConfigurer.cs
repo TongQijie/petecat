@@ -1,10 +1,11 @@
 ﻿using Petecat.Caching;
 using Petecat.Monitor;
+using Petecat.Caching.Delegates;
+using Petecat.DependencyInjection;
 using Petecat.DependencyInjection.Attribute;
 
 using System;
-using Petecat.DependencyInjection;
-using Petecat.Caching.Delegates;
+using System.Linq;
 
 namespace Petecat.Configuring
 {
@@ -90,13 +91,15 @@ namespace Petecat.Configuring
             return (T)Container.Get(key).GetValue();
         }
 
+        public T[] GetValues<T>(string key)
+        {
+            EnsureExists(key, typeof(T));
+
+            return Container.Get(x => x.StartsWith(key)).Select(x => (T)x.GetValue()).ToArray();
+        }
+
         private void EnsureExists(string key, Type configurationType)
         {
-            if (Container.Contains(key))
-            {
-                return;
-            }
-
             // load from DI container
             var obj = DependencyInjector.GetObject(configurationType) as IStaticFileConfigInstance;
             if (obj == null)
@@ -104,7 +107,20 @@ namespace Petecat.Configuring
                 // TODO: throw
             }
 
-            obj.Append(this);
+            if (obj.IsMultipleFiles)
+            {
+                if (!Container.Contains(x => x.StartsWith(key)))
+                {
+                    obj.Append(this);
+                }
+            }
+            else
+            {
+                if (!Container.Contains(key))
+                {
+                    obj.Append(this);
+                }
+            }
         }
 
         public bool ContainsKey(string key)

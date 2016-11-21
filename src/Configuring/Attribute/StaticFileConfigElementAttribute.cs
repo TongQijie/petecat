@@ -14,5 +14,7 @@ namespace Petecat.Configuring.Attribute
         public string Path { get; set; }
 
         public string FileFormat { get; set; }
+
+        public bool IsMultipleFiles { get; set; }
     }
 }

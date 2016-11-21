@@ -12,6 +12,10 @@ namespace Petecat.Caching
 
         ICacheItem Get(Predicate<ICacheItem> predicate);
 
+        ICacheItem[] Get(Predicate<string> predicate);
+
         bool Contains(string key);
+
+        bool Contains(Predicate<string> predicate);
     }
 }

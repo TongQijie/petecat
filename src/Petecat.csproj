@@ -199,9 +199,19 @@
     <Compile Include="DynamicProxy\DynamicProxyGenerator.cs" />
     <Compile Include="EntityFramework\Attribute\CompositeValueAttribute.cs" />
     <Compile Include="EntityFramework\Attribute\SimpleValueAttribute.cs" />
+    <Compile Include="EntityFramework\Configuration\DatabaseCommandConfiguration.cs" />
+    <Compile Include="EntityFramework\Configuration\DatabaseCommandItemConfiguration.cs" />
+    <Compile Include="EntityFramework\Configuration\DatabaseCommandParameterConfiguration.cs" />
+    <Compile Include="EntityFramework\Configuration\DatabaseConfiguration.cs" />
+    <Compile Include="EntityFramework\Configuration\DatabaseItemConfiguration.cs" />
+    <Compile Include="EntityFramework\Configuration\IDatabaseCommandConfiguration.cs" />
+    <Compile Include="EntityFramework\Configuration\IDatabaseConfiguration.cs" />
     <Compile Include="EntityFramework\Database.cs" />
+    <Compile Include="EntityFramework\DatabaseCommand.cs" />
+    <Compile Include="EntityFramework\EntityFrameworkConfigurer.cs" />
     <Compile Include="EntityFramework\IDatabase.cs" />
     <Compile Include="EntityFramework\IDatabaseCommand.cs" />
+    <Compile Include="EntityFramework\IEntityFrameworkConfigurer.cs" />
     <Compile Include="EntityFramework\Internal\CompositeValuePropertyInfo.cs" />
     <Compile Include="EntityFramework\Internal\DataReaderEntityDataSource.cs" />
     <Compile Include="EntityFramework\Internal\EntityBuilder.cs" />
@@ -415,9 +425,7 @@
     <Compile Include="IO\BufferedStream.cs" />
     <Compile Include="IO\IStream.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="EntityFramework\Configuration\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,6 +1,8 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Linq;
+using System.Collections.Concurrent;
+
+using Petecat.Extension;
 
 namespace Petecat.Caching
 {
@@ -26,9 +28,31 @@ namespace Petecat.Caching
             return Items.ContainsKey(key);
         }
 
+        public bool Contains(Predicate<string> predicate)
+        {
+            return Items.Keys.ToArray().Exists(x => predicate(x));
+        }
+
         public ICacheItem Get(Predicate<ICacheItem> predicate)
         {
             return Items.Values.ToList().FirstOrDefault(x => predicate(x));
+        }
+
+        public ICacheItem[] Get(Predicate<string> predicate)
+        {
+            var items = new ICacheItem[0];
+
+            var keys = Items.Keys.ToList().Where(x => predicate(x));
+            foreach (var key in keys)
+            {
+                ICacheItem value;
+                if (Items.TryGetValue(key, out value))
+                {
+                    items = items.Append(value);
+                }
+            }
+
+            return items;
         }
 
         public ICacheItem Get(string key)

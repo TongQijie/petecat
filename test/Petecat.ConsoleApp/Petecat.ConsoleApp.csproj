@@ -69,6 +69,7 @@
     <Compile Include="DynamicProxy\DynamicProxyGeneratorTest.cs" />
     <Compile Include="DynamicProxy\IAppleInterface.cs" />
     <Compile Include="DynamicProxy\IBananaInterface.cs" />
+    <Compile Include="EntityFramework\DatabaseCommandConfigurationTest.cs" />
     <Compile Include="Formatter\AppleClass.cs" />
     <Compile Include="Formatter\BananaClass.cs" />
     <Compile Include="Formatter\CherryClass.cs" />

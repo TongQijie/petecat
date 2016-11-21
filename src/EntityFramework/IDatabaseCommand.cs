@@ -22,7 +22,7 @@ namespace Petecat.EntityFramework
 
         T GetScalar<T>();
 
-        List<T> GetEntities<T>() where T : class, new();
+        List<T> GetEntities<T>() where T : class;
 
         int ExecuteNonQuery();
     }

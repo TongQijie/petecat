@@ -1,5 +1,4 @@
 ﻿using Petecat.EntityFramework.Attribute;
-using System;
 using System.Reflection;
 
 namespace Petecat.EntityFramework.Internal

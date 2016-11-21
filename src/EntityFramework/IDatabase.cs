@@ -1,17 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data.Common;
 
 namespace Petecat.EntityFramework
 {
     public interface IDatabase : IDisposable
     {
-        //DbProviderFactory DbProviderFactory { get; }
+        DbProviderFactory DbProviderFactory { get; }
 
-        //T QueryScalar<T>(IDataCommandObject dataCommand);
+        T GetScalar<T>(IDatabaseCommand dataCommand);
 
-        //List<T> QueryEntities<T>(IDataCommandObject dataCommand) where T : class, new();
+        List<T> GetEntities<T>(IDatabaseCommand dataCommand) where T : class;
 
-        //int ExecuteNonQuery(IDataCommandObject dbCommand);
+        int ExecuteNonQuery(IDatabaseCommand dbCommand);
 
-        //bool ExecuteTransaction(Func<IDatabaseObject, bool> execution);
+        bool ExecuteTransaction(Func<IDatabase, bool> execution);
     }
 }
