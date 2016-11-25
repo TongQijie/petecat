@@ -2,6 +2,7 @@
 using Petecat.HttpServer.DependencyInjection;
 using Petecat.Logging;
 using System;
+using System.Collections.Generic;
 using System.Web;
 
 namespace Petecat.HttpServer
@@ -16,9 +17,11 @@ namespace Petecat.HttpServer
 
         public bool IsReusable { get { return true; } }
 
-        public RestServiceHttpRequest Request { get; private set; }
+        [ThreadStatic]
+        public static RestServiceHttpRequest Request;
 
-        public RestServiceHttpResponse Response { get; private set; }
+        [ThreadStatic]
+        public static RestServiceHttpResponse Response;
 
         public void ProcessRequest(HttpContext context)
         {

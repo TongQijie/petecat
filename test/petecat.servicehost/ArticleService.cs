@@ -1,4 +1,5 @@
-﻿using Petecat.HttpServer.Attribute;
+﻿using Petecat.HttpServer;
+using Petecat.HttpServer.Attribute;
 
 namespace Petecat.ServiceHost
 {
@@ -8,6 +9,10 @@ namespace Petecat.ServiceHost
         [RestServiceMethod(MethodName = "get-articles-by-page")]
         public Article[] GetArticles(int pageNumber)
         {
+            var headers = RestServiceHttpHandler.Request.Headers;
+
+            var cookies = RestServiceHttpHandler.Request.Cookies;
+
             return new Article[]
             {
                 new Article() { Name = "Nexus S", Snippet = "Fast just got faster with Nexus S." },

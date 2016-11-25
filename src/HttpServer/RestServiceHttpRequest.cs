@@ -1,10 +1,10 @@
 ﻿using Petecat.Formatter;
+using Petecat.DependencyInjection;
 
 using System;
 using System.IO;
 using System.Web;
 using System.Collections.Generic;
-using Petecat.DependencyInjection;
 
 namespace Petecat.HttpServer
 {
@@ -47,6 +47,44 @@ namespace Petecat.HttpServer
             inputStream.Seek(0, SeekOrigin.Begin);
 
             return DependencyInjector.GetObject<IJsonFormatter>().ReadObject<T>(inputStream);
+        }
+
+        private Dictionary<string, string> _Headers = null;
+
+        public Dictionary<string, string> Headers
+        {
+            get
+            {
+                if (_Headers == null)
+                {
+                    _Headers = new Dictionary<string, string>();
+                    foreach (var key in Request.Headers.AllKeys)
+                    {
+                        _Headers.Add(key, Request.Headers[key]);
+                    }
+                }
+
+                return _Headers;
+            }
+        }
+
+        private Dictionary<string, string> _Cookies = null;
+
+        public Dictionary<string, string> Cookies
+        {
+            get
+            {
+                if (_Cookies == null)
+                {
+                    _Cookies = new Dictionary<string, string>();
+                    foreach (var key in Request.Cookies.AllKeys)
+                    {
+                        _Cookies.Add(key, Request.Cookies[key].Value);
+                    }
+                }
+
+                return _Cookies;
+            }
         }
     }
 }

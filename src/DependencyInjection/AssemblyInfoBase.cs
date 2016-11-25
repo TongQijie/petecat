@@ -22,7 +22,7 @@ namespace Petecat.DependencyInjection
             foreach (var type in Assembly.GetTypes().Subset(x => x.IsClass))
             {
                 DependencyInjectableAttribute attribute;
-                if (Reflector.TryGetCustomAttribute(type, x => x.GetType().Equals(typeof(DependencyInjectableAttribute)), out attribute))
+                if (Reflector.TryGetCustomAttribute(type, null, out attribute))
                 {
                     typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(type, attribute.Inference, attribute.Singleton, attribute.Priority, this));
                 }

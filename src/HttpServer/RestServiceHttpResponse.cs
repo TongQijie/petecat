@@ -1,6 +1,7 @@
 ﻿using Petecat.Formatter;
 using Petecat.DependencyInjection;
 
+using System;
 using System.Web;
 
 namespace Petecat.HttpServer
@@ -22,6 +23,16 @@ namespace Petecat.HttpServer
         public void Error()
         {
             Response.StatusCode = 500;
+        }
+
+        public void SetCookie(string name, string value)
+        {
+            Response.SetCookie(new HttpCookie(name, value));
+        }
+
+        public void SetCookie(string name, string value, DateTime expires)
+        {
+            Response.SetCookie(new HttpCookie(name, value) { Expires = expires });
         }
     }
 }
