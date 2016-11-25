@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Concurrent;
 
 using Petecat.Utility;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.Formatter.Attribute;
 
 namespace Petecat.Formatter.Json
@@ -389,7 +389,7 @@ namespace Petecat.Formatter.Json
             }
             else
             {
-                return Converter.Assignable(plainValueObject.ToString(), targetType);
+                return plainValueObject.ToString().ConvertTo(targetType);
             }
         }
 

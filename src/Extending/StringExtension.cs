@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Petecat.Extension
+namespace Petecat.Extending
 {
     public static class StringExtension
     {
@@ -15,7 +13,7 @@ namespace Petecat.Extension
         /// <returns>return full path with slash '/' as path seperator</returns>
         public static string FullPath(this string stringValue)
         {
-            return stringValue.FullPath(null);
+            return stringValue.FullPath(AppDomain.CurrentDomain.BaseDirectory);
         }
 
         /// <summary>
@@ -32,17 +30,13 @@ namespace Petecat.Extension
                 return string.Empty;
             }
 
-            var pathParts = new List<string>();
+            var pathParts = new string[0];
 
             if (fields[0].Equals(".", StringComparison.OrdinalIgnoreCase) || fields[0].Equals("..", StringComparison.OrdinalIgnoreCase))
             {
                 if (specifiedPath.HasValue())
                 {
-                    pathParts.AddRange(specifiedPath.Replace('\\', '/').SplitByChar('/'));
-                }
-                else
-                {
-                    pathParts.AddRange(AppDomain.CurrentDomain.BaseDirectory.Replace('\\', '/').SplitByChar('/'));
+                    pathParts = pathParts.Append(specifiedPath.Replace('\\', '/').SplitByChar('/'));
                 }
             }
 
@@ -53,20 +47,20 @@ namespace Petecat.Extension
                 }
                 else if (fields[i].Equals("..", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (pathParts.Count == 0)
+                    if (pathParts.Length == 0)
                     {
                         throw new Exception(string.Format("path '{0}' and '{1}' is not valid.", stringValue, specifiedPath ?? string.Empty));
                     }
 
-                    pathParts.RemoveAt(pathParts.Count - 1);
+                    pathParts = pathParts.Subset(0, pathParts.Length - 1);
                 }
                 else
                 {
-                    pathParts.Add(fields[i]);
+                    pathParts = pathParts.Append(fields[i]);
                 }
             }
 
-            var fullPath = string.Join("/", pathParts.ToArray());
+            var fullPath = string.Join("/", pathParts);
             if (Regex.IsMatch(fullPath, "^[A-Z]\x3A\x2F", RegexOptions.IgnoreCase))
             {
                 // for Windows
@@ -86,7 +80,7 @@ namespace Petecat.Extension
                 return null;
             }
 
-            return stringValue.Split(seperator).Where(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim()).ToArray();
+            return stringValue.Split(seperator).Subset(x => !string.IsNullOrWhiteSpace(x)).Select(x => x.Trim());
         }
 
         public static bool HasValue(this string stringValue)

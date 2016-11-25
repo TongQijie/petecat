@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Petecat.IO;
-using Petecat.Extension;
+using Petecat.Extending;
 
 namespace Petecat.Formatter.Json
 {
@@ -85,11 +85,11 @@ namespace Petecat.Formatter.Json
 
                 if (Buffer != null && Buffer.Length > 0)
                 {
-                    Buffer = Buffer.Append(buf.SubArray(0, buf.Length - 1));
+                    Buffer = Buffer.Append(buf.Subset(0, buf.Length - 1));
                 }
                 else
                 {
-                    Buffer = buf.SubArray(0, buf.Length - 1);
+                    Buffer = buf.Subset(0, buf.Length - 1);
                 }
 
                 var terminator = buf[buf.Length - 1];

@@ -1,6 +1,6 @@
 ﻿using Petecat.Caching;
 using Petecat.Data.Formatters;
-using Petecat.Extension;
+using Petecat.Extending;
 
 using System;
 using System.Linq;

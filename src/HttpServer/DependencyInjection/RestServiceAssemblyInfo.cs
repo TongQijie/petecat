@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 
 using Petecat.Utility;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.DependencyInjection;
 using Petecat.HttpServer.Attribute;
 
@@ -18,7 +18,7 @@ namespace Petecat.HttpServer.DependencyInjection
         {
             var typeDefinitions = new ITypeDefinition[0];
 
-            foreach (var type in Assembly.GetTypes().Where(x => x.IsClass))
+            foreach (var type in Assembly.GetTypes().Subset(x => x.IsClass))
             {
                 RestServiceInjectableAttribute attribute;
                 if (Reflector.TryGetCustomAttribute(type, x => x.GetType().Equals(typeof(RestServiceInjectableAttribute)), out attribute))

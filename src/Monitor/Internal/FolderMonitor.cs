@@ -2,7 +2,7 @@
 using System.IO;
 using System.Collections.Generic;
 
-using Petecat.Extension;
+using Petecat.Extending;
 
 namespace Petecat.Monitor.Internal
 {

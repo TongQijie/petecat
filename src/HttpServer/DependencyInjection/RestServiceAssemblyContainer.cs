@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.DependencyInjection;
 
 namespace Petecat.HttpServer.DependencyInjection

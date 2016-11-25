@@ -1,5 +1,5 @@
 ﻿using Petecat.Monitor;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.DependencyInjection;
 
 namespace Petecat.ConsoleApp.Monitor

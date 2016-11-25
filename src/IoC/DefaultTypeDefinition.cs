@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-using Petecat.Extension;
+using Petecat.Extending;
 
 namespace Petecat.IoC
 {

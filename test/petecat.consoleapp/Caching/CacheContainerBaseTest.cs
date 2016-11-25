@@ -1,6 +1,6 @@
 ﻿using Petecat.Caching;
 using Petecat.Formatter;
-using Petecat.Extension;
+using Petecat.Extending;
 using System.Text;
 namespace Petecat.ConsoleApp.Caching
 {

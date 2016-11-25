@@ -5,7 +5,7 @@ using System.Reflection.Emit;
 using System.Collections.Concurrent;
 
 using Petecat.Utility;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.DependencyInjection;
 using Petecat.DynamicProxy.Errors;
 using Petecat.DynamicProxy.Attribute;

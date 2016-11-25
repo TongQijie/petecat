@@ -2,7 +2,7 @@
 using Petecat.IoC;
 using Petecat.Console;
 using Petecat.Logging;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.Network.Sockets;
 using Petecat.DependencyInjection;
 

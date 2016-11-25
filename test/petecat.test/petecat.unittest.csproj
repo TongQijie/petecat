@@ -65,9 +65,7 @@
     <Compile Include="Data\Formatters\JsonFormatterTest.cs" />
     <Compile Include="Data\Formatters\TestEntities.cs" />
     <Compile Include="Extension\ArrayExtensionTest.cs" />
-    <Compile Include="Extension\ByteArrayExtensionTest.cs" />
     <Compile Include="Extension\StringExtensionTest.cs" />
-    <Compile Include="Extension\TypeExtensionTest.cs" />
     <Compile Include="IoC\AppleClass.cs" />
     <Compile Include="IoC\BananaClass.cs" />
     <Compile Include="IoC\DefaultContainerObjectTest.cs" />
@@ -81,7 +79,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Threading\Process\ProcessObjectTest.cs" />
     <Compile Include="Utility\CompressUtilityTest.cs" />
-    <Compile Include="Utility\ValueConverterTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\petecat.csproj">

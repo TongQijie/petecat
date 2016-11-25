@@ -1,5 +1,5 @@
 ﻿using Petecat.Utility;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.DependencyInjection.Attribute;
 
 using System.Reflection;
@@ -19,7 +19,7 @@ namespace Petecat.DependencyInjection
         {
             var typeDefinitions = new ITypeDefinition[0];
 
-            foreach (var type in Assembly.GetTypes().Where(x => x.IsClass))
+            foreach (var type in Assembly.GetTypes().Subset(x => x.IsClass))
             {
                 DependencyInjectableAttribute attribute;
                 if (Reflector.TryGetCustomAttribute(type, x => x.GetType().Equals(typeof(DependencyInjectableAttribute)), out attribute))

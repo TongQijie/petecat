@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.Collection;
 
 namespace Petecat.Data.Formatters.Internal.Json

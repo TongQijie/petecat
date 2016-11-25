@@ -4,7 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 
 using Petecat.Caching;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.Data.Formatters;
 using Petecat.Data.Configuration;
 

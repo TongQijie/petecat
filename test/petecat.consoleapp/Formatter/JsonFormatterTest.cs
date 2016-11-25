@@ -1,5 +1,5 @@
 ﻿using Petecat.Formatter;
-using Petecat.Extension;
+using Petecat.Extending;
 
 namespace Petecat.ConsoleApp.Formatter
 {

@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.Formatter;
 using System.Diagnostics;
 using System.IO;

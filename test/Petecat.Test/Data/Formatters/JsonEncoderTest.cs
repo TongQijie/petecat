@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Petecat.Data.Formatters.Internal.Json;
-using Petecat.Extension;
+using Petecat.Extending;
 
 namespace Petecat.Test.Data.Formatters
 {

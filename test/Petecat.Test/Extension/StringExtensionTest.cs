@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Petecat.Extension;
+using Petecat.Extending;
 using System;
 using System.IO;
 

@@ -1,7 +1,7 @@
 ﻿using Petecat.Configuring;
 using Petecat.Formatter;
 using Petecat.DependencyInjection;
-using Petecat.Extension;
+using Petecat.Extending;
 using System.Text;
 namespace Petecat.ConsoleApp.Configuring
 {

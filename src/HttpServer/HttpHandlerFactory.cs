@@ -2,7 +2,7 @@
 using System.Web;
 
 using Petecat.Logging;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.DependencyInjection;
 
 namespace Petecat.HttpServer

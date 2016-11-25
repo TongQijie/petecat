@@ -2,7 +2,7 @@
 using System.Text.RegularExpressions;
 
 using Petecat.Utility;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.Configuring.Attribute;
 
 namespace Petecat.Configuring

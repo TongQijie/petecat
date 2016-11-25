@@ -1,18 +1,20 @@
-﻿namespace Petecat.Terminal
+﻿using Petecat.Extending;
+
+namespace Petecat.Terminal
 {
     public static class TerminalManager
     {
         public static T ReadLine<T>()
         {
-            return Utility.Converter.Assignable<T>(System.Console.ReadLine().Trim());
+            return System.Console.ReadLine().Trim().ConvertTo<T>();
         }
 
         public static T ReadLine<T>(T defaultValue)
         {
-            T value;
-            if (Utility.Converter.TryBeAssignable<T>(System.Console.ReadLine().Trim(), out value))
+            object value;
+            if (System.Console.ReadLine().Trim().Convertible<T>(out value))
             {
-                return value;
+                return (T)value;
             }
             else
             {

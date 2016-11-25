@@ -1,5 +1,5 @@
 ﻿using Petecat.Caching;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.Configuring;
 using Petecat.DependencyInjection.Configuration;
 

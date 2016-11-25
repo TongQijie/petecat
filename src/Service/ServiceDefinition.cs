@@ -2,7 +2,7 @@
 
 using Petecat.IoC;
 using Petecat.Utility;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.Collection;
 
 namespace Petecat.Service

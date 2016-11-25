@@ -1,4 +1,6 @@
 ﻿using Petecat.Utility;
+using Petecat.Extending;
+
 using System.Reflection;
 
 namespace Petecat.IoC
@@ -19,7 +21,7 @@ namespace Petecat.IoC
             var propertyInfo = Info as PropertyInfo;
 
             object typeChangedValue;
-            if (Converter.TryBeAssignable(value, propertyInfo.PropertyType, out typeChangedValue))
+            if (value.Convertible(propertyInfo.PropertyType, out typeChangedValue))
             {
                 propertyInfo.SetValue(instance, typeChangedValue, null);
             }

@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 
 using Petecat.Utility;
-using Petecat.Extension;
+using Petecat.Extending;
 
 namespace Petecat.Formatter
 {
@@ -32,7 +32,7 @@ namespace Petecat.Formatter
 
         public virtual object ReadObject(Type targetType, byte[] byteValues, int offset, int count)
         {
-            using (var inputStream = new MemoryStream(byteValues.SubArray(offset, count)))
+            using (var inputStream = new MemoryStream(byteValues.Subset(offset, count)))
             {
                 return ReadObject(targetType, inputStream);
             }
@@ -40,22 +40,22 @@ namespace Petecat.Formatter
 
         public virtual T ReadObject<T>(Stream stream)
         {
-            return Converter.Assignable<T>(ReadObject(typeof(T), stream));
+            return ReadObject(typeof(T), stream).ConvertTo<T>();
         }
 
         public virtual T ReadObject<T>(string path)
         {
-            return Converter.Assignable<T>(ReadObject(typeof(T), path));
+            return ReadObject(typeof(T), path).ConvertTo<T>();
         }
 
         public virtual T ReadObject<T>(string stringValue, Encoding encoding)
         {
-            return Converter.Assignable<T>(ReadObject(typeof(T), stringValue, encoding));
+            return ReadObject(typeof(T), stringValue, encoding).ConvertTo<T>();
         }
 
         public virtual T ReadObject<T>(byte[] byteValues, int offset, int count)
         {
-            return Converter.Assignable<T>(ReadObject(typeof(T), byteValues, offset, count));
+            return ReadObject(typeof(T), byteValues, offset, count).ConvertTo<T>();
         }
 
         public virtual void WriteObject(object instance, Stream stream)

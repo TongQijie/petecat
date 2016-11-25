@@ -1,4 +1,4 @@
-﻿using Petecat.Extension;
+﻿using Petecat.Extending;
 
 namespace Petecat.DependencyInjection.Containers
 {

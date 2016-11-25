@@ -1,5 +1,5 @@
 ﻿using Petecat.Configuring;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.DependencyInjection;
 using Petecat.Network.Http.Configuration;
 using Petecat.DependencyInjection.Attribute;

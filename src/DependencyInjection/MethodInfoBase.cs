@@ -1,7 +1,7 @@
 ﻿using System;
 
 using Petecat.Utility;
-using Petecat.Extension;
+using Petecat.Extending;
 
 namespace Petecat.DependencyInjection
 {
@@ -36,12 +36,14 @@ namespace Petecat.DependencyInjection
                 }
 
                 object o;
-                if (!Converter.TryBeAssignable(parameterValues[i], parameterInfo.TypeDefinition.Info as Type, out o))
+                if (parameterValues[i].Convertible(parameterInfo.TypeDefinition.Info as Type, out o))
+                {
+		            result[i] = o;
+                }
+                else
                 {
                     return false;
                 }
-
-                result[i] = o;
             }
 
             return true;

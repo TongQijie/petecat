@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 using Petecat.Data.Access;
-using Petecat.Extension;
+using Petecat.Extending;
 using System.Data;
 using System.Text.RegularExpressions;
 

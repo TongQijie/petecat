@@ -2,7 +2,7 @@
 using System.IO;
 using System.Text;
 
-using Petecat.Extension;
+using Petecat.Extending;
 
 namespace Petecat.Archiving
 {

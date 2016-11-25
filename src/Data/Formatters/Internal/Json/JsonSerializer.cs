@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using Petecat.Utility;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.Collection;
 using Petecat.Data.Attributes;
 
@@ -288,7 +288,7 @@ namespace Petecat.Data.Formatters.Internal.Json
             }
             else if (typeof(IList).IsAssignableFrom(targetType))
             {
-                var elementType = targetType.GetGenericArguments().FirstOrDefault() ?? typeof(object);
+                var elementType = targetType.GetGenericArguments().Length == 0 ? typeof(object) : targetType.GetGenericArguments()[0];
                 var collection = Activator.CreateInstance(targetType) as IList;
                 for (int i = 0; i < collectionObject.Elements.Length; i++)
                 {
@@ -323,7 +323,7 @@ namespace Petecat.Data.Formatters.Internal.Json
             }
             else
             {
-                return Converter.Assignable(plainValueObject.ToString(), targetType);
+                return plainValueObject.ToString().ConvertTo(targetType);
             }
         }
 
@@ -346,7 +346,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                 var runtimeType = GetRuntimeType(Type);
                 if (runtimeType == RuntimeType.Object)
                 {
-                    foreach (var propertyInfo in Type.GetProperties().Where(x => x.CanRead && x.CanWrite))
+                    foreach (var propertyInfo in Type.GetProperties().Subset(x => x.CanRead && x.CanWrite))
                     {
                         var attribute = Reflector.GetCustomAttribute<JsonPropertyAttribute>(propertyInfo);
                         _JsonProperties.Add(new JsonProperty(propertyInfo, attribute == null ? null : attribute.Alias));

@@ -2,7 +2,7 @@
 
 using Petecat.Data.Configuration;
 using Petecat.Data.Access;
-using Petecat.Extension;
+using Petecat.Extending;
 
 using System.Linq;
 using System;

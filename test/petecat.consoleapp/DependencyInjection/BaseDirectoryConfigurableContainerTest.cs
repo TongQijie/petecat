@@ -1,7 +1,7 @@
 ﻿using Petecat.DependencyInjection;
 using Petecat.DependencyInjection.Containers;
 
-using Petecat.Extension;
+using Petecat.Extending;
 
 namespace Petecat.ConsoleApp.DependencyInjection
 {

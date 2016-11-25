@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Linq;
 
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.Utility;
 
 namespace Petecat.IoC
@@ -85,7 +85,7 @@ namespace Petecat.IoC
                 }
 
                 object typeChangedValue;
-                if (Converter.TryBeAssignable(argument.ArgumentValue, parameterInfo.ParameterType, out typeChangedValue))
+                if (argument.ArgumentValue.Convertible(parameterInfo.ParameterType, out typeChangedValue))
                 {
                     argumentValues = argumentValues.Append(typeChangedValue);
                 }

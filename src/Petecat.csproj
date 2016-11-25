@@ -218,12 +218,10 @@
     <Compile Include="EntityFramework\Internal\EntityDataSourceBase.cs" />
     <Compile Include="EntityFramework\Internal\IEntityDataSource.cs" />
     <Compile Include="EntityFramework\Internal\SimpleValuePropertyInfo.cs" />
-    <Compile Include="Extension\ArrayExtension.cs" />
-    <Compile Include="Extension\Attributes\EnumValueAttribute.cs" />
-    <Compile Include="Extension\ByteArrayExtension.cs" />
-    <Compile Include="Extension\ObjectExtension.cs" />
-    <Compile Include="Extension\StringExtension.cs" />
-    <Compile Include="Extension\TypeExtension.cs" />
+    <Compile Include="Extending\ArrayExtension.cs" />
+    <Compile Include="Extending\ObjectExtension.cs" />
+    <Compile Include="Extending\StringExtension.cs" />
+    <Compile Include="Extending\TypeExtension.cs" />
     <Compile Include="Formatter\Attribute\JsonIngoreAttribute.cs" />
     <Compile Include="Formatter\Attribute\JsonObjectAttribute.cs" />
     <Compile Include="Formatter\Attribute\JsonPropertyAttribute.cs" />
@@ -421,7 +419,6 @@
     <Compile Include="Utility\Errors\ConvertFailedException.cs" />
     <Compile Include="Utility\HashCalculator.cs" />
     <Compile Include="Utility\Reflector.cs" />
-    <Compile Include="Utility\Converter.cs" />
     <Compile Include="IO\BufferedStream.cs" />
     <Compile Include="IO\IStream.cs" />
   </ItemGroup>

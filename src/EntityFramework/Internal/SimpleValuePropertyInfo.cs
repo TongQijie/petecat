@@ -1,7 +1,7 @@
 ﻿using Petecat.EntityFramework.Attribute;
 using System.Reflection;
 
-using Petecat.Extension;
+using Petecat.Extending;
 
 namespace Petecat.EntityFramework.Internal
 {

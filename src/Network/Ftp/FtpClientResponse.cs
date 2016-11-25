@@ -3,7 +3,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-using Petecat.Extension;
+using Petecat.Extending;
 
 namespace Petecat.Network.Ftp
 {

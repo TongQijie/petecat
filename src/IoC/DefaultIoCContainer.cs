@@ -8,7 +8,7 @@ using System.Reflection;
 using Petecat.Collection;
 using Petecat.Utility;
 using Petecat.Data.Formatters;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.IoC.Configuration;
 
 namespace Petecat.IoC

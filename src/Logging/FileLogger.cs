@@ -1,4 +1,4 @@
-﻿using Petecat.Extension;
+﻿using Petecat.Extending;
 using Petecat.Threading;
 using Petecat.DependencyInjection.Attribute;
 
@@ -56,7 +56,7 @@ namespace Petecat.Logging
                                     }
                                 }
 
-                                ThreadBridging.Sleep(1000);
+                                ThreadBridging.Sleep(3000);
                             }
                         }).Start();
 
@@ -109,7 +109,7 @@ namespace Petecat.Logging
                 stringBuilder.AppendLine();
                 if (Parameters != null)
                 {
-                    foreach (var parameter in Parameters.Where(x => x != null))
+                    foreach (var parameter in Parameters.Subset(x => x != null))
                     {
                         if (parameter is Exception)
                         {

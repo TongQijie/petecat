@@ -1,4 +1,4 @@
-﻿using Petecat.Extension;
+﻿using Petecat.Extending;
 using Petecat.Collection;
 
 using System.Reflection;

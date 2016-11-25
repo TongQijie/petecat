@@ -1,6 +1,6 @@
 ﻿using System;
 
-using Petecat.Extension;
+using Petecat.Extending;
 
 namespace Petecat.EntityFramework.Internal
 {

@@ -1,5 +1,5 @@
 ﻿using Petecat.Console;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.Data.Formatters;
 
 using System;
@@ -119,14 +119,14 @@ namespace Formatter
                 Array.Copy(buffer, subArray, count);
 
                 var startIndex = 0;
-                while ((startIndex = subArray.IndexOfEx<byte>(oldBytes, 0, count)) >= 0)
+                while ((startIndex = IndexOfEx<byte>(subArray, oldBytes, 0, count)) >= 0)
                 {
                     outputStream.Write(subArray, 0, startIndex);
                     outputStream.Write(newBytes, 0, newBytes.Length);
 
                     count = count - startIndex - oldBytes.Length;
                     startIndex += oldBytes.Length;
-                    subArray = subArray.SubArray(startIndex);
+                    subArray = subArray.Subset(startIndex);
                 }
 
                 if (count > 0)
@@ -147,14 +147,14 @@ namespace Formatter
 
                 var startIndex = 0;
                 int index;
-                while ((startIndex = subArray.IndexOfEx<byte>(oldBytesSet, 0, count, out index)) >= 0)
+                while ((startIndex = IndexOfEx<byte>(subArray, oldBytesSet, 0, count, out index)) >= 0)
                 {
                     outputStream.Write(subArray, 0, startIndex);
                     outputStream.Write(newBytesSet[index], 0, newBytesSet[index].Length);
 
                     count = count - startIndex - oldBytesSet[index].Length;
                     startIndex += oldBytesSet[index].Length;
-                    subArray = subArray.SubArray(startIndex);
+                    subArray = subArray.Subset(startIndex);
                 }
 
                 if (count > 0)
@@ -162,6 +162,59 @@ namespace Formatter
                     outputStream.Write(subArray, 0, count);
                 }
             }
+        }
+
+        static int IndexOfEx<T>(T[] data, T[] findBytes, int startIndex, int count)
+        {
+            for (int i = startIndex; i < data.Length && i < (startIndex + count); i++)
+            {
+                var k = i;
+                var foundBytes = true;
+                for (int j = 0; j < findBytes.Length && k < data.Length && k < (startIndex + count); j++, k++)
+                {
+                    if (!data[k].Equals(findBytes[j]))
+                    {
+                        foundBytes = false;
+                        break;
+                    }
+                }
+
+                if (foundBytes)
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        static int IndexOfEx<T>(T[] data, T[][] findBytesSet, int startIndex, int count, out int index)
+        {
+            for (int i = startIndex; i < data.Length && i < (startIndex + count); i++)
+            {
+                for (int h = 0; h < findBytesSet.Length; h++)
+                {
+                    var foundBytes = true;
+                    var k = i;
+                    for (int j = 0; j < findBytesSet[h].Length && k < data.Length && k < (startIndex + count); j++, k++)
+                    {
+                        if (!data[k].Equals(findBytesSet[h][j]))
+                        {
+                            foundBytes = false;
+                            break;
+                        }
+                    }
+
+                    if (foundBytes)
+                    {
+                        index = h;
+                        return i;
+                    }
+                }
+            }
+
+            index = -1;
+            return -1;
         }
     }
 }

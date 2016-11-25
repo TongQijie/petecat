@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Text;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.Formatter;
 using Petecat.DependencyInjection;
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 
-using Petecat.Extension;
+using Petecat.Extending;
 
 namespace Petecat.DependencyInjection
 {

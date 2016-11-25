@@ -1,6 +1,6 @@
 ﻿using Petecat.Utility;
 using Petecat.Formatter;
-using Petecat.Extension;
+using Petecat.Extending;
 using Petecat.Formatter.Json;
 using Petecat.DependencyInjection.Configuration;
 
@@ -190,15 +190,7 @@ namespace Petecat.DependencyInjection
                 }
                 else
                 {
-                    object value;
-                    if (Converter.TryBeAssignable(stringValue, targetType, out value))
-                    {
-                        return value;
-                    }
-                    else
-                    {
-                        throw new Exception("");
-                    }
+                    return stringValue.ConvertTo(targetType);
                 }
             }
             else
