@@ -100,5 +100,12 @@ namespace Petecat.Extending
 
             return false;
         }
+
+        public static bool EqualsWith(this object obj, object another)
+        {
+            return (obj == null && another == null)
+                || (obj != null && obj.Equals(another))
+                || (another != null && another.Equals(obj));
+        }
     }
 }

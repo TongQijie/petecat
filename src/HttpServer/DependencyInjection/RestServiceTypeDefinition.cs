@@ -17,6 +17,7 @@ namespace Petecat.HttpServer.DependencyInjection
             {
                 Inference = attribute.Inference;
                 Singleton = attribute.Singleton;
+                Priority = attribute.Priority;
             }
             AssemblyInfo = new RestServiceAssemblyInfo(type.Assembly);
             ServiceName = serviceName;

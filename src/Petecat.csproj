@@ -414,7 +414,6 @@
     <Compile Include="Threading\Watcher\FileWatcher.cs" />
     <Compile Include="Threading\Watcher\FolderWatcher.cs" />
     <Compile Include="Threading\Watcher\FolderWatcherManager.cs" />
-    <Compile Include="Utility\Comparator.cs" />
     <Compile Include="Utility\CompressUtility.cs" />
     <Compile Include="Utility\Errors\ConvertFailedException.cs" />
     <Compile Include="Utility\HashCalculator.cs" />

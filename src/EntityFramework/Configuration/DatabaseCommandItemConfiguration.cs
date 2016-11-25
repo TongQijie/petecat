@@ -1,5 +1,6 @@
-﻿using Petecat.Formatter.Attribute;
-using System.Data;
+﻿using System.Data;
+
+using Petecat.Formatter.Attribute;
 
 namespace Petecat.EntityFramework.Configuration
 {

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Text;
-
-using Petecat.Utility;
 using Petecat.Extending;
 
 namespace Petecat.Data.Formatters

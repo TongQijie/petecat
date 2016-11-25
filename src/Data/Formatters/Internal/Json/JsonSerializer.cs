@@ -66,7 +66,7 @@ namespace Petecat.Data.Formatters.Internal.Json
                 foreach (var property in JsonProperties)
                 {
                     var propertyValue = property.PropertyInfo.GetValue(instance, null);
-                    if (omitDefaultValueProperty && Comparator.Equal(property.DefaultValue, propertyValue))
+                    if (omitDefaultValueProperty && property.DefaultValue.EqualsWith(propertyValue))
                     {
                         continue;
                     }

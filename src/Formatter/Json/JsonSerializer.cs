@@ -120,7 +120,7 @@ namespace Petecat.Formatter.Json
                 foreach (var jsonProperty in JsonProperties.Values.ToArray())
                 {
                     var propertyValue = jsonProperty.PropertyInfo.GetValue(instance, null);
-                    if (omitDefaultValueProperty && Comparator.Equal(jsonProperty.DefaultValue, propertyValue))
+                    if (omitDefaultValueProperty && jsonProperty.DefaultValue.EqualsWith(propertyValue))
                     {
                         continue;
                     }

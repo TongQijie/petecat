@@ -1,8 +1,8 @@
-﻿using Petecat.DependencyInjection;
+﻿using Petecat.Logging;
+using Petecat.DependencyInjection;
 using Petecat.HttpServer.DependencyInjection;
-using Petecat.Logging;
+
 using System;
-using System.Collections.Generic;
 using System.Web;
 
 namespace Petecat.HttpServer

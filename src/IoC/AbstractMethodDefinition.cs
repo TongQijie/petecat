@@ -4,7 +4,6 @@ using System.Reflection;
 using System.Linq;
 
 using Petecat.Extending;
-using Petecat.Utility;
 
 namespace Petecat.IoC
 {
