@@ -2,16 +2,19 @@
 using Petecat.Formatter.Attribute;
 using Petecat.Configuring.Attribute;
 
+using System.Xml.Serialization;
+
 namespace Petecat.EntityFramework.Configuration
 {
     [StaticFileConfigElement(Inference = typeof(IDatabaseCommandConfiguration),
         Key = "Global_DatabaseCommandConfiguration",
-        Path = "./configuration/databaseCommand_*.json",
+        Path = "./configuration/databaseCommands_*.xml",
         FileFormat = "xml",
         IsMultipleFiles = true)]
-    public class DatabaseCommandConfiguration : StaticFileConfigInstanceBase, IDatabaseCommandConfiguration
+    [XmlRoot(ElementName = "databaseCommands")]
+    public class DatabaseCommandConfiguration : IDatabaseCommandConfiguration
     {
-        [JsonProperty(Alias = "commands")]
+        [XmlElement(ElementName = "command")]
         public DatabaseCommandItemConfiguration[] Commands { get; set; }
     }
 }

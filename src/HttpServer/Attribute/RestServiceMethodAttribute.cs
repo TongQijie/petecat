@@ -8,5 +8,7 @@
         public string MethodName { get; set; }
 
         public bool IsDefault { get; set; }
+
+        public RestServiceDataFormat DataFormat { get; set; }
     }
 }

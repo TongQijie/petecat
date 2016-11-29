@@ -9,7 +9,7 @@ namespace Petecat.HttpServer.Configuration
         Path = "./Configuration/application.json",
         FileFormat = "json",
         Inference = typeof(IHttpApplicationConfiguration))]
-    public class HttpApplicationConfiguration : StaticFileConfigInstanceBase, IHttpApplicationConfiguration
+    public class HttpApplicationConfiguration : IHttpApplicationConfiguration
     {
         [JsonProperty(Alias = "routing")]
         public KeyValueConfigurationItem[] HttpApplicationRoutingConfiguration { get; set; }

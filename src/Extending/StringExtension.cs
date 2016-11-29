@@ -73,6 +73,28 @@ namespace Petecat.Extending
             }
         }
 
+        public static string Folder(this string stringValue)
+        {
+            var fields = stringValue.Replace('\\', '/').SplitByChar('/');
+            if (fields.Length <= 1)
+            {
+                return null;
+            }
+
+            return string.Join("/", fields.Subset(0, fields.Length - 1));
+        }
+
+        public static string Name(this string stringValue)
+        {
+            var fields = stringValue.Replace('\\', '/').SplitByChar('/');
+            if (fields.Length == 0)
+            {
+                return null;
+            }
+
+            return fields[fields.Length - 1];
+        }
+
         public static string[] SplitByChar(this string stringValue, char seperator)
         {
             if (stringValue == null)

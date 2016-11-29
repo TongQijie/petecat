@@ -1,11 +1,17 @@
 ﻿using Petecat.Caching;
 using Petecat.Monitor;
+using Petecat.Utility;
+using Petecat.Extending;
 using Petecat.Caching.Delegates;
 using Petecat.DependencyInjection;
+using Petecat.Configuring.Attribute;
 using Petecat.DependencyInjection.Attribute;
 
 using System;
+using System.IO;
 using System.Linq;
+using System.Collections.Concurrent;
+using System.Text.RegularExpressions;
 
 namespace Petecat.Configuring
 {
@@ -84,43 +90,72 @@ namespace Petecat.Configuring
             return Container.Get(key).GetValue();
         }
 
-        public T GetValue<T>(string key)
+        public T GetValue<T>()
         {
-            EnsureExists(key, typeof(T));
+            EnsureExists(typeof(T));
 
-            return (T)Container.Get(key).GetValue();
+            string key;
+            if (CachedConfigurationTypes.TryGetValue(typeof(T), out key))
+            {
+                return (T)Container.Get(key).GetValue();
+            }
+
+            return default(T);
         }
 
         public T[] GetValues<T>(string key)
         {
-            EnsureExists(key, typeof(T));
+            EnsureExists(typeof(T));
 
             return Container.Get(x => x.StartsWith(key)).Select(x => (T)x.GetValue()).ToArray();
         }
 
-        private void EnsureExists(string key, Type configurationType)
+        private ConcurrentDictionary<Type, string> CachedConfigurationTypes = new ConcurrentDictionary<Type, string>();
+
+        private void EnsureExists(Type configurationType)
         {
-            // load from DI container
-            var obj = DependencyInjector.GetObject(configurationType) as IStaticFileConfigInstance;
+            if (CachedConfigurationTypes.ContainsKey(configurationType))
+            {
+                return;
+            }
+
+            var obj = DependencyInjector.GetObject(configurationType);
             if (obj == null)
             {
                 // TODO: throw
             }
 
-            if (obj.IsMultipleFiles)
+            StaticFileConfigElementAttribute attribute;
+            if (!Reflector.TryGetCustomAttribute(obj.GetType(), null, out attribute))
             {
-                if (!Container.Contains(x => x.StartsWith(key)))
+                throw new Exception(string.Format("type '{0}' is not specified by StaticFileConfigElementAttribute.", obj.GetType()));
+            }
+
+            if (attribute.IsMultipleFiles)
+            {
+                var fullPath = attribute.Path.FullPath();
+
+                var directory = fullPath.Folder();
+                if (directory == null || !directory.IsFolder())
                 {
-                    obj.Append(this);
+                    // TODO: throw
+                }
+
+                var name = fullPath.Name().Replace("*", "\\S*");
+                foreach (var fileInfo in new DirectoryInfo(directory).GetFiles())
+                {
+                    if (Regex.IsMatch(fileInfo.Name, name, RegexOptions.IgnoreCase))
+                    {
+                        Append(attribute.Key + "_" + fileInfo.Name, fullPath, attribute.FileFormat, obj.GetType());
+                    }
                 }
             }
             else
             {
-                if (!Container.Contains(key))
-                {
-                    obj.Append(this);
-                }
+                Append(attribute.Key, attribute.Path.FullPath(), attribute.FileFormat, obj.GetType());
             }
+
+            CachedConfigurationTypes.TryAdd(configurationType, attribute.Key);
         }
 
         public bool ContainsKey(string key)

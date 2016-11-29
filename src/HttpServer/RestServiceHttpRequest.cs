@@ -33,20 +33,35 @@ namespace Petecat.HttpServer
             return parameters;
         }
 
-        public object ReadInputStream(Type targetType)
+        public object ReadInputStream(Type targetType, RestServiceDataFormat dataFormat)
         {
             var inputStream = Request.InputStream;
             inputStream.Seek(0, SeekOrigin.Begin);
 
-            return DependencyInjector.GetObject<IJsonFormatter>().ReadObject(targetType, inputStream);
+            if (dataFormat == RestServiceDataFormat.Json)
+            {
+                return DependencyInjector.GetObject<IJsonFormatter>().ReadObject(targetType, inputStream);
+            }
+            else if (dataFormat == RestServiceDataFormat.Xml)
+            {
+                return DependencyInjector.GetObject<IXmlFormatter>().ReadObject(targetType, inputStream);
+            }
+            else
+            {
+                if (Request.ContentType.Contains("application/xml"))
+                {
+                    return DependencyInjector.GetObject<IXmlFormatter>().ReadObject(targetType, inputStream);
+                }
+                else
+                {
+                    return DependencyInjector.GetObject<IJsonFormatter>().ReadObject(targetType, inputStream);
+                }
+            }
         }
 
-        public object ReadInputStream<T>()
+        public T ReadInputStream<T>(RestServiceDataFormat dataFormat)
         {
-            var inputStream = Request.InputStream;
-            inputStream.Seek(0, SeekOrigin.Begin);
-
-            return DependencyInjector.GetObject<IJsonFormatter>().ReadObject<T>(inputStream);
+            return (T)ReadInputStream(typeof(T), dataFormat);
         }
 
         private Dictionary<string, string> _Headers = null;

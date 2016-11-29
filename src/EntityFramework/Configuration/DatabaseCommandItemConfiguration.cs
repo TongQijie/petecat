@@ -1,27 +1,29 @@
 ﻿using System.Data;
 
 using Petecat.Formatter.Attribute;
+using System.Xml.Serialization;
 
 namespace Petecat.EntityFramework.Configuration
 {
     public class DatabaseCommandItemConfiguration
     {
-        [JsonProperty(Alias = "name")]
+        [XmlAttribute(AttributeName = "name")]
         public string Name { get; set; }
 
-        [JsonProperty(Alias = "commandText")]
-        public string CommandText { get; set; }
-
-        [JsonProperty(Alias = "parameters")]
-        public DatabaseCommandParameterConfiguration[] Parameters { get; set; }
-
-        [JsonProperty(Alias = "database")]
+        [XmlAttribute(AttributeName = "database")]
         public string Database { get; set; }
 
-        [JsonProperty(Alias = "commandType")]
+        [XmlAttribute(AttributeName = "commandType")]
         public CommandType CommandType { get; set; }
 
-        [JsonProperty(Alias = "timeout")]
+        [XmlAttribute(AttributeName = "timeout")]
         public int TimeOut { get; set; }
+
+        [XmlElement(ElementName = "commandText")]
+        public string CommandText { get; set; }
+
+        [XmlArray(ElementName = "params")]
+        [XmlArrayItem(ElementName = "param")]
+        public DatabaseCommandParameterConfiguration[] Parameters { get; set; }
     }
 }

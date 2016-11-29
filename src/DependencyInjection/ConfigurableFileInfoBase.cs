@@ -27,7 +27,7 @@ namespace Petecat.DependencyInjection
         {
             _InstanceInfos = new IInstanceInfo[0];
 
-            var container = DependencyInjector.GetObject<IStaticFileConfigurer>().GetValue<ConfigurableContainerConfiguration>(Path);
+            var container = DependencyInjector.GetObject<IStaticFileConfigurer>().GetValue(Path) as ConfigurableContainerConfiguration;
             if (container == null)
             {
                 // TODO: throw

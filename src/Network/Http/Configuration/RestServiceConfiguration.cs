@@ -9,7 +9,7 @@ namespace Petecat.Network.Http.Configuration
         Path = "./configuration/restservice.json",
         FileFormat = "json",
         Inference = typeof(IRestServiceConfiguration))]
-    public class RestServiceConfiguration : StaticFileConfigInstanceBase, IRestServiceConfiguration
+    public class RestServiceConfiguration : IRestServiceConfiguration
     {
         [JsonProperty(Alias = "resources")]
         public RestServiceResourceConfiguration[] ResourceConfiguration { get; set; }

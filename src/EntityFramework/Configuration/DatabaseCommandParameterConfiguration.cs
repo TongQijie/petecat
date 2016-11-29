@@ -1,20 +1,21 @@
 ﻿using Petecat.Formatter.Attribute;
 using System.Data;
+using System.Xml.Serialization;
 
 namespace Petecat.EntityFramework.Configuration
 {
     public class DatabaseCommandParameterConfiguration
     {
-        [JsonProperty(Alias = "name")]
+        [XmlAttribute(AttributeName = "name")]
         public string Name { get; set; }
 
-        [JsonProperty(Alias = "type")]
+        [XmlAttribute(AttributeName = "type")]
         public DbType DbType { get; set; }
 
-        [JsonProperty(Alias = "direction")]
+        [XmlAttribute(AttributeName = "direction")]
         public ParameterDirection Direction { get; set; }
 
-        [JsonProperty(Alias = "size")]
+        [XmlAttribute(AttributeName = "size")]
         public int Size { get; set; }
     }
 }

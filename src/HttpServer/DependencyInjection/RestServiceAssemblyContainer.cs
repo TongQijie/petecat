@@ -30,9 +30,9 @@ namespace Petecat.HttpServer.DependencyInjection
                         {
                             RegisterAssembly(new RestServiceAssemblyInfo(Assembly.LoadFile(fileInfo.FullName)));
                         }
-                        catch (Exception e)
+                        catch (Exception)
                         {
-                            // TODO: throw
+                            throw;
                         }
                     }
                 }
@@ -118,7 +118,7 @@ namespace Petecat.HttpServer.DependencyInjection
                     throw new Exception(string.Format("method '{0}' must have one parameter.", methodInfo.MethodName));
                 }
 
-                return methodInfo.Invoke(obj, request.ReadInputStream(methodInfo.ParameterInfos[0].TypeDefinition.Info as Type));
+                return methodInfo.Invoke(obj, request.ReadInputStream(methodInfo.ParameterInfos[0].TypeDefinition.Info as Type, methodInfo.DataFormat));
             }
         }
     }

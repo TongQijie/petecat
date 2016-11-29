@@ -1,16 +1,18 @@
 ﻿using Petecat.Configuring;
 using Petecat.Formatter.Attribute;
 using Petecat.Configuring.Attribute;
+using System.Xml.Serialization;
 
 namespace Petecat.EntityFramework.Configuration
 {
     [StaticFileConfigElement(Inference = typeof(IDatabaseConfiguration),
         Key = "Global_DatabaseConfiguration",
-        Path = "./configuration/database.json",
-        FileFormat = "json")]
-    public class DatabaseConfiguration : StaticFileConfigInstanceBase, IDatabaseConfiguration
+        Path = "./configuration/database.xml",
+        FileFormat = "xml")]
+    [XmlRoot(ElementName = "databases")]
+    public class DatabaseConfiguration : IDatabaseConfiguration
     {
-        [JsonProperty(Alias = "databases")]
+        [XmlElement(ElementName = "database")]
         public DatabaseItemConfiguration[] Databases { get; set; }
     }
 }

@@ -45,7 +45,8 @@ namespace Petecat.HttpServer.DependencyInjection
                             this, 
                             methodInfo, 
                             attribute.MethodName.HasValue() ? attribute.MethodName : methodInfo.Name,
-                            attribute.IsDefault));
+                            attribute.IsDefault,
+                            attribute.DataFormat));
                     }
 
                     _InstanceMethods = instanceMethods;

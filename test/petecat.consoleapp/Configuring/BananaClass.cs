@@ -6,10 +6,10 @@ namespace Petecat.ConsoleApp.Configuring
 {
     [StaticFileConfigElement(
         Key = "banana", 
-        Path = "./banana.json", 
+        Path = "./configuring/banana.json", 
         FileFormat = "json", 
         Inference = typeof(IBananaInterface))]
-    public class BananaClass : StaticFileConfigInstanceBase, IBananaInterface
+    public class BananaClass : IBananaInterface
     {
         [JsonProperty(Alias = "name")]
         public string Name { get; set; }

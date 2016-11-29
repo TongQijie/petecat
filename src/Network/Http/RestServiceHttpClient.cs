@@ -12,7 +12,12 @@ namespace Petecat.Network.Http
     [DependencyInjectable(Inference = typeof(IRestServiceHttpClient), Singleton = true)]
     public class RestServiceHttpClient : IRestServiceHttpClient
     {
-        private const string CacheKey = "Global_RestServiceConfiguration";
+        private IStaticFileConfigurer _StaticFileConfigurer;
+
+        public RestServiceHttpClient(IStaticFileConfigurer staticFileConfigurer)
+        {
+            _StaticFileConfigurer = staticFileConfigurer;
+        }
 
         public TResponse Call<TResponse>(string resourceName)
         {
@@ -61,7 +66,9 @@ namespace Petecat.Network.Http
             verb = HttpVerb.GET;
             host = null;
 
-            var restServiceConfiguration = DependencyInjector.GetObject<IStaticFileConfigurer>().GetValue<IRestServiceConfiguration>(CacheKey);
+            var configurer = _StaticFileConfigurer ?? DependencyInjector.GetObject<IStaticFileConfigurer>();
+
+            var restServiceConfiguration = configurer.GetValue<IRestServiceConfiguration>();
             if (restServiceConfiguration == null)
             {
                 return false;

@@ -1,16 +1,17 @@
 ﻿using Petecat.Formatter.Attribute;
+using System.Xml.Serialization;
 
 namespace Petecat.EntityFramework.Configuration
 {
     public class DatabaseItemConfiguration
     {
-        [JsonProperty(Alias = "name")]
+        [XmlAttribute(AttributeName = "database")]
         public string Name { get; set; }
 
-        [JsonProperty(Alias = "connectionString")]
+        [XmlAttribute(AttributeName = "connectionString")]
         public string ConnectionString { get; set; }
 
-        [JsonProperty(Alias = "provider")]
+        [XmlAttribute(AttributeName = "provider")]
         public string Provider { get; set; }
     }
 }

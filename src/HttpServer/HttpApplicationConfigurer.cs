@@ -11,8 +11,6 @@ namespace Petecat.HttpServer
     [DependencyInjectable(Inference = typeof(IHttpApplicationConfigurer), Singleton = true)]
     public class HttpApplicationConfigurer : IHttpApplicationConfigurer
     {
-        private const string CacheKey = "Global_HttpApplicationConfiguration";
-
         private IStaticFileConfigurer _StaticFileConfigurer = null;
 
         public HttpApplicationConfigurer(IStaticFileConfigurer staticFileConfigurer)
@@ -22,7 +20,7 @@ namespace Petecat.HttpServer
 
         public string GetStaticResourceMapping(string key)
         {
-            var httpApplicationConfiguration = _StaticFileConfigurer.GetValue<IHttpApplicationConfiguration>(CacheKey);
+            var httpApplicationConfiguration = _StaticFileConfigurer.GetValue<IHttpApplicationConfiguration>();
             if (httpApplicationConfiguration == null)
             {
                 return null;
@@ -45,7 +43,7 @@ namespace Petecat.HttpServer
 
         public string GetHttpApplicationRouting(string key)
         {
-            var httpApplicationConfiguration = _StaticFileConfigurer.GetValue<IHttpApplicationConfiguration>(CacheKey);
+            var httpApplicationConfiguration = _StaticFileConfigurer.GetValue<IHttpApplicationConfiguration>();
             if (httpApplicationConfiguration == null)
             {
                 return null;
@@ -68,7 +66,7 @@ namespace Petecat.HttpServer
 
         public string ApplyRewriteRule(string url)
         {
-            var httpApplicationConfiguration = _StaticFileConfigurer.GetValue<IHttpApplicationConfiguration>(CacheKey);
+            var httpApplicationConfiguration = _StaticFileConfigurer.GetValue<IHttpApplicationConfiguration>();
             if (httpApplicationConfiguration == null)
             {
                 return url;

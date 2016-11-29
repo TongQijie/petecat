@@ -40,9 +40,8 @@ namespace Petecat.Configuring
         /// gets configuration value
         /// </summary>
         /// <typeparam name="T">type of configuration value</typeparam>
-        /// <param name="key">configuration key</param>
         /// <returns>configuration value</returns>
-        T GetValue<T>(string key);
+        T GetValue<T>();
 
         /// <summary>
         /// Gets group configuration values
