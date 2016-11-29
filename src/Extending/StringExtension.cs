@@ -119,5 +119,10 @@ namespace Petecat.Extending
         {
             return Directory.Exists(stringValue);
         }
+
+        public static bool EqualsWith(this string stringValue, string another)
+        {
+            return string.Equals(stringValue, another, StringComparison.OrdinalIgnoreCase);
+        }
     }
 }

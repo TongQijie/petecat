@@ -2,6 +2,7 @@
 using Petecat.DependencyInjection;
 using Petecat.DependencyInjection.Attribute;
 using Petecat.EntityFramework.Configuration;
+using Petecat.Extending;
 using System;
 using System.Linq;
 
@@ -10,11 +11,16 @@ namespace Petecat.EntityFramework
     [DependencyInjectable(Inference = typeof(IEntityFrameworkConfigurer), Singleton = true)]
     public class EntityFrameworkConfigurer : IEntityFrameworkConfigurer
     {
-        private const string DatabaseCommandConfigurationCacheKey = "Global_DatabaseCommandConfiguration";
+        private IStaticFileConfigurer _StaticFileConfigurer;
+
+        public EntityFrameworkConfigurer(IStaticFileConfigurer staticFileConfigurer)
+        {
+            _StaticFileConfigurer = staticFileConfigurer;
+        }
 
         public DatabaseCommandItemConfiguration GetDatabaseCommandItem(string name)
         {
-            var configurations = DependencyInjector.GetObject<IStaticFileConfigurer>().GetValues<IDatabaseCommandConfiguration>(DatabaseCommandConfigurationCacheKey);
+            var configurations = _StaticFileConfigurer.GetValues<IDatabaseCommandConfiguration>();
             if (configurations == null || configurations.Length == 0)
             {
                 return null;
@@ -24,7 +30,7 @@ namespace Petecat.EntityFramework
             {
                 foreach (var command in configuration.Commands)
                 {
-                    if (string.Equals(command.Name, name, StringComparison.OrdinalIgnoreCase))
+                    if (command.Name.EqualsWith(name))
                     {
                         return command;
                     }
@@ -32,6 +38,17 @@ namespace Petecat.EntityFramework
             }
 
             return null;
+        }
+
+        public DatabaseItemConfiguration GetDatabaseItem(string name)
+        {
+            var configuration = _StaticFileConfigurer.GetValue<IDatabaseConfiguration>();
+            if (configuration == null || configuration.Databases.Length == 0)
+            {
+                return null;
+            }
+
+            return configuration.Databases.FirstOrDefault(x => x.EqualsWith(name));
         }
     }
 }

@@ -1,7 +1,6 @@
-﻿using Petecat.Configuring;
-using Petecat.Formatter.Attribute;
+﻿using System.Xml.Serialization;
+
 using Petecat.Configuring.Attribute;
-using System.Xml.Serialization;
 
 namespace Petecat.EntityFramework.Configuration
 {

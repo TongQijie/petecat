@@ -1,6 +1,4 @@
-﻿using Petecat.Configuring;
-using Petecat.Formatter.Attribute;
-using Petecat.Configuring.Attribute;
+﻿using Petecat.Configuring.Attribute;
 
 using System.Xml.Serialization;
 

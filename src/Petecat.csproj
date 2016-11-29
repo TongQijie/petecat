@@ -206,9 +206,13 @@
     <Compile Include="EntityFramework\Configuration\IDatabaseConfiguration.cs" />
     <Compile Include="EntityFramework\Database.cs" />
     <Compile Include="EntityFramework\DatabaseCommand.cs" />
+    <Compile Include="EntityFramework\DatabaseCommandProvider.cs" />
+    <Compile Include="EntityFramework\DatabaseProvider.cs" />
     <Compile Include="EntityFramework\EntityFrameworkConfigurer.cs" />
     <Compile Include="EntityFramework\IDatabase.cs" />
     <Compile Include="EntityFramework\IDatabaseCommand.cs" />
+    <Compile Include="EntityFramework\IDatabaseCommandProvider.cs" />
+    <Compile Include="EntityFramework\IDatabaseProvider.cs" />
     <Compile Include="EntityFramework\IEntityFrameworkConfigurer.cs" />
     <Compile Include="EntityFramework\Internal\CompositeValuePropertyInfo.cs" />
     <Compile Include="EntityFramework\Internal\DataReaderEntityDataSource.cs" />

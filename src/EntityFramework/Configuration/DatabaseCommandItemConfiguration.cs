@@ -1,6 +1,4 @@
 ﻿using System.Data;
-
-using Petecat.Formatter.Attribute;
 using System.Xml.Serialization;
 
 namespace Petecat.EntityFramework.Configuration
@@ -15,9 +13,6 @@ namespace Petecat.EntityFramework.Configuration
 
         [XmlAttribute(AttributeName = "commandType")]
         public CommandType CommandType { get; set; }
-
-        [XmlAttribute(AttributeName = "timeout")]
-        public int TimeOut { get; set; }
 
         [XmlElement(ElementName = "commandText")]
         public string CommandText { get; set; }

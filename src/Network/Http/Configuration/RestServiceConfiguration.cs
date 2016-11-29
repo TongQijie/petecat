@@ -1,5 +1,4 @@
-﻿using Petecat.Configuring;
-using Petecat.Configuring.Attribute;
+﻿using Petecat.Configuring.Attribute;
 using Petecat.Formatter.Attribute;
 
 namespace Petecat.Network.Http.Configuration

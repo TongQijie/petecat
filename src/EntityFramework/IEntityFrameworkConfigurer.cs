@@ -5,5 +5,7 @@ namespace Petecat.EntityFramework
     public interface IEntityFrameworkConfigurer
     {
         DatabaseCommandItemConfiguration GetDatabaseCommandItem(string name);
+
+        DatabaseItemConfiguration GetDatabaseItem(string name);
     }
 }

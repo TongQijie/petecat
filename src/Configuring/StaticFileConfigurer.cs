@@ -18,12 +18,15 @@ namespace Petecat.Configuring
     [DependencyInjectable(Inference = typeof(IStaticFileConfigurer), Singleton = true)]
     public class StaticFileConfigurer : IStaticFileConfigurer
     {
+        private IFileSystemMonitor _FileSystemMonitor;
+
         private ICacheContainer _Container = null;
 
         public ICacheContainer Container { get { return _Container ?? (_Container = new CacheContainerBase()); } }
 
-        public StaticFileConfigurer()
+        public StaticFileConfigurer(IFileSystemMonitor fileSystemMonitor)
         {
+            _FileSystemMonitor = fileSystemMonitor;
         }
 
         public void Append(string key, string path, string fileFormat, Type configurationType, 
@@ -52,7 +55,7 @@ namespace Petecat.Configuring
             Container.Add(item);
 
             // start file monitor
-            DependencyInjector.GetObject<IFileSystemMonitor>().Add(this, path, OnFileChanged, null, null, null);
+            _FileSystemMonitor.Add(this, path, OnFileChanged, null, null, null);
         }
 
         private void OnFileChanged(string path)
@@ -79,7 +82,7 @@ namespace Petecat.Configuring
             }
 
             // stop file monitor
-            DependencyInjector.GetObject<IFileSystemMonitor>().Remove(this, item.Path, OnFileChanged, null, null, null);
+            _FileSystemMonitor.Remove(this, item.Path, OnFileChanged, null, null, null);
 
             // remove CacheItem from container
             Container.Remove(key);
@@ -103,11 +106,17 @@ namespace Petecat.Configuring
             return default(T);
         }
 
-        public T[] GetValues<T>(string key)
+        public T[] GetValues<T>()
         {
             EnsureExists(typeof(T));
 
-            return Container.Get(x => x.StartsWith(key)).Select(x => (T)x.GetValue()).ToArray();
+            string key;
+            if (CachedConfigurationTypes.TryGetValue(typeof(T), out key))
+            {
+                return Container.Get(x => x.StartsWith(key)).Select(x => (T)x.GetValue()).ToArray();
+            }
+
+            return new T[0];
         }
 
         private ConcurrentDictionary<Type, string> CachedConfigurationTypes = new ConcurrentDictionary<Type, string>();

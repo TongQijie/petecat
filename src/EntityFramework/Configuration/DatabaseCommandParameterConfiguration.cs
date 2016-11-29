@@ -1,5 +1,4 @@
-﻿using Petecat.Formatter.Attribute;
-using System.Data;
+﻿using System.Data;
 using System.Xml.Serialization;
 
 namespace Petecat.EntityFramework.Configuration
