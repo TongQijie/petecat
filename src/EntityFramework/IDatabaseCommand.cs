@@ -6,7 +6,7 @@ namespace Petecat.EntityFramework
 {
     public interface IDatabaseCommand
     {
-        DbCommand GetDbCommand();
+        DbCommand DbCommand { get; }
 
         IDatabase Database { get; }
 

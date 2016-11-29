@@ -9,35 +9,23 @@ namespace Petecat.EntityFramework
 {
     public class DatabaseCommand : IDatabaseCommand
     {
-        private DbProviderFactory _DbProviderFactory = null;
-
-        private DbCommand _DbCommand = null;
+        public DbCommand DbCommand { get; private set; }
 
         public IDatabase Database { get; private set; }
 
-        public DatabaseCommand(DbProviderFactory dbProviderFactory, CommandType commandType, string commandText)
-        {
-            _DbProviderFactory = dbProviderFactory;
-            _DbCommand = dbProviderFactory.CreateCommand();
-            _DbCommand.CommandText = commandText.Replace('．', '.').Replace('　', ' ');
-            _DbCommand.CommandType = commandType;
-        }
-
         public DatabaseCommand(IDatabase database, CommandType commandType, string commandText)
-            : this(database.DbProviderFactory, commandType, commandText)
         {
-        }
-
-        public DbCommand GetDbCommand()
-        {
-            return _DbCommand;
+            Database = database;
+            DbCommand = database.DbProviderFactory.CreateCommand();
+            DbCommand.CommandText = commandText.Replace('．', '.').Replace('　', ' ');
+            DbCommand.CommandType = commandType;
         }
 
         public object GetParameterValue(string parameterName)
         {
-            if (_DbCommand.Parameters.Contains(parameterName))
+            if (DbCommand.Parameters.Contains(parameterName))
             {
-                return _DbCommand.Parameters[parameterName].Value;
+                return DbCommand.Parameters[parameterName].Value;
             }
             else
             {
@@ -47,20 +35,20 @@ namespace Petecat.EntityFramework
 
         public void AddParameter(string parameterName, DbType dbType, ParameterDirection direction, int size)
         {
-            if (!_DbCommand.Parameters.Contains(parameterName))
+            if (!DbCommand.Parameters.Contains(parameterName))
             {
-                var dbParameter = _DbProviderFactory.CreateParameter();
+                var dbParameter = Database.DbProviderFactory.CreateParameter();
                 dbParameter.ParameterName = parameterName;
                 dbParameter.DbType = dbType;
                 dbParameter.Direction = direction;
                 dbParameter.Size = size;
-                _DbCommand.Parameters.Add(dbParameter);
+                DbCommand.Parameters.Add(dbParameter);
             }
         }
 
         public void SetParameterValue(string parameterName, object parameterValue)
         {
-            if (!_DbCommand.Parameters.Contains(parameterName))
+            if (!DbCommand.Parameters.Contains(parameterName))
             {
                 throw new ArgumentException("parameter does not exists.");
             }
@@ -68,18 +56,18 @@ namespace Petecat.EntityFramework
             {
                 if (parameterValue == null)
                 {
-                    _DbCommand.Parameters[parameterName].Value = DBNull.Value;
+                    DbCommand.Parameters[parameterName].Value = DBNull.Value;
                 }
                 else
                 {
-                    _DbCommand.Parameters[parameterName].Value = parameterValue;
+                    DbCommand.Parameters[parameterName].Value = parameterValue;
                 }
             }
         }
 
         public void SetParameterValues(string parameterName, params object[] parameterValues)
         {
-            if (!_DbCommand.Parameters.Contains(parameterName))
+            if (!DbCommand.Parameters.Contains(parameterName))
             {
                 throw new ArgumentException("parameter does not exists.");
             }
@@ -89,18 +77,18 @@ namespace Petecat.EntityFramework
             {
                 var name = parameterName + i;
                 stringBuilder.AppendFormat("{0},", name);
-                AddParameter(name, _DbCommand.Parameters[parameterName].DbType, ParameterDirection.Input, _DbCommand.Parameters[parameterName].Size);
+                AddParameter(name, DbCommand.Parameters[parameterName].DbType, ParameterDirection.Input, DbCommand.Parameters[parameterName].Size);
                 SetParameterValue(name, parameterValues[i]);
             }
             stringBuilder.ToString().Trim(',');
 
-            _DbCommand.Parameters.Remove(_DbCommand.Parameters[parameterName]);
-            _DbCommand.CommandText = _DbCommand.CommandText.Replace(parameterName, stringBuilder.ToString().Trim(','));
+            DbCommand.Parameters.Remove(DbCommand.Parameters[parameterName]);
+            DbCommand.CommandText = DbCommand.CommandText.Replace(parameterName, stringBuilder.ToString().Trim(','));
         }
 
         public void FormatCommandText(int index, params object[] args)
         {
-            if (args == null || args.Length == 0 || !Regex.IsMatch(_DbCommand.CommandText, "\\x7b" + index + "\\x7d"))
+            if (args == null || args.Length == 0 || !Regex.IsMatch(DbCommand.CommandText, "\\x7b" + index + "\\x7d"))
             {
                 return;
             }
@@ -118,7 +106,7 @@ namespace Petecat.EntityFramework
                 }
             }
 
-            _DbCommand.CommandText = Regex.Replace(_DbCommand.CommandText, "\\x7b" + index + "\\x7d", string.Join(",", stringArgs));
+            DbCommand.CommandText = Regex.Replace(DbCommand.CommandText, "\\x7b" + index + "\\x7d", string.Join(",", stringArgs));
         }
 
         public T GetScalar<T>()

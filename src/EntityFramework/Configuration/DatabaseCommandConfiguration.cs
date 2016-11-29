@@ -7,7 +7,7 @@ namespace Petecat.EntityFramework.Configuration
     [StaticFileConfigElement(Inference = typeof(IDatabaseCommandConfiguration),
         Key = "Global_DatabaseCommandConfiguration",
         Path = "./configuration/databaseCommand_*.json",
-        FileFormat = "json",
+        FileFormat = "xml",
         IsMultipleFiles = true)]
     public class DatabaseCommandConfiguration : StaticFileConfigInstanceBase, IDatabaseCommandConfiguration
     {

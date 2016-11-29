@@ -49,12 +49,11 @@ namespace Petecat.EntityFramework
             return _DbConnection;
         }
 
-        private DbCommand CreateDbCommnad(IDatabaseCommand dataCommand)
+        private DbCommand CreateDbCommnad(IDatabaseCommand databaseCommand)
         {
-            var dbCommand = dataCommand.GetDbCommand();
-            dbCommand.Connection = OpenConnection();
-            dbCommand.Transaction = _DbTransaction;
-            return dbCommand;
+            databaseCommand.DbCommand.Connection = OpenConnection();
+            databaseCommand.DbCommand.Transaction = _DbTransaction;
+            return databaseCommand.DbCommand;
         }
 
         public int ExecuteNonQuery(IDatabaseCommand dataCommand)

@@ -1,4 +1,6 @@
-﻿using Petecat.Data.Formatters;
+﻿using Petecat.Formatter;
+using Petecat.DependencyInjection;
+
 using System;
 using System.IO;
 
@@ -20,10 +22,10 @@ namespace Petecat.Caching
         {
             if (!File.Exists(Path))
             {
-                // TODO: throw
+                throw new FileNotFoundException(Path);
             }
 
-            Value = new XmlFormatter().ReadObject(ItemType, Path);
+            Value = DependencyInjector.GetObject<IXmlFormatter>().ReadObject(ItemType, Path);
 
             return base.SetValue();
         }

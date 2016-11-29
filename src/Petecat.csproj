@@ -231,6 +231,7 @@
     <Compile Include="Formatter\FormatterBase.cs" />
     <Compile Include="Formatter\IFormatter.cs" />
     <Compile Include="Formatter\IJsonFormatter.cs" />
+    <Compile Include="Formatter\IXmlFormatter.cs" />
     <Compile Include="Formatter\JsonFormatter.cs" />
     <Compile Include="Formatter\Json\JsonCollectionElement.cs" />
     <Compile Include="Formatter\Json\JsonCollectionObject.cs" />
@@ -243,6 +244,7 @@
     <Compile Include="Formatter\Json\JsonProperty.cs" />
     <Compile Include="Formatter\Json\JsonSerializer.cs" />
     <Compile Include="Formatter\Json\JsonValueObject.cs" />
+    <Compile Include="Formatter\XmlFormatter.cs" />
     <Compile Include="HttpServer\Attribute\RestServiceInjectableAttribute.cs" />
     <Compile Include="HttpServer\Attribute\RestServiceMethodAttribute.cs" />
     <Compile Include="HttpServer\Configuration\HttpApplicationConfiguration.cs" />
@@ -421,7 +423,9 @@
     <Compile Include="IO\BufferedStream.cs" />
     <Compile Include="IO\IStream.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Formatter\Xml\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
