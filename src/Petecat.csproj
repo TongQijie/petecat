@@ -309,6 +309,7 @@
     <Compile Include="Monitor\Delegates\FileCreatedHandlerDelegate.cs" />
     <Compile Include="Monitor\Delegates\FileDeletedHandlerDelegate.cs" />
     <Compile Include="Monitor\Delegates\FileRenamedHandlerDelegate.cs" />
+    <Compile Include="Monitor\Errors\InvalidFilePathException.cs" />
     <Compile Include="Monitor\Errors\InvalidFolderPathException.cs" />
     <Compile Include="Monitor\FileSystemMonitor.cs" />
     <Compile Include="Monitor\IFileSystemMonitor.cs" />

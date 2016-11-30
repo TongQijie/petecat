@@ -1,0 +1,16 @@
+﻿<databaseCommands>
+  <command name="test1" database="test" commandType="Text">
+    <commandText>
+      <![CDATA[SELECT a.SONumber, a.SODate, a.SOMemo FROM nsls.dbo.NewEgg_SOMaster AS a WITH (NOLOCK) WHERE a.ShoppingCartID = '2SHAJ8QZFNVYRDM']]>
+    </commandText>
+  </command>
+
+  <command name="test3" database="test" commandType="Text">
+    <commandText>
+      <![CDATA[SELECT a.SONumber, a.SODate, a.SOMemo FROM nsls.dbo.NewEgg_SOMaster AS a WITH (NOLOCK) WHERE a.ShoppingCartID = @ShoppingCartID]]>
+    </commandText>
+    <params>
+      <param name="@ShoppingCartID" type="String" direction="Input" Size="20" />
+    </params>
+  </command>
+</databaseCommands>

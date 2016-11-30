@@ -48,7 +48,7 @@ namespace Petecat.EntityFramework
                 return null;
             }
 
-            return configuration.Databases.FirstOrDefault(x => x.EqualsWith(name));
+            return configuration.Databases.FirstOrDefault(x => x.Name.EqualsWith(name));
         }
     }
 }

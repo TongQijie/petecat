@@ -69,6 +69,9 @@
     <Compile Include="DynamicProxy\DynamicProxyGeneratorTest.cs" />
     <Compile Include="DynamicProxy\IAppleInterface.cs" />
     <Compile Include="DynamicProxy\IBananaInterface.cs" />
+    <Compile Include="EntityFramework\AppleClass.cs" />
+    <Compile Include="EntityFramework\BananaClass.cs" />
+    <Compile Include="EntityFramework\CherryClass.cs" />
     <Compile Include="EntityFramework\DatabaseCommandConfigurationTest.cs" />
     <Compile Include="Formatter\AppleClass.cs" />
     <Compile Include="Formatter\BananaClass.cs" />
@@ -121,7 +124,17 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Configuration\databaseCommands_1.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\databaseCommands_2.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configuration\databases.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

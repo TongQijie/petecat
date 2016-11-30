@@ -4,7 +4,7 @@ namespace Petecat.EntityFramework.Configuration
 {
     public class DatabaseItemConfiguration
     {
-        [XmlAttribute(AttributeName = "database")]
+        [XmlAttribute(AttributeName = "name")]
         public string Name { get; set; }
 
         [XmlAttribute(AttributeName = "connectionString")]

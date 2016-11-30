@@ -155,7 +155,7 @@ namespace Petecat.Configuring
                 {
                     if (Regex.IsMatch(fileInfo.Name, name, RegexOptions.IgnoreCase))
                     {
-                        Append(attribute.Key + "_" + fileInfo.Name, fullPath, attribute.FileFormat, obj.GetType());
+                        Append(attribute.Key + "_" + fileInfo.Name, fileInfo.FullName, attribute.FileFormat, obj.GetType());
                     }
                 }
             }

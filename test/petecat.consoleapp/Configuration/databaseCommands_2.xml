@@ -1,0 +1,25 @@
+﻿<databaseCommands>
+  <command name="test2" database="test" commandType="Text">
+    <commandText>
+      <![CDATA[SELECT b.ItemNumber, b.UnitPrice, b.Quantity FROM nsls.dbo.NewEgg_SOTransaction AS b WITH(NOLOCK) WHERE b.SONumber = 614393042]]>
+    </commandText>
+  </command>
+
+  <command name="test4" database="test" commandType="Text">
+    <commandText>
+      <![CDATA[SELECT b.ItemNumber, b.UnitPrice, b.Quantity FROM nsls.dbo.NewEgg_SOTransaction AS b WITH(NOLOCK) WHERE b.SONumber = @SONumber]]>
+    </commandText>
+    <params>
+      <param name="@SONumber" type="Int32" direction="Input" Size="4" />
+    </params>
+  </command>
+
+  <command name="test5" database="test" commandType="Text">
+    <commandText>
+      <![CDATA[SELECT b.ItemNumber, b.UnitPrice, b.Quantity, b.SONumber AS 'Apple_SONumber' FROM nsls.dbo.NewEgg_SOTransaction AS b WITH(NOLOCK) WHERE b.SONumber = @SONumber]]>
+    </commandText>
+    <params>
+      <param name="@SONumber" type="Int32" direction="Input" Size="4" />
+    </params>
+  </command>
+</databaseCommands>

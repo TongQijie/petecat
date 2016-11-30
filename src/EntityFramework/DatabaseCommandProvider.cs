@@ -18,19 +18,28 @@ namespace Petecat.EntityFramework
 
         public IDatabaseCommand GetDatabaseCommand(string name)
         {
-            var databaseCommand = _EntityFrameworkConfigurer.GetDatabaseCommandItem(name);
-            if (databaseCommand == null)
+            var item = _EntityFrameworkConfigurer.GetDatabaseCommandItem(name);
+            if (item == null)
             {
                 return null;
             }
 
-            var database = _DatabaseProvider.Get(databaseCommand.Database);
+            var database = _DatabaseProvider.Get(item.Database);
             if (database == null)
             {
                 return null;
             }
 
-            return new DatabaseCommand(database, databaseCommand.CommandType, databaseCommand.CommandText);
+            var databaseCommand = new DatabaseCommand(database, item.CommandType, item.CommandText);
+            if (item.Parameters != null && item.Parameters.Length > 0)
+            {
+                foreach (var parameter in item.Parameters)
+                {
+                    databaseCommand.AddParameter(parameter.Name, parameter.DbType, parameter.Direction, parameter.Size);
+                }
+            }
+
+            return databaseCommand;
         }
     }
 }

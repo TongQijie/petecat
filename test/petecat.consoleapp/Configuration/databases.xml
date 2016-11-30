@@ -1,0 +1,4 @@
+﻿<databases>
+  <database name="test" connectionString="Server=newsql;User Id=misa;Password=abs906egg;" 
+            provider="System.Data.SqlClient.SqlClientFactory, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"></database>
+</databases>

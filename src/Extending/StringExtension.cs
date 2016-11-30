@@ -124,5 +124,25 @@ namespace Petecat.Extending
         {
             return string.Equals(stringValue, another, StringComparison.OrdinalIgnoreCase);
         }
+
+        public static Type GetTypeByName(this string stringValue)
+        {
+            var type = Type.GetType(stringValue, false, true);
+            if (type != null)
+            {
+                return type;
+            }
+
+            foreach (var a in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                type = a.GetType(stringValue, false, true);
+                if (type != null)
+                {
+                    return type;
+                }
+            }
+
+            return null;
+        }
     }
 }

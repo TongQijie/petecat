@@ -18,11 +18,13 @@ namespace Petecat.Monitor
             Delegates.FileDeletedHandlerDelegate fileDeleted,
             Delegates.FileRenamedHandlerDelegate fileRenamed)
         {
-            if (path.IsFile())
+            if (!path.IsFile())
             {
-                var fileInfo = new FileInfo(path);
-                path = fileInfo.Directory.FullName;
+                throw new Errors.InvalidFilePathException(path);
             }
+
+            var fileInfo = new FileInfo(path);
+            path = fileInfo.Directory.FullName;
             
             if (!path.IsFolder())
             {

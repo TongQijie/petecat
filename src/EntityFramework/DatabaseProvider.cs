@@ -1,4 +1,5 @@
-﻿using Petecat.DependencyInjection.Attribute;
+﻿using Petecat.Extending;
+using Petecat.DependencyInjection.Attribute;
 
 using System;
 using System.Reflection;
@@ -29,7 +30,7 @@ namespace Petecat.EntityFramework
 
             if (!CachedDbProviderFactories.ContainsKey(database.Provider))
             {
-                var factoryType = Type.GetType(database.Provider, false, true);
+                var factoryType = database.Provider.GetTypeByName();
                 if (factoryType == null)
                 {
                     return null;

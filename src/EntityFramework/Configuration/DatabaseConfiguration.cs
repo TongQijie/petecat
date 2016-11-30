@@ -6,7 +6,7 @@ namespace Petecat.EntityFramework.Configuration
 {
     [StaticFileConfigElement(Inference = typeof(IDatabaseConfiguration),
         Key = "Global_DatabaseConfiguration",
-        Path = "./configuration/database.xml",
+        Path = "./configuration/databases.xml",
         FileFormat = "xml")]
     [XmlRoot(ElementName = "databases")]
     public class DatabaseConfiguration : IDatabaseConfiguration
