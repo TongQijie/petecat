@@ -27,7 +27,7 @@ namespace Petecat.HttpServer.DependencyInjection
                 }
             }
 
-            return typeDefinitions.Append(base.GetTypeDefinitions());
+            return typeDefinitions;
         }
     }
 }

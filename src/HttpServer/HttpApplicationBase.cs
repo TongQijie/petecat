@@ -18,7 +18,7 @@ namespace Petecat.HttpServer
         {
             try
             {
-                DependencyInjector.Setup(new RestServiceAssemblyContainer());
+                DependencyInjector.Setup(new HttpServerAssemblyContainer());
             }
             catch (Exception e)
             {

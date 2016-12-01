@@ -4,6 +4,7 @@ using System.Web;
 using Petecat.Logging;
 using Petecat.Extending;
 using Petecat.DependencyInjection;
+using System.Threading.Tasks;
 
 namespace Petecat.HttpServer
 {
@@ -58,7 +59,12 @@ namespace Petecat.HttpServer
                 lastField = rawUrl.Substring(rawUrl.LastIndexOf('/') + 1);
             }
 
-            if (lastField.HasValue() && lastField.Contains("."))
+            if (context.IsWebSocketRequest)
+            {
+                var fields = rawUrl.SplitByChar('/');
+                return new WebSocketHandler(fields.Length > 0 ? fields[0] : null);
+            }
+            else if (lastField.HasValue() && lastField.Contains("."))
             {
                 return new StaticResourceHttpHandler(
                     new StaticResourceHttpRequest(context.Request, "./" + rawUrl, lastField.Substring(lastField.LastIndexOf('.') + 1)),
