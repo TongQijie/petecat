@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Reflection;
 
 using Petecat.Extending;
 
@@ -28,7 +29,7 @@ namespace Petecat.DependencyInjection
             object[] result;
             if (!TryMatchParameters(parameters ?? new object[0], out result))
             {
-                // TODO: throw
+                throw new Exception(string.Format("method '{0}' parameter is not valid.", MethodName));
             }
 
             return (MethodDefinition.Info as MethodInfo).Invoke(instance, result);

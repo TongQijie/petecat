@@ -36,12 +36,12 @@ namespace Petecat.HttpServer
                 }
 
                 var obj = Execute(container);
+
+                Response.StatusCode = 200;
                 if (obj != null)
                 {
                     Response.Write(obj);
                 }
-
-                Response.StatusCode = 200;
             }
             catch (Exception e)
             {
