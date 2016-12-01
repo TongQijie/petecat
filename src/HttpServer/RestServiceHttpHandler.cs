@@ -35,13 +35,8 @@ namespace Petecat.HttpServer
                     throw new Exception("http server container is null.");
                 }
 
-                var obj = Execute(container);
-
+                Execute(container);
                 Response.StatusCode = 200;
-                if (obj != null)
-                {
-                    Response.Write(obj);
-                }
             }
             catch (Exception e)
             {
@@ -50,7 +45,7 @@ namespace Petecat.HttpServer
             }
         }
 
-        public object Execute(HttpServerAssemblyContainer container)
+        public void Execute(HttpServerAssemblyContainer container)
         {
             var typeDefinition = container.RegisteredTypes.Values.OfType<RestServiceTypeDefinition>()
                 .FirstOrDefault(x => string.Equals(x.ServiceName, Request.ServiceName, StringComparison.OrdinalIgnoreCase));
@@ -62,13 +57,31 @@ namespace Petecat.HttpServer
             RestServiceInstanceMethodInfo methodInfo = null;
             if (Request.MethodName.HasValue())
             {
-                methodInfo = typeDefinition.InstanceMethods.OfType<RestServiceInstanceMethodInfo>()
-                    .FirstOrDefault(x => string.Equals(x.ServiceMethodName, Request.MethodName, StringComparison.OrdinalIgnoreCase));
+                if (Request.Request.HttpMethod == "GET")
+                {
+                    methodInfo = typeDefinition.InstanceMethods.OfType<RestServiceInstanceMethodInfo>()
+                        .FirstOrDefault(x => x.HttpVerb == HttpVerb.Get 
+                            && string.Equals(x.ServiceMethodName, Request.MethodName, StringComparison.OrdinalIgnoreCase));
+                }
+                else
+                {
+                    methodInfo = typeDefinition.InstanceMethods.OfType<RestServiceInstanceMethodInfo>()
+                        .FirstOrDefault(x => x.HttpVerb == HttpVerb.Post
+                            && string.Equals(x.ServiceMethodName, Request.MethodName, StringComparison.OrdinalIgnoreCase));
+                }
             }
             else
             {
-                methodInfo = typeDefinition.InstanceMethods.OfType<RestServiceInstanceMethodInfo>()
-                    .FirstOrDefault(x => x.IsDefaultMethod);
+                if (Request.Request.HttpMethod == "GET")
+                {
+                    methodInfo = typeDefinition.InstanceMethods.OfType<RestServiceInstanceMethodInfo>()
+                        .FirstOrDefault(x => x.HttpVerb == HttpVerb.Get && x.IsDefaultMethod);
+                }
+                else
+                {
+                    methodInfo = typeDefinition.InstanceMethods.OfType<RestServiceInstanceMethodInfo>()
+                        .FirstOrDefault(x => x.HttpVerb == HttpVerb.Post && x.IsDefaultMethod);
+                }
             }
             if (methodInfo == null)
             {
@@ -81,11 +94,12 @@ namespace Petecat.HttpServer
                 throw new Exception(string.Format("failed to create object '{0}'.", (typeDefinition.Info as Type).FullName));
             }
 
+            object returnValue = null;
             if (Request.Request.HttpMethod == "GET")
             {
                 if (methodInfo.ParameterInfos == null || methodInfo.ParameterInfos.Length == 0)
                 {
-                    return methodInfo.Invoke(obj, null);
+                    returnValue = methodInfo.Invoke(obj, null);
                 }
                 else
                 {
@@ -105,7 +119,7 @@ namespace Petecat.HttpServer
                         values[i] = dict.FirstOrDefault(x => string.Equals(x.Key, parameterInfo.ParameterName, StringComparison.OrdinalIgnoreCase)).Value;
                     }
 
-                    return methodInfo.Invoke(obj, values);
+                    returnValue = methodInfo.Invoke(obj, values);
                 }
             }
             else
@@ -115,7 +129,12 @@ namespace Petecat.HttpServer
                     throw new Exception(string.Format("method '{0}' must have one parameter.", methodInfo.MethodName));
                 }
 
-                return methodInfo.Invoke(obj, Request.ReadInputStream(methodInfo.ParameterInfos[0].TypeDefinition.Info as Type, methodInfo.DataFormat));
+                returnValue = methodInfo.Invoke(obj, Request.ReadInputStream(methodInfo.ParameterInfos[0].TypeDefinition.Info as Type, methodInfo.RequestDataFormat));
+            }
+
+            if (returnValue != null)
+            {
+                Response.Write(returnValue, methodInfo.ResponseDataFormat);
             }
         }
     }

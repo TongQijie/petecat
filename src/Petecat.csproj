@@ -242,6 +242,7 @@
     <Compile Include="HttpServer\RestServiceHttpHandler.cs" />
     <Compile Include="HttpServer\RestServiceHttpRequest.cs" />
     <Compile Include="HttpServer\RestServiceHttpResponse.cs" />
+    <Compile Include="HttpServer\HttpVerb.cs" />
     <Compile Include="HttpServer\StaticResourceHttpHandler.cs" />
     <Compile Include="HttpServer\StaticResourceHttpRequest.cs" />
     <Compile Include="HttpServer\StaticResourceHttpResponse.cs" />

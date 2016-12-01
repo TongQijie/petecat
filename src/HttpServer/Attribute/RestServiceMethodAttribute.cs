@@ -9,6 +9,10 @@
 
         public bool IsDefault { get; set; }
 
-        public RestServiceDataFormat DataFormat { get; set; }
+        public RestServiceDataFormat RequestDataFormat { get; set; }
+
+        public RestServiceDataFormat ResponseDataFormat { get; set; }
+
+        public HttpVerb HttpVerb { get; set; }
     }
 }

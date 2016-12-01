@@ -8,13 +8,19 @@
         Any = 0,
 
         /// <summary>
-        /// only support json format
+        /// application/json
         /// </summary>
         Json = 1,
 
         /// <summary>
-        /// only support xml format
+        /// application/xml
+        /// text/xml
         /// </summary>
         Xml = 2,
+
+        /// <summary>
+        /// text/plain
+        /// </summary>
+        Text = 3,
     }
 }

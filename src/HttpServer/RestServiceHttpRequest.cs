@@ -1,10 +1,12 @@
-﻿using Petecat.Formatter;
+﻿using Petecat.Extending;
+using Petecat.Formatter;
 using Petecat.DependencyInjection;
 
 using System;
 using System.IO;
 using System.Web;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Petecat.HttpServer
 {
@@ -46,15 +48,39 @@ namespace Petecat.HttpServer
             {
                 return DependencyInjector.GetObject<IXmlFormatter>().ReadObject(targetType, inputStream);
             }
+            else if (dataFormat == RestServiceDataFormat.Text)
+            {
+                var data = new byte[0];
+                var count = 0;
+                var buffer = new byte[1024];
+                while ((count = inputStream.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    data = data.Append(buffer, 0, count);
+                }
+
+                return Encoding.UTF8.GetString(data);
+            }
             else
             {
-                if (Request.ContentType.Contains("application/xml"))
+                if (Request.ContentType.Contains("application/xml") || Request.ContentType.Contains("text/xml"))
                 {
                     return DependencyInjector.GetObject<IXmlFormatter>().ReadObject(targetType, inputStream);
                 }
+                else if (Request.ContentType.Contains("application/json"))
+                {
+                    return DependencyInjector.GetObject<IJsonFormatter>().ReadObject(targetType, inputStream); 
+                }
                 else
                 {
-                    return DependencyInjector.GetObject<IJsonFormatter>().ReadObject(targetType, inputStream);
+                    var data = new byte[0];
+                    var count = 0;
+                    var buffer = new byte[1024];
+                    while ((count = inputStream.Read(buffer, 0, buffer.Length)) > 0)
+                    {
+                        data = data.Append(buffer, 0, count);
+                    }
+
+                    return Encoding.UTF8.GetString(data);
                 }
             }
         }

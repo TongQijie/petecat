@@ -12,12 +12,28 @@ namespace Petecat.HttpServer
         {
         }
 
-        public void Write(object obj)
+        public void Write(object obj, RestServiceDataFormat dataFormat)
         {
-            Response.ContentType = "application/json";
-            Response.StatusCode = StatusCode;
-
-            DependencyInjector.GetObject<IJsonFormatter>().WriteObject(obj, Response.OutputStream);
+            if (dataFormat == RestServiceDataFormat.Json)
+            {
+                Response.ContentType = "application/json";
+                DependencyInjector.GetObject<IJsonFormatter>().WriteObject(obj, Response.OutputStream);
+            }
+            else if (dataFormat == RestServiceDataFormat.Xml)
+            {
+                Response.ContentType = "application/xml";
+                DependencyInjector.GetObject<IXmlFormatter>().WriteObject(obj, Response.OutputStream);
+            }
+            else if (dataFormat == RestServiceDataFormat.Text)
+            {
+                Response.ContentType = "text/plain";
+                Response.Write(obj.ToString());
+            }
+            else
+            {
+                Response.ContentType = "application/json";
+                DependencyInjector.GetObject<IJsonFormatter>().WriteObject(obj, Response.OutputStream);
+            }
         }
 
         public void Error()

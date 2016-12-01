@@ -22,7 +22,7 @@ namespace Petecat.ServiceHost
             {
                 if (socket.State == WebSocketState.Open)
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(20000);
                     var buffer = new ArraySegment<byte>(Encoding.UTF8.GetBytes("Time: " + DateTime.Now.ToLongTimeString()));
                     await socket.SendAsync(buffer, WebSocketMessageType.Text, true, CancellationToken.None);
                 }

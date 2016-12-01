@@ -6,7 +6,7 @@ namespace Petecat.ServiceHost
     [RestServiceInjectable(ServiceName = "article", Singleton = true)]
     public class ArticleService
     {
-        [RestServiceMethod(MethodName = "get-articles-by-page")]
+        [RestServiceMethod(MethodName = "get-articles-by-page", HttpVerb = HttpVerb.Get)]
         public Article[] GetArticles(int pageNumber)
         {
             var headers = RestServiceHttpHandler.Request.Headers;
@@ -21,13 +21,13 @@ namespace Petecat.ServiceHost
             };
         }
 
-        [RestServiceMethod(MethodName = "get-article-by-id")]
+        [RestServiceMethod(MethodName = "get-article-by-id", HttpVerb = HttpVerb.Get)]
         public Article FetchArticle(string id)
         {
             return new Article() { Name = id, Snippet = "this is item detail...." };
         }
 
-        [RestServiceMethod(MethodName = "post-article")]
+        [RestServiceMethod(MethodName = "post-article", HttpVerb = HttpVerb.Post)]
         public Article PostArticle(Article article)
         {
             return article;
