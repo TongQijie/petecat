@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 using Petecat.Extending;
 using Petecat.Configuring;
 using Petecat.HttpServer.Configuration;
 using Petecat.DependencyInjection.Attribute;
-using System.Text.RegularExpressions;
 
 namespace Petecat.HttpServer
 {

@@ -41,7 +41,8 @@ namespace Petecat.HttpServer
             catch (Exception e)
             {
                 DependencyInjector.GetObject<IFileLogger>().LogEvent("RestServiceHttpHandler", Severity.Error, "failed to process restservice request.", e);
-                Response.Error();
+                Response.Write("error occurs when processing request.", RestServiceDataFormat.Text);
+                Response.StatusCode = 500;
             }
         }
 

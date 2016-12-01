@@ -4,7 +4,6 @@ using System.Web;
 using Petecat.Logging;
 using Petecat.Extending;
 using Petecat.DependencyInjection;
-using System.Threading.Tasks;
 
 namespace Petecat.HttpServer
 {

@@ -1,9 +1,7 @@
-﻿using Petecat.Configuring;
-using Petecat.DependencyInjection;
+﻿using Petecat.Extending;
+using Petecat.Configuring;
 using Petecat.DependencyInjection.Attribute;
 using Petecat.EntityFramework.Configuration;
-using Petecat.Extending;
-using System;
 using System.Linq;
 
 namespace Petecat.EntityFramework

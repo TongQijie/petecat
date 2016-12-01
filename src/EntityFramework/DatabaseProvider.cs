@@ -1,7 +1,5 @@
 ﻿using Petecat.Extending;
 using Petecat.DependencyInjection.Attribute;
-
-using System;
 using System.Reflection;
 using System.Data.Common;
 using System.Collections.Concurrent;

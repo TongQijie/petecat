@@ -36,11 +36,6 @@ namespace Petecat.HttpServer
             }
         }
 
-        public void Error()
-        {
-            Response.StatusCode = 500;
-        }
-
         public void SetCookie(string name, string value)
         {
             Response.SetCookie(new HttpCookie(name, value));

@@ -1,15 +1,10 @@
-﻿using Petecat.DependencyInjection;
+﻿using Petecat.Logging;
+using Petecat.DependencyInjection;
 using Petecat.HttpServer.DependencyInjection;
 
 using System;
-using System.Text;
 using System.Web;
 using System.Linq;
-using Petecat.Logging;
-using System.Threading;
-using System.Web.WebSockets;
-using System.Net.WebSockets;
-using System.Threading.Tasks;
 
 namespace Petecat.HttpServer
 {
