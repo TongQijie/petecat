@@ -14,7 +14,10 @@ namespace Petecat.Network.Http
         {
             Response = response;
 
-            StatusCode = response.StatusCode;
+            if (response != null)
+            {
+                StatusCode = response.StatusCode;
+            }
         }
 
         public HttpStatusCode StatusCode { get; private set; }
@@ -105,7 +108,10 @@ namespace Petecat.Network.Http
 
         public void Dispose()
         {
-            Response.Close();
+            if (Response != null)
+            {
+                Response.Close();
+            }
         }
     }
 }

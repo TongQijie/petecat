@@ -66,14 +66,13 @@ namespace Petecat.DependencyInjection
                     .OrderByDescending(x => x.Priority).FirstOrDefault();
                 if (typeDefinition == null)
                 {
-                    // TODO: throw
+                    throw new Exception(string.Format("failed to find registered type inferred from interface '{0}'.", targetType.FullName));
                 }
 
                 return InternalResolve(typeDefinition.Info as Type);
             }
             else
             {
-                // TODO: throw
                 return null;
             }
         }
