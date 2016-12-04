@@ -31,10 +31,14 @@ namespace Petecat.HttpServer
                 {
                     Response.ContentType = contentType;
                 }
+                else
+                {
+                    Response.Error(415, "resource type does not support.");
+                }
 
                 if (!File.Exists(Request.ResourcePath.FullPath()))
                 {
-                    Response.Error(403);
+                    Response.Error(404, "resource cannot be found.");
                     return;
                 }
 
@@ -44,7 +48,7 @@ namespace Petecat.HttpServer
             catch (Exception e)
             {
                 DependencyInjector.GetObject<IFileLogger>().LogEvent("StaticResourceHttpHandler", Severity.Error, "failed to process static resource request.", e);
-                Response.Error(400);
+                Response.Error(500, "error occurs when processing request.");
             }
         }
     }

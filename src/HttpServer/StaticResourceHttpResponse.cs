@@ -25,9 +25,10 @@ namespace Petecat.HttpServer
             }
         }
 
-        public void Error(int statusCode)
+        public void Error(int statusCode, string errorMessage)
         {
             Response.StatusCode = statusCode;
+            Response.Write(errorMessage);
         }
     }
 }
