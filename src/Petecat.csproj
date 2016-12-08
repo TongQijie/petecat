@@ -116,6 +116,8 @@
     <Compile Include="Data\Formatters\ObjectFormatterFactory.cs" />
     <Compile Include="Data\Formatters\ObjectFormatterType.cs" />
     <Compile Include="Data\Formatters\XmlFormatter.cs" />
+    <Compile Include="Data\IReplicator.cs" />
+    <Compile Include="Data\Replicator.cs" />
     <Compile Include="DependencyInjection\AssemblyContainerBase.cs" />
     <Compile Include="DependencyInjection\Attribute\DependencyInjectableAttribute.cs" />
     <Compile Include="DependencyInjection\ConfigurableFileInfoBase.cs" />

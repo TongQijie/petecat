@@ -73,6 +73,11 @@ namespace Petecat.ConsoleApp
                 new EntityFramework.DatabaseCommandConfigurationTest().Run();
                 ConsoleBridging.ReadAnyKey();
             }
+            else if (args != null && args.Length > 0 && args[0].StartsWith("rt", StringComparison.OrdinalIgnoreCase))
+            {
+                new Data.ReplicatorTest().Run();
+                ConsoleBridging.ReadAnyKey();
+            }
         }
     }
 }
