@@ -1,5 +1,8 @@
 ﻿using System;
 
+using Petecat.Data;
+using Petecat.DependencyInjection;
+
 namespace Petecat.Extending
 {
     public static class ObjectExtension
@@ -106,6 +109,26 @@ namespace Petecat.Extending
             return (obj == null && another == null)
                 || (obj != null && obj.Equals(another))
                 || (another != null && another.Equals(obj));
+        }
+
+        public static object ShallowCopy(this object obj)
+        {
+            return DependencyInjector.GetObject<IReplicator>().ShallowCopy(obj);
+        }
+
+        public static T ShallowCopy<T>(this object obj)
+        {
+            return (T)obj.ShallowCopy();
+        }
+
+        public static object DeepCopy(this object obj)
+        {
+            return DependencyInjector.GetObject<IReplicator>().DeepCopy(obj);
+        }
+
+        public static T DeepCopy<T>(this object obj)
+        {
+            return (T)obj.DeepCopy();
         }
     }
 }

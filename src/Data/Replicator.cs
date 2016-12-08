@@ -98,7 +98,15 @@ namespace Petecat.Data
                     }
                     else
                     {
-                        field.SetValue(copy, DeepCopy(field.GetValue(obj)));
+                        var objectValue = field.GetValue(obj);
+                        if (objectValue == null)
+                        {
+                            field.SetValue(copy, null);
+                        }
+                        else
+                        {
+                            field.SetValue(copy, DeepCopy(field.GetValue(obj)));
+                        }
                     }
                 }
             }
