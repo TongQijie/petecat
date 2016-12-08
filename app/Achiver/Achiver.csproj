@@ -35,6 +35,12 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AbstractArchiveItem.cs" />
+    <Compile Include="ArchiveEntityHeader.cs" />
+    <Compile Include="ArchiveFile.cs" />
+    <Compile Include="ArchiveFolder.cs" />
+    <Compile Include="Archiver.cs" />
+    <Compile Include="IArchiveItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

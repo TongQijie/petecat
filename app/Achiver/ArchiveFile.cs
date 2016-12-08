@@ -4,7 +4,7 @@ using System;
 using Petecat.Utility;
 using System.Text;
 
-namespace Petecat.Archiving
+namespace Achiver
 {
     public class ArchiveFile : AbstractArchiveItem
     {

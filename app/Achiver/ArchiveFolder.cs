@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 
-namespace Petecat.Archiving
+namespace Achiver
 {
     public class ArchiveFolder : AbstractArchiveItem
     {

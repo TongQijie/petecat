@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Petecat.Archiving
+namespace Achiver
 {
     public interface IArchiveItem
     {

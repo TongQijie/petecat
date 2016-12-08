@@ -54,7 +54,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Archiving\ArchiverTest.cs" />
     <Compile Include="Console\Command\TerminalCommandLineUtilityTest.cs" />
     <Compile Include="Data\Formatters\BinarySerializerTest.cs" />
     <Compile Include="Data\Formatters\IniFormatterTest.cs" />

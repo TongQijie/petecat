@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace Petecat.Archiving
+namespace Achiver
 {
     public abstract class AbstractArchiveItem : IArchiveItem
     {

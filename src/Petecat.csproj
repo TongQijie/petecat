@@ -40,12 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="Archiving\ArchiveFile.cs" />
-    <Compile Include="Archiving\ArchiveFolder.cs" />
-    <Compile Include="Archiving\AbstractArchiveItem.cs" />
-    <Compile Include="Archiving\Archiver.cs" />
-    <Compile Include="Archiving\IArchiveItem.cs" />
-    <Compile Include="Archiving\Internal\ArchiveEntityHeader.cs" />
     <Compile Include="Caching\CacheContainerBase.cs" />
     <Compile Include="Caching\CacheItemBase.cs" />
     <Compile Include="Caching\CacheObjectManager.cs" />

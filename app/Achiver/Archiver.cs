@@ -5,7 +5,7 @@ using System.Linq;
 
 using Petecat.Utility;
 
-namespace Petecat.Archiving
+namespace Achiver
 {
     public class Archiver
     {

@@ -4,7 +4,7 @@ using System.Text;
 
 using Petecat.Extending;
 
-namespace Petecat.Archiving
+namespace Achiver
 {
     internal class ArchiveEntityHeader
     {
