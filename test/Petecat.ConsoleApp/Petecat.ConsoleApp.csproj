@@ -50,6 +50,8 @@
     <Compile Include="Configuring\StaticFileConfigurerTest.cs" />
     <Compile Include="Data\AppleClass.cs" />
     <Compile Include="Data\BananaClass.cs" />
+    <Compile Include="Data\CherryClass.cs" />
+    <Compile Include="Data\ComparerTest.cs" />
     <Compile Include="Data\ReplicatorTest.cs" />
     <Compile Include="DependencyInjection\AppleClass.cs" />
     <Compile Include="DependencyInjection\BananaClass.cs" />

@@ -82,6 +82,7 @@
     <Compile Include="Data\Attributes\BinarySerializableAttribute.cs" />
     <Compile Include="Data\Attributes\IniSerializableAttribute.cs" />
     <Compile Include="Data\Attributes\JsonPropertyAttribute.cs" />
+    <Compile Include="Data\Comparer.cs" />
     <Compile Include="Data\Errors\FormatterNotFoundException.cs" />
     <Compile Include="Data\Errors\JsonParseFailedException.cs" />
     <Compile Include="Data\Errors\JsonSerializeFailedException.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Data\Formatters\ObjectFormatterFactory.cs" />
     <Compile Include="Data\Formatters\ObjectFormatterType.cs" />
     <Compile Include="Data\Formatters\XmlFormatter.cs" />
+    <Compile Include="Data\IComparer.cs" />
     <Compile Include="Data\IReplicator.cs" />
     <Compile Include="Data\Replicator.cs" />
     <Compile Include="DependencyInjection\AssemblyContainerBase.cs" />

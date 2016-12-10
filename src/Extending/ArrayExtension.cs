@@ -234,5 +234,20 @@ namespace Petecat.Extending
 
             return buffer;
         }
+
+        public static T[] Each<T>(this T[] source, Action<T> func)
+        {
+            if (!source.HasLength<T>())
+            {
+                return source;
+            }
+
+            for (int i = 0; i < source.Length; i++)
+            {
+                func(source[i]);
+            }
+
+            return source;
+        }
     }
 }

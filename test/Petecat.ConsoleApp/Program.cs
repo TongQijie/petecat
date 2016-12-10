@@ -78,6 +78,11 @@ namespace Petecat.ConsoleApp
                 new Data.ReplicatorTest().Run();
                 ConsoleBridging.ReadAnyKey();
             }
+            else if (args != null && args.Length > 0 && args[0].StartsWith("ct", StringComparison.OrdinalIgnoreCase))
+            {
+                new Data.ComparerTest().Run();
+                ConsoleBridging.ReadAnyKey();
+            }
         }
     }
 }
