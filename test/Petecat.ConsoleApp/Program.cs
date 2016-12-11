@@ -12,17 +12,7 @@ namespace Petecat.ConsoleApp
         {
             DependencyInjector.Setup(new BaseDirectoryAssemblyContainer());
 
-            if (args != null && args.Length > 0 && args[0].StartsWith("tcpapplication", StringComparison.OrdinalIgnoreCase))
-            {
-                new ServiceTcpApplicationTest().Run();
-                ConsoleBridging.ReadAnyKey();
-            }
-            else if (args != null && args.Length > 0 && args[0].StartsWith("tcpclient", StringComparison.OrdinalIgnoreCase))
-            {
-                new ServiceTcpClientBaseTest().Run();
-                ConsoleBridging.ReadAnyKey();
-            }
-            else if (args != null && args.Length > 0 && args[0].StartsWith("fsmt", StringComparison.OrdinalIgnoreCase))
+            if (args != null && args.Length > 0 && args[0].StartsWith("fsmt", StringComparison.OrdinalIgnoreCase))
             {
                 new Monitor.FileSystemMonitorTest().Run();
                 new Monitor.FileSystemMonitorAnotherTest().Run();
