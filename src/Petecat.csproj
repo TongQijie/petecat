@@ -233,7 +233,6 @@
     <Compile Include="Network\Sockets\SocketFactory.cs" />
     <Compile Include="Network\Sockets\Internal\SocketObject.cs" />
     <Compile Include="Network\Sockets\SocketReceivedDataHandlerDelegate.cs" />
-    <Compile Include="Terminal\TerminalManager.cs" />
     <Compile Include="Threading\ProcessObject.cs" />
     <Compile Include="Threading\Storage\IThreadStorage.cs" />
     <Compile Include="Threading\Storage\ThreadStaticStorage.cs" />
