@@ -1,12 +1,10 @@
 ﻿using Petecat.Console;
 using Petecat.Extending;
-using Petecat.Data.Formatters;
 
 using System;
 using System.IO;
-using System.Text;
-using System.Linq;
 using System.Collections.Generic;
+using Petecat.Formatter;
 
 namespace Formatter
 {

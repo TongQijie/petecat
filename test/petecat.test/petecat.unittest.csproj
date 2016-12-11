@@ -55,11 +55,6 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Console\Command\TerminalCommandLineUtilityTest.cs" />
-    <Compile Include="Data\Formatters\BinarySerializerTest.cs" />
-    <Compile Include="Data\Formatters\IniFormatterTest.cs" />
-    <Compile Include="Data\Formatters\JsonEncoderTest.cs" />
-    <Compile Include="Data\Formatters\JsonFormatterTest.cs" />
-    <Compile Include="Data\Formatters\TestEntities.cs" />
     <Compile Include="Extension\ArrayExtensionTest.cs" />
     <Compile Include="Extension\StringExtensionTest.cs" />
     <Compile Include="Network\Ftp\FtpClientTest.cs" />
@@ -77,6 +72,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Data\" />
     <Folder Include="Service\" />
   </ItemGroup>
   <Choose>
