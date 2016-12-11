@@ -73,6 +73,11 @@ namespace Petecat.ConsoleApp
                 new Data.ComparerTest().Run();
                 ConsoleBridging.ReadAnyKey();
             }
+            else if (args != null && args.Length > 0 && args[0].StartsWith("jdt", StringComparison.OrdinalIgnoreCase))
+            {
+                new Jobs.JobDispatcherTest().Run();
+                ConsoleBridging.ReadAnyKey();
+            }
         }
     }
 }

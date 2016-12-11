@@ -86,6 +86,8 @@
     <Compile Include="Formatter\GrapeClass.cs" />
     <Compile Include="Formatter\JsonDeserializationPerformanceTest.cs" />
     <Compile Include="Formatter\JsonFormatterTest.cs" />
+    <Compile Include="Jobs\AppleClass.cs" />
+    <Compile Include="Jobs\JobDispatcherTest.cs" />
     <Compile Include="Logging\FileLoggerTest.cs" />
     <Compile Include="Monitor\FileSystemMonitorTest.cs" />
     <Compile Include="Network\Socket\TcpListenerObjectTest.cs" />
