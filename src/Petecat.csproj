@@ -54,6 +54,7 @@
     <Compile Include="Caching\Internal\WritableCacheObject.cs" />
     <Compile Include="Caching\IWritableCacheObject.cs" />
     <Compile Include="Caching\JsonFileCacheItem.cs" />
+    <Compile Include="Caching\TextFileCacheItem.cs" />
     <Compile Include="Caching\XmlFileCacheItem.cs" />
     <Compile Include="Collection\CaseInsensitiveStringEqualityComparer.cs" />
     <Compile Include="Collection\DefaultKeyedObjectEqualityComparer.cs" />

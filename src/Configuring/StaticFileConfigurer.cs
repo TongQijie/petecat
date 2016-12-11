@@ -34,13 +34,17 @@ namespace Petecat.Configuring
         {
             // build a CacheItem and add to container
             ICacheItem item = null;
-            if (string.Equals(fileFormat.Trim(), "xml", StringComparison.OrdinalIgnoreCase))
+            if (fileFormat.EqualsWith("xml"))
             {
                 item = new XmlFileCacheItem(key, path, configurationType);
             }
-            else if (string.Equals(fileFormat.Trim(), "json", StringComparison.OrdinalIgnoreCase))
+            else if (fileFormat.EqualsWith("json"))
             {
                 item = new JsonFileCacheItem(key, path, configurationType);
+            }
+            else if (fileFormat.EqualsWith("text"))
+            {
+                item = new TextFileCacheItem(key, path);
             }
             else
             {
