@@ -253,12 +253,11 @@
     <Compile Include="Threading\Storage\ThreadStaticStorage.cs" />
     <Compile Include="Threading\ThreadBridging.cs" />
     <Compile Include="Threading\ThreadObject.cs" />
-    <Compile Include="Utility\CompressUtility.cs" />
-    <Compile Include="Utility\Errors\ConvertFailedException.cs" />
+    <Compile Include="Utility\Compressor.cs" />
     <Compile Include="Utility\HashCalculator.cs" />
     <Compile Include="Utility\Reflector.cs" />
-    <Compile Include="IO\BufferedStream.cs" />
-    <Compile Include="IO\IStream.cs" />
+    <Compile Include="Formatter\Internal\BufferedStream.cs" />
+    <Compile Include="Formatter\Internal\IStream.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Formatter\Xml\" />

@@ -120,7 +120,7 @@ namespace Achiver
 
                 using (var outputStream = new FileStream(TargetPath, FileMode.Create, FileAccess.Write))
                 {
-                    CompressUtility.GzipCompress(tempStream, outputStream);
+                    Compressor.GzipCompress(tempStream, outputStream);
                 }
             }
 
@@ -133,7 +133,7 @@ namespace Achiver
             {
                 using (var tempStream = new FileStream(SourcePath + ".tmp", FileMode.Create, FileAccess.ReadWrite))
                 {
-                    CompressUtility.GzipDecompress(inputStream, tempStream);
+                    Compressor.GzipDecompress(inputStream, tempStream);
 
                     tempStream.Seek(0, SeekOrigin.Begin);
 

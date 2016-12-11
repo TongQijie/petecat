@@ -1,5 +1,5 @@
-﻿using Petecat.IO;
-using Petecat.Extending;
+﻿using Petecat.Extending;
+using Petecat.Formatter.Internal;
 
 namespace Petecat.Formatter.Json
 {

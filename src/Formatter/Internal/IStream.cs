@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Petecat.IO
+namespace Petecat.Formatter.Internal
 {
     public interface IStream
     {

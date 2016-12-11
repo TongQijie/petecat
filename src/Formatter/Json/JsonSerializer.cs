@@ -227,7 +227,7 @@ namespace Petecat.Formatter.Json
         {
             var args = new JsonObjectParseArgs()
             {
-                Stream = new IO.BufferedStream(stream, 4 * 1024),
+                Stream = new Internal.BufferedStream(stream, 4 * 1024),
             };
 
             JsonObjectParser.Parse(args);

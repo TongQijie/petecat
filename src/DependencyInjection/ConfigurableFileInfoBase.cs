@@ -47,46 +47,40 @@ namespace Petecat.DependencyInjection
                 {
                     if (instance.Name.HasValue() && instance.Type.HasValue())
                     {
-                        Type type;
-                        if (Reflector.TryGetType(instance.Type, out type))
+                        var type = Type.GetType(instance.Type);
+
+                        var instanceInfo = new InstanceInfoBase(instance.Name, new TypeDefinitionBase(type), instance.Singleton);
+
+                        if (instance.Parameters != null && instance.Parameters.Length > 0)
                         {
-                            var instanceInfo = new InstanceInfoBase(instance.Name, new TypeDefinitionBase(type), instance.Singleton);
-
-                            if (instance.Parameters != null && instance.Parameters.Length > 0)
+                            foreach (var constructorMethod in instanceInfo.TypeDefinition.ConstructorMethods)
                             {
-                                foreach (var constructorMethod in instanceInfo.TypeDefinition.ConstructorMethods)
+                                var parameterInfos = MatchParameter(constructorMethod, instance.Parameters);
+                                if (parameterInfos != null)
                                 {
-                                    var parameterInfos = MatchParameter(constructorMethod, instance.Parameters);
-                                    if (parameterInfos != null)
-                                    {
-                                        instanceInfo.ParameterInfos = parameterInfos;
-                                        break;
-                                    }
-                                }
-
-                                if (instanceInfo.ParameterInfos == null)
-                                {
-                                    // TODO: throw
+                                    instanceInfo.ParameterInfos = parameterInfos;
+                                    break;
                                 }
                             }
 
-                            if (instance.Properties != null && instance.Properties.Length > 0)
+                            if (instanceInfo.ParameterInfos == null)
                             {
-                                var propertyInfos = MatchProperty(instanceInfo, instance.Properties);
-                                if (propertyInfos == null)
-                                {
-                                    // TODO: throw
-                                }
+                                // TODO: throw
+                            }
+                        }
 
-                                instanceInfo.PropertyInfos = propertyInfos;
+                        if (instance.Properties != null && instance.Properties.Length > 0)
+                        {
+                            var propertyInfos = MatchProperty(instanceInfo, instance.Properties);
+                            if (propertyInfos == null)
+                            {
+                                // TODO: throw
                             }
 
-                            _InstanceInfos = _InstanceInfos.Append(instanceInfo);
+                            instanceInfo.PropertyInfos = propertyInfos;
                         }
-                        else
-                        {
-                            // TODO: throw
-                        }
+
+                        _InstanceInfos = _InstanceInfos.Append(instanceInfo);
                     }
                 }
             }

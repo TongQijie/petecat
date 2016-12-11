@@ -3,7 +3,7 @@ using System.IO.Compression;
 
 namespace Petecat.Utility
 {
-    public static class CompressUtility
+    public static class Compressor
     {
         public static void GzipCompress(string fileToCompress, string compressedFile)
         {

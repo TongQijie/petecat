@@ -6,39 +6,6 @@ namespace Petecat.Utility
 {
     public static class Reflector
     {
-        public static bool TryGetType(string typeName, out Type targetType)
-        {
-            try
-            {
-                var type = Type.GetType(typeName);
-                if (type != null)
-                {
-                    targetType = type;
-                    return true;
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            targetType = null;
-            return false;
-        }
-
-        public static T GetInstance<T>(string typeName, params object[] parameters) where T : class
-        {
-            try
-            {
-                var targetType = Type.GetType(typeName);
-                return Activator.CreateInstance(targetType, parameters) as T;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
         public static bool ContainsCustomAttribute<TAttribute>(MemberInfo memberInfo) where TAttribute : class
         {
             var attributes = memberInfo.GetCustomAttributes(typeof(TAttribute), false);

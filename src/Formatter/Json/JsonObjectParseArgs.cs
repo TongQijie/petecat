@@ -1,4 +1,4 @@
-﻿using Petecat.IO;
+﻿using Petecat.Formatter.Internal;
 
 namespace Petecat.Formatter.Json
 {

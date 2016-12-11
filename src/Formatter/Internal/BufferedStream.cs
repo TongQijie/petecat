@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 
-namespace Petecat.IO
+namespace Petecat.Formatter.Internal
 {
-    public class BufferedStream : IStream
+    internal class BufferedStream : IStream
     {
         public BufferedStream(Stream stream, int capacity)
         {
