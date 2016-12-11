@@ -266,13 +266,6 @@
     <Compile Include="Monitor\FileSystemMonitor.cs" />
     <Compile Include="Monitor\IFileSystemMonitor.cs" />
     <Compile Include="Monitor\Internal\FolderMonitor.cs" />
-    <Compile Include="Network\Configuration\MailTemplateConfig.cs" />
-    <Compile Include="Network\Configuration\MailTemplateCollectionConfig.cs" />
-    <Compile Include="Network\Errors\MailSendFailedException.cs" />
-    <Compile Include="Network\Errors\MailTemplateFromMissingException.cs" />
-    <Compile Include="Network\Errors\MailTemplateManagerNotInitializedException.cs" />
-    <Compile Include="Network\Errors\MailTemplateNotFoundException.cs" />
-    <Compile Include="Network\Errors\MailTemplateToMissingException.cs" />
     <Compile Include="Network\Ftp\FtpClientRequest.cs" />
     <Compile Include="Network\Ftp\FtpClientResponse.cs" />
     <Compile Include="Network\Ftp\FtpVerb.cs" />
@@ -284,8 +277,6 @@
     <Compile Include="Network\Http\HttpVerb.cs" />
     <Compile Include="Network\Http\IRestServiceHttpClient.cs" />
     <Compile Include="Network\Http\RestServiceHttpClient.cs" />
-    <Compile Include="Network\Mail\MailSimpleClient.cs" />
-    <Compile Include="Network\Mail\MailTemplateManager.cs" />
     <Compile Include="Network\Sockets\ISocketObject.cs" />
     <Compile Include="Network\Sockets\ITcpClientObject.cs" />
     <Compile Include="Network\Sockets\ITcpListenerObject.cs" />
