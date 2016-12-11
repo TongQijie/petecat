@@ -1,4 +1,5 @@
 ﻿using Petecat.DependencyInjection.Attribute;
+using System;
 
 namespace Petecat.ConsoleApp.DependencyInjection
 {
@@ -9,7 +10,7 @@ namespace Petecat.ConsoleApp.DependencyInjection
 
         public void SayHi(string hi)
         {
-            Console.ConsoleBridging.WriteLine("apple: '{0}'.", hi);
+            Console.WriteLine("apple: '{0}'.", hi);
         }
     }
 }

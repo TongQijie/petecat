@@ -2,6 +2,8 @@
 using Petecat.Formatter;
 using Petecat.Extending;
 using System.Text;
+using System;
+
 namespace Petecat.ConsoleApp.Caching
 {
     class CacheContainerBaseTest
@@ -14,15 +16,15 @@ namespace Petecat.ConsoleApp.Caching
         {
             Container.Add(new JsonFileCacheItem("apple", "./apple.json".FullPath(), typeof(AppleClass)));
             var appleClass = Container.Get("apple").GetValue() as AppleClass;
-            Console.ConsoleBridging.WriteLine(new JsonFormatter().WriteString(appleClass, Encoding.UTF8));
+            Console.WriteLine(new JsonFormatter().WriteString(appleClass, Encoding.UTF8));
 
             while (true)
             {
-                Console.ConsoleBridging.WriteLine("hit any key to set dirty...");
-                Console.ConsoleBridging.ReadAnyKey();
+                Console.WriteLine("hit any key to set dirty...");
+                Console.ReadKey();
                 Container.Get("apple").IsDirty = true;
                 appleClass = Container.Get("apple").GetValue() as AppleClass;
-                Console.ConsoleBridging.WriteLine(new JsonFormatter().WriteString(appleClass, Encoding.UTF8));
+                Console.WriteLine(new JsonFormatter().WriteString(appleClass, Encoding.UTF8));
             }
         }
     }

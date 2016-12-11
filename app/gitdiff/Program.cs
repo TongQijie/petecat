@@ -1,7 +1,7 @@
-﻿using Petecat.Console;
-using Petecat.Threading.Process;
+﻿using Petecat.Threading.Process;
 using System.Collections.Generic;
 using System.IO;
+using System;
 
 namespace GitDiff
 {
@@ -11,7 +11,7 @@ namespace GitDiff
         {
             if (args == null || args.Length != 3)
             {
-                ConsoleBridging.WriteLine("args error: gitdiff [BranchName] [LocalRepo] [CompareTool]");
+                Console.WriteLine("args error: gitdiff [BranchName] [LocalRepo] [CompareTool]");
                 return;
             }
 
@@ -79,7 +79,7 @@ namespace GitDiff
             WriteChangeFiles(changeFiles);
 
             var command = "";
-            while ((command = ConsoleBridging.ReadLine()) != "quit")
+            while ((command = Console.ReadLine()) != "quit")
             {
                 if (command.Trim().Equals("list", System.StringComparison.OrdinalIgnoreCase))
                 {
@@ -90,7 +90,7 @@ namespace GitDiff
                     int index;
                     if (!int.TryParse(command.Trim(), out index) || index <= 0 || index > changeFiles.Count)
                     {
-                        ConsoleBridging.WriteLine("error index.");
+                        Console.WriteLine("error index.");
                     }
                     else
                     {
@@ -121,7 +121,7 @@ namespace GitDiff
             // output changes
             for (var i = 1; i <= changeFiles.Count; i++)
             {
-                ConsoleBridging.WriteLine("{0,-4}{1,-3}{2}", i, changeFiles[i - 1].Action, changeFiles[i - 1].Path);
+                Console.WriteLine("{0,-4}{1,-3}{2}", i, changeFiles[i - 1].Action, changeFiles[i - 1].Path);
             }
         }
 

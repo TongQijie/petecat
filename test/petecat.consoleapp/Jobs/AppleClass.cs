@@ -1,6 +1,6 @@
 ﻿using Petecat.Jobs;
-using Petecat.Console;
 using Petecat.Threading;
+using System;
 
 namespace Petecat.ConsoleApp.Jobs
 {
@@ -14,7 +14,7 @@ namespace Petecat.ConsoleApp.Jobs
         {
             while (true)
             {
-                ConsoleBridging.WriteLine(string.Format("{0}: {1}", Name, Status));
+                Console.WriteLine(string.Format("{0}: {1}", Name, Status));
 
                 ThreadBridging.Sleep(2000);
 

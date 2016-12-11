@@ -1,5 +1,4 @@
-﻿using Petecat.Console;
-using Petecat.Extending;
+﻿using Petecat.Extending;
 
 using System;
 using System.IO;
@@ -12,27 +11,27 @@ namespace Formatter
     {
         static void Main(string[] args)
         {
-            ConsoleBridging.Write("input path: ");
-            var inputPath = ConsoleBridging.ReadLine().FullPath();
+            Console.Write("input path: ");
+            var inputPath = Console.ReadLine().FullPath();
             if (!File.Exists(inputPath))
             {
-                ConsoleBridging.WriteLine("file does not exist. path: " + inputPath);
+                Console.WriteLine("file does not exist. path: " + inputPath);
                 return;
             }
 
-            ConsoleBridging.Write("output path: ");
-            var outputPath = ConsoleBridging.ReadLine().FullPath();
+            Console.Write("output path: ");
+            var outputPath = Console.ReadLine().FullPath();
 
             var formatterConfig = new XmlFormatter().ReadObject<Configuration.FormatterConfig>("./format.config".FullPath());
             if (formatterConfig == null)
             {
-                ConsoleBridging.WriteLine("format.config does not exist.");
+                Console.WriteLine("format.config does not exist.");
                 return;
             }
 
             if (formatterConfig.TextConfig == null)
             {
-                ConsoleBridging.WriteLine("text config does not exist.");
+                Console.WriteLine("text config does not exist.");
                 return;
             }
 
@@ -76,7 +75,7 @@ namespace Formatter
                 }
             }
 
-            ConsoleBridging.Write("done.");
+            Console.Write("done.");
         }
 
         static void ConvertBOM(Stream inputStream, Stream outputStream, Configuration.TextConfig config)

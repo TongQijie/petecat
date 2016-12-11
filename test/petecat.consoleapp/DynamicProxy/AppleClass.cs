@@ -1,6 +1,8 @@
 ﻿using Petecat.DynamicProxy;
 using Petecat.DependencyInjection.Attribute;
 
+using System;
+
 namespace Petecat.ConsoleApp.DynamicProxy
 {
     [DependencyInjectable(Inference = typeof(IAppleInterface), Singleton = true)]
@@ -8,9 +10,9 @@ namespace Petecat.ConsoleApp.DynamicProxy
     {
         public void Intercept(IInvocation invocation)
         {
-            Console.ConsoleBridging.WriteLine("begin to execute...");
+            Console.WriteLine("begin to execute...");
             invocation.Process();
-            Console.ConsoleBridging.WriteLine("finished. Result: " + (invocation.ReturnValue == null ? "empty" : invocation.ReturnValue.ToString()));
+            Console.WriteLine("finished. Result: " + (invocation.ReturnValue == null ? "empty" : invocation.ReturnValue.ToString()));
         }
     }
 }

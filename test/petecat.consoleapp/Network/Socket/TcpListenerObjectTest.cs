@@ -1,5 +1,6 @@
 ﻿using Petecat.Network.Sockets;
 using System.Text;
+using System;
 
 namespace Petecat.ConsoleApp.Network.Socket
 {
@@ -11,12 +12,12 @@ namespace Petecat.ConsoleApp.Network.Socket
             listener.ReceivedData += Listener_ReceivedData;
             listener.Listen(18081);
 
-            Console.ConsoleBridging.ReadAnyKey();
+            Console.ReadKey();
         }
 
         private void Listener_ReceivedData(ISocketObject socketObject, byte[] data, int offset, int count)
         {
-            Console.ConsoleBridging.WriteLine(Encoding.UTF8.GetString(data, offset, count));
+            Console.WriteLine(Encoding.UTF8.GetString(data, offset, count));
         }
     }
 }

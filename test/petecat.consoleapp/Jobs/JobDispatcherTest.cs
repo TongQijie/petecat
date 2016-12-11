@@ -1,6 +1,7 @@
-﻿using Petecat.Console;
-using Petecat.DependencyInjection;
+﻿using Petecat.DependencyInjection;
 using Petecat.Jobs;
+
+using System;
 
 namespace Petecat.ConsoleApp.Jobs
 {
@@ -13,7 +14,7 @@ namespace Petecat.ConsoleApp.Jobs
 
             dispatcher.StartAll();
 
-            ConsoleBridging.ReadAnyKey();
+            Console.ReadKey();
 
             dispatcher.StopAll();
         }

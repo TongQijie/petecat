@@ -2,6 +2,8 @@
 using Petecat.Extending;
 using Petecat.DependencyInjection;
 
+using System;
+
 namespace Petecat.ConsoleApp.Monitor
 {
     class FileSystemMonitorTest
@@ -11,10 +13,10 @@ namespace Petecat.ConsoleApp.Monitor
             var monitor = DependencyInjector.GetObject<IFileSystemMonitor>();
 
             monitor.Add(this, "./".FullPath(),
-                (p) => { Console.ConsoleBridging.WriteLine("1 " + "e " + p); },
-                (p) => { Console.ConsoleBridging.WriteLine("1 " + "c " + p); },
-                (p) => { Console.ConsoleBridging.WriteLine("1 " + "d " + p); },
-                (o, n) => { Console.ConsoleBridging.WriteLine("1 " + "r " + o + " " + n); });
+                (p) => { Console.WriteLine("1 " + "e " + p); },
+                (p) => { Console.WriteLine("1 " + "c " + p); },
+                (p) => { Console.WriteLine("1 " + "d " + p); },
+                (o, n) => { Console.WriteLine("1 " + "r " + o + " " + n); });
         }
     }
 
@@ -25,10 +27,10 @@ namespace Petecat.ConsoleApp.Monitor
             var monitor = DependencyInjector.GetObject<IFileSystemMonitor>();
 
             monitor.Add(this, "./".FullPath(),
-                (p) => { Console.ConsoleBridging.WriteLine("2 " + "e " + p); },
-                (p) => { Console.ConsoleBridging.WriteLine("2 " + "c " + p); },
-                (p) => { Console.ConsoleBridging.WriteLine("2 " + "d " + p); },
-                (o, n) => { Console.ConsoleBridging.WriteLine("2 " + "r " + o + " " + n); });
+                (p) => { Console.WriteLine("2 " + "e " + p); },
+                (p) => { Console.WriteLine("2 " + "c " + p); },
+                (p) => { Console.WriteLine("2 " + "d " + p); },
+                (o, n) => { Console.WriteLine("2 " + "r " + o + " " + n); });
         }
     }
 }

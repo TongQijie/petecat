@@ -7,19 +7,13 @@ using System.IO;
 
 using Petecat.Network.Http;
 using System.Text.RegularExpressions;
-using Petecat.Console.Outputs;
-using Petecat.Console;
 
 namespace Crawler
 {
     class Program
     {
-        static RegularOutput Out = new RegularOutput();
-
         static Program()
         {
-            Out.Columns.Add(new RegularColumn(0, 30));
-            Out.Columns.Add(new RegularColumn(1, 10));
         }
 
         static List<Playlist> Playlists = new List<Playlist>();
@@ -28,15 +22,12 @@ namespace Crawler
         {
             for (int i = 1; i <= 100; i++)
             {
-                Out.OutputColumn(0, string.Format("Getting page {0} ...", i));
-                Out.OutputColumn(1, string.Format("{0}/100", i));
-                Out.Refresh();
+                Console.WriteLine("Getting page {0}... {1}/100", i, i);
+
                 GetOnePage(i);
             }
 
-            Out.OutputNewLine();
-            Out.OutputColumn(0, "Waiting to finish ...");
-            Out.Refresh();
+            Console.WriteLine("Waiting to finish ...");
 
             using (var outputStream = new StreamWriter("playlists.html", false, Encoding.UTF8))
             {
@@ -48,10 +39,9 @@ namespace Crawler
                 outputStream.WriteLine("</ul>");
             }
 
-            Out.OutputColumn(1, "done");
-            Out.Refresh();
+            Console.WriteLine("done");
 
-            ConsoleBridging.ReadAnyKey();
+            Console.ReadKey();
         }
 
         static void GetOnePage(int pageNumber)

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System;
 
 namespace Petecat.ConsoleApp.Formatter
 {
@@ -24,7 +25,7 @@ namespace Petecat.ConsoleApp.Formatter
 
             stopWatch.Stop();
 
-            Console.ConsoleBridging.WriteLine("JsonFormatter '3ixpc1re3x0.json': cost {0}", stopWatch.Elapsed.TotalMilliseconds);
+            Console.WriteLine("JsonFormatter '3ixpc1re3x0.json': cost {0}", stopWatch.Elapsed.TotalMilliseconds);
 
             stopWatch.Restart();
 
@@ -35,7 +36,7 @@ namespace Petecat.ConsoleApp.Formatter
 
             stopWatch.Stop();
 
-            Console.ConsoleBridging.WriteLine("JsonFormatter 'fbktgdhqboo.json': cost {0}", stopWatch.Elapsed.TotalMilliseconds);
+            Console.WriteLine("JsonFormatter 'fbktgdhqboo.json': cost {0}", stopWatch.Elapsed.TotalMilliseconds);
 
             stopWatch.Restart();
 
@@ -52,7 +53,7 @@ namespace Petecat.ConsoleApp.Formatter
 
             stopWatch.Stop();
 
-            Console.ConsoleBridging.WriteLine("Newtonsoft '3ixpc1re3x0.json': cost {0}", stopWatch.Elapsed.TotalMilliseconds);
+            Console.WriteLine("Newtonsoft '3ixpc1re3x0.json': cost {0}", stopWatch.Elapsed.TotalMilliseconds);
 
             stopWatch.Restart();
 
@@ -69,7 +70,7 @@ namespace Petecat.ConsoleApp.Formatter
 
             stopWatch.Stop();
 
-            Console.ConsoleBridging.WriteLine("Newtonsoft 'fbktgdhqboo.json': cost {0}", stopWatch.Elapsed.TotalMilliseconds);
+            Console.WriteLine("Newtonsoft 'fbktgdhqboo.json': cost {0}", stopWatch.Elapsed.TotalMilliseconds);
 
             stopWatch.Restart();
 
@@ -83,7 +84,7 @@ namespace Petecat.ConsoleApp.Formatter
 
             stopWatch.Stop();
 
-            Console.ConsoleBridging.WriteLine("DataContractJsonSerializer '3ixpc1re3x0.json': cost {0}", stopWatch.Elapsed.TotalMilliseconds);
+            Console.WriteLine("DataContractJsonSerializer '3ixpc1re3x0.json': cost {0}", stopWatch.Elapsed.TotalMilliseconds);
 
             stopWatch.Restart();
 
@@ -97,7 +98,7 @@ namespace Petecat.ConsoleApp.Formatter
 
             stopWatch.Stop();
 
-            Console.ConsoleBridging.WriteLine("DataContractJsonSerializer 'fbktgdhqboo.json': cost {0}", stopWatch.Elapsed.TotalMilliseconds);
+            Console.WriteLine("DataContractJsonSerializer 'fbktgdhqboo.json': cost {0}", stopWatch.Elapsed.TotalMilliseconds);
         }
     }
 }

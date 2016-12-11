@@ -1,7 +1,4 @@
-﻿using Petecat.Console;
-using Petecat.Console.Command;
-
-using System;
+﻿using System;
 using System.Linq;
 
 namespace Achiver
@@ -13,7 +10,7 @@ namespace Achiver
             var terminalCommandLine = TerminalCommandLineUtility.Parse(string.Format("{0} {1}", "arch", string.Join(" ", args.Select(x => x.Contains(' ') ? ('\"' + x + '\"') : x))));
             if (terminalCommandLine.ContainKeys("m", "mode", "i", "input", "o", "output"))
             {
-                ConsoleBridging.Write("mode/input/ouput argument is missing.");
+                Console.Write("mode/input/ouput argument is missing.");
                 return;
             }
 
@@ -27,13 +24,13 @@ namespace Achiver
                     {
                         terminalCommandLine["i"] ?? terminalCommandLine["input"],
                     });
-                    ConsoleBridging.Write("start archiving...");
+                    Console.Write("start archiving...");
                     archiver.Archive();
-                    ConsoleBridging.Write("done.");
+                    Console.Write("done.");
                 }
                 catch (Exception e)
                 {
-                    ConsoleBridging.Write(e.Message);
+                    Console.Write(e.Message);
                     return;
                 }
             }
@@ -44,19 +41,19 @@ namespace Achiver
                 try
                 {
                     var archiver = new Archiver(terminalCommandLine["o"] ?? terminalCommandLine["ouput"], terminalCommandLine["i"] ?? terminalCommandLine["input"]);
-                    ConsoleBridging.Write("start unarchiving...");
+                    Console.Write("start unarchiving...");
                     archiver.Unarchive();
-                    ConsoleBridging.Write("done.");
+                    Console.Write("done.");
                 }
                 catch (Exception e)
                 {
-                    ConsoleBridging.Write(e.Message);
+                    Console.Write(e.Message);
                     return;
                 }
             }
             else
             {
-                ConsoleBridging.Write("invalid mode.");
+                Console.Write("invalid mode.");
             }
         }
     }

@@ -54,7 +54,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="Console\Command\TerminalCommandLineUtilityTest.cs" />
     <Compile Include="Extension\ArrayExtensionTest.cs" />
     <Compile Include="Extension\StringExtensionTest.cs" />
     <Compile Include="Network\Ftp\FtpClientTest.cs" />

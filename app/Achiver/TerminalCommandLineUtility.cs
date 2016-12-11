@@ -1,4 +1,4 @@
-﻿namespace Petecat.Console.Command
+﻿namespace Achiver
 {
     public static class TerminalCommandLineUtility
     {
