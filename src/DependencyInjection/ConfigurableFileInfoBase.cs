@@ -1,12 +1,11 @@
-﻿using Petecat.Utility;
-using Petecat.Formatter;
+﻿using Petecat.Formatter;
 using Petecat.Extending;
+using Petecat.Configuring;
 using Petecat.Formatter.Json;
 using Petecat.DependencyInjection.Configuration;
 
 using System;
 using System.Text.RegularExpressions;
-using Petecat.Configuring;
 
 namespace Petecat.DependencyInjection
 {

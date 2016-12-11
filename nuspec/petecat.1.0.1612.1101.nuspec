@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Petecat</id>
+    <version>1.0.1612.1101</version>
+    <authors>Jerry</authors>
+    <owners>Jerry</owners>
+    <licenseUrl>http://tongqijie.com</licenseUrl>
+    <projectUrl>http://github.com/tongqijie/petecat</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>it's a .net framework library included dependency injection, dynamic proxy, http server...</description>
+    <releaseNotes></releaseNotes>
+    <copyright></copyright>
+    <tags>DI AOP .NET</tags>
+  </metadata>
+
+  <files>
+    <file src="..\build\master\net45\debug\petecat.dll" target="lib\net45" />
+    <file src="..\build\master\net45\debug\petecat.pdb" target="lib\net45" />
+  </files>
+</package>
