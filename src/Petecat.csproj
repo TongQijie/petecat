@@ -42,17 +42,10 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Caching\CacheContainerBase.cs" />
     <Compile Include="Caching\CacheItemBase.cs" />
-    <Compile Include="Caching\CacheObjectManager.cs" />
     <Compile Include="Caching\Delegates\CacheItemDirtyChangedHandlerDelegate.cs" />
-    <Compile Include="Caching\Errors\CacheObjectValueUpdateFailedException.cs" />
-    <Compile Include="Caching\Errors\CacheObjectValueWriteFailedException.cs" />
     <Compile Include="Caching\ICacheContainer.cs" />
     <Compile Include="Caching\ICacheItem.cs" />
     <Compile Include="Caching\IFileCacheItem.cs" />
-    <Compile Include="Caching\Internal\CacheObjectBase.cs" />
-    <Compile Include="Caching\ICacheObject.cs" />
-    <Compile Include="Caching\Internal\WritableCacheObject.cs" />
-    <Compile Include="Caching\IWritableCacheObject.cs" />
     <Compile Include="Caching\JsonFileCacheItem.cs" />
     <Compile Include="Caching\TextFileCacheItem.cs" />
     <Compile Include="Caching\XmlFileCacheItem.cs" />
