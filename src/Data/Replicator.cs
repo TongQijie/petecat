@@ -2,6 +2,7 @@
 
 using Petecat.Extending;
 using Petecat.DependencyInjection.Attribute;
+using System;
 
 namespace Petecat.Data
 {
@@ -12,37 +13,46 @@ namespace Petecat.Data
         {
             var type = obj.GetType();
 
-            var copy = type.CreateInstance();
+            
             if (type.IsValueType)
             {
-                copy = obj;
+                return obj;
             }
             else if (type == typeof(string))
             {
                 if (obj == null)
                 {
-                    copy = null;
+                    return null;
                 }
                 else
                 {
-                    copy = string.Copy(obj as string);
+                    return string.Copy(obj as string);
                 }
+            }
+            else if (type.IsArray)
+            {
+                var array = obj as Array;
+
+                var copy = Array.CreateInstance(type.GetElementType(), array.Length);
+                for (var i = 0; i < array.Length; i++)
+                {
+                    copy.SetValue(array.GetValue(i), i);
+                }
+
+                return copy;
             }
             else
             {
-                var fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
-                if (fields == null || fields.Length == 0)
-                {
-                    return copy;
-                }
+                var copy = type.CreateInstance();
 
+                var fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
                 foreach (var field in fields)
                 {
                     field.SetValue(copy, field.GetValue(obj));
                 }
-            }
 
-            return copy;
+                return copy;
+            }
         }
 
         public T ShallowCopy<T>(object obj)
@@ -54,30 +64,38 @@ namespace Petecat.Data
         {
             var type = obj.GetType();
 
-            var copy = type.CreateInstance();
             if (type.IsValueType)
             {
-                copy = obj;
+                return obj;
             }
             else if (type == typeof(string))
             {
                 if (obj == null)
                 {
-                    copy = null;
+                    return null;
                 }
                 else
                 {
-                    copy = string.Copy(obj as string);
+                    return string.Copy(obj as string);
                 }
+            }
+            else if (type.IsArray)
+            {
+                var array = obj as Array;
+
+                var copy = Array.CreateInstance(type.GetElementType(), array.Length);
+                for (var i = 0; i < array.Length; i++)
+                {
+                    copy.SetValue(DeepCopy(array.GetValue(i)), i);
+                }
+
+                return copy;
             }
             else
             {
-                var fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
-                if (fields == null || fields.Length == 0)
-                {
-                    return copy;
-                }
+                var copy = type.CreateInstance();
 
+                var fields = type.GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
                 foreach (var field in fields)
                 {
                     if (field.FieldType.IsValueType)
@@ -109,9 +127,9 @@ namespace Petecat.Data
                         }
                     }
                 }
-            }
 
-            return copy;
+                return copy;
+            }
         }
 
         public T DeepCopy<T>(object obj)
