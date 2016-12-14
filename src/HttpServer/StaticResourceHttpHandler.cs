@@ -10,13 +10,17 @@ namespace Petecat.HttpServer
 {
     public class StaticResourceHttpHandler : IHttpHandler
     {
-        public StaticResourceHttpHandler(StaticResourceHttpRequest request, StaticResourceHttpResponse response)
+        public StaticResourceHttpHandler(string resourcePath, string resourceType)
         {
-            Request = request;
-            Response = response;
+            ResourcePath = resourcePath;
+            ResourceType = resourceType;
         }
 
         public bool IsReusable { get { return true; } }
+
+        public string ResourcePath { get; private set; }
+
+        public string ResourceType { get; private set; }
 
         public StaticResourceHttpRequest Request { get; private set; }
 
@@ -26,6 +30,9 @@ namespace Petecat.HttpServer
         {
             try
             {
+                Request = new StaticResourceHttpRequest(context.Request, ResourcePath, ResourceType);
+                Response = new StaticResourceHttpResponse(context.Response);
+
                 var contentType = DependencyInjector.GetObject<IHttpApplicationConfigurer>().GetStaticResourceMapping(Request.ResourceType);
                 if (contentType.HasValue())
                 {

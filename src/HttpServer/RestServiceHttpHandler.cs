@@ -11,13 +11,17 @@ namespace Petecat.HttpServer
 {
     public class RestServiceHttpHandler : IHttpHandler
     {
-        public RestServiceHttpHandler(RestServiceHttpRequest request, RestServiceHttpResponse response)
+        public RestServiceHttpHandler(string serviceName, string methodName)
         {
-            Request = request;
-            Response = response;
+            ServiceName = serviceName;
+            MethodName = methodName;
         }
 
         public bool IsReusable { get { return true; } }
+
+        public string ServiceName { get; private set; }
+
+        public string MethodName { get; private set; }
 
         [ThreadStatic]
         public static RestServiceHttpRequest Request;
@@ -29,6 +33,9 @@ namespace Petecat.HttpServer
         {
             try
             {
+                Request = new RestServiceHttpRequest(context.Request, ServiceName, MethodName);
+                Response = new RestServiceHttpResponse(context.Response);
+
                 var container = DependencyInjector.GetContainer<HttpServerAssemblyContainer>();
                 if (container == null)
                 {

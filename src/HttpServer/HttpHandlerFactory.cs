@@ -65,16 +65,12 @@ namespace Petecat.HttpServer
             }
             else if (lastField.HasValue() && lastField.Contains("."))
             {
-                return new StaticResourceHttpHandler(
-                    new StaticResourceHttpRequest(context.Request, "./" + rawUrl, lastField.Substring(lastField.LastIndexOf('.') + 1)),
-                    new StaticResourceHttpResponse(context.Response));
+                return new StaticResourceHttpHandler("./" + rawUrl, lastField.Substring(lastField.LastIndexOf('.') + 1));
             }
             else
             {
                 var fields = rawUrl.SplitByChar('/');
-                return new RestServiceHttpHandler(
-                    new RestServiceHttpRequest(context.Request, fields.Length > 0 ? fields[0] : null, fields.Length > 1 ? fields[1] : null),
-                    new RestServiceHttpResponse(context.Response));
+                return new RestServiceHttpHandler(fields.Length > 0 ? fields[0] : null, fields.Length > 1 ? fields[1] : null);
             }
         }
 
