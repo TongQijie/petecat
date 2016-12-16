@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Petecat.DependencyInjection
 {
-    public class AssemblyInfoBase : IAssemblyInfo
+    public class AssemblyInfoBase<T> : IAssemblyInfo where T : DependencyInjectableAttribute
     {
         public AssemblyInfoBase(Assembly assembly)
         {
@@ -21,8 +21,8 @@ namespace Petecat.DependencyInjection
 
             foreach (var type in Assembly.GetTypes().Subset(x => x.IsClass))
             {
-                DependencyInjectableAttribute attribute;
-                if (Reflector.TryGetCustomAttribute(type, null, out attribute))
+                T attribute;
+                if (Reflector.TryGetCustomAttribute(type, x => x.GetType() == typeof(T), out attribute))
                 {
                     typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(type, attribute.Inference, attribute.Singleton, attribute.Priority, this));
                 }

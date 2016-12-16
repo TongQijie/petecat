@@ -41,6 +41,11 @@ namespace Petecat.DependencyInjection
                 ITypeDefinition typeDefinition;
                 if (RegisteredTypes.TryGetValue(targetType, out typeDefinition))
                 {
+                    if (typeDefinition.ConstructorMethods == null || typeDefinition.ConstructorMethods.Length == 0)
+                    {
+                        throw new Exception(string.Format("constructor method cannot be found in type '{0}'", targetType.FullName));
+                    }
+
                     var defaultConstructor = typeDefinition.ConstructorMethods[0];
 
                     var parameterValues = new object[defaultConstructor.ParameterInfos.Length];

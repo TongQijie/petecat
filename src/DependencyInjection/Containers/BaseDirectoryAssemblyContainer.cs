@@ -1,8 +1,9 @@
-﻿using Petecat.Extending;
-
-using System;
+﻿using System;
 using System.IO;
 using System.Reflection;
+
+using Petecat.Extending;
+using Petecat.DependencyInjection.Attribute;
 
 namespace Petecat.DependencyInjection.Containers
 {
@@ -10,7 +11,7 @@ namespace Petecat.DependencyInjection.Containers
     {
         public BaseDirectoryAssemblyContainer()
         {
-            RegisterAssemblies<AssemblyInfoBase>();
+            RegisterAssemblies<AssemblyInfoBase<DependencyInjectableAttribute>>();
         }
 
         public void RegisterAssemblies<T>() where T : IAssemblyInfo

@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Petecat.HttpServer.DependencyInjection
 {
-    public class WebSocketAssemblyInfo : AssemblyInfoBase
+    public class WebSocketAssemblyInfo : AssemblyInfoBase<WebSocketInjectableAttribute>
     {
         public WebSocketAssemblyInfo(Assembly assembly)
             : base(assembly)

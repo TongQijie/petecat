@@ -7,7 +7,7 @@ using System.Reflection;
 
 namespace Petecat.DynamicProxy.DependencyInjection
 {
-    public class DynamicProxyAssemblyInfo : AssemblyInfoBase
+    public class DynamicProxyAssemblyInfo : AssemblyInfoBase<DynamicProxyInjectableAttribute>
     {
         public DynamicProxyAssemblyInfo(Assembly assembly)
             : base(assembly)

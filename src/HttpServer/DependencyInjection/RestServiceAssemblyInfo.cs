@@ -7,7 +7,7 @@ using Petecat.HttpServer.Attribute;
 
 namespace Petecat.HttpServer.DependencyInjection
 {
-    public class RestServiceAssemblyInfo : AssemblyInfoBase
+    public class RestServiceAssemblyInfo : AssemblyInfoBase<RestServiceInjectableAttribute>
     {
         public RestServiceAssemblyInfo(Assembly assembly)
             : base(assembly)

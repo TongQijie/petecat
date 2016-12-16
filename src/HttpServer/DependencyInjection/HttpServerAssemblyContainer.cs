@@ -1,8 +1,13 @@
-﻿using Petecat.DependencyInjection;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+
+using Petecat.Extending;
+using Petecat.DependencyInjection;
+using Petecat.Configuring.Attribute;
+using Petecat.DependencyInjection.Attribute;
+using Petecat.DynamicProxy.DependencyInjection;
 
 namespace Petecat.HttpServer.DependencyInjection
 {
@@ -10,14 +15,14 @@ namespace Petecat.HttpServer.DependencyInjection
     {
         public HttpServerAssemblyContainer()
         {
-            RegisterAssemblies();
+            Directory = GetRootAssemblyDirectory(Assembly.GetExecutingAssembly().Location);
         }
 
-        private void RegisterAssemblies()
-        {
-            var directoryInfo = GetRootAssemblyDirectory(Assembly.GetExecutingAssembly().Location);
+        public DirectoryInfo Directory { get; private set; }
 
-            foreach (var df in directoryInfo.GetDirectories())
+        public void RegisterAssemblies<T>() where T : IAssemblyInfo
+        {
+            foreach (var df in Directory.GetDirectories())
             {
                 var i = df.GetDirectories().OrderByDescending(x => x.LastWriteTime).FirstOrDefault();
                 if (i != null)
@@ -26,9 +31,7 @@ namespace Petecat.HttpServer.DependencyInjection
                     {
                         try
                         {
-                            RegisterAssembly(new RestServiceAssemblyInfo(Assembly.LoadFile(fileInfo.FullName)));
-                            RegisterAssembly(new WebSocketAssemblyInfo(Assembly.LoadFile(fileInfo.FullName)));
-                            RegisterAssembly(new AssemblyInfoBase(Assembly.LoadFile(fileInfo.FullName)));
+                            RegisterAssembly(typeof(T).CreateInstance<T>(Assembly.LoadFile(fileInfo.FullName)));
                         }
                         catch (Exception)
                         {
