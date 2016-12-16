@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Reflection;
 
 using Petecat.Extending;
 
@@ -7,9 +8,17 @@ namespace Petecat.DependencyInjection
 {
     public class AssemblyContainerBase : ContainerBase, IAssemblyContainer
     {
+        public Assembly[] Assemblies { get; protected set; }
+
         public override object GetObject(Type targetType)
         {
             return InternalResolve(targetType);
+        }
+
+        public IAssemblyContainer RegisterAssemblies<T>() where T : IAssemblyInfo
+        {
+            Assemblies.Each(x => RegisterAssembly(typeof(T).CreateInstance<T>(x)));
+            return this;
         }
 
         public void RegisterAssembly(IAssemblyInfo assemblyInfo)
@@ -54,7 +63,7 @@ namespace Petecat.DependencyInjection
                         var parameterInfo = defaultConstructor.ParameterInfos.FirstOrDefault(x => x.Index == i);
                         if (parameterInfo == null)
                         {
-                            // TODO: throw
+                            throw new Exception(string.Format("parameter is missing in contructor method."));
                         }
 
                         parameterValues[i] = InternalResolve(parameterInfo.TypeDefinition.Info as Type);

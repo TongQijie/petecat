@@ -23,7 +23,7 @@ namespace Petecat.HttpServer.DependencyInjection
                 RestServiceInjectableAttribute attribute;
                 if (Reflector.TryGetCustomAttribute(type, x => x.GetType().Equals(typeof(RestServiceInjectableAttribute)), out attribute))
                 {
-                    typeDefinitions = typeDefinitions.Append(new RestServiceTypeDefinition(type, attribute.ServiceName));
+                    typeDefinitions = typeDefinitions.Append(new RestServiceTypeDefinition(type, attribute.Inference, attribute.Singleton, attribute.Priority, this, attribute.ServiceName));
                 }
             }
 

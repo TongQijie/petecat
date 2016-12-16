@@ -3,7 +3,7 @@ using Petecat.Configuring.Attribute;
 
 namespace Petecat.HttpServer.Configuration
 {
-    [StaticFileConfigElement(
+    [StaticFile(
         Key = "Global_HttpApplicationConfiguration",
         Path = "./Configuration/application.json",
         FileFormat = "json",

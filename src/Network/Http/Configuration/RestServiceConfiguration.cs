@@ -3,7 +3,7 @@ using Petecat.Formatter.Attribute;
 
 namespace Petecat.Network.Http.Configuration
 {
-    [StaticFileConfigElement(
+    [StaticFile(
         Key = "Global_RestServiceConfiguration",
         Path = "./configuration/restservice.json",
         FileFormat = "json",

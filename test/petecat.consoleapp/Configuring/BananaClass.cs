@@ -4,7 +4,7 @@ using Petecat.Configuring.Attribute;
 
 namespace Petecat.ConsoleApp.Configuring
 {
-    [StaticFileConfigElement(
+    [StaticFile(
         Key = "banana", 
         Path = "./configuring/banana.json", 
         FileFormat = "json", 

@@ -16,9 +16,10 @@ namespace Petecat.DependencyInjection
             _Containers = new IContainer[0];
         }
 
-        public static void Setup(IContainer container)
+        public static T Setup<T>(T container) where T : IContainer
         {
             _Containers = _Containers.Append(container);
+            return container;
         }
 
         public static TContainer GetContainer<TContainer>() where TContainer : IContainer

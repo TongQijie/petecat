@@ -4,7 +4,7 @@ using Petecat.Configuring.Attribute;
 
 namespace Petecat.EntityFramework.Configuration
 {
-    [StaticFileConfigElement(Inference = typeof(IDatabaseConfiguration),
+    [StaticFile(Inference = typeof(IDatabaseConfiguration),
         Key = "Global_DatabaseConfiguration",
         Path = "./configuration/databases.xml",
         FileFormat = "xml")]

@@ -1,13 +1,9 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Reflection;
 
 using Petecat.Extending;
 using Petecat.DependencyInjection;
-using Petecat.Configuring.Attribute;
-using Petecat.DependencyInjection.Attribute;
-using Petecat.DynamicProxy.DependencyInjection;
 
 namespace Petecat.HttpServer.DependencyInjection
 {
@@ -16,12 +12,7 @@ namespace Petecat.HttpServer.DependencyInjection
         public HttpServerAssemblyContainer()
         {
             Directory = GetRootAssemblyDirectory(Assembly.GetExecutingAssembly().Location);
-        }
 
-        public DirectoryInfo Directory { get; private set; }
-
-        public void RegisterAssemblies<T>() where T : IAssemblyInfo
-        {
             foreach (var df in Directory.GetDirectories())
             {
                 var i = df.GetDirectories().OrderByDescending(x => x.LastWriteTime).FirstOrDefault();
@@ -29,18 +20,13 @@ namespace Petecat.HttpServer.DependencyInjection
                 {
                     foreach (var fileInfo in i.GetFiles("*.dll", SearchOption.TopDirectoryOnly))
                     {
-                        try
-                        {
-                            RegisterAssembly(typeof(T).CreateInstance<T>(Assembly.LoadFile(fileInfo.FullName)));
-                        }
-                        catch (Exception)
-                        {
-                            throw;
-                        }
+                        Assemblies = Assemblies.Append(Assembly.LoadFile(fileInfo.FullName));
                     }
                 }
             }
         }
+
+        public DirectoryInfo Directory { get; private set; }
 
         private DirectoryInfo GetRootAssemblyDirectory(string currentAssemblyPath)
         {

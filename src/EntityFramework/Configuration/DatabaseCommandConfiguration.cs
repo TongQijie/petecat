@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 
 namespace Petecat.EntityFramework.Configuration
 {
-    [StaticFileConfigElement(Inference = typeof(IDatabaseCommandConfiguration),
+    [StaticFile(Inference = typeof(IDatabaseCommandConfiguration),
         Key = "Global_DatabaseCommandConfiguration",
         Path = "./configuration/databaseCommands_*.xml",
         FileFormat = "xml",

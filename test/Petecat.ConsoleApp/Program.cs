@@ -9,7 +9,8 @@ namespace Petecat.ConsoleApp
     {
         static void Main(string[] args)
         {
-            DependencyInjector.Setup(new BaseDirectoryAssemblyContainer());
+            DependencyInjector.Setup(new BaseDirectoryAssemblyContainer())
+                .RegisterAssemblies<AssemblyInfoBase>();
 
             if (args != null && args.Length > 0 && args[0].StartsWith("fsmt", StringComparison.OrdinalIgnoreCase))
             {

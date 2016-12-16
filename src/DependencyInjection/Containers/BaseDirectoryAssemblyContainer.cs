@@ -1,9 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Reflection;
 
 using Petecat.Extending;
-using Petecat.DependencyInjection.Attribute;
 
 namespace Petecat.DependencyInjection.Containers
 {
@@ -11,35 +9,16 @@ namespace Petecat.DependencyInjection.Containers
     {
         public BaseDirectoryAssemblyContainer()
         {
-            RegisterAssemblies<AssemblyInfoBase<DependencyInjectableAttribute>>();
-        }
-
-        public void RegisterAssemblies<T>() where T : IAssemblyInfo
-        {
             var directoryInfo = new DirectoryInfo("./".FullPath());
 
             foreach (var fileInfo in directoryInfo.GetFiles("*.dll", SearchOption.TopDirectoryOnly))
             {
-                try
-                {
-                    RegisterAssembly(typeof(T).CreateInstance<T>(Assembly.LoadFile(fileInfo.FullName)));
-                }
-                catch (Exception e)
-                {
-                    // TODO: throw
-                }
+                Assemblies = Assemblies.Append(Assembly.LoadFile(fileInfo.FullName));
             }
 
             foreach (var fileInfo in directoryInfo.GetFiles("*.exe", SearchOption.TopDirectoryOnly))
             {
-                try
-                {
-                    RegisterAssembly(typeof(T).CreateInstance<T>(Assembly.LoadFile(fileInfo.FullName)));
-                }
-                catch (Exception e)
-                {
-                    // TODO: throw
-                }
+                Assemblies = Assemblies.Append(Assembly.LoadFile(fileInfo.FullName));
             }
         }
     }

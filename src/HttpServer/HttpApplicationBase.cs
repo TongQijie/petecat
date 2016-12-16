@@ -1,11 +1,10 @@
-﻿using Petecat.Logging;
+﻿using System;
+using System.Web;
+
+using Petecat.Logging;
 using Petecat.DependencyInjection;
 using Petecat.HttpServer.DependencyInjection;
-
-using System;
-using System.Web;
-using Petecat.DependencyInjection.Attribute;
-using Petecat.Configuring.Attribute;
+using Petecat.Configuring.DependencyInjection;
 using Petecat.DynamicProxy.DependencyInjection;
 
 namespace Petecat.HttpServer
@@ -21,12 +20,12 @@ namespace Petecat.HttpServer
         {
             try
             {
-                DependencyInjector.Setup(new HttpServerAssemblyContainer());
-                DependencyInjector.GetContainer<HttpServerAssemblyContainer>().RegisterAssemblies<AssemblyInfoBase<DependencyInjectableAttribute>>();
-                DependencyInjector.GetContainer<HttpServerAssemblyContainer>().RegisterAssemblies<AssemblyInfoBase<StaticFileConfigElementAttribute>>();
-                DependencyInjector.GetContainer<HttpServerAssemblyContainer>().RegisterAssemblies<RestServiceAssemblyInfo>();
-                DependencyInjector.GetContainer<HttpServerAssemblyContainer>().RegisterAssemblies<WebSocketAssemblyInfo>();
-                DependencyInjector.GetContainer<HttpServerAssemblyContainer>().RegisterAssemblies<DynamicProxyAssemblyInfo>();
+                DependencyInjector.Setup(new HttpServerAssemblyContainer())
+                    .RegisterAssemblies<AssemblyInfoBase>()
+                    .RegisterAssemblies<StaticFileAssemblyInfo>()
+                    .RegisterAssemblies<RestServiceAssemblyInfo>()
+                    .RegisterAssemblies<WebSocketAssemblyInfo>()
+                    .RegisterAssemblies<DynamicProxyAssemblyInfo>();
             }
             catch (Exception e)
             {

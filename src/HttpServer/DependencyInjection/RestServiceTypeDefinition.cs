@@ -9,17 +9,9 @@ namespace Petecat.HttpServer.DependencyInjection
 {
     public class RestServiceTypeDefinition : TypeDefinitionBase
     {
-        public RestServiceTypeDefinition(Type type, string serviceName)
+        public RestServiceTypeDefinition(Type type, Type inference, bool singleton, int priority, IAssemblyInfo assemblyInfo, string serviceName)
+            : base(type, inference, singleton, priority, assemblyInfo)
         {
-            Info = type;
-            RestServiceInjectableAttribute attribute;
-            if (Reflector.TryGetCustomAttribute(type, null, out attribute))
-            {
-                Inference = attribute.Inference;
-                Singleton = attribute.Singleton;
-                Priority = attribute.Priority;
-            }
-            AssemblyInfo = new RestServiceAssemblyInfo(type.Assembly);
             ServiceName = serviceName;
         }
 

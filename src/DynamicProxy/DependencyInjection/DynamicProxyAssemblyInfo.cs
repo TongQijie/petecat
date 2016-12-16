@@ -1,9 +1,9 @@
-﻿using Petecat.Utility;
+﻿using System.Reflection;
+
+using Petecat.Utility;
 using Petecat.Extending;
 using Petecat.DependencyInjection;
 using Petecat.DynamicProxy.Attribute;
-
-using System.Reflection;
 
 namespace Petecat.DynamicProxy.DependencyInjection
 {

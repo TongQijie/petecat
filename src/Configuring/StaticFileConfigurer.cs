@@ -138,7 +138,7 @@ namespace Petecat.Configuring
                 // TODO: throw
             }
 
-            StaticFileConfigElementAttribute attribute;
+            StaticFileAttribute attribute;
             if (!Reflector.TryGetCustomAttribute(obj.GetType(), null, out attribute))
             {
                 throw new Exception(string.Format("type '{0}' is not specified by StaticFileConfigElementAttribute.", obj.GetType()));

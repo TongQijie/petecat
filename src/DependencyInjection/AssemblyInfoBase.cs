@@ -1,34 +1,13 @@
-﻿using Petecat.Utility;
-using Petecat.Extending;
-using Petecat.DependencyInjection.Attribute;
+﻿using System.Reflection;
 
-using System.Reflection;
+using Petecat.DependencyInjection.Attribute;
 
 namespace Petecat.DependencyInjection
 {
-    public class AssemblyInfoBase<T> : IAssemblyInfo where T : DependencyInjectableAttribute
+    public class AssemblyInfoBase : AssemblyInfoBase<DependencyInjectableAttribute>
     {
-        public AssemblyInfoBase(Assembly assembly)
+        public AssemblyInfoBase(Assembly assembly) : base(assembly)
         {
-            Assembly = assembly;
-        }
-
-        public Assembly Assembly { get; set; }
-
-        public virtual ITypeDefinition[] GetTypeDefinitions()
-        {
-            var typeDefinitions = new ITypeDefinition[0];
-
-            foreach (var type in Assembly.GetTypes().Subset(x => x.IsClass))
-            {
-                T attribute;
-                if (Reflector.TryGetCustomAttribute(type, x => x.GetType() == typeof(T), out attribute))
-                {
-                    typeDefinitions = typeDefinitions.Append(new TypeDefinitionBase(type, attribute.Inference, attribute.Singleton, attribute.Priority, this));
-                }
-            }
-
-            return typeDefinitions;
         }
     }
 }

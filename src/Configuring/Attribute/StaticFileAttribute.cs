@@ -2,9 +2,9 @@
 
 namespace Petecat.Configuring.Attribute
 {
-    public class StaticFileConfigElementAttribute : DependencyInjectableAttribute
+    public class StaticFileAttribute : DependencyInjectableAttribute
     {
-        public StaticFileConfigElementAttribute()
+        public StaticFileAttribute()
         {
             Singleton = true;
         }
