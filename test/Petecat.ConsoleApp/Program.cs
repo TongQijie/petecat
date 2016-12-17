@@ -48,6 +48,11 @@ namespace Petecat.ConsoleApp
                 new Formatter.JsonFormatterTest().Run();
                 Console.ReadKey();
             }
+            else if (args != null && args.Length > 0 && args[0].StartsWith("rdpt", StringComparison.OrdinalIgnoreCase))
+            {
+                new Formatter.JsonDeserializationPerformanceTest().Run();
+                Console.ReadKey();
+            }
             else if (args != null && args.Length > 0 && args[0].StartsWith("flt", StringComparison.OrdinalIgnoreCase))
             {
                 new Logging.FileLoggerTest().Run();

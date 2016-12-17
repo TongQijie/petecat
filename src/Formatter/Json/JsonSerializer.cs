@@ -116,103 +116,107 @@ namespace Petecat.Formatter.Json
 
         #region Serialization
 
-        public void Serialize(object instance, Stream stream, bool omitDefaultValueProperty)
+        public void Serialize(object instance, Stream stream, bool omitDefaultValue)
         {
+            if (instance == null)
+            {
+                throw new ArgumentNullException("instance");
+            }
+
             if (JsonObjectType == JsonObjectType.Dictionary)
             {
-                stream.WriteByte(JsonEncoder.Left_Brace);
+                SerializeJsonDictionaryObject(stream, instance, omitDefaultValue);
             }
             else if (JsonObjectType == JsonObjectType.Collection)
             {
-                stream.WriteByte(JsonEncoder.Left_Bracket);
+                SerializeJsonCollectionObject(stream, instance, omitDefaultValue);
             }
             else
             {
                 throw new Exception(string.Format("failed to serialize object '{0}'.", instance));
             }
+        }
+
+        private void SerializeJsonDictionaryObject(Stream stream, object value, bool omitDefaultValue)
+        {
+            stream.WriteByte(JsonEncoder.Left_Brace);
 
             var firstElement = true;
-            if (JsonObjectType == JsonObjectType.Dictionary)
+            foreach (var jsonProperty in JsonProperties.Values.ToArray())
             {
-                foreach (var jsonProperty in JsonProperties.Values.ToArray())
+                var propertyValue = jsonProperty.PropertyInfo.GetValue(value, null);
+                if (omitDefaultValue && jsonProperty.DefaultValue.EqualsWith(propertyValue))
                 {
-                    var propertyValue = jsonProperty.PropertyInfo.GetValue(instance, null);
-                    if (omitDefaultValueProperty && jsonProperty.DefaultValue.EqualsWith(propertyValue))
-                    {
-                        continue;
-                    }
-
-                    if (firstElement)
-                    {
-                        firstElement = false;
-                    }
-                    else
-                    {
-                        stream.WriteByte(JsonEncoder.Comma);
-                    }
-
-                    var buf = JsonEncoder.GetElementName(jsonProperty.Key);
-                    stream.Write(buf, 0, buf.Length);
-
-                    WriteValue(stream, propertyValue, omitDefaultValueProperty);
+                    continue;
                 }
+
+                if (firstElement)
+                {
+                    firstElement = false;
+                }
+                else
+                {
+                    stream.WriteByte(JsonEncoder.Comma);
+                }
+
+                var buf = JsonEncoder.GetElementName(jsonProperty.Key);
+                stream.Write(buf, 0, buf.Length);
+
+                SerializeRegularValue(stream, propertyValue, jsonProperty.ObjectType, omitDefaultValue);
             }
-            else if (CurrentRuntimeType == RuntimeType.Collection)
+
+            stream.WriteByte(JsonEncoder.Right_Brace);
+        }
+
+        private void SerializeJsonCollectionObject(Stream stream, object value, bool omitDefaultValue)
+        {
+            stream.WriteByte(JsonEncoder.Left_Bracket);
+
+            var collection = value as ICollection;
+            var objectType = JsonUtility.GetJsonObjectType(value.GetType().GetElementType());
+
+            var firstElement = true;
+            foreach (var element in collection)
             {
-                var array = instance as ICollection;
-
-                foreach (var value in array)
+                if (element == null)
                 {
-                    if (firstElement)
-                    {
-                        firstElement = false;
-                    }
-                    else
-                    {
-                        stream.WriteByte(JsonEncoder.Comma);
-                    }
-
-                    WriteValue(stream, value, omitDefaultValueProperty);
+                    continue;
                 }
+
+                if (firstElement)
+                {
+                    firstElement = false;
+                }
+                else
+                {
+                    stream.WriteByte(JsonEncoder.Comma);
+                }
+
+                SerializeRegularValue(stream, element, objectType, omitDefaultValue);
+            }
+
+            stream.WriteByte(JsonEncoder.Right_Bracket);
+        }
+
+        private void SerializeRegularValue(Stream stream, object value, JsonObjectType objectType, bool omitDefaultValue)
+        {
+            if (objectType == JsonObjectType.Value)
+            {
+                var buf = JsonEncoder.GetPlainValue(value);
+                stream.Write(buf, 0, buf.Length);
+            }
+            else if (value == null)
+            {
+                var buf = JsonEncoder.GetNullValue();
+                stream.Write(buf, 0, buf.Length);
+            }
+            else if (objectType == JsonObjectType.Runtime)
+            {
+                SerializeRegularValue(stream, value, JsonUtility.GetJsonObjectType(value.GetType()), omitDefaultValue);
             }
             else
             {
-                return;
-            }
-
-            if (JsonObjectType == JsonObjectType.Dictionary)
-            {
-                stream.WriteByte(JsonEncoder.Left_Brace);
-            }
-            else if (JsonObjectType == JsonObjectType.Collection)
-            {
-                stream.WriteByte(JsonEncoder.Left_Bracket);
-            }
-        }
-
-        private void WriteValue(Stream stream, object value, bool omitDefaultValueProperty)
-        {
-            switch (GetRuntimeType(value.GetType()))
-            {
-                case RuntimeType.Value:
-                    {
-                        var buf = JsonEncoder.GetPlainValue(value);
-                        stream.Write(buf, 0, buf.Length);
-                        break;
-                    }
-                default:
-                    {
-                        if (value == null)
-                        {
-                            var buf = JsonEncoder.GetNullValue();
-                            stream.Write(buf, 0, buf.Length);
-                        }
-                        else
-                        {
-                            GetSerializer(value.GetType()).Serialize(value, stream, omitDefaultValueProperty);
-                        }
-                        break;
-                    }
+                GetSerializer(value.GetType()).Serialize(value, stream, omitDefaultValue);
             }
         }
 
@@ -224,7 +228,7 @@ namespace Petecat.Formatter.Json
         {
             var args = new JsonObjectParseArgs()
             {
-                Stream = new Internal.BufferedStream(stream, 4 * 1024),
+                Stream = new Internal.BufferedStream(stream, 8 * 1024),
             };
 
             JsonObjectParser.Parse(args);
@@ -274,8 +278,12 @@ namespace Petecat.Formatter.Json
                     continue;
                 }
 
-                var runtimeType = GetRuntimeType(jsonProperty.PropertyInfo.PropertyType);
-                if (runtimeType == RuntimeType.Object)
+                if (jsonProperty.ObjectType == JsonObjectType.Runtime)
+                {
+                    continue;
+                }
+
+                if (jsonProperty.ObjectType == JsonObjectType.Dictionary)
                 {
                     if (element.Value is JsonDictionaryObject)
                     {
@@ -291,7 +299,7 @@ namespace Petecat.Formatter.Json
                         throw new Errors.JsonSerializeFailedException(element.Key, ".net runtime type does not match json type.");
                     }
                 }
-                else if (runtimeType == RuntimeType.Collection)
+                else if (jsonProperty.ObjectType == JsonObjectType.Collection)
                 {
                     if (element.Value is JsonCollectionObject)
                     {
@@ -308,7 +316,7 @@ namespace Petecat.Formatter.Json
                         throw new Errors.JsonSerializeFailedException(element.Key, ".net runtime type does not match json type.");
                     }
                 }
-                else if (runtimeType == RuntimeType.Value && element.Value is JsonValueObject)
+                else if (jsonProperty.ObjectType == JsonObjectType.Value && element.Value is JsonValueObject)
                 {
                     var value = DeserializeJsonPlainValueObject(element.Value as JsonValueObject, jsonProperty.PropertyInfo.PropertyType);
                     jsonProperty.PropertyInfo.SetValue(instance, value, null);
@@ -388,56 +396,6 @@ namespace Petecat.Formatter.Json
             {
                 return plainValueObject.ToString().ConvertTo(targetType);
             }
-        }
-
-        #endregion
-
-        #region Runtime Type
-
-        private RuntimeType _CurrentRuntimeType = RuntimeType.Unknown;
-
-        public RuntimeType CurrentRuntimeType
-        {
-            get
-            {
-                if (_CurrentRuntimeType == RuntimeType.Unknown)
-                {
-                    _CurrentRuntimeType = GetRuntimeType(Type);
-                }
-
-                return _CurrentRuntimeType;
-            }
-        }
-
-        public RuntimeType GetRuntimeType(Type targetType)
-        {
-            if (targetType == typeof(object))
-            {
-                return RuntimeType.Unknown;
-            }
-            else if (typeof(ICollection).IsAssignableFrom(targetType))
-            {
-                return RuntimeType.Collection;
-            }
-            else if (targetType.IsClass && targetType != typeof(String))
-            {
-                return RuntimeType.Object;
-            }
-            else
-            {
-                return RuntimeType.Value;
-            }
-        }
-
-        public enum RuntimeType
-        {
-            Unknown,
-
-            Value,
-
-            Collection,
-
-            Object,
         }
 
         #endregion

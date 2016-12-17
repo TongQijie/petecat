@@ -113,13 +113,13 @@
     <None Include="DependencyInjection\apple.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Formatter\3ixpc1re3x0.json">
+    <None Include="Formatter\examples\example02.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Formatter\fbktgdhqboo.json">
+    <None Include="Formatter\examples\example03.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Formatter\example.json">
+    <None Include="Formatter\examples\example01.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

@@ -12,7 +12,6 @@ namespace Petecat.Formatter.Json
             Alias = alias;
             IsJsonObject = isJsonObject;
             
-            // TODO: confirm which default value object type is
             DefaultValue = propertyInfo.PropertyType.GetDefaultValue();
             ObjectType = JsonUtility.GetJsonObjectType(propertyInfo.PropertyType);
         }
