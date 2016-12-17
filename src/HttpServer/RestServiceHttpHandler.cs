@@ -33,6 +33,12 @@ namespace Petecat.HttpServer
         {
             try
             {
+                var headers = DependencyInjector.GetObject<IHttpApplicationConfigurer>().GetReponseHeaders();
+                foreach (var header in headers)
+                {
+                    context.Response.Headers.Add(header.Key, header.Value);
+                }
+
                 Request = new RestServiceHttpRequest(context.Request, ServiceName, MethodName);
                 Response = new RestServiceHttpResponse(context.Response);
 

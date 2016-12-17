@@ -18,5 +18,8 @@ namespace Petecat.HttpServer.Configuration
 
         [JsonProperty(Alias = "rewrite")]
         public KeyValueConfigurationItem[] RewriteRuleConfiguration { get; set; }
+
+        [JsonProperty(Alias = "headers")]
+        public KeyValueConfigurationItem[] ResponseHeaders { get; set; }
     }
 }

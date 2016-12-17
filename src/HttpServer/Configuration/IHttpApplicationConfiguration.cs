@@ -7,5 +7,7 @@
         KeyValueConfigurationItem[] StaticResourceMappingConfiguration { get; }
 
         KeyValueConfigurationItem[] RewriteRuleConfiguration { get; }
+
+        KeyValueConfigurationItem[] ResponseHeaders { get; }
     }
 }

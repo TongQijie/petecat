@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 using Petecat.Extending;
@@ -87,6 +88,30 @@ namespace Petecat.HttpServer
             }
 
             return url;
+        }
+
+        public Dictionary<string, string> GetReponseHeaders()
+        {
+            var headers = new Dictionary<string, string>();
+
+            var httpApplicationConfiguration = _StaticFileConfigurer.GetValue<IHttpApplicationConfiguration>();
+            if (httpApplicationConfiguration == null)
+            {
+                return headers;
+            }
+
+            if (httpApplicationConfiguration.ResponseHeaders == null
+                || httpApplicationConfiguration.ResponseHeaders.Length == 0)
+            {
+                return headers;
+            }
+
+            foreach (var header in httpApplicationConfiguration.ResponseHeaders)
+            {
+                headers.Add(header.Key, header.Value);
+            }
+
+            return headers;
         }
     }
 }
