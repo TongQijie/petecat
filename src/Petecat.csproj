@@ -157,8 +157,10 @@
     <Compile Include="Formatter\Json\JsonObject.cs" />
     <Compile Include="Formatter\Json\JsonObjectParseArgs.cs" />
     <Compile Include="Formatter\Json\JsonObjectParser.cs" />
+    <Compile Include="Formatter\Json\JsonObjectType.cs" />
     <Compile Include="Formatter\Json\JsonProperty.cs" />
     <Compile Include="Formatter\Json\JsonSerializer.cs" />
+    <Compile Include="Formatter\Json\JsonUtility.cs" />
     <Compile Include="Formatter\Json\JsonValueObject.cs" />
     <Compile Include="Formatter\XmlFormatter.cs" />
     <Compile Include="HttpServer\Attribute\RestServiceInjectableAttribute.cs" />

@@ -11,7 +11,7 @@ namespace Petecat.DynamicProxy
 
         object[] ParameterValues { get; }
 
-        object ReturnValue { get; }
+        object ReturnValue { get; set; }
 
         Type TargetType { get; }
 

@@ -15,10 +15,16 @@ namespace Petecat.Formatter.Json
         public JsonSerializer(Type type)
         {
             Type = type;
+            JsonObjectType = JsonUtility.GetJsonObjectType(Type);
+
             Initialize();
         }
 
         public Type Type { get; private set; }
+
+        public JsonObjectType JsonObjectType { get; private set; }
+
+        #region Initialization
 
         private ConcurrentDictionary<string, JsonProperty> _JsonProperties = null;
 
@@ -39,10 +45,12 @@ namespace Petecat.Formatter.Json
                 {
                     if (!_IsInitialized)
                     {
-                        var runtimeType = GetRuntimeType(Type);
-                        if (runtimeType == RuntimeType.Object)
+                        var jsonObjectType = JsonUtility.GetJsonObjectType(Type);
+                        
+                        // only parse json dictionary object
+                        if (jsonObjectType == JsonObjectType.Dictionary)
                         {
-                            foreach (var propertyInfo in Type.GetProperties().Where(x => x.CanRead && x.CanWrite 
+                            foreach (var propertyInfo in Type.GetProperties().Where(x => x.CanRead && x.CanWrite
                                 && !Reflector.ContainsCustomAttribute<JsonIngoreAttribute>(x)))
                             {
                                 JsonProperty jsonProperty = null;
@@ -54,12 +62,13 @@ namespace Petecat.Formatter.Json
                                 }
                                 else if (attribute is JsonObjectAttribute)
                                 {
-                                    jsonProperty = new JsonProperty(propertyInfo, attribute.Alias, true); 
+                                    jsonProperty = new JsonProperty(propertyInfo, attribute.Alias, true);
                                 }
                                 else
                                 {
                                     jsonProperty = new JsonProperty(propertyInfo, attribute.Alias, false);
                                 }
+
                                 JsonProperties.TryAdd(jsonProperty.Key, jsonProperty);
                             }
                         }
@@ -69,6 +78,8 @@ namespace Petecat.Formatter.Json
                 }
             }
         }
+
+        #endregion
 
         #region Serializer Cache
 
@@ -81,6 +92,12 @@ namespace Petecat.Formatter.Json
 
         public static JsonSerializer GetSerializer(Type targetType)
         {
+            var objectType = JsonUtility.GetJsonObjectType(targetType);
+            if (objectType == JsonObjectType.Runtime || objectType == JsonObjectType.Value)
+            {
+                return null;
+            }
+
             if (!CachedSerializers.ContainsKey(targetType))
             {
                 CachedSerializers.TryAdd(targetType, new JsonSerializer(targetType));
@@ -101,21 +118,21 @@ namespace Petecat.Formatter.Json
 
         public void Serialize(object instance, Stream stream, bool omitDefaultValueProperty)
         {
-            if (CurrentRuntimeType == RuntimeType.Collection)
-            {
-                stream.WriteByte(JsonEncoder.Left_Bracket);
-            }
-            else if (CurrentRuntimeType == RuntimeType.Object)
+            if (JsonObjectType == JsonObjectType.Dictionary)
             {
                 stream.WriteByte(JsonEncoder.Left_Brace);
             }
+            else if (JsonObjectType == JsonObjectType.Collection)
+            {
+                stream.WriteByte(JsonEncoder.Left_Bracket);
+            }
             else
             {
-                return;
+                throw new Exception(string.Format("failed to serialize object '{0}'.", instance));
             }
 
             var firstElement = true;
-            if (CurrentRuntimeType == RuntimeType.Object)
+            if (JsonObjectType == JsonObjectType.Dictionary)
             {
                 foreach (var jsonProperty in JsonProperties.Values.ToArray())
                 {
@@ -137,28 +154,7 @@ namespace Petecat.Formatter.Json
                     var buf = JsonEncoder.GetElementName(jsonProperty.Key);
                     stream.Write(buf, 0, buf.Length);
 
-                    switch (GetRuntimeType(jsonProperty.PropertyInfo.PropertyType))
-                    {
-                        case RuntimeType.Value:
-                            {
-                                buf = JsonEncoder.GetPlainValue(propertyValue);
-                                stream.Write(buf, 0, buf.Length);
-                                break;
-                            }
-                        default:
-                            {
-                                if (propertyValue == null)
-                                {
-                                    buf = JsonEncoder.GetNullValue();
-                                    stream.Write(buf, 0, buf.Length);
-                                }
-                                else
-                                {
-                                    GetSerializer(jsonProperty.PropertyInfo.PropertyType).Serialize(propertyValue, stream, omitDefaultValueProperty);
-                                }
-                                break;
-                            }
-                    }
+                    WriteValue(stream, propertyValue, omitDefaultValueProperty);
                 }
             }
             else if (CurrentRuntimeType == RuntimeType.Collection)
@@ -176,28 +172,7 @@ namespace Petecat.Formatter.Json
                         stream.WriteByte(JsonEncoder.Comma);
                     }
 
-                    switch (GetRuntimeType(value.GetType()))
-                    {
-                        case RuntimeType.Value:
-                            {
-                                var buf = JsonEncoder.GetPlainValue(value);
-                                stream.Write(buf, 0, buf.Length);
-                                break;
-                            }
-                        default:
-                            {
-                                if (value == null)
-                                {
-                                    var buf = JsonEncoder.GetNullValue();
-                                    stream.Write(buf, 0, buf.Length);
-                                }
-                                else
-                                {
-                                    GetSerializer(value.GetType()).Serialize(value, stream, omitDefaultValueProperty);
-                                }
-                                break;
-                            }
-                    }
+                    WriteValue(stream, value, omitDefaultValueProperty);
                 }
             }
             else
@@ -205,17 +180,39 @@ namespace Petecat.Formatter.Json
                 return;
             }
 
-            if (CurrentRuntimeType == RuntimeType.Collection)
+            if (JsonObjectType == JsonObjectType.Dictionary)
             {
-                stream.WriteByte(JsonEncoder.Right_Bracket);
+                stream.WriteByte(JsonEncoder.Left_Brace);
             }
-            else if (CurrentRuntimeType == RuntimeType.Object)
+            else if (JsonObjectType == JsonObjectType.Collection)
             {
-                stream.WriteByte(JsonEncoder.Right_Brace);
+                stream.WriteByte(JsonEncoder.Left_Bracket);
             }
-            else
+        }
+
+        private void WriteValue(Stream stream, object value, bool omitDefaultValueProperty)
+        {
+            switch (GetRuntimeType(value.GetType()))
             {
-                return;
+                case RuntimeType.Value:
+                    {
+                        var buf = JsonEncoder.GetPlainValue(value);
+                        stream.Write(buf, 0, buf.Length);
+                        break;
+                    }
+                default:
+                    {
+                        if (value == null)
+                        {
+                            var buf = JsonEncoder.GetNullValue();
+                            stream.Write(buf, 0, buf.Length);
+                        }
+                        else
+                        {
+                            GetSerializer(value.GetType()).Serialize(value, stream, omitDefaultValueProperty);
+                        }
+                        break;
+                    }
             }
         }
 
@@ -414,7 +411,11 @@ namespace Petecat.Formatter.Json
 
         public RuntimeType GetRuntimeType(Type targetType)
         {
-            if (typeof(ICollection).IsAssignableFrom(targetType))
+            if (targetType == typeof(object))
+            {
+                return RuntimeType.Unknown;
+            }
+            else if (typeof(ICollection).IsAssignableFrom(targetType))
             {
                 return RuntimeType.Collection;
             }

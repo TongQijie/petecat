@@ -10,18 +10,23 @@ namespace Petecat.Formatter.Json
         {
             PropertyInfo = propertyInfo;
             Alias = alias;
-            DefaultValue = propertyInfo.PropertyType.GetDefaultValue();
             IsJsonObject = isJsonObject;
+            
+            // TODO: confirm which default value object type is
+            DefaultValue = propertyInfo.PropertyType.GetDefaultValue();
+            ObjectType = JsonUtility.GetJsonObjectType(propertyInfo.PropertyType);
         }
 
         public string Key { get { return Alias.HasValue() ? Alias : PropertyInfo.Name; } }
 
         public PropertyInfo PropertyInfo { get; private set; }
 
-        public string Alias { get; set; }
+        public JsonObjectType ObjectType { get; private set; }
 
         public object DefaultValue { get; private set; }
 
-        public bool IsJsonObject { get; set; }
+        public string Alias { get; private set; }
+
+        public bool IsJsonObject { get; private set; }
     }
 }
