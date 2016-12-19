@@ -83,6 +83,11 @@ namespace Petecat.ConsoleApp
                 new Jobs.JobDispatcherTest().Run();
                 Console.ReadKey();
             }
+            else if (args != null && args.Length > 0 && args[0].StartsWith("ast", StringComparison.OrdinalIgnoreCase))
+            {
+                new WebServer.ApplicationServerTest().Run();
+                Console.ReadKey();
+            }
         }
     }
 }
