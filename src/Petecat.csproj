@@ -217,11 +217,11 @@
     <Compile Include="Network\Http\Configuration\IRestServiceConfiguration.cs" />
     <Compile Include="Network\Http\Configuration\RestServiceConfiguration.cs" />
     <Compile Include="Network\Http\Configuration\RestServiceResourceConfiguration.cs" />
-    <Compile Include="Network\Http\HttpClientRequest.cs" />
-    <Compile Include="Network\Http\HttpClientResponse.cs" />
+    <Compile Include="Network\Http\HttpRequest.cs" />
+    <Compile Include="Network\Http\HttpResponse.cs" />
     <Compile Include="Network\Http\HttpVerb.cs" />
-    <Compile Include="Network\Http\IRestServiceHttpClient.cs" />
-    <Compile Include="Network\Http\RestServiceHttpClient.cs" />
+    <Compile Include="Network\Http\IRestServiceAgency.cs" />
+    <Compile Include="Network\Http\RestServiceAgency.cs" />
     <Compile Include="Network\Sockets\ISocketObject.cs" />
     <Compile Include="Network\Sockets\ITcpClientObject.cs" />
     <Compile Include="Network\Sockets\ITcpListenerObject.cs" />

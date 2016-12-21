@@ -2,15 +2,16 @@
 using System.IO;
 using System.Net;
 using System.Text;
+
 using Petecat.Extending;
 using Petecat.Formatter;
 using Petecat.DependencyInjection;
 
 namespace Petecat.Network.Http
 {
-    public class HttpClientResponse : IDisposable
+    public class HttpResponse : IDisposable
     {
-        public HttpClientResponse(HttpWebResponse response)
+        public HttpResponse(HttpWebResponse response)
         {
             Response = response;
 

@@ -52,7 +52,7 @@ namespace Crawler
             queryString.Add("limit", "35");
             queryString.Add("offset", ((pageNumber - 1) * 35).ToString());
 
-            var request = new HttpClientRequest(HttpVerb.GET, "http://music.163.com/discover/playlist", queryString);
+            var request = new HttpRequest(HttpVerb.GET, "http://music.163.com/discover/playlist", queryString);
 
             var html = "";
             using (var response = request.GetResponse())

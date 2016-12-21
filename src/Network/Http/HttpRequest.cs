@@ -1,27 +1,28 @@
-﻿using Petecat.DependencyInjection;
-using Petecat.Formatter;
-using System.Net;
+﻿using System.Net;
 using System.Web;
 using System.Text;
 using System.Collections.Generic;
 
+using Petecat.Formatter;
+using Petecat.DependencyInjection;
+
 namespace Petecat.Network.Http
 {
-    public class HttpClientRequest
+    public class HttpRequest
     {
-        private HttpClientRequest(HttpVerb httpVerb)
+        private HttpRequest(HttpVerb httpVerb)
         {
             HttpVerb = httpVerb;
         }
 
-        public HttpClientRequest(HttpVerb httpVerb, string uri)
+        public HttpRequest(HttpVerb httpVerb, string uri)
             : this(httpVerb)
         {
             Request = WebRequest.Create(uri) as HttpWebRequest;
             Request.Method = HttpVerb.ToString();
         }
 
-        public HttpClientRequest(HttpVerb httpVerb, string uri, Dictionary<string, string> queryStringKeyValues)
+        public HttpRequest(HttpVerb httpVerb, string uri, Dictionary<string, string> queryStringKeyValues)
             : this(httpVerb)
         {
             var stringBuilder = new StringBuilder(uri);
@@ -52,19 +53,19 @@ namespace Petecat.Network.Http
             }
         }
 
-        public HttpClientResponse GetResponse()
+        public HttpResponse GetResponse()
         {
             try
             {
-                return new HttpClientResponse(Request.GetResponse() as HttpWebResponse);
+                return new HttpResponse(Request.GetResponse() as HttpWebResponse);
             }
             catch (WebException e)
             {
-                return new HttpClientResponse(e.Response as HttpWebResponse);
+                return new HttpResponse(e.Response as HttpWebResponse);
             }
         }
 
-        public HttpClientResponse GetResponse(object requestBody)
+        public HttpResponse GetResponse(object requestBody)
         {
             SetRequestBody(requestBody);
             return GetResponse();

@@ -1,44 +1,45 @@
-﻿using Petecat.Configuring;
+﻿using System;
+using System.Net;
+
 using Petecat.Extending;
+using Petecat.Configuring;
 using Petecat.DependencyInjection;
 using Petecat.Network.Http.Configuration;
 using Petecat.DependencyInjection.Attribute;
-
-using System;
-using System.Net;
+using System.Collections.Generic;
 
 namespace Petecat.Network.Http
 {
-    [DependencyInjectable(Inference = typeof(IRestServiceHttpClient), Singleton = true)]
-    public class RestServiceHttpClient : IRestServiceHttpClient
+    [DependencyInjectable(Inference = typeof(IRestServiceAgency), Singleton = true)]
+    public class RestServiceAgency : IRestServiceAgency
     {
         private IStaticFileConfigurer _StaticFileConfigurer;
 
-        public RestServiceHttpClient(IStaticFileConfigurer staticFileConfigurer)
+        public RestServiceAgency(IStaticFileConfigurer staticFileConfigurer)
         {
             _StaticFileConfigurer = staticFileConfigurer;
         }
 
-        public TResponse Call<TResponse>(string resourceName)
+        public TResponse Call<TResponse>(string resourceName, Dictionary<string, string> queryString)
         {
-            return Call<TResponse>(resourceName, null);
+            return Call<TResponse>(resourceName, null, queryString);
         }
 
-        public TResponse Call<TResponse>(string resourceName, object requestBody)
+        public TResponse Call<TResponse>(string resourceName, object requestBody, Dictionary<string, string> queryString)
         {
             HttpVerb verb;
             string host;
             if (!TryGetResource(resourceName, out verb, out host))
             {
-                // TODO: throw
+                throw new Exception(string.Format("resource '{0}' cannot be found.", resourceName));
             }
 
-            return Call<TResponse>(verb, host, requestBody);
+            return Call<TResponse>(verb, host, requestBody, queryString);
         }
 
-        public TResponse Call<TResponse>(HttpVerb verb, string host, object requestBody)
+        public TResponse Call<TResponse>(HttpVerb verb, string host, object requestBody, Dictionary<string, string> queryString)
         {
-            var request = new HttpClientRequest(verb, host); 
+            var request = new HttpRequest(verb, host, queryString); 
             request.Request.ContentType = "application/json";
             request.Request.Accept = "application/json";
             if (requestBody != null)
