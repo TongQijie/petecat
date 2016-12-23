@@ -27,9 +27,17 @@ namespace Petecat.Network.Http
         {
             var stringBuilder = new StringBuilder(uri);
 
-            if (queryStringKeyValues != null || queryStringKeyValues.Count > 0)
+            if (queryStringKeyValues != null && queryStringKeyValues.Count > 0)
             {
-                stringBuilder.Append("?");
+                if (uri.Contains("?"))
+                {
+                    stringBuilder.Append("&");
+                }
+                else
+                {
+                    stringBuilder.Append("?");
+                }
+                
                 stringBuilder.Append(UrlEncodedString(queryStringKeyValues));
             }
 
