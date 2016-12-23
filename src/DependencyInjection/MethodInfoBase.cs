@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Petecat.Extending;
 
 namespace Petecat.DependencyInjection
@@ -7,7 +8,9 @@ namespace Petecat.DependencyInjection
     {
         public IMethodDefinition MethodDefinition { get; protected set; }
 
-        public IParameterInfo[] ParameterInfos { get; protected set; }
+        protected IParameterInfo[] _ParameterInfos = null;
+
+        public abstract IParameterInfo[] ParameterInfos { get; }
 
         public ITypeDefinition TypeDefinition { get; protected set; }
 

@@ -14,12 +14,6 @@ namespace Petecat.DependencyInjection
             MethodName = methodInfo.Name;
 
             MethodDefinition = new InstanceMethodDefinitionBase(methodInfo);
-
-            ParameterInfos = new ParameterInfoBase[0];
-            foreach (var parameterInfo in methodInfo.GetParameters())
-            {
-                ParameterInfos = ParameterInfos.Append(new ParameterInfoBase(parameterInfo));
-            }
         }
 
         public string MethodName { get; private set; }
@@ -33,6 +27,25 @@ namespace Petecat.DependencyInjection
             }
 
             return (MethodDefinition.Info as MethodInfo).Invoke(instance, result);
+        }
+
+        public override IParameterInfo[] ParameterInfos
+        {
+            get
+            {
+                if (_ParameterInfos == null)
+                {
+                    var methodInfo = MethodDefinition.Info as MethodInfo;
+
+                    _ParameterInfos = new ParameterInfoBase[0];
+                    foreach (var parameterInfo in methodInfo.GetParameters())
+                    {
+                        _ParameterInfos = _ParameterInfos.Append(new ParameterInfoBase(parameterInfo));
+                    }
+                }
+
+                return _ParameterInfos;
+            }
         }
     }
 }

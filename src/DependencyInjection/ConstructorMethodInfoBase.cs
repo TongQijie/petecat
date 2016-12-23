@@ -10,11 +10,25 @@ namespace Petecat.DependencyInjection
         {
             TypeDefinition = typeDefinition;
             MethodDefinition = new ConstructorMethodDefinitionBase(constructorInfo);
+        }
 
-            ParameterInfos = new ParameterInfoBase[0];
-            foreach(var parameterInfo in constructorInfo.GetParameters())
+        public override IParameterInfo[] ParameterInfos
+        {
+            get
             {
-                ParameterInfos = ParameterInfos.Append(new ParameterInfoBase(parameterInfo));
+                if (_ParameterInfos == null)
+                {
+                    var constructorInfo = MethodDefinition.Info as ConstructorInfo;
+
+                    _ParameterInfos = new ParameterInfoBase[0];
+
+                    foreach (var parameterInfo in constructorInfo.GetParameters())
+                    {
+                        _ParameterInfos = _ParameterInfos.Append(new ParameterInfoBase(parameterInfo));
+                    }
+                }
+
+                return _ParameterInfos;
             }
         }
     }

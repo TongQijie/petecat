@@ -123,14 +123,16 @@ namespace Petecat.HttpServer
 
                     for (var i = 0; i < values.Length; i++)
                     {
-                        var parameterInfo = methodInfo.ParameterInfos.FirstOrDefault(x => x.Index == i);
+                        var parameterInfo = methodInfo.ParameterInfos.OfType<RestServiceParameterInfo>().FirstOrDefault(x => x.Index == i);
 
-                        if (!dict.Keys.ToArray().Exists(x => string.Equals(x, parameterInfo.ParameterName, StringComparison.OrdinalIgnoreCase)))
+                        var name = parameterInfo.Alias.HasValue() ? parameterInfo.Alias : parameterInfo.ParameterName;
+
+                        if (!dict.Keys.ToArray().Exists(x => string.Equals(x, name, StringComparison.OrdinalIgnoreCase)))
                         {
-                            throw new Exception(string.Format("parameter '{0}' does not exist.", parameterInfo.ParameterName));
+                            throw new Exception(string.Format("parameter '{0}' does not exist.", name));
                         }
 
-                        values[i] = dict.FirstOrDefault(x => string.Equals(x.Key, parameterInfo.ParameterName, StringComparison.OrdinalIgnoreCase)).Value;
+                        values[i] = dict.FirstOrDefault(x => string.Equals(x.Key, name, StringComparison.OrdinalIgnoreCase)).Value;
                     }
 
                     returnValue = methodInfo.Invoke(obj, values);
@@ -138,12 +140,47 @@ namespace Petecat.HttpServer
             }
             else
             {
-                if (methodInfo.ParameterInfos == null || methodInfo.ParameterInfos.Length != 1)
+                if (methodInfo.ParameterInfos == null)
                 {
-                    throw new Exception(string.Format("method '{0}' must have one parameter.", methodInfo.MethodName));
+                    throw new Exception(string.Format("method '{0}' must have more than one parameter.", methodInfo.MethodName));
                 }
+                else if (methodInfo.ParameterInfos.Length == 1)
+                {
+                    returnValue = methodInfo.Invoke(obj, Request.ReadInputStream(methodInfo.ParameterInfos[0].TypeDefinition.Info as Type, methodInfo.RequestDataFormat));
+                }
+                else // > 1
+                {
+                    var dict = Request.ReadQueryString();
 
-                returnValue = methodInfo.Invoke(obj, Request.ReadInputStream(methodInfo.ParameterInfos[0].TypeDefinition.Info as Type, methodInfo.RequestDataFormat));
+                    var values = new object[methodInfo.ParameterInfos.Length];
+
+                    for (var i = 0; i < values.Length; i++)
+                    {
+                        var parameterInfo = methodInfo.ParameterInfos.OfType<RestServiceParameterInfo>().FirstOrDefault(x => x.Index == i);
+
+                        if (parameterInfo.Source == RestServiceParameterSource.Body)
+                        {
+                            values[i] = Request.ReadInputStream(parameterInfo.TypeDefinition.Info as Type, methodInfo.RequestDataFormat);
+                        }
+                        else if (parameterInfo.Source == RestServiceParameterSource.QueryString)
+                        {
+                            var name = parameterInfo.Alias.HasValue() ? parameterInfo.Alias : parameterInfo.ParameterName;
+
+                            if (!dict.Keys.ToArray().Exists(x => string.Equals(x, name, StringComparison.OrdinalIgnoreCase)))
+                            {
+                                throw new Exception(string.Format("parameter '{0}' does not exist.", name));
+                            }
+
+                            values[i] = dict.FirstOrDefault(x => string.Equals(x.Key, name, StringComparison.OrdinalIgnoreCase)).Value;
+                        }
+                        else
+                        {
+                            throw new Exception(string.Format("method '{0}' parameters must specify attribute.", methodInfo.MethodName));
+                        }
+                    }
+
+                    returnValue = methodInfo.Invoke(obj, values);
+                }
             }
 
             if (returnValue != null)

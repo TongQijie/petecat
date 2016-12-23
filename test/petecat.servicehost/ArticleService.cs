@@ -28,7 +28,8 @@ namespace Petecat.ServiceHost
         }
 
         [RestServiceMethod(MethodName = "post-article", HttpVerb = HttpVerb.Post)]
-        public Article PostArticle(Article article)
+        public Article PostArticle([RestServiceParameter(Source = RestServiceParameterSource.Body)] Article article, 
+            [RestServiceParameter(Source = RestServiceParameterSource.QueryString, Alias = "alias")] string id)
         {
             return article;
         }

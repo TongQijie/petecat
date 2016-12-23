@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Net;
+using System.Collections.Generic;
 
 using Petecat.Extending;
 using Petecat.Configuring;
 using Petecat.DependencyInjection;
 using Petecat.Network.Http.Configuration;
 using Petecat.DependencyInjection.Attribute;
-using System.Collections.Generic;
 
 namespace Petecat.Network.Http
 {
