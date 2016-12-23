@@ -8,7 +8,7 @@ namespace Petecat.WebServer.WebHandler
     {
         public IWebHandler GetHandler(WebContext context)
         {
-            throw new NotImplementedException();
+            return new DefaultRestServiceHandler();
         }
     }
 }

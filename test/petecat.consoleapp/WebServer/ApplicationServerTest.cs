@@ -1,4 +1,5 @@
-﻿using Petecat.WebServer;
+﻿using Petecat.Extending;
+using Petecat.WebServer;
 using System;
 using System.Net;
 
@@ -11,7 +12,7 @@ namespace Petecat.ConsoleApp.WebServer
             var server = new ApplicationServer(new WebSource(IPAddress.Parse("192.168.0.106"), 8080));
             server.Start();
 
-            server.AddWebApplication("example.com", 8080, "/", "");
+            server.AddWebApplication("example.com", 8080, "/", "./".FullPath());
 
             Console.ReadKey();
         }

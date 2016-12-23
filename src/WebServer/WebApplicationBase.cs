@@ -40,14 +40,14 @@ namespace Petecat.WebServer
 
         public void ProcessRequest(Guid id, IntPtr socket, string verb, string path, string pathInfo, string queryString, string protocol, byte[] buffer)
         {
-            //Directory.SetCurrentDirectory(Path);
+            Directory.SetCurrentDirectory(Path);
 
-            //if (!IsStarted)
-            //{
-            //    DependencyInjector.Setup(new BaseDirectoryAssemblyContainer())
-            //        .RegisterAssemblies<AssemblyInfoBase>();
-            //    IsStarted = true;
-            //}
+            if (!IsStarted)
+            {
+                DependencyInjector.Setup(new BaseDirectoryAssemblyContainer())
+                    .RegisterAssemblies<AssemblyInfoBase>();
+                IsStarted = true;
+            }
 
             var requestData = new RequestData(verb, path, queryString, protocol);
             requestData.InputBuffer = buffer;
@@ -55,15 +55,13 @@ namespace Petecat.WebServer
 
             var context = new WebContext(new WebRequest(socket, requestData), new WebResponse(socket, requestData));
 
-            //var handler = DependencyInjector.GetObject<IWebHandlerFactory>().GetHandler(context);
-            //if (handler != null)
-            //{
-            //    handler.ProcessRequest(context);
-            //}
+            var handler = DependencyInjector.GetObject<IWebHandlerFactory>().GetHandler(context);
+            if (handler != null)
+            {
+                handler.ProcessRequest(context);
+            }
 
             context.Response.Send();
-
-            Server.GetWorker(id).Close();
         }
 
         public void Unload()

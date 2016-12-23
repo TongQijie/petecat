@@ -63,7 +63,10 @@ namespace Petecat.WebServer
             catch (Exception e)
             {
                 InitialWorkerRequest.FreeBuffer(buffer);
-                //HandleInitialException(e);
+            }
+            finally
+            {
+                Close();
             }
         }
 

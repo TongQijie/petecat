@@ -1,6 +1,12 @@
-﻿namespace Petecat.WebServer.WebHandler
+﻿using System;
+
+namespace Petecat.WebServer.WebHandler
 {
-    public class DefaultRestServiceHandler
+    public class DefaultRestServiceHandler : IWebHandler
     {
+        public void ProcessRequest(WebContext context)
+        {
+            // TODO
+        }
     }
 }
