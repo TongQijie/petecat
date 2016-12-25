@@ -144,5 +144,15 @@ namespace Petecat.Extending
 
             return null;
         }
+
+        public static T ToEnum<T>(this string stringValue)
+        {
+            return (T)ToEnum(stringValue, typeof(T));
+        }
+
+        public static object ToEnum(this string stringValue, Type targetType)
+        {
+            return Enum.Parse(targetType, stringValue, true);
+        }
     }
 }

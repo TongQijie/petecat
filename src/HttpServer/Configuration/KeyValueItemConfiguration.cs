@@ -2,7 +2,7 @@
 
 namespace Petecat.HttpServer.Configuration
 {
-    public class KeyValueConfigurationItem
+    public class KeyValueItemConfiguration
     {
         [JsonProperty(Alias = "key")]
         public string Key { get; set; }

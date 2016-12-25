@@ -2,12 +2,12 @@
 {
     public interface IHttpApplicationConfiguration
     {
-        KeyValueConfigurationItem[] HttpApplicationRoutingConfiguration { get; }
+        KeyValueItemConfiguration[] HttpApplicationRoutingConfiguration { get; }
 
-        KeyValueConfigurationItem[] StaticResourceMappingConfiguration { get; }
+        KeyValueItemConfiguration[] StaticResourceMappingConfiguration { get; }
 
-        KeyValueConfigurationItem[] RewriteRuleConfiguration { get; }
+        KeyValueItemConfiguration[] ResponseHeaders { get; }
 
-        KeyValueConfigurationItem[] ResponseHeaders { get; }
+        RewriteRuleConfiguration[] RewriteRules { get; }
     }
 }

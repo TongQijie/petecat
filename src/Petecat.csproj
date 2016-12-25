@@ -168,7 +168,9 @@
     <Compile Include="HttpServer\Attribute\WebSocketInjectableAttribute.cs" />
     <Compile Include="HttpServer\Configuration\HttpApplicationConfiguration.cs" />
     <Compile Include="HttpServer\Configuration\IHttpApplicationConfiguration.cs" />
-    <Compile Include="HttpServer\Configuration\KeyValueConfigurationItem.cs" />
+    <Compile Include="HttpServer\Configuration\KeyValueItemConfiguration.cs" />
+    <Compile Include="HttpServer\Configuration\RewriteRuleConfiguration.cs" />
+    <Compile Include="HttpServer\Configuration\RewriteRuleMode.cs" />
     <Compile Include="HttpServer\DependencyInjection\HttpServerAssemblyContainer.cs" />
     <Compile Include="HttpServer\DependencyInjection\RestServiceAssemblyInfo.cs" />
     <Compile Include="HttpServer\DependencyInjection\RestServiceInstanceMethodInfo.cs" />

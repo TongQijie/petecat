@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Collections.Concurrent;
 
 using Petecat.Extending;
@@ -18,31 +19,28 @@ namespace Petecat.Monitor
             Delegates.FileDeletedHandlerDelegate fileDeleted,
             Delegates.FileRenamedHandlerDelegate fileRenamed)
         {
-            if (!path.IsFile())
-            {
-                throw new Errors.InvalidFilePathException(path);
-            }
-
-            var fileInfo = new FileInfo(path);
-            path = fileInfo.Directory.FullName;
-            
-            if (!path.IsFolder())
-            {
-                throw new Errors.InvalidFolderPathException(path);
-            }
+            string folder = GetFolder(path);
 
             FolderMonitor folderMonitor = null;
-            if (_FolderMonitors.ContainsKey(path) && !_FolderMonitors[path].ReferencedObjects.Exists(x => x.Equals(referenceObject)))
+
+            if (_FolderMonitors.ContainsKey(folder))
             {
-                folderMonitor = _FolderMonitors[path];
+                if (!_FolderMonitors[folder].ReferencedObjects.Exists(x => x.Equals(referenceObject)))
+                {
+                    folderMonitor = _FolderMonitors[folder];
+                }
+                else
+                {
+                    return;
+                }
             }
             else
             {
-                folderMonitor = new FolderMonitor(path);
+                folderMonitor = new FolderMonitor(folder);
 
-                if (!_FolderMonitors.TryAdd(path, folderMonitor))
+                if (!_FolderMonitors.TryAdd(folder, folderMonitor))
                 {
-                    // TODO: throw
+                    throw new Exception(string.Format("failed to add folder '{0}' monitor.", folder));
                 }
             }
 
@@ -74,21 +72,12 @@ namespace Petecat.Monitor
             Delegates.FileDeletedHandlerDelegate fileDeleted,
             Delegates.FileRenamedHandlerDelegate fileRenamed)
         {
-            if (path.IsFile())
-            {
-                var fileInfo = new FileInfo(path);
-                path = fileInfo.Directory.FullName;
-            }
-
-            if (!path.IsFolder())
-            {
-                throw new Errors.InvalidFolderPathException(path);
-            }
+            string folder = GetFolder(path);
 
             FolderMonitor folderMonitor = null;
-            if (_FolderMonitors.ContainsKey(path) && _FolderMonitors[path].ReferencedObjects.Exists(x => x.Equals(referenceObject)))
+            if (_FolderMonitors.ContainsKey(folder) && _FolderMonitors[folder].ReferencedObjects.Exists(x => x.Equals(referenceObject)))
             {
-                folderMonitor = _FolderMonitors[path];
+                folderMonitor = _FolderMonitors[folder];
             }
             else
             {
@@ -117,10 +106,26 @@ namespace Petecat.Monitor
             if (folderMonitor.ReferencedObjects.Length == 0)
             {
                 folderMonitor.Stop();
-                if (!_FolderMonitors.TryRemove(path, out folderMonitor))
+                if (!_FolderMonitors.TryRemove(folder, out folderMonitor))
                 {
                     // TODO: throw
                 }
+            }
+        }
+
+        private string GetFolder(string path)
+        {
+            if (path.IsFile())
+            {
+                return Path.GetDirectoryName(path).Replace('\\', '/').ToLower();
+            }
+            else if (path.IsFolder())
+            {
+                return path.Replace('\\', '/').ToLower();
+            }
+            else
+            {
+                throw new Exception(string.Format("monitor path '{0}' is not valid.", path));
             }
         }
     }

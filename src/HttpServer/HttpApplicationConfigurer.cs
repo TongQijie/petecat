@@ -73,17 +73,24 @@ namespace Petecat.HttpServer
                 return url;
             }
 
-            if (httpApplicationConfiguration.RewriteRuleConfiguration == null
-                || httpApplicationConfiguration.RewriteRuleConfiguration.Length == 0)
+            if (httpApplicationConfiguration.RewriteRules == null
+                || httpApplicationConfiguration.RewriteRules.Length == 0)
             {
                 return url;
             }
 
-            foreach (var rewriteRule in httpApplicationConfiguration.RewriteRuleConfiguration)
+            foreach (var rewriteRule in httpApplicationConfiguration.RewriteRules)
             {
-                if (Regex.IsMatch(url, rewriteRule.Key, RegexOptions.IgnoreCase))
+                if (Regex.IsMatch(url, rewriteRule.Pattern, RegexOptions.IgnoreCase))
                 {
-                    return rewriteRule.Value;
+                    if (rewriteRule.Mode == RewriteRuleMode.Override)
+                    {
+                        return rewriteRule.Value;
+                    }
+                    else if (rewriteRule.Mode == RewriteRuleMode.Replace)
+                    {
+                        return Regex.Replace(url, rewriteRule.Pattern, rewriteRule.Value);
+                    }
                 }
             }
 

@@ -23,6 +23,10 @@ namespace Petecat.Extending
             {
                 return obj;
             }
+            else if (targetType.IsEnum)
+            {
+                return obj.ToString().ToEnum(targetType);
+            }
             else if (typeof(IConvertible).IsAssignableFrom(obj.GetType()))
             {
                 try

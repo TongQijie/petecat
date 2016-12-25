@@ -11,15 +11,15 @@ namespace Petecat.HttpServer.Configuration
     public class HttpApplicationConfiguration : IHttpApplicationConfiguration
     {
         [JsonProperty(Alias = "routing")]
-        public KeyValueConfigurationItem[] HttpApplicationRoutingConfiguration { get; set; }
+        public KeyValueItemConfiguration[] HttpApplicationRoutingConfiguration { get; set; }
 
         [JsonProperty(Alias = "resource")]
-        public KeyValueConfigurationItem[] StaticResourceMappingConfiguration { get; set; }
-
-        [JsonProperty(Alias = "rewrite")]
-        public KeyValueConfigurationItem[] RewriteRuleConfiguration { get; set; }
+        public KeyValueItemConfiguration[] StaticResourceMappingConfiguration { get; set; }
 
         [JsonProperty(Alias = "headers")]
-        public KeyValueConfigurationItem[] ResponseHeaders { get; set; }
+        public KeyValueItemConfiguration[] ResponseHeaders { get; set; }
+
+        [JsonProperty(Alias = "rewrite")]
+        public RewriteRuleConfiguration[] RewriteRules { get; set; }
     }
 }

@@ -11,8 +11,8 @@ namespace Petecat.ConsoleApp.Formatter
         [JsonProperty(Alias = "age")]
         public int Age { get; set; }
 
-        [JsonIngore]
-        public string Gender { get; set; }
+        //[JsonIngore]
+        //public string Gender { get; set; }
 
         [JsonProperty(Alias = "habbit")]
         public string[] Habbit { get; set; }
@@ -22,5 +22,8 @@ namespace Petecat.ConsoleApp.Formatter
 
         [JsonObject(Alias = "career")]
         public JsonObject Grapes { get; set; }
+
+        [JsonProperty(Alias = "gender")]
+        public HawEnum Gender { get; set; }
     }
 }
