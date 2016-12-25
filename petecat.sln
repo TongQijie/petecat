@@ -27,7 +27,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hash", "app\hash\hash.cspro
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuspec", "nuspec", "{02BDE30C-4241-4FF1-983A-F827A1E9676D}"
 	ProjectSection(SolutionItems) = preProject
-		nuspec\petecat.1.0.1612.2302.nuspec = nuspec\petecat.1.0.1612.2302.nuspec
+		nuspec\petecat.1.0.1612.2501.nuspec = nuspec\petecat.1.0.1612.2501.nuspec
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "url", "app\url\url.csproj", "{8A0D9E39-7350-49FD-83C9-37F172DD1ACD}"

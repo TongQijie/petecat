@@ -1,9 +1,10 @@
 ﻿using System;
+using System.IO;
 
 namespace Petecat.App.Url
 {
     public interface IFileSystemExplorer
     {
-        void Filter(string root, string regx, Action<string> action);
+        void Iterate(string folder, Action<FileInfo> fileHandler, Func<DirectoryInfo, bool> folderHandler);
     }
 }

@@ -35,10 +35,27 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IUrlConfiguration.cs" />
+    <Compile Include="IUrlReplacement.cs" />
+    <Compile Include="ReplacementConfiguration.cs" />
+    <Compile Include="UrlConfiguration.cs" />
     <Compile Include="FileSystemExplorer.cs" />
     <Compile Include="IFileSystemExplorer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UrlReplacement.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\petecat.csproj">
+      <Project>{E6CFD007-47F5-4E4D-9185-6D4147F104CE}</Project>
+      <Name>petecat</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="Configuration\url.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

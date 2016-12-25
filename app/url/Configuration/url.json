@@ -1,0 +1,14 @@
+﻿{
+  "replacement": {
+    "fileExtensions": [
+      ".html"
+    ],
+    "ignoreFolders": [
+      "app",
+      "css",
+      "fonts",
+      "img",
+      "js"
+    ]
+  }
+}
