@@ -1,4 +1,6 @@
-﻿using Petecat.HttpServer;
+﻿#if !MONO
+
+using Petecat.HttpServer;
 using Petecat.HttpServer.Attribute;
 using System;
 using System.Collections.Generic;
@@ -34,3 +36,5 @@ namespace Petecat.ServiceHost
         }
     }
 }
+
+#endif

@@ -1,10 +1,12 @@
-﻿using Petecat.Logging;
-using Petecat.DependencyInjection;
-using Petecat.HttpServer.DependencyInjection;
+﻿#if !MONO
 
 using System;
 using System.Web;
 using System.Linq;
+
+using Petecat.Logging;
+using Petecat.DependencyInjection;
+using Petecat.HttpServer.DependencyInjection;
 
 namespace Petecat.HttpServer
 {
@@ -54,3 +56,5 @@ namespace Petecat.HttpServer
         }
     }
 }
+
+#endif

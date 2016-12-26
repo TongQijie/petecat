@@ -58,12 +58,17 @@ namespace Petecat.HttpServer
                 lastField = rawUrl.Substring(rawUrl.LastIndexOf('/') + 1);
             }
 
+#if !MONO
+
             if (context.IsWebSocketRequest)
             {
                 var fields = rawUrl.SplitByChar('/');
                 return new WebSocketHandler(fields.Length > 0 ? fields[0] : null);
             }
-            else if (lastField.HasValue() && lastField.Contains("."))
+
+#endif
+
+            if (lastField.HasValue() && lastField.Contains("."))
             {
                 return new StaticResourceHttpHandler("./" + rawUrl, lastField.Substring(lastField.LastIndexOf('.') + 1));
             }

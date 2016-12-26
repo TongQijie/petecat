@@ -1,4 +1,6 @@
-﻿using System.Web.WebSockets;
+﻿#if !MONO
+
+using System.Web.WebSockets;
 using System.Threading.Tasks;
 
 namespace Petecat.HttpServer
@@ -8,3 +10,5 @@ namespace Petecat.HttpServer
         Task Process(AspNetWebSocketContext context);
     }
 }
+
+#endif

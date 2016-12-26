@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Petecat</id>
-    <version>1.0.1612.2501</version>
+    <version>1.0.1612.2601</version>
     <authors>Jerry</authors>
     <owners>Jerry</owners>
     <licenseUrl>http://tongqijie.com</licenseUrl>
@@ -17,5 +17,7 @@
   <files>
     <file src="..\build\master\net45\debug\petecat.dll" target="lib\net45" />
     <file src="..\build\master\net45\debug\petecat.pdb" target="lib\net45" />
+    <file src="..\build\master\mono45\debug\petecat.dll" target="lib\mono45" />
+    <file src="..\build\master\mono45\debug\petecat.dll.mdb" target="lib\mono45" />
   </files>
 </package>
