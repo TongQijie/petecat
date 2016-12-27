@@ -100,6 +100,8 @@ namespace Petecat.DependencyInjection
 
         private object _SingletonInstance = null;
 
+        public object SingletonInstance { get { return _SingletonInstance; } }
+
         public object GetInstance(params object[] parameters)
         {
             if (Singleton)

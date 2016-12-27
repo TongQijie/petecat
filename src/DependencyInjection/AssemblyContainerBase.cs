@@ -50,6 +50,11 @@ namespace Petecat.DependencyInjection
                 ITypeDefinition typeDefinition;
                 if (RegisteredTypes.TryGetValue(targetType, out typeDefinition))
                 {
+                    if (typeDefinition.SingletonInstance != null)
+                    {
+                        return typeDefinition.SingletonInstance;
+                    }
+
                     if (typeDefinition.ConstructorMethods == null || typeDefinition.ConstructorMethods.Length == 0)
                     {
                         throw new Exception(string.Format("constructor method cannot be found in type '{0}'", targetType.FullName));
@@ -81,6 +86,11 @@ namespace Petecat.DependencyInjection
                 if (typeDefinition == null)
                 {
                     throw new Exception(string.Format("failed to find registered type inferred from interface '{0}'.", targetType.FullName));
+                }
+
+                if (typeDefinition.SingletonInstance != null)
+                {
+                    return typeDefinition.SingletonInstance;
                 }
 
                 return InternalResolve(typeDefinition.Info as Type);

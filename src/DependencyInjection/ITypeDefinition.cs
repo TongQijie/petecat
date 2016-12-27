@@ -19,5 +19,7 @@ namespace Petecat.DependencyInjection
         IAssemblyInfo AssemblyInfo { get; }
 
         object GetInstance(params object[] parameters);
+
+        object SingletonInstance { get; }
     }
 }
