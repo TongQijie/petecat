@@ -14,9 +14,9 @@ namespace Petecat.Extending
 
         public static object ConvertTo(this object obj, Type targetType)
         {
-            if (obj == null)
+            if (obj == null || targetType == null)
             {
-                return targetType.GetDefaultValue();
+                throw new ArgumentNullException("obj or targetType");
             }
 
             if (targetType.IsAssignableFrom(obj.GetType()))
@@ -25,7 +25,14 @@ namespace Petecat.Extending
             }
             else if (targetType.IsEnum)
             {
-                return obj.ToString().ToEnum(targetType);
+                try
+                {
+                    return obj.ToString().ToEnum(targetType);
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
             }
             else if (typeof(IConvertible).IsAssignableFrom(obj.GetType()))
             {
@@ -40,7 +47,7 @@ namespace Petecat.Extending
             }
             else
             {
-                throw new Exception("");
+                throw new Exception(string.Format("value {0} fails to convert into type '{1}'.", obj.ToString(), targetType.FullName));
             }
         }
 
@@ -51,61 +58,43 @@ namespace Petecat.Extending
 
         public static object ConvertTo(this object obj, Type targetType, object defaultValue)
         {
-            if (obj == null)
+            try
             {
-                return targetType.GetDefaultValue();
+                return ConvertTo(obj, targetType);
             }
-
-            if (targetType.IsAssignableFrom(obj.GetType()))
-            {
-                return obj;
-            }
-            else if (typeof(IConvertible).IsAssignableFrom(obj.GetType()))
-            {
-                try
-                {
-                    return Convert.ChangeType(obj, targetType);
-                }
-                catch (Exception)
-                {
-                    return defaultValue;
-                }
-            }
-            else
+            catch (Exception)
             {
                 return defaultValue;
             }
         }
 
-        public static bool Convertible<T>(this object obj, out object result)
+        public static bool Convertible<T>(this object obj, out T result)
         {
-            return Convertible(obj, typeof(T), out result);
+            object r;
+            if (Convertible(obj, typeof(T), out r))
+            {
+                result = (T)r;
+                return true;
+            }
+            else
+            {
+                result = typeof(T).GetDefaultValue<T>();
+                return false;
+            }
         }
 
         public static bool Convertible(this object obj, Type targetType, out object result)
         {
-            result = null;
-            if (obj == null)
+            try
             {
-                return false;
-            }
-
-            if (targetType.IsAssignableFrom(obj.GetType()))
-            {
-                result = obj;
+                result = ConvertTo(obj, targetType);
                 return true;
             }
-            else if (typeof(IConvertible).IsAssignableFrom(obj.GetType()))
+            catch (Exception)
             {
-                try
-                {
-                    result = Convert.ChangeType(obj, targetType);
-                    return true;
-                }
-                catch (Exception) { }
+                result = null;
+                return false;
             }
-
-            return false;
         }
 
         public static bool EqualsWith(this object obj, object another)
