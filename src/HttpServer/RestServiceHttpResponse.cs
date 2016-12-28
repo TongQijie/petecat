@@ -12,19 +12,19 @@ namespace Petecat.HttpServer
         {
         }
 
-        public void Write(object obj, RestServiceDataFormat dataFormat)
+        public void Write(object obj, DataFormat dataFormat)
         {
-            if (dataFormat == RestServiceDataFormat.Json)
+            if (dataFormat == DataFormat.Json)
             {
                 Response.ContentType = "application/json";
                 DependencyInjector.GetObject<IJsonFormatter>().WriteObject(obj, Response.OutputStream);
             }
-            else if (dataFormat == RestServiceDataFormat.Xml)
+            else if (dataFormat == DataFormat.Xml)
             {
                 Response.ContentType = "application/xml";
                 DependencyInjector.GetObject<IXmlFormatter>().WriteObject(obj, Response.OutputStream);
             }
-            else if (dataFormat == RestServiceDataFormat.Text)
+            else if (dataFormat == DataFormat.Text)
             {
                 Response.ContentType = "text/plain";
                 Response.Write(obj.ToString());

@@ -174,7 +174,7 @@
     <Compile Include="HttpServer\DependencyInjection\HttpServerAssemblyContainer.cs" />
     <Compile Include="HttpServer\DependencyInjection\RestServiceAssemblyInfo.cs" />
     <Compile Include="HttpServer\DependencyInjection\RestServiceInstanceMethodInfo.cs" />
-    <Compile Include="HttpServer\Attribute\RestServiceParameterAttribute.cs" />
+    <Compile Include="HttpServer\Attribute\ParameterInfoAttribute.cs" />
     <Compile Include="HttpServer\DependencyInjection\RestServiceParameterInfo.cs" />
     <Compile Include="HttpServer\DependencyInjection\RestServiceTypeDefinition.cs" />
     <Compile Include="HttpServer\DependencyInjection\WebSocketAssemblyInfo.cs" />
@@ -186,12 +186,12 @@
     <Compile Include="HttpServer\HttpResponseBase.cs" />
     <Compile Include="HttpServer\IHttpApplicationConfigurer.cs" />
     <Compile Include="HttpServer\IWebSocketExecutionHandler.cs" />
-    <Compile Include="HttpServer\RestServiceDataFormat.cs" />
+    <Compile Include="HttpServer\DataFormat.cs" />
     <Compile Include="HttpServer\RestServiceHttpHandler.cs" />
     <Compile Include="HttpServer\RestServiceHttpRequest.cs" />
     <Compile Include="HttpServer\RestServiceHttpResponse.cs" />
     <Compile Include="HttpServer\HttpVerb.cs" />
-    <Compile Include="HttpServer\RestServiceParameterSource.cs" />
+    <Compile Include="HttpServer\ParameterSource.cs" />
     <Compile Include="HttpServer\StaticResourceHttpHandler.cs" />
     <Compile Include="HttpServer\StaticResourceHttpRequest.cs" />
     <Compile Include="HttpServer\StaticResourceHttpResponse.cs" />

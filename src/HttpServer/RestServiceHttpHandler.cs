@@ -54,7 +54,7 @@ namespace Petecat.HttpServer
             catch (Exception e)
             {
                 DependencyInjector.GetObject<IFileLogger>().LogEvent("RestServiceHttpHandler", Severity.Error, "failed to process restservice request.", e);
-                Response.Write("error occurs when processing request.", RestServiceDataFormat.Text);
+                Response.Write("error occurs when processing request.", DataFormat.Text);
                 Response.StatusCode = 500;
             }
         }
@@ -158,11 +158,11 @@ namespace Petecat.HttpServer
                     {
                         var parameterInfo = methodInfo.ParameterInfos.OfType<RestServiceParameterInfo>().FirstOrDefault(x => x.Index == i);
 
-                        if (parameterInfo.Source == RestServiceParameterSource.Body)
+                        if (parameterInfo.Source == ParameterSource.Body)
                         {
                             values[i] = Request.ReadInputStream(parameterInfo.TypeDefinition.Info as Type, methodInfo.RequestDataFormat);
                         }
-                        else if (parameterInfo.Source == RestServiceParameterSource.QueryString)
+                        else if (parameterInfo.Source == ParameterSource.QueryString)
                         {
                             var name = parameterInfo.Alias.HasValue() ? parameterInfo.Alias : parameterInfo.ParameterName;
 

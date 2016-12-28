@@ -10,8 +10,8 @@ namespace Petecat.HttpServer.DependencyInjection
     {
         public RestServiceInstanceMethodInfo(ITypeDefinition typeDefinition, MethodInfo methodInfo, string serviceMethodName, 
             bool isDefaultMethod = false, 
-            RestServiceDataFormat requestDataFormat = RestServiceDataFormat.Any, 
-            RestServiceDataFormat responseDataFormat = RestServiceDataFormat.Any,
+            DataFormat requestDataFormat = DataFormat.Any, 
+            DataFormat responseDataFormat = DataFormat.Any,
             HttpVerb httpVerb = HttpVerb.Get)
             : base(typeDefinition, methodInfo)
         {
@@ -26,9 +26,9 @@ namespace Petecat.HttpServer.DependencyInjection
 
         public bool IsDefaultMethod { get; set; }
 
-        public RestServiceDataFormat RequestDataFormat { get; set; }
+        public DataFormat RequestDataFormat { get; set; }
 
-        public RestServiceDataFormat ResponseDataFormat { get; set; }
+        public DataFormat ResponseDataFormat { get; set; }
 
         public HttpVerb HttpVerb { get; set; }
 
@@ -43,10 +43,10 @@ namespace Petecat.HttpServer.DependencyInjection
                     _ParameterInfos = new ParameterInfoBase[0];
                     foreach (var parameterInfo in methodInfo.GetParameters())
                     {
-                        var attribute = parameterInfo.GetCustomAttribute<RestServiceParameterAttribute>();
+                        var attribute = parameterInfo.GetCustomAttribute<ParameterInfoAttribute>();
                         if (attribute == null)
                         {
-                            _ParameterInfos = _ParameterInfos.Append(new RestServiceParameterInfo(parameterInfo, RestServiceParameterSource.Any, null));
+                            _ParameterInfos = _ParameterInfos.Append(new RestServiceParameterInfo(parameterInfo, ParameterSource.Any, null));
                         }
                         else
                         {

@@ -3,9 +3,9 @@
     using System;
 
     [AttributeUsage(AttributeTargets.Parameter)]
-    public class RestServiceParameterAttribute : Attribute
+    public class ParameterInfoAttribute : Attribute
     {
-        public RestServiceParameterSource Source { get; set; }
+        public ParameterSource Source { get; set; }
 
         public string Alias { get; set; }
     }

@@ -35,20 +35,20 @@ namespace Petecat.HttpServer
             return parameters;
         }
 
-        public object ReadInputStream(Type targetType, RestServiceDataFormat dataFormat)
+        public object ReadInputStream(Type targetType, DataFormat dataFormat)
         {
             var inputStream = Request.InputStream;
             inputStream.Seek(0, SeekOrigin.Begin);
 
-            if (dataFormat == RestServiceDataFormat.Json)
+            if (dataFormat == DataFormat.Json)
             {
                 return DependencyInjector.GetObject<IJsonFormatter>().ReadObject(targetType, inputStream);
             }
-            else if (dataFormat == RestServiceDataFormat.Xml)
+            else if (dataFormat == DataFormat.Xml)
             {
                 return DependencyInjector.GetObject<IXmlFormatter>().ReadObject(targetType, inputStream);
             }
-            else if (dataFormat == RestServiceDataFormat.Text)
+            else if (dataFormat == DataFormat.Text)
             {
                 var data = new byte[0];
                 var count = 0;
@@ -85,7 +85,7 @@ namespace Petecat.HttpServer
             }
         }
 
-        public T ReadInputStream<T>(RestServiceDataFormat dataFormat)
+        public T ReadInputStream<T>(DataFormat dataFormat)
         {
             return (T)ReadInputStream(typeof(T), dataFormat);
         }

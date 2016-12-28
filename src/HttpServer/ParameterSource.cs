@@ -1,6 +1,6 @@
 ﻿namespace Petecat.HttpServer
 {
-    public enum RestServiceParameterSource
+    public enum ParameterSource
     {
         Any = 0,
 

@@ -1,6 +1,6 @@
 ﻿namespace Petecat.HttpServer
 {
-    public enum RestServiceDataFormat
+    public enum DataFormat
     {
         /// <summary>
         /// support any data format.

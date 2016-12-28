@@ -154,5 +154,15 @@ namespace Petecat.Extending
         {
             return Enum.Parse(targetType, stringValue, true);
         }
+
+        public static bool EqualsWithPath(this string stringValue, string anotherPath)
+        {
+            if (!stringValue.HasValue() || !anotherPath.HasValue())
+            {
+                return false;
+            }
+
+            return stringValue.FullPath().EqualsWith(anotherPath.FullPath());
+        }
     }
 }
