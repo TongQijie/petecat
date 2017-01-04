@@ -1,5 +1,8 @@
 ﻿using System;
 
+using Petecat.Logging;
+using Petecat.DependencyInjection;
+
 namespace Petecat.Caching
 {
     public abstract class CacheItemBase : ICacheItem
@@ -62,8 +65,14 @@ namespace Petecat.Caching
                             }
                             catch (Exception e)
                             {
-                                // TODO: throw
-                                Threading.ThreadBridging.Sleep(100);
+                                if (retries > 1)
+                                {
+                                    Threading.ThreadBridging.Sleep(100);
+                                }
+                                else
+                                {
+                                    DependencyInjector.GetObject<IFileLogger>().LogEvent("CacheItemBase", Severity.Error, "failed to set value.", e);
+                                }
                             }
 
                             retries--;
