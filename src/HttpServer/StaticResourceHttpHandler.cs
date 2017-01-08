@@ -41,6 +41,7 @@ namespace Petecat.HttpServer
                 else
                 {
                     Response.Error(415, "resource type does not support.");
+                    return;
                 }
 
                 if (!File.Exists(Request.ResourcePath.FullPath()))
