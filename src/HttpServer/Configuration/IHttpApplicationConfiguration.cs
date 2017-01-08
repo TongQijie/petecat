@@ -9,5 +9,7 @@
         KeyValueItemConfiguration[] ResponseHeaders { get; }
 
         RewriteRuleConfiguration[] RewriteRules { get; }
+
+        HttpRedirectConfiguration[] HttpRedirects { get; }
     }
 }

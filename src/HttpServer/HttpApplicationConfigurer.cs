@@ -120,5 +120,37 @@ namespace Petecat.HttpServer
 
             return headers;
         }
+
+        public string ApplyHttpRedirect(string url)
+        {
+            var httpApplicationConfiguration = _StaticFileConfigurer.GetValue<IHttpApplicationConfiguration>();
+            if (httpApplicationConfiguration == null)
+            {
+                return null;
+            }
+
+            if (httpApplicationConfiguration.HttpRedirects == null
+                || httpApplicationConfiguration.HttpRedirects.Length == 0)
+            {
+                return null;
+            }
+
+            foreach (var httpRedirect in httpApplicationConfiguration.HttpRedirects)
+            {
+                if (Regex.IsMatch(url, httpRedirect.Pattern, RegexOptions.IgnoreCase))
+                {
+                    if (httpRedirect.Mode == HttpRedirectMode.Override)
+                    {
+                        return httpRedirect.Redirect;
+                    }
+                    else if (httpRedirect.Mode == HttpRedirectMode.Replace)
+                    {
+                        return Regex.Replace(url, httpRedirect.Pattern, httpRedirect.Redirect);
+                    }
+                }
+            }
+
+            return null;
+        }
     }
 }

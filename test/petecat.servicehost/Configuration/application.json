@@ -18,5 +18,12 @@
       "key": "html",
       "value": "text/html"
     }
+  ],
+  "redirects": [
+    {
+      "pattern": "http://localhost:8080",
+      "redirect": "https://localhost:8080",
+      "mode": "replace"
+    }
   ]
 }

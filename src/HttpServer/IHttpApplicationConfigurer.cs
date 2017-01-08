@@ -11,5 +11,7 @@ namespace Petecat.HttpServer
         string ApplyRewriteRule(string url);
 
         Dictionary<string, string> GetReponseHeaders();
+
+        string ApplyHttpRedirect(string url);
     }
 }

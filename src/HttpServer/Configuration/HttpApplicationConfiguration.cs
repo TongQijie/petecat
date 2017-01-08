@@ -21,5 +21,8 @@ namespace Petecat.HttpServer.Configuration
 
         [JsonProperty(Alias = "rewrite")]
         public RewriteRuleConfiguration[] RewriteRules { get; set; }
+
+        [JsonProperty(Alias = "redirects")]
+        public HttpRedirectConfiguration[] HttpRedirects { get; set; }
     }
 }
