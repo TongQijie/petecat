@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Petecat.Formatter.Json
 {
@@ -182,7 +183,7 @@ namespace Petecat.Formatter.Json
             {
                 case Double_Quotes:
                     {
-                        return Double_Quotes ;
+                        return Double_Quotes;
                     }
                 case Backslash:
                     {
@@ -261,8 +262,8 @@ namespace Petecat.Formatter.Json
 
         public static string Doescape(string source)
         {
-            return source.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("/", "\\/").Replace("\b", "\\b").Replace("\f", "\\f")
-                .Replace("\n", "\\n").Replace("\r", "\\r").Replace("\t", "\\t");
+            return Regex.Replace(source, "([\\\\\"/]{1})", "\\$1")
+                .Replace("\b", "\\b").Replace("\f", "\\f").Replace("\n", "\\n").Replace("\r", "\\r").Replace("\t", "\\t");
         }
     }
 }
