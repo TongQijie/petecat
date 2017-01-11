@@ -17,7 +17,9 @@ namespace Petecat.Logging
             Folder = "./log".FullPath();
         }
 
-        public string Folder { get; private set; }
+        public string Folder { get; set; }
+
+        public Frequency Frequency { get; set; }
 
         public void LogEvent(string category, Severity severity, params object[] parameters)
         {
@@ -75,7 +77,16 @@ namespace Petecat.Logging
                     Directory.CreateDirectory(Folder);
                 }
 
-                var fileName = string.Format("{0}.log", DateTime.Now.ToString("yyyy-MM-dd"));
+                var fileName = "default.log";
+                if (Frequency == Frequency.Daily)
+                {
+                    fileName = string.Format("{0}.log", DateTime.Now.ToString("yyyy-MM-dd"));
+                }
+                else if (Frequency == Frequency.Hourly)
+                {
+                    fileName = string.Format("{0}.log", DateTime.Now.ToString("yyyy-MM-dd-HH"));
+                }
+
                 using (var sw = new StreamWriter(Path.Combine(Folder, fileName), true, Encoding.UTF8))
                 {
                     sw.WriteLine(item.ToString());

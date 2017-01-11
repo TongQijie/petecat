@@ -206,6 +206,7 @@
     <Compile Include="Jobs\JobOperation.cs" />
     <Compile Include="Jobs\JobStatus.cs" />
     <Compile Include="Logging\FileLogger.cs" />
+    <Compile Include="Logging\Frequency.cs" />
     <Compile Include="Logging\IFileLogger.cs" />
     <Compile Include="Logging\ILogger.cs" />
     <Compile Include="Logging\ExceptionWrapper.cs" />
