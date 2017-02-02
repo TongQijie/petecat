@@ -1,8 +1,10 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Web;
 using System.Text;
 using System.Collections.Generic;
 
+using Petecat.Logging;
 using Petecat.Formatter;
 using Petecat.DependencyInjection;
 
@@ -69,7 +71,18 @@ namespace Petecat.Network.Http
             }
             catch (WebException e)
             {
-                return new HttpResponse(e.Response as HttpWebResponse);
+                if (e.Response != null && e.Response is HttpWebResponse)
+                {
+                    return new HttpResponse(e.Response as HttpWebResponse);
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 

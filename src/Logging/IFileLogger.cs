@@ -2,6 +2,8 @@
 {
     public interface IFileLogger : ILogger
     {
-        string Folder { get; }
+        string Folder { get; set; }
+
+        Frequency Frequency { get; set; }
     }
 }

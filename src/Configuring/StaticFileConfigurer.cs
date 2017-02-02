@@ -59,13 +59,23 @@ namespace Petecat.Configuring
             Container.Add(item);
 
             // start file monitor
-            _FileSystemMonitor.Add(this, path, OnFileChanged, null, null, null);
+            _FileSystemMonitor.Add(this, path, OnFileChanged, null, null, OnFileRenamed);
         }
 
         private void OnFileChanged(string path)
         {
             var item = Container.Get(x => x is IFileCacheItem 
                 && string.Equals(path.Replace("\\", "/"), (x as IFileCacheItem).Path.Replace("\\", "/"), StringComparison.OrdinalIgnoreCase));
+            if (item != null)
+            {
+                item.IsDirty = true;
+            }
+        }
+
+        private void OnFileRenamed(string oldPath, string newPath)
+        {
+            var item = Container.Get(x => x is IFileCacheItem
+                && string.Equals(newPath.Replace("\\", "/"), (x as IFileCacheItem).Path.Replace("\\", "/"), StringComparison.OrdinalIgnoreCase));
             if (item != null)
             {
                 item.IsDirty = true;
@@ -86,7 +96,7 @@ namespace Petecat.Configuring
             }
 
             // stop file monitor
-            _FileSystemMonitor.Remove(this, item.Path, OnFileChanged, null, null, null);
+            _FileSystemMonitor.Remove(this, item.Path, OnFileChanged, null, null, OnFileRenamed);
 
             // remove CacheItem from container
             Container.Remove(key);
