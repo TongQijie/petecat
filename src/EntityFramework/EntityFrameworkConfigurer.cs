@@ -28,7 +28,7 @@ namespace Petecat.EntityFramework
             {
                 foreach (var command in configuration.Commands)
                 {
-                    if (command.Name.EqualsWith(name))
+                    if (command.Name.EqualsIgnoreCase(name))
                     {
                         return command;
                     }
@@ -46,7 +46,7 @@ namespace Petecat.EntityFramework
                 return null;
             }
 
-            return configuration.Databases.FirstOrDefault(x => x.Name.EqualsWith(name));
+            return configuration.Databases.FirstOrDefault(x => x.Name.EqualsIgnoreCase(name));
         }
     }
 }

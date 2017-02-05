@@ -30,13 +30,13 @@ namespace Files
 
             _FileSystemExplorer.Iterate(folder, i =>
             {
-                if (fileExtensions.Exists(x => x.EqualsWith(i.Extension)))
+                if (fileExtensions.Exists(x => x.EqualsIgnoreCase(i.Extension)))
                 {
                     Replace(i.FullName, value, replacement);
                 }
             }, i =>
             {
-                return ignoreFolders.Exists(x => x.EqualsWith(i.Name));
+                return ignoreFolders.Exists(x => x.EqualsIgnoreCase(i.Name));
             });
         }
 

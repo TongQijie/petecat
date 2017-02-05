@@ -75,24 +75,28 @@ namespace Petecat.Extending
 
         public static string Folder(this string stringValue)
         {
-            var fields = stringValue.Replace('\\', '/').SplitByChar('/');
-            if (fields.Length <= 1)
+            var fullPath = stringValue.FullPath();
+
+            var index = fullPath.LastIndexOf('/');
+            if (index == -1)
             {
-                return null;
+                return string.Empty;
             }
 
-            return string.Join("/", fields.Subset(0, fields.Length - 1));
+            return fullPath.Substring(0, index);
         }
 
         public static string Name(this string stringValue)
         {
-            var fields = stringValue.Replace('\\', '/').SplitByChar('/');
-            if (fields.Length == 0)
+            var fullPath = stringValue.FullPath();
+
+            var index = fullPath.LastIndexOf('/');
+            if (index == -1 || index == (fullPath.Length - 1))
             {
-                return null;
+                return string.Empty;
             }
 
-            return fields[fields.Length - 1];
+            return fullPath.Substring(index + 1);
         }
 
         public static string[] SplitByChar(this string stringValue, char seperator)
@@ -120,9 +124,9 @@ namespace Petecat.Extending
             return Directory.Exists(stringValue);
         }
 
-        public static bool EqualsWith(this string stringValue, string another)
+        public static bool EqualsIgnoreCase(this string stringValue, string anotherStringValue)
         {
-            return string.Equals(stringValue, another, StringComparison.OrdinalIgnoreCase);
+            return string.Equals(stringValue, anotherStringValue, StringComparison.OrdinalIgnoreCase);
         }
 
         public static Type GetTypeByName(this string stringValue)
@@ -162,7 +166,7 @@ namespace Petecat.Extending
                 return false;
             }
 
-            return stringValue.FullPath().EqualsWith(anotherPath.FullPath());
+            return stringValue.FullPath().EqualsIgnoreCase(anotherPath.FullPath());
         }
     }
 }

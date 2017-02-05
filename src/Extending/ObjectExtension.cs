@@ -97,13 +97,6 @@ namespace Petecat.Extending
             }
         }
 
-        public static bool EqualsWith(this object obj, object another)
-        {
-            return (obj == null && another == null)
-                || (obj != null && obj.Equals(another))
-                || (another != null && another.Equals(obj));
-        }
-
         public static object ShallowCopy(this object obj)
         {
             return DependencyInjector.GetObject<IReplicator>().ShallowCopy(obj);

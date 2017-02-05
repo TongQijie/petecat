@@ -18,14 +18,14 @@ namespace Files
         {
             _FileSystemExplorer.Iterate(folder, i =>
             {
-                if (files.Exists(x => x.EqualsWith(i.Name)))
+                if (files.Exists(x => x.EqualsIgnoreCase(i.Name)))
                 {
                     Console.WriteLine("delete file: " + i.FullName);
                     File.Delete(i.FullName);
                 }
             }, i =>
             {
-                if (folders.Exists(x => x.EqualsWith(i.Name)))
+                if (folders.Exists(x => x.EqualsIgnoreCase(i.Name)))
                 {
                     Console.WriteLine("delete folder: " + i.FullName);
                     Directory.Delete(i.FullName, true);

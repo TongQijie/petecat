@@ -27,5 +27,12 @@ namespace Petecat.Formatter.Json
         public string Alias { get; private set; }
 
         public bool IsJsonObject { get; private set; }
+
+        public bool IsDefaultValue(object value)
+        {
+            return (DefaultValue == null && value == null)
+                || (DefaultValue != null && DefaultValue.Equals(value))
+                || (value != null && value.Equals(DefaultValue));
+        }
     }
 }
