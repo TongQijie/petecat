@@ -70,6 +70,8 @@ namespace Petecat.DynamicProxy
         {
             var typeBuilder = _ModuleBuilder.DefineType(string.Format("{0}.{1}", DynamicModuleName, baseClass.Name), TypeAttributes.Public, baseClass);
 
+            
+
             foreach (var constructorMethod in baseClass.GetConstructors())
             {
                 var parameterInfos = constructorMethod.GetParameters();

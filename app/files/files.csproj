@@ -35,7 +35,9 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Deletion.cs" />
     <Compile Include="FileSystemExplorer.cs" />
+    <Compile Include="IDeletiton.cs" />
     <Compile Include="IFileSystemExplorer.cs" />
     <Compile Include="IReplacement.cs" />
     <Compile Include="IAppConfiguration.cs" />

@@ -17,12 +17,16 @@ namespace Files
 
             var directoryInfo = new DirectoryInfo(folder);
 
-            foreach (var info in directoryInfo.GetFiles())
+            var fileInfos = directoryInfo.GetFiles();
+
+            foreach (var info in fileInfos)
             {
                 fileHandler(info);
             }
 
-            foreach (var info in directoryInfo.GetDirectories())
+            var directoryInfos = directoryInfo.GetDirectories();
+
+            foreach (var info in directoryInfos)
             {
                 if (!folderHandler(info))
                 {

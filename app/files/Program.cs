@@ -9,18 +9,24 @@ namespace Files
     {
         static void Main(string[] args)
         {
-            if (args == null || args.Length != 3)
-            {
-                Console.WriteLine("argument error. [folder] [value] [replacement]");
-                return;
-            }
+            //if (args == null || args.Length != 3)
+            //{
+            //    Console.WriteLine("argument error. [folder] [value] [replacement]");
+            //    return;
+            //}
 
             DependencyInjector.Setup(new BaseDirectoryAssemblyContainer())
                 .RegisterAssemblies<AssemblyInfoBase>()
                 .RegisterAssemblies<StaticFileAssemblyInfo>();
 
-            var replacement = DependencyInjector.GetObject<IReplacement>();
-            replacement.Execute(args[0], args[1], args[2]);
+            //var replacement = DependencyInjector.GetObject<IReplacement>();
+            //replacement.Execute(args[0], args[1], args[2]);
+
+            var deletion = DependencyInjector.GetObject<IDeletiton>();
+            deletion.Execute(@"D:\git\shoppingservice", new string[] { "obj", "bin" }, new string[0]);
+
+            Console.WriteLine("done");
+            Console.ReadKey();
         }
     }
 }
